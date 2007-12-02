@@ -1,0 +1,12 @@
+Formats:
+    
+
+OpenOffice Examples (CodeSnippets)
+  http://wiki.services.openoffice.org/wiki/Odf4j
+Basic Link
+  http://www.mail-archive.com/poi-user@jakarta.apache.org/msg08827.html
+  http://codesnippets.services.openoffice.org/Office/Office.ConvertDocuments.snip
+  
+Word/Excel/PowerPoint
+  http://poi.apache.org
+   There is a Textextractor method...
