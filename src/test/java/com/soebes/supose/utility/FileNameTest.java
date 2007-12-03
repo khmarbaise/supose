@@ -43,7 +43,8 @@ public class FileNameTest {
 		FileName fn = new FileName(fileName);
 		assertEquals(fn.getExt(), "zip", "The extension is not as expected.");
 		assertEquals(fn.getBaseName(), "test.zip", "The basename is not as expected.");
-		assertEquals(fn.getPath(), "/usr/local", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "test", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/usr/local/", "The basename is not as expected.");
 	}
 	
 	@Test
@@ -52,7 +53,8 @@ public class FileNameTest {
 		FileName fn = new FileName(fileName);
 		assertEquals(fn.getExt(), "tar.gz", "The extension is not as expected.");
 		assertEquals(fn.getBaseName(), "test.tar.gz", "The basename is not as expected.");
-		assertEquals(fn.getPath(), "/usr/local", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "test", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/usr/local/", "The path is not as expected.");
 	}
 
 	@Test
@@ -61,7 +63,8 @@ public class FileNameTest {
 		FileName fn = new FileName(fileName);
 		assertEquals(fn.getExt(), "zip", "The extension is not as expected.");
 		assertEquals(fn.getBaseName(), "x-y-z.zip", "The basename is not as expected.");
-		assertEquals(fn.getPath(), "C:/Programme", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "x-y-z", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "C:/Programme/", "The basename is not as expected.");
 	}
 
 	@Test
@@ -70,6 +73,7 @@ public class FileNameTest {
 		FileName fn = new FileName(fileName);
 		assertEquals(fn.getExt(), "zip", "The extension is not as expected.");
 		assertEquals(fn.getBaseName(), "x.zip", "The basename is not as expected.");
-		assertEquals(fn.getPath(), "/", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "x", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/", "The path is not as expected.");
 	}
 }

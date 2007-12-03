@@ -23,7 +23,6 @@
  * just write an email to license@soebes.de
  *
  */
-// SupoSE
 package com.soebes.supose.utility;
 
 import java.io.File;
@@ -34,27 +33,37 @@ import java.io.File;
  */
 public class FileName {
 
-
 	private String fileName;
     private String name;
     private String ext;
     private String baseName;
     private String path;
+    private String nameWithoutExtension;
     
     public FileName(String fileName) {
     	setExt("");
     	setName("");
+    	setNameWithoutExtension("");
     	File f = new File(fileName);
     	setBaseName(f.getName());
     	if (getBaseName().lastIndexOf('.') > 0) {
     		setExt(getBaseName().substring(getBaseName().lastIndexOf('.') + 1));
-    		setPath(fileName.substring(0, fileName.length() - getBaseName().length() - 1));
-    	}
-    	if (getExt().length() > 0) {
-    		String nameOnly = getBaseName().substring(0, getBaseName().length() - getExt().length() - 1);
+    		setPath(fileName.substring(0, fileName.length() - getBaseName().length()));
     	}
 
-    	String NameOnly = (new File("foo/bar/baz")).getName();
+    	if (getExt().length() > 0) {
+    		nameWithoutExtension = getBaseName().substring(0, getBaseName().length() - getExt().length() - 1);
+    	}
+
+    	//Now we check if we have things like ".tar.gz", ".tar.bz2" etc.
+    	if (getNameWithoutExtension().lastIndexOf('.') > 0) {
+    		String tar = getNameWithoutExtension().substring(getNameWithoutExtension().lastIndexOf('.') + 1);
+    		//We only allow double extenstion in relationship with ".tar"
+    		if (tar.equals("tar")) {
+    			setExt(tar + "." + getExt());
+    			nameWithoutExtension = getBaseName().substring(0, getBaseName().length() - getExt().length()  -1);
+    		}
+    	}
     }
     
     public String getExt() {
@@ -91,6 +100,14 @@ public class FileName {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public String getNameWithoutExtension() {
+		return nameWithoutExtension;
+	}
+
+	public void setNameWithoutExtension(String nameWithoutExtension) {
+		this.nameWithoutExtension = nameWithoutExtension;
 	}
                                             
 }

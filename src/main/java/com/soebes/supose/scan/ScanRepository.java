@@ -145,7 +145,7 @@ public class ScanRepository {
             System.exit(1);
         }
 
-        
+
         File indexDir = new File(indexDirectory);
 		IndexWriter writer = null;
 		try {
@@ -199,8 +199,7 @@ public class ScanRepository {
 		return numIndexed;
 	}
 
-
-	private static void workOnChangeSet(IndexWriter indexWriter, SVNRepository repository, SVNLogEntry logEntry) {
+	private void workOnChangeSet(IndexWriter indexWriter, SVNRepository repository, SVNLogEntry logEntry) {
 		Set changedPathsSet = logEntry.getChangedPaths().keySet();
 
 		int count = 0;
@@ -250,7 +249,8 @@ public class ScanRepository {
 		}
 	}
 
-	private static void indexFile(IndexWriter indexWriter, SVNRepository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) throws SVNException, IOException {
+	private void indexFile(IndexWriter indexWriter, SVNRepository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
+		throws SVNException, IOException {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			Map fileProperties  = new HashMap();
 			
@@ -263,10 +263,8 @@ public class ScanRepository {
 				return;
 			}
 			repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, baos);
-			
+
 			Document doc = new Document();
-			doc.add(new Field("contents", baos.toString(), Field.Store.YES, Field.Index.TOKENIZED));
-			doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
 			doc.add(new Field("revision", Long.toString(logEntry.getRevision()), Field.Store.YES, Field.Index.UN_TOKENIZED));
 			FileName fileName = new FileName(entryPath.getPath()); 
 			doc.add(new Field("path", fileName.getPath(), Field.Store.YES, Field.Index.UN_TOKENIZED));
@@ -280,12 +278,25 @@ public class ScanRepository {
 			doc.add(new Field("repository", repository.getRepositoryUUID(false), Field.Store.YES, Field.Index.UN_TOKENIZED));
 			//TODO: Should be filled with an usable name to distinguish different repositories..
 			doc.add(new Field("repositoryname", "TESTREPOS", Field.Store.YES, Field.Index.UN_TOKENIZED));
+
+			//TODO: This should be improved...
+			for (Iterator iterator = fileProperties.entrySet().iterator(); iterator.hasNext();) {
+				Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
+				if (!entry.getKey().startsWith("svn:entry")) {
+					//Every property will be stored with key:value.
+					doc.add(new Field(entry.getKey(), entry.getValue(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+				}
+			}
+			//This is only possible for real documents/files (Word...Java etc.)
+			doc.add(new Field("contents", baos.toString(), Field.Store.YES, Field.Index.TOKENIZED));
+			doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
+
 			indexWriter.addDocument(doc);
 			LOGGER.debug("File " + entryPath.getPath() + " indexed...");
 	}
 
 	
-	private static SVNDirEntry getInformationAboutEntry(SVNRepository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) {
+	private SVNDirEntry getInformationAboutEntry(SVNRepository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) {
 		SVNDirEntry dirEntry = null;
 		try {
 			LOGGER.debug("getInformationAboutEntry() name:" + entryPath.getPath() + " rev:" + logEntry.getRevision());

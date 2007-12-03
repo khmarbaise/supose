@@ -1,2 +1,6 @@
 +message:fixed +filename:/*/*.xml
 
+Search for a particular property-keys with value
++svn\:executable:"*"
+
++svn\:mime-type:"application/octet-stream"
