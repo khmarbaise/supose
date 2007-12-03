@@ -26,6 +26,7 @@
 package com.soebes.supose.scan;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.document.Document;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.utility.FileExtensionProperty;
@@ -36,6 +37,8 @@ import com.soebes.supose.utility.FileName;
  *
  */
 public class FileExtensionHandler {
+	private Document doc;
+
 	private static Logger LOGGER = Logger.getLogger(FileExtensionProperty.class);
 
 	public void execute(SVNRepository repository, String path, long revision) {
@@ -49,6 +52,7 @@ public class FileExtensionHandler {
 				try {
 					Class handlerClass = Class.forName(className);
 					AScanDocument dh = (AScanDocument) handlerClass.newInstance();
+					dh.setDocument(doc);
 					dh.indexDocument(repository, path, revision);
 //					indexWriter.addDocument(dh.getDocument());
 				} catch (ClassNotFoundException e) {
@@ -69,5 +73,13 @@ public class FileExtensionHandler {
 		
 //		indexWriter.addDocument(documentScanner.getDocument());
 
+	}
+
+	public Document getDoc() {
+		return doc;
+	}
+
+	public void setDoc(Document doc) {
+		this.doc = doc;
 	}
 }

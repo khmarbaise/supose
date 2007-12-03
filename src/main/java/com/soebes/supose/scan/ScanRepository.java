@@ -293,6 +293,7 @@ public class ScanRepository {
 
 			
 			FileExtensionHandler feh = new FileExtensionHandler();
+			feh.setDoc(doc);
 			feh.execute(repository, entryPath.getPath(), logEntry.getRevision());
 
 			indexWriter.addDocument(doc);

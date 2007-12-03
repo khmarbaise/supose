@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.tmatesoft.svn.core.SVNException;
@@ -44,8 +43,7 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 public class ScanWordDocument extends AScanDocument {
 	private static Logger LOGGER = Logger.getLogger(ScanWordDocument.class);
 
-	public ScanWordDocument(Document doc) {
-		super(doc);
+	public ScanWordDocument() {
 	}
 
 	public void indexDocument(SVNRepository repository, String path, long revision) {

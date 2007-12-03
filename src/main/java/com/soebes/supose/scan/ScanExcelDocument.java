@@ -36,8 +36,7 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 public class ScanExcelDocument extends AScanDocument {
 	private static Logger LOGGER = Logger.getLogger(ScanExcelDocument.class);
 
-	public ScanExcelDocument(Document doc) {
-		super(doc);
+	public ScanExcelDocument() {
 	}
 
 	public void indexDocument(SVNRepository repository, String path, long revision) {

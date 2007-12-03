@@ -36,8 +36,7 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 public class ScanPDFDocument extends AScanDocument {
 	private static Logger LOGGER = Logger.getLogger(ScanPDFDocument.class);
 
-	public ScanPDFDocument(Document doc) {
-		super(doc);
+	public ScanPDFDocument() {
 	}
 
 	public void indexDocument(SVNRepository repository, String path, long revision) {

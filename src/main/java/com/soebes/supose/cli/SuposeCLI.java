@@ -61,8 +61,8 @@ public class SuposeCLI {
 	
 	private static void runScan() {
 		LOGGER.info("Scanning started...");
-//		scanRepository.setRepositoryURL("file:///C:/testrepos/privateusr/local/tracrepos/etas");
-		scanRepository.setRepositoryURL("file:///C:/testrepos/private");
+		scanRepository.setRepositoryURL("file:///usr/local/tracrepos/etas");
+//		scanRepository.setRepositoryURL("file:///C:/testrepos/private");
 		//We start from the first revision.
 		scanRepository.setStartRevision(1); 
 		scanRepository.setEndRevision(SVNRevision.HEAD.getNumber());
