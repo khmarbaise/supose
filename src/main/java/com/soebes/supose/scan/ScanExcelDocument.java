@@ -25,6 +25,7 @@
  */
 package com.soebes.supose.scan;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
@@ -33,13 +34,14 @@ import org.tmatesoft.svn.core.io.SVNRepository;
  *
  */
 public class ScanExcelDocument extends AScanDocument {
+	private static Logger LOGGER = Logger.getLogger(ScanExcelDocument.class);
 
 	public ScanExcelDocument(Document doc) {
 		super(doc);
 	}
 
 	public void indexDocument(SVNRepository repository, String path, long revision) {
-		
+		LOGGER.info("Scanning document");
 	}
 	
 }

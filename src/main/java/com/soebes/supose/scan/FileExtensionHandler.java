@@ -45,9 +45,19 @@ public class FileExtensionHandler {
 		if (fn.getExt().length() > 0) {
 			try {
 				String className = FileExtensionProperty.getInstance().getProperty(fn.getExt());
-				Class handlerClass = Class.forName(className);
-				AScanDocument dh = (AScanDocument) handlerClass.newInstance();
-				dh.indexDocument(repository, path, revision);
+//				repository.getFile(entryPath.getPath(), revision, fileProperties, baos);
+				try {
+					Class handlerClass = Class.forName(className);
+					AScanDocument dh = (AScanDocument) handlerClass.newInstance();
+					dh.indexDocument(repository, path, revision);
+//					indexWriter.addDocument(dh.getDocument());
+				} catch (ClassNotFoundException e) {
+					LOGGER.error("Cannot create instacne of : " + className + " " + e);
+				} catch (InstantiationException e) {
+					LOGGER.error("Cannot create an instance of : " + className + " " + e);
+				} catch (IllegalAccessException e) {
+					LOGGER.error("Illegal Access of instance of : " + className + " " + e);
+				}
 				
 			} catch (Exception e) {
 				//There is no entry for the extension
@@ -57,10 +67,6 @@ public class FileExtensionHandler {
 			LOGGER.info("We have no file extension found for the file '" + path + "'");
 		}
 		
-		
-//		AScanDocument documentScanner = new AScanDocument();
-//		
-//		documentScanner.indexDocument(repository, path, revision);
 //		indexWriter.addDocument(documentScanner.getDocument());
 
 	}

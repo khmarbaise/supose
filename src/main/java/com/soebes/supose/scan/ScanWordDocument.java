@@ -25,52 +25,49 @@
  */
 package com.soebes.supose.scan;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexWriter;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
-
-import com.soebes.supose.utility.FileName;
 
 /**
  * @author Karl Heinz Marbaise
  *
  */
 public class ScanWordDocument extends AScanDocument {
+	private static Logger LOGGER = Logger.getLogger(ScanWordDocument.class);
 
 	public ScanWordDocument(Document doc) {
 		super(doc);
 	}
 
 	public void indexDocument(SVNRepository repository, String path, long revision) {
+		LOGGER.info("Scanning document");
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		Map fileProperties  = new HashMap();
 
-		repository.getFile(path, revision, fileProperties, baos);
-
-		Document doc = getDocument();
-		doc.add(new Field("revision", Long.toString(revision), Field.Store.YES, Field.Index.UN_TOKENIZED));
-		Character x = new Character(entryPath.getType());
-		doc.add(new Field("kind", x.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-		FileName fileName = new FileName(path); 
-		//entryPath.getType())
-		doc.add(new Field("repository", repository.getRepositoryUUID(false), Field.Store.YES, Field.Index.UN_TOKENIZED));
-		//TODO: Should be filled with an usable name to distinguish different repositories..
-		doc.add(new Field("repositoryname", "TESTREPOS", Field.Store.YES, Field.Index.UN_TOKENIZED));
-
-		doc.add(new Field("path", fileName.getPath(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-		doc.add(new Field("filename", path, Field.Store.YES, Field.Index.UN_TOKENIZED));
+		try {
+			repository.getFile(path, revision, fileProperties, baos);
+		} catch (SVNException e) {
+			LOGGER.error("Exception happend. " + e);
+		}
 		
-		doc.add(new Field("contents", baos.toString(), Field.Store.YES, Field.Index.TOKENIZED));
+		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 
-		doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
-		doc.add(new Field("author", logEntry.getAuthor(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-		doc.add(new Field("message", logEntry.getMessage(), Field.Store.YES, Field.Index.TOKENIZED));
-		doc.add(new Field("date", logEntry.getDate().toGMTString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+		try {
+			WordExtractor we = new WordExtractor(str);
+			getDocument().add(new Field("contents", we.getText(), Field.Store.YES, Field.Index.TOKENIZED));
+		} catch (Exception e) {
+			LOGGER.error("Something has gone wrong with WordDocuments " + e);
+		}
+		
 	}
 
 }

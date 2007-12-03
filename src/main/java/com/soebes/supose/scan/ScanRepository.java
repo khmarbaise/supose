@@ -262,6 +262,7 @@ public class ScanRepository {
 				LOGGER.debug("The " + entryPath.getPath() + " is a directory.");
 				return;
 			}
+			
 			repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, baos);
 
 			Document doc = new Document();
@@ -276,6 +277,7 @@ public class ScanRepository {
 			//entryPath.getType())
 			doc.add(new Field("kind", x.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
 			doc.add(new Field("repository", repository.getRepositoryUUID(false), Field.Store.YES, Field.Index.UN_TOKENIZED));
+
 			//TODO: Should be filled with an usable name to distinguish different repositories..
 			doc.add(new Field("repositoryname", "TESTREPOS", Field.Store.YES, Field.Index.UN_TOKENIZED));
 
@@ -287,9 +289,11 @@ public class ScanRepository {
 					doc.add(new Field(entry.getKey(), entry.getValue(), Field.Store.YES, Field.Index.UN_TOKENIZED));
 				}
 			}
-			//This is only possible for real documents/files (Word...Java etc.)
-			doc.add(new Field("contents", baos.toString(), Field.Store.YES, Field.Index.TOKENIZED));
 			doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
+
+			
+			FileExtensionHandler feh = new FileExtensionHandler();
+			feh.execute(repository, entryPath.getPath(), logEntry.getRevision());
 
 			indexWriter.addDocument(doc);
 			LOGGER.debug("File " + entryPath.getPath() + " indexed...");
