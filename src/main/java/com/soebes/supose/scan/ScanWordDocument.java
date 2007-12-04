@@ -61,7 +61,7 @@ public class ScanWordDocument extends AScanDocument {
 
 		try {
 			WordExtractor we = new WordExtractor(str);
-			getDocument().add(new Field("contents", we.getText(), Field.Store.YES, Field.Index.TOKENIZED));
+			addTokenizedField("contents", we.getText());
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

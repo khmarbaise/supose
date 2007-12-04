@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Field;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
@@ -56,7 +55,7 @@ public class ScanDefaultDocument extends AScanDocument {
 		}
 
 		try {
-			getDocument().add(new Field("contents", baos.toString(), Field.Store.YES, Field.Index.TOKENIZED));
+			addTokenizedField("contents", baos.toString());
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -249,6 +250,20 @@ public class ScanRepository {
 		}
 	}
 
+
+	private void addUnTokenizedField(Document doc, String fieldName, String value) {
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+	private void addUnTokenizedField(Document doc, String fieldName, Long value) {
+		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+	private void addUnTokenizedField(Document doc, String fieldName, Date value) {
+		doc.add(new Field(fieldName,  value.toGMTString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+	private void addUnTokenizedField(Document doc, String fieldName, Character value) {
+		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+
 	private void indexFile(IndexWriter indexWriter, SVNRepository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
 		throws SVNException, IOException {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -266,30 +281,37 @@ public class ScanRepository {
 			repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, baos);
 
 			Document doc = new Document();
-			doc.add(new Field("revision", Long.toString(logEntry.getRevision()), Field.Store.YES, Field.Index.UN_TOKENIZED));
-			FileName fileName = new FileName(entryPath.getPath()); 
-			doc.add(new Field("path", fileName.getPath(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-			doc.add(new Field("filename", entryPath.getPath(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-			doc.add(new Field("author", logEntry.getAuthor(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-			doc.add(new Field("message", logEntry.getMessage(), Field.Store.YES, Field.Index.TOKENIZED));
-			doc.add(new Field("date", logEntry.getDate().toGMTString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-			Character x = new Character(entryPath.getType());
-			//entryPath.getType())
-			doc.add(new Field("kind", x.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+			
+			addUnTokenizedField(doc, "revision", logEntry.getRevision());
+
+			FileName fileName = new FileName(entryPath.getPath());
+			addUnTokenizedField(doc, "path", fileName.getPath());
+
+			addUnTokenizedField(doc, "filename", entryPath.getPath());
+			addUnTokenizedField(doc, "author", logEntry.getAuthor());
+			addUnTokenizedField(doc, "message", logEntry.getMessage());
+			addUnTokenizedField(doc, "date", logEntry.getDate());
+			
+			addUnTokenizedField(doc, "kind", entryPath.getType());
 //TODO: May be don't need this if we use repositoryname?
-			doc.add(new Field("repository", repository.getRepositoryUUID(false), Field.Store.YES, Field.Index.UN_TOKENIZED));
+			addUnTokenizedField(doc, "repository", repository.getRepositoryUUID(false));
 
 //TODO: Should be filled with an usable name to distinguish different repositories..
 			doc.add(new Field("repositoryname", "TESTREPOS", Field.Store.YES, Field.Index.UN_TOKENIZED));
 
 //TODO: This should be improved...
+			String mimeType = "";
 			for (Iterator iterator = fileProperties.entrySet().iterator(); iterator.hasNext();) {
 				Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
 				if (!entry.getKey().startsWith("svn:entry")) {
 					//Every property will be stored with key:value.
-					doc.add(new Field(entry.getKey(), entry.getValue(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+					addUnTokenizedField(doc, entry.getKey(), entry.getValue());
+					if (entry.getKey().startsWith("svn:mime-type")) {
+						mimeType = entry.getValue();
+					}
 				}
 			}
+//TODO: Do we really need this?
 			doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
 
 			FileExtensionHandler feh = new FileExtensionHandler();

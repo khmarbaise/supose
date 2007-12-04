@@ -25,7 +25,11 @@
  */
 package com.soebes.supose.scan;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
 /**
@@ -54,5 +58,29 @@ public abstract class AScanDocument {
 	Document getDocument() {
 		return doc;
 	}
+	
+	protected void addTokenizedField(String fieldName, String value) {
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.TOKENIZED));
+	}
+	protected void addUnTokenizedField(String fieldName, String value) {
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+	protected void addUnTokenizedField(String fieldName, Long value) {
+		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+	protected void addUnTokenizedField(String fieldName, Date value) {
+		doc.add(new Field(fieldName,  value.toGMTString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+	protected void addUnTokenizedField(String fieldName, Calendar value) {
+		//TODO: May be we have to change the format information for the Calendar object.
+		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+	protected void addUnTokenizedField(String fieldName, Character value) {
+		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+	}
+
+
+	
+
 
 }

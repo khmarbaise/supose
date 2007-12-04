@@ -60,8 +60,7 @@ public class ScanExcelDocument extends AScanDocument {
 		try {
 //			WordExtractor we = new WordExtractor(str);
 //TODO: Add fields like Sheet-name etc. ?
-//			getDocument().add(new Field("contents", we.getText(), Field.Store.YES, Field.Index.TOKENIZED));
-			getDocument().add(new Field("contents", baos.toString(), Field.Store.YES, Field.Index.TOKENIZED));
+			addTokenizedField("contents", baos.toString());
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="lib/poi-3.0.1-FINAL-20070705.jar" sourcepath="lib/poi-src-3.0.1-FINAL-20070705.zip"/>
 	<classpathentry kind="lib" path="lib/poi-contrib-3.0.1-FINAL-20070705.jar" sourcepath="lib/poi-src-3.0.1-FINAL-20070705.zip"/>
 	<classpathentry kind="lib" path="lib/poi-scratchpad-3.0.1-FINAL-20070705.jar" sourcepath="lib/poi-src-3.0.1-FINAL-20070705.zip"/>
+	<classpathentry kind="lib" path="lib/PDFBox-0.7.3.jar" sourcepath="lib/PDFBox-0.7.3.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
