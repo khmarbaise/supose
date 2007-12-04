@@ -65,7 +65,6 @@ public class ScanWordDocument extends AScanDocument {
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}
-		
 	}
 
 }

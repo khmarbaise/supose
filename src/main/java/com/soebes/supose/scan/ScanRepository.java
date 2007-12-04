@@ -276,12 +276,13 @@ public class ScanRepository {
 			Character x = new Character(entryPath.getType());
 			//entryPath.getType())
 			doc.add(new Field("kind", x.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+//TODO: May be don't need this if we use repositoryname?
 			doc.add(new Field("repository", repository.getRepositoryUUID(false), Field.Store.YES, Field.Index.UN_TOKENIZED));
 
-			//TODO: Should be filled with an usable name to distinguish different repositories..
+//TODO: Should be filled with an usable name to distinguish different repositories..
 			doc.add(new Field("repositoryname", "TESTREPOS", Field.Store.YES, Field.Index.UN_TOKENIZED));
 
-			//TODO: This should be improved...
+//TODO: This should be improved...
 			for (Iterator iterator = fileProperties.entrySet().iterator(); iterator.hasNext();) {
 				Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
 				if (!entry.getKey().startsWith("svn:entry")) {
@@ -291,7 +292,6 @@ public class ScanRepository {
 			}
 			doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
 
-			
 			FileExtensionHandler feh = new FileExtensionHandler();
 			feh.setDoc(doc);
 			feh.execute(repository, entryPath.getPath(), logEntry.getRevision());

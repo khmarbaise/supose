@@ -25,8 +25,13 @@
  */
 package com.soebes.supose.scan;
 
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
 /**
@@ -41,6 +46,25 @@ public class ScanExcelDocument extends AScanDocument {
 
 	public void indexDocument(SVNRepository repository, String path, long revision) {
 		LOGGER.info("Scanning document");
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		Map fileProperties  = new HashMap();
+
+		try {
+			repository.getFile(path, revision, fileProperties, baos);
+		} catch (SVNException e) {
+			LOGGER.error("Exception happend. " + e);
+		}
+		
+//		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
+
+		try {
+//			WordExtractor we = new WordExtractor(str);
+//TODO: Add fields like Sheet-name etc. ?
+//			getDocument().add(new Field("contents", we.getText(), Field.Store.YES, Field.Index.TOKENIZED));
+			getDocument().add(new Field("contents", baos.toString(), Field.Store.YES, Field.Index.TOKENIZED));
+		} catch (Exception e) {
+			LOGGER.error("Something has gone wrong with WordDocuments " + e);
+		}
 	}
 	
 }

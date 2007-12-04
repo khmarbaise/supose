@@ -40,6 +40,7 @@ public abstract class AScanDocument {
 	private Document doc;
 
 	public AScanDocument() {
+		setDocument(null);
 	}
 
 	void indexDocument (SVNRepository repository, String path, long revision) {

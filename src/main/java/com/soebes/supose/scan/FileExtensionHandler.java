@@ -48,13 +48,11 @@ public class FileExtensionHandler {
 		if (fn.getExt().length() > 0) {
 			try {
 				String className = FileExtensionProperty.getInstance().getProperty(fn.getExt());
-//				repository.getFile(entryPath.getPath(), revision, fileProperties, baos);
 				try {
 					Class handlerClass = Class.forName(className);
 					AScanDocument dh = (AScanDocument) handlerClass.newInstance();
 					dh.setDocument(doc);
 					dh.indexDocument(repository, path, revision);
-//					indexWriter.addDocument(dh.getDocument());
 				} catch (ClassNotFoundException e) {
 					LOGGER.error("Cannot create instacne of : " + className + " " + e);
 				} catch (InstantiationException e) {
@@ -62,17 +60,17 @@ public class FileExtensionHandler {
 				} catch (IllegalAccessException e) {
 					LOGGER.error("Illegal Access of instance of : " + className + " " + e);
 				}
-				
 			} catch (Exception e) {
-				//There is no entry for the extension
+				//There is no entry for the extension so we use the default
+				//scanner for all other document types.
 				LOGGER.info("There is no property entry defined for the file extension '" + fn.getExt() + "'");
+				AScanDocument dh = new ScanDefaultDocument();
+				dh.setDocument(doc);
+				dh.indexDocument(repository, path, revision);
 			}
 		} else {
 			LOGGER.info("We have no file extension found for the file '" + path + "'");
 		}
-		
-//		indexWriter.addDocument(documentScanner.getDocument());
-
 	}
 
 	public Document getDoc() {
