@@ -103,7 +103,7 @@
 				<exclude name="**/testng*.jar"/>
 			</tarfileset>
 			<tarfileset dir="${basedir}" mode="0755">
-				<include name="run.sh"/>
+				<include name="supose.sh"/>
 			</tarfileset>
 			<tarfileset dir="${dir.dist}" prefix="/lib">
 				<include name="${software.shortname}-${version}.jar"/>
@@ -118,8 +118,8 @@
 				<exclude name="**/testng*.jar"/>
 			</zipfileset>
 			<zipfileset dir="${basedir}" prefix="">
-				<include name="run.sh" />
-				<include name="run.cmd" />
+				<include name="supose.sh" />
+				<include name="supose.cmd" />
 			</zipfileset>
 			<zipfileset dir="${dir.dist}" prefix="lib">
 				<include name="${software.shortname}-${version}.jar"/>
