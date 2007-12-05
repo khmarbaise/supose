@@ -23,7 +23,6 @@
  * just write an email to license@soebes.de
  *
  */
-// SupoSE
 package com.soebes.supose.cli;
 
 import java.util.List;
@@ -42,20 +41,17 @@ public class ScanCommand extends CLIBase {
     private Option optionURL = null;
     private Option optionUsername = null;
     private Option optionPassword = null;
+    private Option optionFromRev = null;
 
 	public ScanCommand() {
 		setCommand(createCommand());
 	}
 
 	private Command createCommand() {
-		/*
-		 * 
-		 * suposecli scan --URL RepositoryURL
-		 */
     	optionURL = obuilder
     		.withShortName("U")
-    		.withLongName("URL")
-    		.withArgument(abuilder.withName("URL").create())
+    		.withLongName("url")
+    		.withArgument(abuilder.withName("url").create())
     		.withDescription("Define the position where to find the index created by an scan.")
     		.create();
     	
@@ -72,11 +68,18 @@ public class ScanCommand extends CLIBase {
 			.withDescription("Define the password which is used to make an authorization against the Subversion repository.")
 			.create();
 
+    	optionFromRev = obuilder
+			.withShortName("r")
+			.withLongName("fromrev")
+			.withArgument(abuilder.withName("fromrev").create())
+			.withDescription("Define the revision from which we will start to scan the repository.")
+			.create();
     	
     	Group scanOptionIndex = gbuilder
     		.withOption(optionURL)
     		.withOption(optionUsername)
     		.withOption(optionPassword)
+    		.withOption(optionFromRev)
     		.create();
     	
     	return cbuilder
@@ -99,8 +102,8 @@ public class ScanCommand extends CLIBase {
 		return optionPassword;
 	}
 
-	public void setOptionURL(Option optionURL) {
-		this.optionURL = optionURL;
+	public Option getOptionFromRev() {
+		return optionFromRev;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -133,5 +136,14 @@ public class ScanCommand extends CLIBase {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public Long getFromRev (CommandLine cline) {
+		List<String> list = cline.getValues((getOptionFromRev()));
+		if (list == null || list.size() == 0) {
+			return new Long(1);
+		} else {
+			return Long.parseLong(list.get(0));
+		}
+	}
 	
 }

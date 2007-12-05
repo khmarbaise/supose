@@ -63,6 +63,22 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getGlobalOptionH()));
 	}
 
+	
+	@Test()
+	public void testCommandCheckScan() throws Exception {
+		final String[] args = new String[] { "scan" };
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertTrue(cl.hasOption(suposecli.getScanCommand()));
+		assertFalse(cl.hasOption(suposecli.getSearchCommand()));
+	}
+	@Test()
+	public void testCommandCheckSearch() throws Exception {
+		final String[] args = new String[] { "search" };
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertFalse(cl.hasOption(suposecli.getScanCommand()));
+		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
+	}
+
 	@Test()
 	public void testCommandScan() throws Exception {
 		final String[] args = new String[] { "scan" };
@@ -107,7 +123,7 @@ public class SupposeCLITest {
 
 	@Test()
 	public void testCommandScanLongURL() throws Exception {
-		final String[] args = new String[] { "scan", "--URL", "file:///testrepos/private"};
+		final String[] args = new String[] { "scan", "--url", "file:///testrepos/private"};
 		CommandLine cl = suposecli.doParseArgs(args);
 		assertNotNull(cl, "The return value of the parse is null!");
 		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");

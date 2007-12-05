@@ -4,3 +4,6 @@ Search for a particular property-keys with value
 +svn\:executable:"*"
 
 +svn\:mime-type:"application/octet-stream"
+
+Search for revision 100-102 where the filename is eq. to "*.pm"
+(revision:100 revision:101 revision:102) AND (filename:/*/*.pm)

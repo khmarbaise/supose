@@ -44,30 +44,42 @@ public class SuposeCLI {
 
 	private static SuposeCommandLine suposecli = new SuposeCommandLine();
 	private static ScanRepository scanRepository = new ScanRepository();
+	private static CommandLine commandLine = null;
 
 	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		CommandLine cl = null;
 		try {
-			cl = suposecli.doParseArgs(args);
+			commandLine = suposecli.doParseArgs(args);
 		} catch (OptionException e) {
-			System.err.println("Error: Unexpected Option given on command line.");
-			return;
+			System.err.println("Error: Unexpected Option given on command line. " + e);
+			System.exit(1);
 		}
 
-		runScan();
-		
+		if (commandLine.hasOption(suposecli.getScanCommand())) {
+			runScan(suposecli.getScliScanCommand());
+		} else if (commandLine.hasOption(suposecli.getSearchCommand())) {
+			runSearch();
+		} else {
+			System.err.println("Error: You should define either scan or search as command.");
+			System.exit(1);
+		}
 	}
-	
-	private static void runScan() {
-		LOGGER.info("Scanning started...");
-		scanRepository.setRepositoryURL("file:///home/kama/testrepos/testsupose");
-//		scanRepository.setRepositoryURL("file:///C:/testrepos/private");
-		//We start from the first revision.
-		scanRepository.setStartRevision(1); 
+
+	private static void runScan(ScanCommand scanCommand) {
+		String url = scanCommand.getURL(commandLine);
+		long fromRev = scanCommand.getFromRev(commandLine);
+
+		scanRepository.setRepositoryURL(url);
+
+		//We start with the revision which is given on the command line.
+		//If it is not given we will start with revision 1.
+		scanRepository.setStartRevision(fromRev); 
+		//We will scan the repository to the current HEAD of the repository.
 		scanRepository.setEndRevision(SVNRevision.HEAD.getNumber());
 		scanRepository.setIndexDirectory("indexDir.Test");
+
+		LOGGER.info("Scanning started.");
 		scanRepository.scan();
+		LOGGER.info("Scanning ready.");
 	}
 	
 	@SuppressWarnings("unused")
