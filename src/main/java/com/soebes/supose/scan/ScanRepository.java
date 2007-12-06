@@ -245,7 +245,7 @@ public class ScanRepository {
 					}
 				}
 			} catch (Exception e) {
-				LOGGER.debug("something wrong: " + e.getMessage());
+				LOGGER.error("something wrong: " + e.getMessage());
 			}		     
 		}
 	}
@@ -271,17 +271,38 @@ public class ScanRepository {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			Map fileProperties  = new HashMap();
 			
+			SVNNodeKind nodeKind = repository.checkPath(entryPath.getPath(), logEntry.getRevision());
+
 			Document doc = new Document();
 			addUnTokenizedField(doc, "revision", logEntry.getRevision());
 			
-			FileName fileName = new FileName(entryPath.getPath());
+			boolean isDir = nodeKind == SVNNodeKind.DIR;
+			boolean isFile = nodeKind == SVNNodeKind.FILE;
+			FileName fileName = new FileName(entryPath.getPath(), isDir);
+			LOGGER.info("FileName: '" + entryPath.getPath() + "'");
 			addUnTokenizedField(doc, "path", fileName.getPath());
+
+			if (isDir) {
+				addUnTokenizedField(doc, "node", "dir");
+			} else if (isFile) {
+				addUnTokenizedField(doc, "node", "file");
+			} else {
+				//This means a file/directory has been deleted.
+				addUnTokenizedField(doc, "node", "unknown");
+			}
+
+			
+			//Did an copy operation take place...
+			if (entryPath.getCopyPath() != null) {
+				addUnTokenizedField(doc, "from", entryPath.getCopyPath());
+				addUnTokenizedField(doc, "fromrev", entryPath.getCopyRevision());
+			}
 			
 			addUnTokenizedField(doc, "filename", entryPath.getPath());
-			addUnTokenizedField(doc, "author", logEntry.getAuthor());
+			addUnTokenizedField(doc, "author", logEntry.getAuthor() == null ? "" : logEntry.getAuthor());
 			
 			//We will add the message as tokenized field to be able to search within the log messages.
-			addTokenizedField(doc, "message", logEntry.getMessage());
+			addTokenizedField(doc, "message", logEntry.getMessage() == null ? "" : logEntry.getMessage());
 			addUnTokenizedField(doc, "date", logEntry.getDate());
 			
 			addUnTokenizedField(doc, "kind", entryPath.getType());
@@ -290,8 +311,8 @@ public class ScanRepository {
 			addUnTokenizedField(doc, "repository", repository.getRepositoryUUID(false));
 			
 //TODO: Should be filled with an usable name to distinguish different repositories..
-			doc.add(new Field("repositoryname", "TESTREPOS", Field.Store.YES, Field.Index.UN_TOKENIZED));
-			
+			addUnTokenizedField(doc, "repositoryname", "TESTREPOS");
+
 //TODO: This should be improved...
 			String mimeType = "";
 			for (Iterator iterator = fileProperties.entrySet().iterator(); iterator.hasNext();) {
@@ -305,7 +326,6 @@ public class ScanRepository {
 				}
 			}
 
-			SVNNodeKind nodeKind = repository.checkPath(entryPath.getPath(), logEntry.getRevision());
 			if (nodeKind == SVNNodeKind.NONE) {
 				LOGGER.debug("The " + entryPath.getPath() + " is a NONE entry.");
 			} else if (nodeKind == SVNNodeKind.DIR) {

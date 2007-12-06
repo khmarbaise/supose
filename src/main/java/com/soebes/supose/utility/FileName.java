@@ -45,12 +45,31 @@ public class FileName {
     private String path;
     private String nameWithoutExtension;
     
+    public FileName(String fileName, boolean isDir) {
+    	init(fileName, isDir);
+    }
     public FileName(String fileName) {
-    	setExt("");
+    	init(fileName, false);
+    }
+	private void init(String fileName, boolean isDir) {
+		setExt("");
     	setName("");
+    	setBaseName("");
     	setNameWithoutExtension("");
+    	setPath("");
+    	if (!isDir) {
+    		if (fileName.endsWith("/")) {
+    			isDir = true;
+    		}
+    	}
+
     	File f = new File(fileName);
-    	setBaseName(f.getName());
+    	if (!isDir) {
+    		setBaseName(f.getName());
+    	} else {
+    		setPath(fileName);
+    	}
+
     	if (getBaseName().lastIndexOf('.') > 0) {
     		setExt(getBaseName().substring(getBaseName().lastIndexOf('.') + 1));
     		setPath(fileName.substring(0, fileName.length() - getBaseName().length()));
@@ -72,7 +91,7 @@ public class FileName {
     			nameWithoutExtension = getBaseName().substring(0, getBaseName().length() - getExt().length()  -1);
     		}
     	}
-    }
+	}
     
     /**
      * @return The extension of a filename.

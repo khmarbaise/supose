@@ -29,8 +29,6 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
-import com.soebes.supose.utility.FileName;
-
 /**
  * @author Karl Heinz Marbaise
  *
@@ -74,6 +72,43 @@ public class FileNameTest {
 		assertEquals(fn.getExt(), "zip", "The extension is not as expected.");
 		assertEquals(fn.getBaseName(), "x.zip", "The basename is not as expected.");
 		assertEquals(fn.getNameWithoutExtension(), "x", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/", "The path is not as expected.");
+	}
+
+	@Test
+	public void testF50() {
+		String fileName = "/branches/";
+		FileName fn = new FileName(fileName);
+		assertEquals(fn.getExt(), "", "The extension is not as expected.");
+		assertEquals(fn.getBaseName(), "", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/branches/", "The path is not as expected.");
+	}
+	@Test
+	public void testF60() {
+		String fileName = "/branches";
+		FileName fn = new FileName(fileName);
+		assertEquals(fn.getExt(), "", "The extension is not as expected.");
+		assertEquals(fn.getBaseName(), "branches", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "", "The path is not as expected.");
+	}
+	@Test
+	public void testF61() {
+		String fileName = "/branches";
+		FileName fn = new FileName(fileName, true);
+		assertEquals(fn.getExt(), "", "The extension is not as expected.");
+		assertEquals(fn.getBaseName(), "", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/branches", "The path is not as expected.");
+	}
+	@Test
+	public void testF70() {
+		String fileName = "/";
+		FileName fn = new FileName(fileName);
+		assertEquals(fn.getExt(), "", "The extension is not as expected.");
+		assertEquals(fn.getBaseName(), "", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
 		assertEquals(fn.getPath(), "/", "The path is not as expected.");
 	}
 }
