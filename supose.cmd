@@ -19,4 +19,4 @@ SET CP=%CP%;.\lib\svnkit.jar
 SET CP=%CP%;.\lib\SupoSE-0.1.0.jar
 
 
-java -cp %CP% com.soebes.supose.cli.SuposeCLI %*
+java -Xms512m -Xmx1024m -cp %CP% com.soebes.supose.cli.SuposeCLI %*

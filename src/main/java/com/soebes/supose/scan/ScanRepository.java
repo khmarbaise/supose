@@ -313,27 +313,22 @@ public class ScanRepository {
 //TODO: Should be filled with an usable name to distinguish different repositories..
 			addUnTokenizedField(doc, "repositoryname", "TESTREPOS");
 
-//TODO: This should be improved...
-			String mimeType = "";
-			for (Iterator iterator = fileProperties.entrySet().iterator(); iterator.hasNext();) {
-				Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-				if (!entry.getKey().startsWith("svn:entry")) {
-					//Every property will be stored with key:value.
-					addUnTokenizedField(doc, entry.getKey(), entry.getValue());
-					if (entry.getKey().startsWith("svn:mime-type")) {
-						mimeType = entry.getValue();
-					}
-				}
-			}
 
 			if (nodeKind == SVNNodeKind.NONE) {
 				LOGGER.debug("The " + entryPath.getPath() + " is a NONE entry.");
 			} else if (nodeKind == SVNNodeKind.DIR) {
 				//The given entry is a directory.
 				LOGGER.debug("The " + entryPath.getPath() + " is a directory.");
+				//Here we need to call getDir to get directory properties.
+				Collection dirEntries = null;
+				repository.getDir(entryPath.getPath(), logEntry.getRevision(), fileProperties, dirEntries);
+				indexProperties(fileProperties, doc);
+
 			} else if (nodeKind == SVNNodeKind.FILE) {
+				
 				//The given entry is a file.
 				repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, baos);
+				indexProperties(fileProperties, doc);
 				
 //TODO: Do we really need this?
 				doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
@@ -344,6 +339,23 @@ public class ScanRepository {
 
 			indexWriter.addDocument(doc);
 			LOGGER.debug("File " + entryPath.getPath() + " indexed...");
+	}
+
+
+	private void indexProperties(Map fileProperties, Document doc) {
+		//TODO: This should be improved...
+		String mimeType = "";
+		for (Iterator iterator = fileProperties.entrySet().iterator(); iterator.hasNext();) {
+			Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
+			if (!entry.getKey().startsWith("svn:entry")) {
+				//Every property will be stored with key:value.
+				LOGGER.debug("Indexing property: " + entry.getKey() + " value:'" + entry.getValue() + "'"); 
+				addUnTokenizedField(doc, entry.getKey(), entry.getValue());
+				if (entry.getKey().startsWith("svn:mime-type")) {
+					mimeType = entry.getValue();
+				}
+			}
+		}
 	}
 
 	
