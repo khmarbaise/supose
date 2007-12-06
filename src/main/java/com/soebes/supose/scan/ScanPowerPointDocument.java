@@ -62,7 +62,7 @@ public class ScanPowerPointDocument extends AScanDocument {
 		try {
 			PowerPointExtractor pe = new PowerPointExtractor(str);
 //TODO: Add fields for slides, title etc.
-			getDocument().add(new Field("contents", pe.getText(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+			addTokenizedField("contents", pe.getText());
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

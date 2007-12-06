@@ -237,7 +237,7 @@ public class ScanRepository {
 					indexFile(indexWriter, repository, logEntry, entryPath);
 				}
 				if (SVNLogEntryPath.TYPE_DELETED == entryPath.getType()) {
-					LOGGER.debug("Deleted things...");
+					LOGGER.debug("The file '" + entryPath.getPath() + "' has been deleted.");
 					indexFile(indexWriter, repository, logEntry, entryPath);
 					if (dirEntry != null
 							&& dirEntry.getKind().equals(SVNNodeKind.DIR)) {
@@ -271,38 +271,27 @@ public class ScanRepository {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			Map fileProperties  = new HashMap();
 			
-			SVNNodeKind nodeKind = repository.checkPath(entryPath.getPath(), logEntry.getRevision());
-			if (nodeKind == SVNNodeKind.NONE) {
-				LOGGER.debug("The " + entryPath.getPath() + " is a NONE entry.");
-				return;
-			} else if (nodeKind == SVNNodeKind.DIR) {
-				LOGGER.debug("The " + entryPath.getPath() + " is a directory.");
-				return;
-			}
-			
-			repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, baos);
-
 			Document doc = new Document();
-			
 			addUnTokenizedField(doc, "revision", logEntry.getRevision());
-
+			
 			FileName fileName = new FileName(entryPath.getPath());
 			addUnTokenizedField(doc, "path", fileName.getPath());
-
+			
 			addUnTokenizedField(doc, "filename", entryPath.getPath());
 			addUnTokenizedField(doc, "author", logEntry.getAuthor());
-
+			
 			//We will add the message as tokenized field to be able to search within the log messages.
 			addTokenizedField(doc, "message", logEntry.getMessage());
 			addUnTokenizedField(doc, "date", logEntry.getDate());
 			
 			addUnTokenizedField(doc, "kind", entryPath.getType());
+
 //TODO: May be don't need this if we use repositoryname?
 			addUnTokenizedField(doc, "repository", repository.getRepositoryUUID(false));
-
+			
 //TODO: Should be filled with an usable name to distinguish different repositories..
 			doc.add(new Field("repositoryname", "TESTREPOS", Field.Store.YES, Field.Index.UN_TOKENIZED));
-
+			
 //TODO: This should be improved...
 			String mimeType = "";
 			for (Iterator iterator = fileProperties.entrySet().iterator(); iterator.hasNext();) {
@@ -315,12 +304,23 @@ public class ScanRepository {
 					}
 				}
 			}
-//TODO: Do we really need this?
-			doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
 
-			FileExtensionHandler feh = new FileExtensionHandler();
-			feh.setDoc(doc);
-			feh.execute(repository, entryPath.getPath(), logEntry.getRevision());
+			SVNNodeKind nodeKind = repository.checkPath(entryPath.getPath(), logEntry.getRevision());
+			if (nodeKind == SVNNodeKind.NONE) {
+				LOGGER.debug("The " + entryPath.getPath() + " is a NONE entry.");
+			} else if (nodeKind == SVNNodeKind.DIR) {
+				//The given entry is a directory.
+				LOGGER.debug("The " + entryPath.getPath() + " is a directory.");
+			} else if (nodeKind == SVNNodeKind.FILE) {
+				//The given entry is a file.
+				repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, baos);
+				
+//TODO: Do we really need this?
+				doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
+				FileExtensionHandler feh = new FileExtensionHandler();
+				feh.setDoc(doc);
+				feh.execute(repository, entryPath.getPath(), logEntry.getRevision());
+			}
 
 			indexWriter.addDocument(doc);
 			LOGGER.debug("File " + entryPath.getPath() + " indexed...");

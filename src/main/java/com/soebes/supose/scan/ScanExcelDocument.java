@@ -103,19 +103,20 @@ public class ScanExcelDocument extends AScanDocument {
 			if (or != null) {
 				for (short column=or.getFirstCellNum (); column<or.getLastCellNum (); column++) {
 					HSSFCell cell = or.getCell(column);
-	
-					HSSFComment comment = cell.getCellComment();
-					if (comment != null) {
-						addUnTokenizedField("xlscommentauthor", comment.getAuthor() == null ? "" : comment.getAuthor());
-						addUnTokenizedField("xlscomment", comment.getString() == null ? "" : comment.getString().toString());
+					if (cell != null) {
+						HSSFComment comment = cell.getCellComment();
+						if (comment != null) {
+							addUnTokenizedField("xlscommentauthor", comment.getAuthor() == null ? "" : comment.getAuthor());
+							addUnTokenizedField("xlscomment", comment.getString() == null ? "" : comment.getString().toString());
+						}
+		
+						text.append(scanCell(sheetName, row, column, cell));
 					}
-	
-					text.append(scanCell(sheetName, row, column, cell));
 				}
 			}
 		}
 		addUnTokenizedField("xlssheetname", sheetName);
-		addUnTokenizedField("contents", text.toString());
+		addTokenizedField("contents", text.toString());
 	}
 
 	private String scanCell(String sheetName, int row, short column, HSSFCell cell) {
@@ -133,6 +134,10 @@ public class ScanExcelDocument extends AScanDocument {
 			case HSSFCell.CELL_TYPE_FORMULA:
 				LOGGER.debug("CELL_TYPE_FORMULA: row:" + row + " column:" + column + " read.");
 				result = cell.getCellFormula();
+				break;
+			case HSSFCell.CELL_TYPE_BLANK:
+				LOGGER.debug("CELL_TYPE_BLANK: row:" + row + " column:" + column + " read.");
+				result = "";
 				break;
 			case HSSFCell.CELL_TYPE_BOOLEAN:
 				LOGGER.debug("CELL_TYPE_BOOLEAN: row:" + row + " column:" + column + " read.");
