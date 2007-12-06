@@ -36,6 +36,8 @@ import org.tmatesoft.svn.core.io.SVNRepository;
  * This abstract class defines the 
  * basic interface to index a document.
  * 
+ * It includes some helper method.
+ * 
  * @author Karl Heinz Marbaise
  *
  */

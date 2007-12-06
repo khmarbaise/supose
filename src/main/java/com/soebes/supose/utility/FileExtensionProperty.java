@@ -62,7 +62,7 @@ public class FileExtensionProperty {
 	}
 
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	private FileExtensionProperty() {
 		super();

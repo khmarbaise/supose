@@ -250,7 +250,9 @@ public class ScanRepository {
 		}
 	}
 
-
+	protected void addTokenizedField(Document doc, String fieldName, String value) {
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.TOKENIZED));
+	}
 	private void addUnTokenizedField(Document doc, String fieldName, String value) {
 		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.UN_TOKENIZED));
 	}
@@ -289,7 +291,9 @@ public class ScanRepository {
 
 			addUnTokenizedField(doc, "filename", entryPath.getPath());
 			addUnTokenizedField(doc, "author", logEntry.getAuthor());
-			addUnTokenizedField(doc, "message", logEntry.getMessage());
+
+			//We will add the message as tokenized field to be able to search within the log messages.
+			addTokenizedField(doc, "message", logEntry.getMessage());
 			addUnTokenizedField(doc, "date", logEntry.getDate());
 			
 			addUnTokenizedField(doc, "kind", entryPath.getType());

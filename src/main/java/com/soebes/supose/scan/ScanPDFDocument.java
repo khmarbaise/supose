@@ -115,8 +115,6 @@ public class ScanPDFDocument extends AScanDocument {
             // not occur here.
             String contents = writer.getBuffer().toString();
 
-            StringReader reader = new StringReader( contents );
-
             // Add the tag-stripped contents as a Reader-valued Text field so it will
             // get tokenized and indexed.
 			addTokenizedField("contents", contents);

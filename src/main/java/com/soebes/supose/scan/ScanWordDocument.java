@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Field;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;

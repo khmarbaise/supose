@@ -30,6 +30,11 @@ import java.io.File;
 /**
  * @author Karl Heinz Marbaise
  *
+ * This class will support you to extract the <code>extension</code> of a 
+ * file, the <code>path</code> and the <code>filename incl. the extension</code>.
+ * 
+ * We define a extension as one of the following:
+ * <li></li>
  */
 public class FileName {
 
@@ -58,7 +63,10 @@ public class FileName {
     	//Now we check if we have things like ".tar.gz", ".tar.bz2" etc.
     	if (getNameWithoutExtension().lastIndexOf('.') > 0) {
     		String tar = getNameWithoutExtension().substring(getNameWithoutExtension().lastIndexOf('.') + 1);
-    		//We only allow double extenstion in relationship with ".tar"
+
+    		//We only allow double extension in relationship with ".tar".
+    		//If we don't reduce this, we would get things like ".i586.rpm" 
+    		//or ".1.zip" etc. which we don't like to get. 
     		if (tar.equals("tar")) {
     			setExt(tar + "." + getExt());
     			nameWithoutExtension = getBaseName().substring(0, getBaseName().length() - getExt().length()  -1);
@@ -66,6 +74,9 @@ public class FileName {
     	}
     }
     
+    /**
+     * @return The extension of a filename.
+     */
     public String getExt() {
         return ext;
     }
@@ -74,6 +85,9 @@ public class FileName {
         this.ext = ext;
     }
 
+    /**
+     * @return The name of a file.
+     */
     public String getName() {
         return name;
     }
