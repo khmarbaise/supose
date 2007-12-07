@@ -38,6 +38,8 @@ import org.pdfbox.exceptions.InvalidPasswordException;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.pdmodel.PDDocumentInformation;
 import org.pdfbox.util.PDFTextStripper;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.FieldNames;
 
@@ -51,12 +53,18 @@ public class ScanPDFDocument extends AScanDocument {
 	public ScanPDFDocument() {
 	}
 
-	public void indexDocument(ByteArrayOutputStream baos) {
+	@Override
+	public void indexDocument(SVNRepository repository, String path, long revision) {
 		LOGGER.info("Scanning document");
 		
-		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			//This means we get the contents of the file only. No properties.
+			repository.getFile(path, revision, null, baos);
+			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 			addContent(str);
+		} catch (SVNException e) {
+			LOGGER.error("Exception by SVN: " + e);
 		} catch (Exception e) {
 			LOGGER.error("Exception during extraction of contents. " + e);
 		}

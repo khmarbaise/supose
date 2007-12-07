@@ -28,12 +28,20 @@ package com.soebes.supose.scan;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.log4j.Logger;
+import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.FieldNames;
 
 /**
  * @author Karl Heinz Marbaise
  *
+ * This class will handle all files types which are not handled by particular
+ * implementation of the <code>AScanDocument</code> class.
+ * This will happen if we have files like:
+ * *.mdb, *....
+ * All other types of files (which will be defined by Subversion as Text) 
+ * their contents will be indexed.
+ * 
  */
 public class ScanDefaultDocument extends AScanDocument {
 	private static Logger LOGGER = Logger.getLogger(ScanDefaultDocument.class);
@@ -41,10 +49,22 @@ public class ScanDefaultDocument extends AScanDocument {
 	public ScanDefaultDocument() {
 	}
 
-	public void indexDocument(ByteArrayOutputStream baos) {
+	@Override
+	public void indexDocument(SVNRepository repository, String path, long revision) {
 		LOGGER.info("Scanning document");
+		
 		try {
-			addTokenizedField(FieldNames.CONTENTS, baos.toString());
+			if (isBinary()) {
+				//We can make a decision to ignore binary content completeley
+				//cause this is the default document scanner.
+//TODO: Check this if this is ok? Or should we simply do not make any entry?
+				addTokenizedField(FieldNames.CONTENTS, "BINARY CONTENT");
+			} else {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				//This means we get the contents of the file only. No properties.
+				repository.getFile(path, revision, null, baos);
+				addTokenizedField(FieldNames.CONTENTS, baos.toString());
+			}
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

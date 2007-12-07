@@ -25,10 +25,11 @@
  */
 package com.soebes.supose.scan;
 
-import java.io.ByteArrayOutputStream;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.utility.FileExtensionProperty;
 import com.soebes.supose.utility.FileName;
@@ -40,9 +41,11 @@ import com.soebes.supose.utility.FileName;
 public class FileExtensionHandler {
 	private Document doc;
 
+	private Map fileProperties;
+
 	private static Logger LOGGER = Logger.getLogger(FileExtensionProperty.class);
 
-	public void execute(String path, ByteArrayOutputStream baos) {
+	public void execute(SVNRepository repository, String path, long revision) {
 
 		FileName fn = new FileName(path);
 		//Check if we have an extension...
@@ -52,8 +55,9 @@ public class FileExtensionHandler {
 				try {
 					Class handlerClass = Class.forName(className);
 					AScanDocument dh = (AScanDocument) handlerClass.newInstance();
+					dh.setProperties(getFileProperties());
 					dh.setDocument(doc);
-					dh.indexDocument(baos);
+					dh.indexDocument(repository, path, revision);
 				} catch (ClassNotFoundException e) {
 					LOGGER.error("Cannot create instacne of : " + className + " " + e);
 				} catch (InstantiationException e) {
@@ -66,8 +70,9 @@ public class FileExtensionHandler {
 				//scanner for all other document types.
 				LOGGER.info("There is no property entry defined for the file extension '" + fn.getExt() + "'");
 				AScanDocument dh = new ScanDefaultDocument();
+				dh.setProperties(getFileProperties());
 				dh.setDocument(doc);
-				dh.indexDocument(baos);
+				dh.indexDocument(repository, path, revision);
 			}
 		} else {
 			LOGGER.info("We have no file extension found for the file '" + path + "'");
@@ -80,5 +85,13 @@ public class FileExtensionHandler {
 
 	public void setDoc(Document doc) {
 		this.doc = doc;
+	}
+
+	public Map getFileProperties() {
+		return fileProperties;
+	}
+
+	public void setFileProperties(Map fileProperties) {
+		this.fileProperties = fileProperties;
 	}
 }

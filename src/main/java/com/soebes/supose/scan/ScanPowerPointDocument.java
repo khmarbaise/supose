@@ -30,6 +30,8 @@ import java.io.ByteArrayOutputStream;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.FieldNames;
 
@@ -43,16 +45,23 @@ public class ScanPowerPointDocument extends AScanDocument {
 	public ScanPowerPointDocument() {
 	}
 
-	public void indexDocument(ByteArrayOutputStream baos) {
+	@Override
+	public void indexDocument(SVNRepository repository, String path, long revision) {
 		LOGGER.info("Scanning document");
 
-		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 
 		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			//This means we get the contents of the file only. No properties.
+			repository.getFile(path, revision, null, baos);
+			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
+
 //TODO: Check if this enough...
 			PowerPointExtractor pe = new PowerPointExtractor(str);
 //TODO: Add fields for slides, title etc.
 			addTokenizedField(FieldNames.CONTENTS, pe.getText());
+		} catch (SVNException e) {
+			LOGGER.error("Exception by SVN: " + e);
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

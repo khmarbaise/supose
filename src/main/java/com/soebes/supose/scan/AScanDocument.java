@@ -25,18 +25,23 @@
  */
 package com.soebes.supose.scan;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.io.SVNRepository;
 
 /**
  * This abstract class defines the 
  * basic interface to index a document.
  * 
  * It includes some helper method.
+ * If you use an derived class of this you will be called
+ * via the <code>indexDocument</code> method. Before the call the 
+ * <code>properties</code> had been filled.
  * 
  * @author Karl Heinz Marbaise
  *
@@ -44,14 +49,14 @@ import org.apache.lucene.document.Field;
 public abstract class AScanDocument {
 
 	private Document doc;
+	private Map properties;
+
 
 	public AScanDocument() {
 		setDocument(null);
 	}
 
-	void indexDocument (ByteArrayOutputStream baos) {
-		throw new RuntimeException("Unimplemented!");
-	}
+	abstract void indexDocument (SVNRepository repository, String path, long revision);
 
 	void setDocument(Document doc) {
 		this.doc = doc;
@@ -81,8 +86,23 @@ public abstract class AScanDocument {
 		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
 	}
 
+	protected boolean isBinary () {
+		String mimeType = (String)getProperties().get(SVNProperty.MIME_TYPE);
+		return SVNProperty.isBinaryMimeType(mimeType);
+	}
+	protected boolean isText () {
+		String mimeType = (String)getProperties().get(SVNProperty.MIME_TYPE);
+		return SVNProperty.isTextMimeType(mimeType);
+	}
 
 	
+	public Map getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map properties) {
+		this.properties = properties;
+	}
 
 
 }

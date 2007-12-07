@@ -48,6 +48,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;
 import org.tmatesoft.svn.core.SVNNodeKind;
+import org.tmatesoft.svn.core.SVNProperty;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
@@ -272,7 +273,6 @@ public class ScanRepository {
 
 	private void indexFile(IndexWriter indexWriter, SVNRepository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
 		throws SVNException, IOException {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			Map fileProperties  = new HashMap();
 			
 			SVNNodeKind nodeKind = repository.checkPath(entryPath.getPath(), logEntry.getRevision());
@@ -333,15 +333,18 @@ public class ScanRepository {
 				//The given entry is a file.
 //TODO: Check if we need to do this in the subclasses instead here.
 				//This means we will get every file from the repository....
-				repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, baos);
-				indexProperties(fileProperties, doc);
 				
+				//Get only the properties of the file
+				repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, null);
+				indexProperties(fileProperties, doc);
+
+
 //TODO: Do we really need this?
-				addUnTokenizedField(doc, FieldNames.SIZE, Long.toString(baos.size()));
+//				addUnTokenizedField(doc, FieldNames.SIZE, Long.toString(baos.size()));
 				FileExtensionHandler feh = new FileExtensionHandler();
+				feh.setFileProperties(fileProperties);
 				feh.setDoc(doc);
-				feh.execute(entryPath.getPath(), baos);
-				baos = new ByteArrayOutputStream();
+				feh.execute(repository, entryPath.getPath(), logEntry.getRevision());
 			}
 
 			indexWriter.addDocument(doc);
@@ -350,17 +353,12 @@ public class ScanRepository {
 
 
 	private void indexProperties(Map fileProperties, Document doc) {
-		//TODO: This should be improved...
-		String mimeType = "";
 		for (Iterator iterator = fileProperties.entrySet().iterator(); iterator.hasNext();) {
 			Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-			if (!entry.getKey().startsWith("svn:entry")) {
+			if (!SVNProperty.isEntryProperty(entry.getKey())) {
 				//Every property will be stored with key:value.
 				LOGGER.debug("Indexing property: " + entry.getKey() + " value:'" + entry.getValue() + "'"); 
 				addUnTokenizedField(doc, entry.getKey(), entry.getValue());
-				if (entry.getKey().startsWith("svn:mime-type")) {
-					mimeType = entry.getValue();
-				}
 			}
 		}
 	}

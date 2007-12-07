@@ -34,6 +34,8 @@ import org.apache.poi.hssf.usermodel.HSSFComment;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.FieldNames;
 
@@ -54,11 +56,17 @@ public class ScanExcelDocument extends AScanDocument {
 	public ScanExcelDocument() {
 	}
 
-	public void indexDocument(ByteArrayOutputStream baos) {
+	@Override
+	public void indexDocument(SVNRepository repository, String path, long revision) {
 		LOGGER.info("Scanning document");
-		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			//This means we get the contents of the file only. No properties.
+			repository.getFile(path, revision, null, baos);
+			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 			scan(str);
+		} catch (SVNException e) {
+			LOGGER.error("Exception by SVN: " + e);
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with ExcelDocuments " + e);
 		}

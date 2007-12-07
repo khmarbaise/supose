@@ -27,8 +27,6 @@ package com.soebes.supose.scan;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hwpf.extractor.WordExtractor;
@@ -47,13 +45,20 @@ public class ScanWordDocument extends AScanDocument {
 	public ScanWordDocument() {
 	}
 
-	public void indexDocument(ByteArrayOutputStream baos) {
-		LOGGER.info("Scanning document");
-		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
-
+	@Override
+	public void indexDocument(SVNRepository repository, String path, long revision) {
+		LOGGER.info("Scanning word document");
+		
 		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			//This means we get the contents of the file only. No properties.
+			repository.getFile(path, revision, null, baos);
+			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
+
 			WordExtractor we = new WordExtractor(str);
 			addTokenizedField(FieldNames.CONTENTS, we.getText());
+		} catch (SVNException e) {
+			LOGGER.error("Exception by SVN: " + e);
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}
