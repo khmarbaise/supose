@@ -25,12 +25,12 @@
  */
 package com.soebes.supose.scan;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.tmatesoft.svn.core.io.SVNRepository;
 
 /**
  * This abstract class defines the 
@@ -49,7 +49,7 @@ public abstract class AScanDocument {
 		setDocument(null);
 	}
 
-	void indexDocument (SVNRepository repository, String path, long revision) {
+	void indexDocument (ByteArrayOutputStream baos) {
 		throw new RuntimeException("Unimplemented!");
 	}
 

@@ -328,6 +328,8 @@ public class ScanRepository {
 			} else if (nodeKind == SVNNodeKind.FILE) {
 				
 				//The given entry is a file.
+//TODO: Check if we need to do this in the subclasses instead here.
+				//This means we will get every file from the repository....
 				repository.getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, baos);
 				indexProperties(fileProperties, doc);
 				
@@ -335,7 +337,7 @@ public class ScanRepository {
 				addUnTokenizedField(doc, FieldNames.SIZE, Long.toString(baos.size()));
 				FileExtensionHandler feh = new FileExtensionHandler();
 				feh.setDoc(doc);
-				feh.execute(repository, entryPath.getPath(), logEntry.getRevision());
+				feh.execute(entryPath.getPath(), baos);
 			}
 
 			indexWriter.addDocument(doc);

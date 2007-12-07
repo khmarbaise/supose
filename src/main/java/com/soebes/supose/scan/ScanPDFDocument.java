@@ -31,8 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.pdfbox.exceptions.CryptographyException;
@@ -40,8 +38,6 @@ import org.pdfbox.exceptions.InvalidPasswordException;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.pdmodel.PDDocumentInformation;
 import org.pdfbox.util.PDFTextStripper;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.FieldNames;
 
@@ -55,17 +51,8 @@ public class ScanPDFDocument extends AScanDocument {
 	public ScanPDFDocument() {
 	}
 
-	public void indexDocument(SVNRepository repository, String path, long revision) {
+	public void indexDocument(ByteArrayOutputStream baos) {
 		LOGGER.info("Scanning document");
-		
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		Map fileProperties  = new HashMap();
-
-		try {
-			repository.getFile(path, revision, fileProperties, baos);
-		} catch (SVNException e) {
-			LOGGER.error("Exception happend. " + e);
-		}
 		
 		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 		try {

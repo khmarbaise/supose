@@ -25,9 +25,10 @@
  */
 package com.soebes.supose.scan;
 
+import java.io.ByteArrayOutputStream;
+
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
-import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.utility.FileExtensionProperty;
 import com.soebes.supose.utility.FileName;
@@ -41,7 +42,7 @@ public class FileExtensionHandler {
 
 	private static Logger LOGGER = Logger.getLogger(FileExtensionProperty.class);
 
-	public void execute(SVNRepository repository, String path, long revision) {
+	public void execute(String path, ByteArrayOutputStream baos) {
 
 		FileName fn = new FileName(path);
 		//Check if we have an extension...
@@ -52,7 +53,7 @@ public class FileExtensionHandler {
 					Class handlerClass = Class.forName(className);
 					AScanDocument dh = (AScanDocument) handlerClass.newInstance();
 					dh.setDocument(doc);
-					dh.indexDocument(repository, path, revision);
+					dh.indexDocument(baos);
 				} catch (ClassNotFoundException e) {
 					LOGGER.error("Cannot create instacne of : " + className + " " + e);
 				} catch (InstantiationException e) {
@@ -66,7 +67,7 @@ public class FileExtensionHandler {
 				LOGGER.info("There is no property entry defined for the file extension '" + fn.getExt() + "'");
 				AScanDocument dh = new ScanDefaultDocument();
 				dh.setDocument(doc);
-				dh.indexDocument(repository, path, revision);
+				dh.indexDocument(baos);
 			}
 		} else {
 			LOGGER.info("We have no file extension found for the file '" + path + "'");

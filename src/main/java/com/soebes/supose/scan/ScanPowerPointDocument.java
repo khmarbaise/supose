@@ -27,14 +27,11 @@ package com.soebes.supose.scan;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Field;
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.io.SVNRepository;
+
+import com.soebes.supose.FieldNames;
 
 /**
  * @author Karl Heinz Marbaise
@@ -46,23 +43,16 @@ public class ScanPowerPointDocument extends AScanDocument {
 	public ScanPowerPointDocument() {
 	}
 
-	public void indexDocument(SVNRepository repository, String path, long revision) {
+	public void indexDocument(ByteArrayOutputStream baos) {
 		LOGGER.info("Scanning document");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		Map fileProperties  = new HashMap();
 
-		try {
-			repository.getFile(path, revision, fileProperties, baos);
-		} catch (SVNException e) {
-			LOGGER.error("Exception happend. " + e);
-		}
-		
 		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 
 		try {
+//TODO: Check if this enough...
 			PowerPointExtractor pe = new PowerPointExtractor(str);
 //TODO: Add fields for slides, title etc.
-			addTokenizedField("contents", pe.getText());
+			addTokenizedField(FieldNames.CONTENTS, pe.getText());
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

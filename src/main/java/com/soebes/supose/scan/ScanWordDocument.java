@@ -47,17 +47,8 @@ public class ScanWordDocument extends AScanDocument {
 	public ScanWordDocument() {
 	}
 
-	public void indexDocument(SVNRepository repository, String path, long revision) {
+	public void indexDocument(ByteArrayOutputStream baos) {
 		LOGGER.info("Scanning document");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		Map fileProperties  = new HashMap();
-
-		try {
-			repository.getFile(path, revision, fileProperties, baos);
-		} catch (SVNException e) {
-			LOGGER.error("Exception happend. " + e);
-		}
-		
 		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 
 		try {

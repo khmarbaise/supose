@@ -27,8 +27,6 @@ package com.soebes.supose.scan;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -36,8 +34,6 @@ import org.apache.poi.hssf.usermodel.HSSFComment;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.FieldNames;
 
@@ -58,19 +54,9 @@ public class ScanExcelDocument extends AScanDocument {
 	public ScanExcelDocument() {
 	}
 
-	public void indexDocument(SVNRepository repository, String path, long revision) {
+	public void indexDocument(ByteArrayOutputStream baos) {
 		LOGGER.info("Scanning document");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		Map fileProperties  = new HashMap();
-
-		try {
-			repository.getFile(path, revision, fileProperties, baos);
-		} catch (SVNException e) {
-			LOGGER.error("Exception happend during getting the file from the repository. " + e);
-		}
-		
 		ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
-
 		try {
 			scan(str);
 		} catch (Exception e) {
@@ -90,7 +76,7 @@ public class ScanExcelDocument extends AScanDocument {
 						HSSFSheet sheet = workBook.getSheetAt(i);
 						if (sheet != null)
 							scanSheet(workBook.getSheetName(i), sheet);
-					}
+				 	}
 				} else {
 					LOGGER.info("There are no sheets in the excel file!");
 				}

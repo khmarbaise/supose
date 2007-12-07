@@ -26,12 +26,8 @@
 package com.soebes.supose.scan;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.FieldNames;
 
@@ -45,17 +41,8 @@ public class ScanDefaultDocument extends AScanDocument {
 	public ScanDefaultDocument() {
 	}
 
-	public void indexDocument(SVNRepository repository, String path, long revision) {
+	public void indexDocument(ByteArrayOutputStream baos) {
 		LOGGER.info("Scanning document");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		Map fileProperties  = new HashMap();
-
-		try {
-			repository.getFile(path, revision, fileProperties, baos);
-		} catch (SVNException e) {
-			LOGGER.error("Exception happend. " + e);
-		}
-
 		try {
 			addTokenizedField(FieldNames.CONTENTS, baos.toString());
 		} catch (Exception e) {
