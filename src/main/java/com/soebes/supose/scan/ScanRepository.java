@@ -155,8 +155,8 @@ public class ScanRepository {
 			writer = new IndexWriter(indexDir, new StandardAnalyzer(), true);
 			writer.setUseCompoundFile(false);
 			writer.setMergeFactor(1000);
-			writer.setMaxBufferedDocs(100);
-			writer.setInfoStream(System.out);
+			writer.setMaxBufferedDocs(1000);
+//			writer.setInfoStream(System.out);
 		} catch (CorruptIndexException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
