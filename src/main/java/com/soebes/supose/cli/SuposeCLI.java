@@ -108,8 +108,15 @@ public class SuposeCLI {
 		LOGGER.info("Searching started...");
 		String indexDirectory = searchCommand.getIndexDir(commandLine);
 		String queryLine = searchCommand.getQuery(commandLine);
-		
+		List<String> cliFields = searchCommand.getFields(commandLine);
+
 		System.out.println("Query: '" + queryLine + "'");
+
+		for(int i=0; i<cliFields.size(); i++) {
+			System.out.print("Field[" + i + "]=" + cliFields.get(i) + " ");
+		}
+		System.out.println("");
+
 	    IndexReader reader = null;
 	    
 	    try {
@@ -117,7 +124,6 @@ public class SuposeCLI {
 	    	reader = IndexReader.open(indexDirectory);
 	    	
 	    	Searcher searcher = new IndexSearcher(reader);
-//	    	KeywordAnalyzer
 //	    	Analyzer analyzer = new StandardAnalyzer();
 	    	Analyzer analyzer = new KeywordAnalyzer();
 	    	
@@ -125,21 +131,25 @@ public class SuposeCLI {
 	        QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
 	        Query query = parser.parse(queryLine);
 			Hits hits = searcher.search(query);
-			
+
 			for (int i = 0; i < hits.length(); i++) {
 				Document doc = hits.doc(i);
-				List fieldList = doc.getFields();
+				List<Field> fieldList = doc.getFields();
 				System.out.print((i+1) + ". ");
 				for(int k=0; k<fieldList.size();k++) {
 					Field field = (Field) fieldList.get(k);
-					if (FieldNames.REVISION.equals(field.name())) {
-						System.out.print("R:" + field.stringValue() + " ");
-					}
-					if (FieldNames.FILENAME.equals(field.name())) {
-						System.out.print("F:" + field.stringValue() + " ");
-					}
-					if (FieldNames.KIND.equals(field.name())) {
-						System.out.print("K:" + field.stringValue() + " ");
+					if ((cliFields.size() > 0) && cliFields.contains(field.name())) {
+						System.out.print(field.name() + ": " + field.stringValue() + " ");
+					} else {
+						if (FieldNames.REVISION.equals(field.name())) {
+							System.out.print("R:" + field.stringValue() + " ");
+						}
+						if (FieldNames.FILENAME.equals(field.name())) {
+							System.out.print("F:" + field.stringValue() + " ");
+						}
+						if (FieldNames.KIND.equals(field.name())) {
+							System.out.print("K:" + field.stringValue() + " ");
+						}
 					}
 				}
 				System.out.println("");

@@ -33,8 +33,6 @@ import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.Option;
 import org.apache.commons.cli2.option.Command;
 
-import sun.text.CompactShortArray.Iterator;
-
 /**
  * @author Karl Heinz Marbaise
  *
@@ -43,6 +41,7 @@ public class SearchCommand extends CLIBase {
 
     private Option optionIndex = null;
     private Option optionQuery = null;
+    private Option optionFields = null;
 
 	public SearchCommand() {
 		setCommand(createCommand());
@@ -67,10 +66,17 @@ public class SearchCommand extends CLIBase {
 			.withArgument(abuilder.withName("query").create())
 			.withDescription("Define the query which will be executed.")
 			.create();
+    	optionFields = obuilder
+	    	.withShortName("F")
+	    	.withLongName("fields")
+	    	.withArgument(abuilder.withName("fields").create())
+	    	.withDescription("Define the fields which will be shown on the result set.")
+	    	.create();
     	
     	Group optionUpdate = gbuilder
     		.withOption(optionIndex)
     		.withOption(optionQuery)
+    		.withOption(optionFields)
     		.create();
     	
     	return cbuilder
@@ -87,6 +93,9 @@ public class SearchCommand extends CLIBase {
 	public Option getOptionQuery() {
 		return optionQuery;
 	}
+	public Option getOptionFields() {
+		return optionFields;
+	}
 
 	@SuppressWarnings("unchecked")
 	public String getIndexDir (CommandLine cline) {
@@ -98,6 +107,7 @@ public class SearchCommand extends CLIBase {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public String getQuery (CommandLine cline) {
 		List<String> list = cline.getValues((getOptionQuery()));
 
@@ -109,6 +119,11 @@ public class SearchCommand extends CLIBase {
 			result += " " + list.get(i);
 		}
 		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getFields(CommandLine cline) {
+		return cline.getValues(getOptionFields());
 	}
 
 }
