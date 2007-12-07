@@ -57,16 +57,22 @@ public class SuposeCLI {
 		if (commandLine.hasOption(suposecli.getScanCommand())) {
 			runScan(suposecli.getScliScanCommand());
 		} else if (commandLine.hasOption(suposecli.getSearchCommand())) {
-			runSearch();
+			runSearch(suposecli.getScliSearchCommand());
 		} else {
 			System.err.println("Error: You should define either scan or search as command.");
 			System.exit(1);
 		}
 	}
 
+	/**
+	 * This will do the command argument extraction and give the parameter to
+	 * the scanRepository class which will do the real repository scan.
+	 * @param scanCommand The command line.
+	 */
 	private static void runScan(ScanCommand scanCommand) {
 		String url = scanCommand.getURL(commandLine);
 		long fromRev = scanCommand.getFromRev(commandLine);
+		String indexDirectory = scanCommand.getIndexDir(commandLine);
 
 		scanRepository.setRepositoryURL(url);
 
@@ -75,16 +81,16 @@ public class SuposeCLI {
 		scanRepository.setStartRevision(fromRev); 
 		//We will scan the repository to the current HEAD of the repository.
 		scanRepository.setEndRevision(SVNRevision.HEAD.getNumber());
-		scanRepository.setIndexDirectory("indexDir.Test");
+		scanRepository.setIndexDirectory(indexDirectory);
 
 		LOGGER.info("Scanning started.");
 		scanRepository.scan();
 		LOGGER.info("Scanning ready.");
 	}
 	
-	@SuppressWarnings("unused")
-	private static void runSearch() {
+	private static void runSearch(SearchCommand searchCommand) {
 		LOGGER.info("Searching started...");
+		String indexDirectory = searchCommand.getIndexDir(commandLine);
 	}
 
 }

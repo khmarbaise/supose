@@ -67,7 +67,12 @@ public class SuposeCommandLine extends CLIBase {
     public ScanCommand getScliScanCommand() {
     	return cliScanCommand;
     }
-	public void init() {
+
+    public SearchCommand getScliSearchCommand() {
+    	return cliSearchCommand;
+    }
+
+    public void init() {
 	    initCommands();
 		initGlobalOptions();
 	

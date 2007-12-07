@@ -42,6 +42,7 @@ public class ScanCommand extends CLIBase {
     private Option optionUsername = null;
     private Option optionPassword = null;
     private Option optionFromRev = null;
+    private Option optionIndexDir = null;
 
 	public ScanCommand() {
 		setCommand(createCommand());
@@ -74,12 +75,20 @@ public class ScanCommand extends CLIBase {
 			.withArgument(abuilder.withName("fromrev").create())
 			.withDescription("Define the revision from which we will start to scan the repository.")
 			.create();
+
+    	optionIndexDir = obuilder
+			.withShortName("I")
+			.withLongName("index")
+			.withArgument(abuilder.withName("index").create())
+			.withDescription("Define the index directory where the created index will be stored.")
+			.create();
     	
     	Group scanOptionIndex = gbuilder
     		.withOption(optionURL)
     		.withOption(optionUsername)
     		.withOption(optionPassword)
     		.withOption(optionFromRev)
+    		.withOption(optionIndexDir)
     		.create();
     	
     	return cbuilder
@@ -104,6 +113,10 @@ public class ScanCommand extends CLIBase {
 
 	public Option getOptionFromRev() {
 		return optionFromRev;
+	}
+
+	public Option getOptionIndexDir() {
+		return optionIndexDir;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -140,10 +153,22 @@ public class ScanCommand extends CLIBase {
 	public Long getFromRev (CommandLine cline) {
 		List<String> list = cline.getValues((getOptionFromRev()));
 		if (list == null || list.size() == 0) {
+			//Default value for --fromrev
 			return new Long(1);
 		} else {
 			return Long.parseLong(list.get(0));
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public String getIndexDir (CommandLine cline) {
+		List<String> list = cline.getValues((getOptionIndexDir()));
+		if (list == null || list.size() == 0) {
+			return "indexDir.test";
+		} else {
+			return list.get(0);
+		}
+	}
+	
 	
 }

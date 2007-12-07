@@ -42,6 +42,13 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 /**
  * @author Karl Heinz Marbaise
  *
+ * This class will scan an Excel document.
+ * It will use the following fields:
+ * 
+ * xlssheets This represents the number of sheets within a workbook.
+ * xlscommentauthor The author of a cell comment.
+ * xlscomment The comment for an cell which can be assigned to a cell.
+ * xlssheetname The name of the sheets within the workbook.
  */
 public class ScanExcelDocument extends AScanDocument {
 	private static Logger LOGGER = Logger.getLogger(ScanExcelDocument.class);

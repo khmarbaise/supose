@@ -26,6 +26,9 @@
 // SupoSE
 package com.soebes.supose.cli;
 
+import java.util.List;
+
+import org.apache.commons.cli2.CommandLine;
 import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.Option;
 import org.apache.commons.cli2.option.Command;
@@ -49,9 +52,11 @@ public class SearchCommand extends CLIBase {
 		 */
 
     	optionIndex = obuilder
-    		.withShortName("I")
-    		.withDescription("Define the position where to find the index created by an scan.")
-    		.create();
+			.withShortName("I")
+			.withLongName("index")
+			.withArgument(abuilder.withName("index").create())
+			.withDescription("Define the index directory where to find the index.")
+			.create();
     	
     	Group optionUpdate = gbuilder
     		.withOption(optionIndex)
@@ -68,6 +73,17 @@ public class SearchCommand extends CLIBase {
 	public Option getOptionIndex() {
 		return optionIndex;
 	}
+
+	@SuppressWarnings("unchecked")
+	public String getIndexDir (CommandLine cline) {
+		List<String> list = cline.getValues((getOptionIndex()));
+		if (list == null || list.size() == 0) {
+			return "indexDir.test";
+		} else {
+			return list.get(0);
+		}
+	}
+
 
 	public void setOptionIndex(Option optionIndex) {
 		this.optionIndex = optionIndex;
