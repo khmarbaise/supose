@@ -198,6 +198,8 @@ public class ScanRepository {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		repository.closeSession();
 		return numIndexed;
 	}
 
@@ -205,6 +207,7 @@ public class ScanRepository {
 		Set changedPathsSet = logEntry.getChangedPaths().keySet();
 
 		int count = 0;
+		LOGGER.info("Number of files for revision: " + changedPathsSet.size());
 		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 			count ++;
 
@@ -338,6 +341,7 @@ public class ScanRepository {
 				FileExtensionHandler feh = new FileExtensionHandler();
 				feh.setDoc(doc);
 				feh.execute(entryPath.getPath(), baos);
+				baos = new ByteArrayOutputStream();
 			}
 
 			indexWriter.addDocument(doc);
