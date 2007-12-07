@@ -39,6 +39,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
+import com.soebes.supose.FieldNames;
+
 /**
  * @author Karl Heinz Marbaise
  *
@@ -82,7 +84,7 @@ public class ScanExcelDocument extends AScanDocument {
 			HSSFWorkbook workBook = new HSSFWorkbook(in);
 			if (workBook != null) {
 				int numberOfSheets = workBook.getNumberOfSheets();
-				addUnTokenizedField("xlssheets", Integer.toString(numberOfSheets));
+				addUnTokenizedField(FieldNames.XLSSHEETS, Integer.toString(numberOfSheets));
 				if (numberOfSheets > 0) {
 					for (int i=0; i<numberOfSheets; i++) {
 						HSSFSheet sheet = workBook.getSheetAt(i);
@@ -113,8 +115,8 @@ public class ScanExcelDocument extends AScanDocument {
 					if (cell != null) {
 						HSSFComment comment = cell.getCellComment();
 						if (comment != null) {
-							addUnTokenizedField("xlscommentauthor", comment.getAuthor() == null ? "" : comment.getAuthor());
-							addUnTokenizedField("xlscomment", comment.getString() == null ? "" : comment.getString().toString());
+							addUnTokenizedField(FieldNames.XLSCOMMENTAUTHOR, comment.getAuthor() == null ? "" : comment.getAuthor());
+							addUnTokenizedField(FieldNames.XLSCOMMENT, comment.getString() == null ? "" : comment.getString().toString());
 						}
 		
 						text.append(scanCell(sheetName, row, column, cell));
@@ -122,8 +124,8 @@ public class ScanExcelDocument extends AScanDocument {
 				}
 			}
 		}
-		addUnTokenizedField("xlssheetname", sheetName);
-		addTokenizedField("contents", text.toString());
+		addUnTokenizedField(FieldNames.XLSSHEETNAME, sheetName);
+		addTokenizedField(FieldNames.CONTENTS, text.toString());
 	}
 
 	private String scanCell(String sheetName, int row, short column, HSSFCell cell) {

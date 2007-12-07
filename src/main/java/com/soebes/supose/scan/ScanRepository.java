@@ -57,6 +57,7 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import com.soebes.supose.FieldNames;
 import com.soebes.supose.utility.FileName;
 
 /**
@@ -121,7 +122,7 @@ public class ScanRepository {
             repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(repositoryURL));
         } catch (SVNException svne) {
             /*
-             * Perhaps a malformed URL is the cause of this exception.
+             * Perhaps a mailformed URL is the cause of this exception.
              */
             System.err.println("error while creating an SVNRepository for the location '"
             		+ repositoryURL + "': " + svne.getMessage());
@@ -274,44 +275,44 @@ public class ScanRepository {
 			SVNNodeKind nodeKind = repository.checkPath(entryPath.getPath(), logEntry.getRevision());
 
 			Document doc = new Document();
-			addUnTokenizedField(doc, "revision", logEntry.getRevision());
+			addUnTokenizedField(doc, FieldNames.REVISION, logEntry.getRevision());
 			
 			boolean isDir = nodeKind == SVNNodeKind.DIR;
 			boolean isFile = nodeKind == SVNNodeKind.FILE;
 			FileName fileName = new FileName(entryPath.getPath(), isDir);
 			LOGGER.info("FileName: '" + entryPath.getPath() + "'");
-			addUnTokenizedField(doc, "path", fileName.getPath());
+			addUnTokenizedField(doc, FieldNames.PATH, fileName.getPath());
 
 			if (isDir) {
-				addUnTokenizedField(doc, "node", "dir");
+				addUnTokenizedField(doc, FieldNames.NODE, "dir");
 			} else if (isFile) {
-				addUnTokenizedField(doc, "node", "file");
+				addUnTokenizedField(doc, FieldNames.NODE, "file");
 			} else {
 				//This means a file/directory has been deleted.
-				addUnTokenizedField(doc, "node", "unknown");
+				addUnTokenizedField(doc, FieldNames.NODE, "unknown");
 			}
 
 			
 			//Did an copy operation take place...
 			if (entryPath.getCopyPath() != null) {
-				addUnTokenizedField(doc, "from", entryPath.getCopyPath());
-				addUnTokenizedField(doc, "fromrev", entryPath.getCopyRevision());
+				addUnTokenizedField(doc, FieldNames.FROM, entryPath.getCopyPath());
+				addUnTokenizedField(doc, FieldNames.FROMREV, entryPath.getCopyRevision());
 			}
 			
-			addUnTokenizedField(doc, "filename", entryPath.getPath());
-			addUnTokenizedField(doc, "author", logEntry.getAuthor() == null ? "" : logEntry.getAuthor());
+			addUnTokenizedField(doc, FieldNames.FILENAME, entryPath.getPath());
+			addUnTokenizedField(doc, FieldNames.AUTHOR, logEntry.getAuthor() == null ? "" : logEntry.getAuthor());
 			
 			//We will add the message as tokenized field to be able to search within the log messages.
-			addTokenizedField(doc, "message", logEntry.getMessage() == null ? "" : logEntry.getMessage());
-			addUnTokenizedField(doc, "date", logEntry.getDate());
+			addTokenizedField(doc, FieldNames.MESSAGE, logEntry.getMessage() == null ? "" : logEntry.getMessage());
+			addUnTokenizedField(doc, FieldNames.DATE, logEntry.getDate());
 			
-			addUnTokenizedField(doc, "kind", entryPath.getType());
+			addUnTokenizedField(doc, FieldNames.KIND, entryPath.getType());
 
 //TODO: May be don't need this if we use repositoryname?
-			addUnTokenizedField(doc, "repository", repository.getRepositoryUUID(false));
+			addUnTokenizedField(doc, FieldNames.REPOSITORY, repository.getRepositoryUUID(false));
 			
 //TODO: Should be filled with an usable name to distinguish different repositories..
-			addUnTokenizedField(doc, "repositoryname", "TESTREPOS");
+			addUnTokenizedField(doc, FieldNames.REPOSITORYNAME, "TESTREPOS");
 
 
 			if (nodeKind == SVNNodeKind.NONE) {
@@ -331,7 +332,7 @@ public class ScanRepository {
 				indexProperties(fileProperties, doc);
 				
 //TODO: Do we really need this?
-				doc.add(new Field("size", Long.toString(baos.size()), Field.Store.YES, Field.Index.UN_TOKENIZED));
+				addUnTokenizedField(doc, FieldNames.SIZE, Long.toString(baos.size()));
 				FileExtensionHandler feh = new FileExtensionHandler();
 				feh.setDoc(doc);
 				feh.execute(repository, entryPath.getPath(), logEntry.getRevision());

@@ -35,6 +35,8 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
+import com.soebes.supose.FieldNames;
+
 /**
  * @author Karl Heinz Marbaise
  *
@@ -60,7 +62,7 @@ public class ScanWordDocument extends AScanDocument {
 
 		try {
 			WordExtractor we = new WordExtractor(str);
-			addTokenizedField("contents", we.getText());
+			addTokenizedField(FieldNames.CONTENTS, we.getText());
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

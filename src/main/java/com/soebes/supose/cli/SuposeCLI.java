@@ -26,11 +26,27 @@
 // SupoSE
 package com.soebes.supose.cli;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.apache.commons.cli2.CommandLine;
 import org.apache.commons.cli2.OptionException;
 import org.apache.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.KeywordAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.Hits;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Searcher;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 
+import com.soebes.supose.FieldNames;
 import com.soebes.supose.scan.ScanRepository;
 
 /**
@@ -91,6 +107,59 @@ public class SuposeCLI {
 	private static void runSearch(SearchCommand searchCommand) {
 		LOGGER.info("Searching started...");
 		String indexDirectory = searchCommand.getIndexDir(commandLine);
+		String queryLine = searchCommand.getQuery(commandLine);
+		
+		System.out.println("Query: '" + queryLine + "'");
+	    IndexReader reader = null;
+	    
+	    try {
+	    	
+	    	reader = IndexReader.open(indexDirectory);
+	    	
+	    	Searcher searcher = new IndexSearcher(reader);
+//	    	KeywordAnalyzer
+//	    	Analyzer analyzer = new StandardAnalyzer();
+	    	Analyzer analyzer = new KeywordAnalyzer();
+	    	
+	    	//Here we define the default field for searching.
+	        QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
+	        Query query = parser.parse(queryLine);
+			Hits hits = searcher.search(query);
+			
+			for (int i = 0; i < hits.length(); i++) {
+				Document doc = hits.doc(i);
+				List fieldList = doc.getFields();
+				System.out.print((i+1) + ". ");
+				for(int k=0; k<fieldList.size();k++) {
+					Field field = (Field) fieldList.get(k);
+					if (FieldNames.REVISION.equals(field.name())) {
+						System.out.print("R:" + field.stringValue() + " ");
+					}
+					if (FieldNames.FILENAME.equals(field.name())) {
+						System.out.print("F:" + field.stringValue() + " ");
+					}
+					if (FieldNames.KIND.equals(field.name())) {
+						System.out.print("K:" + field.stringValue() + " ");
+					}
+				}
+				System.out.println("");
+			}
+			
+	    } catch (CorruptIndexException e) {
+			System.err.println("Error: The index is corrupted: " + e);
+	    } catch (IOException e) {
+			System.err.println("Error: IOException: " + e);
+		} catch (Exception e) {
+			System.err.println("Error: Something has gone wrong: " + e);
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				System.err.println("Error: IOException during close(): " + e);
+			}
+		}
+
+
 	}
 
 }

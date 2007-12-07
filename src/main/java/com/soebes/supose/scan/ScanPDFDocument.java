@@ -29,7 +29,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -43,6 +42,8 @@ import org.pdfbox.pdmodel.PDDocumentInformation;
 import org.pdfbox.util.PDFTextStripper;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
+
+import com.soebes.supose.FieldNames;
 
 /**
  * @author Karl Heinz Marbaise
@@ -117,21 +118,21 @@ public class ScanPDFDocument extends AScanDocument {
 
             // Add the tag-stripped contents as a Reader-valued Text field so it will
             // get tokenized and indexed.
-			addTokenizedField("contents", contents);
+			addTokenizedField(FieldNames.CONTENTS, contents);
 
             PDDocumentInformation info = pdfDocument.getDocumentInformation();
             if (info != null) {
             	//We save the supplemental fields of the PDF into special named
             	//fields, to make them searchable.
-            	addUnTokenizedField("pdfauthor", info.getAuthor() == null ? "" : info.getAuthor());
-            	addUnTokenizedField("pdfcreationdate", info.getCreationDate() == null ? Calendar.getInstance() : info.getCreationDate());
-            	addUnTokenizedField("pdfcreator", info.getCreator() == null ? "" : info.getCreator());
-            	addUnTokenizedField("pdfkeywords", info.getKeywords() == null ? "" : info.getKeywords());
-            	addUnTokenizedField("pdfmodificationdate", info.getModificationDate() == null ? Calendar.getInstance() : info.getModificationDate());
-            	addUnTokenizedField("pdfproducer", info.getProducer() == null ? "" : info.getProducer());
-            	addUnTokenizedField("pdfsubject", info.getSubject() == null ? "" : info.getSubject());
-            	addUnTokenizedField("pdftitle", info.getTitle() == null ? "" : info.getTitle());
-            	addUnTokenizedField("pdftrapped", info.getTrapped() == null ? "" : info.getTrapped());
+            	addUnTokenizedField(FieldNames.PDFAUTHOR, info.getAuthor() == null ? "" : info.getAuthor());
+            	addUnTokenizedField(FieldNames.PDFCREATIONDATE, info.getCreationDate() == null ? Calendar.getInstance() : info.getCreationDate());
+            	addUnTokenizedField(FieldNames.PDFCREATOR, info.getCreator() == null ? "" : info.getCreator());
+            	addUnTokenizedField(FieldNames.PDFKEYWORDS, info.getKeywords() == null ? "" : info.getKeywords());
+            	addUnTokenizedField(FieldNames.PDFMODIFICATIONDATE, info.getModificationDate() == null ? Calendar.getInstance() : info.getModificationDate());
+            	addUnTokenizedField(FieldNames.PDFPRODUCER, info.getProducer() == null ? "" : info.getProducer());
+            	addUnTokenizedField(FieldNames.PDFSUBJECT, info.getSubject() == null ? "" : info.getSubject());
+            	addUnTokenizedField(FieldNames.PDFTITLE, info.getTitle() == null ? "" : info.getTitle());
+            	addUnTokenizedField(FieldNames.PDFTRAPPED, info.getTrapped() == null ? "" : info.getTrapped());
             	LOGGER.info("PDF Document: " + info.toString());
             }
 //            int summarySize = Math.min( contents.length(), 500 );
@@ -143,7 +144,7 @@ public class ScanPDFDocument extends AScanDocument {
         } catch( CryptographyException e ) {
 			LOGGER.error("Error: decrypting has failed! " + e);
         } catch( InvalidPasswordException e ) {
-            //they didn't suppply a password and the default of "" was wrong.
+            //they didn't supply a password and the default of "" was wrong.
 			LOGGER.error("Error: The document is encrypted and can't be decrypted! We will not index this document! " + e);
         } finally {
             if (pdfDocument != null) {

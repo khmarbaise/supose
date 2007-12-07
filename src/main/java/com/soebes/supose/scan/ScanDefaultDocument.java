@@ -33,6 +33,8 @@ import org.apache.log4j.Logger;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
+import com.soebes.supose.FieldNames;
+
 /**
  * @author Karl Heinz Marbaise
  *
@@ -55,7 +57,7 @@ public class ScanDefaultDocument extends AScanDocument {
 		}
 
 		try {
-			addTokenizedField("contents", baos.toString());
+			addTokenizedField(FieldNames.CONTENTS, baos.toString());
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);
 		}

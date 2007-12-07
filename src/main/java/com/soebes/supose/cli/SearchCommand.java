@@ -33,6 +33,8 @@ import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.Option;
 import org.apache.commons.cli2.option.Command;
 
+import sun.text.CompactShortArray.Iterator;
+
 /**
  * @author Karl Heinz Marbaise
  *
@@ -40,6 +42,7 @@ import org.apache.commons.cli2.option.Command;
 public class SearchCommand extends CLIBase {
 
     private Option optionIndex = null;
+    private Option optionQuery = null;
 
 	public SearchCommand() {
 		setCommand(createCommand());
@@ -57,9 +60,17 @@ public class SearchCommand extends CLIBase {
 			.withArgument(abuilder.withName("index").create())
 			.withDescription("Define the index directory where to find the index.")
 			.create();
+
+    	optionQuery = obuilder
+			.withShortName("Q")
+			.withLongName("query")
+			.withArgument(abuilder.withName("query").create())
+			.withDescription("Define the query which will be executed.")
+			.create();
     	
     	Group optionUpdate = gbuilder
     		.withOption(optionIndex)
+    		.withOption(optionQuery)
     		.create();
     	
     	return cbuilder
@@ -73,6 +84,9 @@ public class SearchCommand extends CLIBase {
 	public Option getOptionIndex() {
 		return optionIndex;
 	}
+	public Option getOptionQuery() {
+		return optionQuery;
+	}
 
 	@SuppressWarnings("unchecked")
 	public String getIndexDir (CommandLine cline) {
@@ -84,9 +98,17 @@ public class SearchCommand extends CLIBase {
 		}
 	}
 
+	public String getQuery (CommandLine cline) {
+		List<String> list = cline.getValues((getOptionQuery()));
 
-	public void setOptionIndex(Option optionIndex) {
-		this.optionIndex = optionIndex;
+		String result = "";
+		if (list == null || list.size() == 0) {
+			return result;
+		}
+		for(int i=0; i<list.size(); i++) {
+			result += " " + list.get(i);
+		}
+		return result;
 	}
 
 }
