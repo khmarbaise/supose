@@ -27,10 +27,13 @@
 package com.soebes.supose.cli;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import org.apache.commons.cli2.CommandLine;
 import org.apache.commons.cli2.OptionException;
+import org.apache.commons.cli2.util.HelpFormatter;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
@@ -43,7 +46,6 @@ import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
-import org.tmatesoft.svn.core.wc.SVNRevision;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.scan.ScanRepository;
@@ -69,12 +71,20 @@ public class SuposeCLI {
 			System.exit(1);
 		}
 
-		if (commandLine.hasOption(suposecli.getScanCommand())) {
+		if (commandLine.hasOption(suposecli.getGlobalOptionH())) {
+	        final StringWriter out = new StringWriter();
+	        final HelpFormatter helpFormatter = new HelpFormatter();
+	        helpFormatter.setGroup(suposecli.getSuposeOptions());
+	        helpFormatter.setPrintWriter(new PrintWriter(out));
+	        helpFormatter.printHelp();
+	        System.out.println(out);
+	        System.exit(0);
+		} else if (commandLine.hasOption(suposecli.getScanCommand())) {
 			runScan(suposecli.getScliScanCommand());
 		} else if (commandLine.hasOption(suposecli.getSearchCommand())) {
 			runSearch(suposecli.getScliSearchCommand());
 		} else {
-			System.err.println("Error: You should define either scan or search as command.");
+			System.err.println("Error: You should define either scan or search as command or the -H option to get help.");
 			System.exit(1);
 		}
 	}
@@ -87,6 +97,7 @@ public class SuposeCLI {
 	private static void runScan(ScanCommand scanCommand) {
 		String url = scanCommand.getURL(commandLine);
 		long fromRev = scanCommand.getFromRev(commandLine);
+		long toRev = scanCommand.getToRev(commandLine);
 		String indexDirectory = scanCommand.getIndexDir(commandLine);
 
 		scanRepository.setRepositoryURL(url);
@@ -95,7 +106,7 @@ public class SuposeCLI {
 		//If it is not given we will start with revision 1.
 		scanRepository.setStartRevision(fromRev); 
 		//We will scan the repository to the current HEAD of the repository.
-		scanRepository.setEndRevision(SVNRevision.HEAD.getNumber());
+		scanRepository.setEndRevision(toRev);
 		scanRepository.setIndexDirectory(indexDirectory);
 
 		LOGGER.info("Scanning started.");

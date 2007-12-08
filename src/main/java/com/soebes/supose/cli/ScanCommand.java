@@ -31,6 +31,7 @@ import org.apache.commons.cli2.CommandLine;
 import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.Option;
 import org.apache.commons.cli2.option.Command;
+import org.tmatesoft.svn.core.wc.SVNRevision;
 
 /**
  * @author Karl Heinz Marbaise
@@ -42,6 +43,7 @@ public class ScanCommand extends CLIBase {
     private Option optionUsername = null;
     private Option optionPassword = null;
     private Option optionFromRev = null;
+    private Option optionToRev = null;
     private Option optionIndexDir = null;
 
 	public ScanCommand() {
@@ -70,11 +72,16 @@ public class ScanCommand extends CLIBase {
 			.create();
 
     	optionFromRev = obuilder
-			.withShortName("r")
 			.withLongName("fromrev")
 			.withArgument(abuilder.withName("fromrev").create())
 			.withDescription("Define the revision from which we will start to scan the repository.")
 			.create();
+
+    	optionToRev = obuilder
+	    	.withLongName("torev")
+	    	.withArgument(abuilder.withName("torev").create())
+	    	.withDescription("Define the revision to which we will scan the repository. If it's not given we scan til HEAD.")
+	    	.create();
 
     	optionIndexDir = obuilder
 			.withShortName("I")
@@ -88,6 +95,7 @@ public class ScanCommand extends CLIBase {
     		.withOption(optionUsername)
     		.withOption(optionPassword)
     		.withOption(optionFromRev)
+    		.withOption(optionToRev)
     		.withOption(optionIndexDir)
     		.create();
     	
@@ -113,6 +121,10 @@ public class ScanCommand extends CLIBase {
 
 	public Option getOptionFromRev() {
 		return optionFromRev;
+	}
+
+	public Option getOptionToRev() {
+		return optionToRev;
 	}
 
 	public Option getOptionIndexDir() {
@@ -160,6 +172,17 @@ public class ScanCommand extends CLIBase {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public Long getToRev (CommandLine cline) {
+		List<String> list = cline.getValues((getOptionToRev()));
+		if (list == null || list.size() == 0) {
+			//Default value for --torev HEAD
+			return SVNRevision.HEAD.getNumber();
+		} else {
+			return Long.parseLong(list.get(0));
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public String getIndexDir (CommandLine cline) {
 		List<String> list = cline.getValues((getOptionIndexDir()));

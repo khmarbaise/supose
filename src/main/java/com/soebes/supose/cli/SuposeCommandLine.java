@@ -118,4 +118,7 @@ public class SuposeCommandLine extends CLIBase {
 		this.globalOptionH = globalOptionH;
 	}
 
+	public Group getSuposeOptions() {
+		return suposeOptions;
+	}
 }

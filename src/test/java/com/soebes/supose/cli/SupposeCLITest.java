@@ -34,6 +34,7 @@ import static org.testng.Assert.assertTrue;
 import org.apache.commons.cli2.CommandLine;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.tmatesoft.svn.core.wc.SVNRevision;
 
 /**
  * @author Karl Heinz Marbaise
@@ -173,6 +174,38 @@ public class SupposeCLITest {
 		assertEquals(password, "xyz", "The parameter of the option --password option is not as expected");
 	}
 
+	@Test()
+	public void testCommandFromRev() throws Exception {
+		final String[] args = new String[] { "scan", "--fromrev", "21"};
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");
+		assertTrue(cl.hasOption(suposecli.getScanCommand()));
+
+		ScanCommand scanCommand = suposecli.getScliScanCommand();
+
+		long fromRev = scanCommand.getFromRev(cl);
+		long toRev = scanCommand.getToRev(cl);
+		assertEquals(fromRev, 21, "We didn't get the expected fromRev value.");
+		assertEquals(toRev, SVNRevision.HEAD.getNumber(), "We didn't get the expected toRev value(HEAD).");
+	}
+	
+	@Test()
+	public void testCommandFromToRev() throws Exception {
+		final String[] args = new String[] { "scan", "--fromrev", "156", "--torev", "200"};
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");
+		assertTrue(cl.hasOption(suposecli.getScanCommand()));
+
+		ScanCommand scanCommand = suposecli.getScliScanCommand();
+
+		long fromRev = scanCommand.getFromRev(cl);
+		long toRev = scanCommand.getToRev(cl);
+		assertEquals(fromRev, 156, "We didn't get the expected fromRev value.");
+		assertEquals(toRev, 200, "We didn't get the expected toRev value.");
+	}
+	
 	@Test()
 	public void testCommandSearch() throws Exception {
 		final String[] args = new String[] { "search" };
