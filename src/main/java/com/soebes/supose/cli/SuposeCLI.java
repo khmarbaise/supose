@@ -99,6 +99,7 @@ public class SuposeCLI {
 		long fromRev = scanCommand.getFromRev(commandLine);
 		long toRev = scanCommand.getToRev(commandLine);
 		String indexDirectory = scanCommand.getIndexDir(commandLine);
+		boolean create = scanCommand.getCreate(commandLine);
 
 		scanRepository.setRepositoryURL(url);
 
@@ -107,7 +108,10 @@ public class SuposeCLI {
 		scanRepository.setStartRevision(fromRev); 
 		//We will scan the repository to the current HEAD of the repository.
 		scanRepository.setEndRevision(toRev);
+		//This will define the indexDirectory
 		scanRepository.setIndexDirectory(indexDirectory);
+		//This will define if we use an existing index or create an new one.
+		scanRepository.setCreateIndex(create);
 
 		LOGGER.info("Scanning started.");
 		scanRepository.scan();

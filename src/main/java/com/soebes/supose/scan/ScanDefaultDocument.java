@@ -58,12 +58,14 @@ public class ScanDefaultDocument extends AScanDocument {
 				//We can make a decision to ignore binary content completeley
 				//cause this is the default document scanner.
 //TODO: Check this if this is ok? Or should we simply do not make any entry?
+				LOGGER.debug("We don't scan the contents, cause it's binary.");
 				addTokenizedField(FieldNames.CONTENTS, "BINARY CONTENT");
 			} else {
+				LOGGER.debug("We scan the contents, cause it's text.");
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				//This means we get the contents of the file only. No properties.
 				repository.getFile(path, revision, null, baos);
-				addTokenizedField(FieldNames.CONTENTS, baos.toString());
+				addTokenizedField(FieldNames.CONTENTS, baos.toByteArray());
 			}
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);

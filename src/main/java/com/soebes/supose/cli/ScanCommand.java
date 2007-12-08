@@ -45,6 +45,7 @@ public class ScanCommand extends CLIBase {
     private Option optionFromRev = null;
     private Option optionToRev = null;
     private Option optionIndexDir = null;
+    private Option optionCreate = null;
 
 	public ScanCommand() {
 		setCommand(createCommand());
@@ -89,6 +90,11 @@ public class ScanCommand extends CLIBase {
 			.withArgument(abuilder.withName("index").create())
 			.withDescription("Define the index directory where the created index will be stored.")
 			.create();
+
+    	optionCreate = obuilder
+	    	.withLongName("create")
+	    	.withDescription("If given it means that the index will be create or overwritten if exists. Otherwise it will be used.")
+	    	.create();
     	
     	Group scanOptionIndex = gbuilder
     		.withOption(optionURL)
@@ -97,6 +103,7 @@ public class ScanCommand extends CLIBase {
     		.withOption(optionFromRev)
     		.withOption(optionToRev)
     		.withOption(optionIndexDir)
+    		.withOption(optionCreate)
     		.create();
     	
     	return cbuilder
@@ -129,6 +136,14 @@ public class ScanCommand extends CLIBase {
 
 	public Option getOptionIndexDir() {
 		return optionIndexDir;
+	}
+
+	public Option getOptionCreate() {
+		return optionCreate;
+	}
+
+	public boolean getCreate(CommandLine cline) {
+		return cline.hasOption((getOptionCreate()));
 	}
 
 	@SuppressWarnings("unchecked")

@@ -67,7 +67,10 @@ public abstract class AScanDocument {
 	}
 	
 	protected void addTokenizedField(String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.TOKENIZED));
+		doc.add(new Field(fieldName, value, Field.Store.YES, Field.Index.TOKENIZED));
+	}
+	protected void addTokenizedField(String fieldName, byte[] value) {
+		doc.add(new Field(fieldName, value, Field.Store.YES));
 	}
 	protected void addUnTokenizedField(String fieldName, String value) {
 		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.UN_TOKENIZED));

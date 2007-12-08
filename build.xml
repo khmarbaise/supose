@@ -71,7 +71,7 @@
 	
 	<target name="compile-dist" depends="init" description="compile the source " >
 		<!-- Compile the java code from ${src.dir} into ${build.dir} -->
-		<javac srcdir="${dir.src.main.java}" destdir="${dir.build.classes}">
+		<javac srcdir="${dir.src.main.java}" destdir="${dir.build.classes}" debug="yes">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>

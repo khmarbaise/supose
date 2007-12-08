@@ -97,6 +97,8 @@ public class ScanRepository {
 	
 	private String indexDirectory;
 
+	private boolean createIndex = false;
+
 	private SVNRepository repository = null;
 
 	public ScanRepository() {
@@ -105,6 +107,7 @@ public class ScanRepository {
 		setRepositoryURL(null);
 		setUsername(null);
 		setPassword(null);
+		setCreateIndex(false);
 	}
 
 	/**
@@ -151,7 +154,7 @@ public class ScanRepository {
         File indexDir = new File(indexDirectory);
 		IndexWriter writer = null;
 		try {
-			writer = new IndexWriter(indexDir, new StandardAnalyzer(), true);
+			writer = new IndexWriter(indexDir, new StandardAnalyzer(), isCreateIndex());
 			writer.setUseCompoundFile(false);
 			writer.setMergeFactor(1000);
 			writer.setMaxBufferedDocs(1000);
@@ -424,6 +427,14 @@ public class ScanRepository {
 
 	public void setIndexDirectory(String indexDirectory) {
 		this.indexDirectory = indexDirectory;
+	}
+
+	public boolean isCreateIndex() {
+		return createIndex;
+	}
+
+	public void setCreateIndex(boolean createIndex) {
+		this.createIndex = createIndex;
 	}
 	
 

@@ -204,8 +204,25 @@ public class SupposeCLITest {
 		long toRev = scanCommand.getToRev(cl);
 		assertEquals(fromRev, 156, "We didn't get the expected fromRev value.");
 		assertEquals(toRev, 200, "We didn't get the expected toRev value.");
+
+		boolean create = cl.hasOption(scanCommand.getOptionCreate());
+		assertFalse(create, "We had expected to get an deactivated create flag.");
 	}
-	
+
+	@Test()
+	public void testCommandScanCreate() throws Exception {
+		final String[] args = new String[] { "scan", "--create" };
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");
+		assertTrue(cl.hasOption(suposecli.getScanCommand()));
+
+		ScanCommand scanCommand = suposecli.getScliScanCommand();
+
+		boolean create = cl.hasOption(scanCommand.getOptionCreate());
+		assertTrue(create, "We had expected to get an activated create flag.");
+	}
+
 	@Test()
 	public void testCommandSearch() throws Exception {
 		final String[] args = new String[] { "search" };
