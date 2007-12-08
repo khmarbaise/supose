@@ -28,9 +28,9 @@ package com.soebes.supose.utility;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
+@Test
 public class FileExtensionPropertyTest {
 
-	@Test
 	public void testLoadProperty() {
 		FileExtensionProperty fep = FileExtensionProperty.getInstance();
 		assertNotNull(fep, "It is expected to get none Null!");

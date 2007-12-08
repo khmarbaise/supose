@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+	<properties>
+		<title>Subversion Repository Search Engine</title>
+		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
+	</properties>
+	<body>
+		<release version="0.2.0 (Venus)" date="2007-12-08" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="add" issue="19">- Printout usage.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="18">- Scan repository considering option --fromrev, --torev.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="17">- Partilly scan repository (--create for index).</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="16">- Some files shouldn't be scanned (binary files in particular)</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="15">- Refactor to simplifiy getting files from repository.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="14">- Select fields which will be printed out based on result set.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="13">- Search command on CLI</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="12">- Index all properties file/directory</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="11">- No index entries for copied files.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="10">- Make directories searchable itself.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="9">- Make deleted files as entries</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="8">- Enhance searchability in log message</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="6">- Create option to define the index.</action>
+		</release>
+		<release version="0.1.0 (Mercury)" date="2007-12-05" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="7">- Create distribution.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="5">- Command line callable.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="4">- Extract information from PDF files.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="3">- Scan any other kind of documents.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="2">- Extracting information from Excel files.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="1">- Extracting information from PowerPoint files.</action>
+		</release>
+	</body>
+</document>
+

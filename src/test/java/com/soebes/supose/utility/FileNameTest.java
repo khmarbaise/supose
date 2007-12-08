@@ -33,9 +33,9 @@ import org.testng.annotations.Test;
  * @author Karl Heinz Marbaise
  *
  */
+@Test()
 public class FileNameTest {
 
-	@Test
 	public void testF10() {
 		String fileName = "/usr/local/test.zip";
 		FileName fn = new FileName(fileName);
@@ -45,7 +45,6 @@ public class FileNameTest {
 		assertEquals(fn.getPath(), "/usr/local/", "The basename is not as expected.");
 	}
 	
-	@Test
 	public void testF20() {
 		String fileName = "/usr/local/test.tar.gz";
 		FileName fn = new FileName(fileName);
@@ -55,7 +54,6 @@ public class FileNameTest {
 		assertEquals(fn.getPath(), "/usr/local/", "The path is not as expected.");
 	}
 
-	@Test
 	public void testF30() {
 		String fileName = "C:/Programme/x-y-z.zip";
 		FileName fn = new FileName(fileName);
@@ -65,7 +63,6 @@ public class FileNameTest {
 		assertEquals(fn.getPath(), "C:/Programme/", "The basename is not as expected.");
 	}
 
-	@Test
 	public void testF40() {
 		String fileName = "/x.zip";
 		FileName fn = new FileName(fileName);
@@ -75,7 +72,6 @@ public class FileNameTest {
 		assertEquals(fn.getPath(), "/", "The path is not as expected.");
 	}
 
-	@Test
 	public void testF50() {
 		String fileName = "/branches/";
 		FileName fn = new FileName(fileName);
@@ -84,7 +80,7 @@ public class FileNameTest {
 		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
 		assertEquals(fn.getPath(), "/branches/", "The path is not as expected.");
 	}
-	@Test
+
 	public void testF60() {
 		String fileName = "/branches";
 		FileName fn = new FileName(fileName);
@@ -93,7 +89,7 @@ public class FileNameTest {
 		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
 		assertEquals(fn.getPath(), "", "The path is not as expected.");
 	}
-	@Test
+
 	public void testF61() {
 		String fileName = "/branches";
 		FileName fn = new FileName(fileName, true);
@@ -102,7 +98,7 @@ public class FileNameTest {
 		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
 		assertEquals(fn.getPath(), "/branches", "The path is not as expected.");
 	}
-	@Test
+
 	public void testF70() {
 		String fileName = "/";
 		FileName fn = new FileName(fileName);

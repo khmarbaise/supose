@@ -40,6 +40,7 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
  * @author Karl Heinz Marbaise
  *
  */
+@Test
 public class SupposeCLITest {
 
 	private SuposeCommandLine suposecli = null;
@@ -50,13 +51,11 @@ public class SupposeCLITest {
 		suposecli = new SuposeCommandLine();
 	}
 
-	@Test()
 	public void testNothingGiven() throws Exception {
 		CommandLine cl = suposecli.doParseArgs(new String[0]);
 		assertNotNull(cl, "The return value of the parse is null!");
 	}
 
-	@Test()
 	public void testGlobalOptionH() throws Exception {
 		final String[] args = new String[] { "-H" };
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -64,15 +63,13 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getGlobalOptionH()));
 	}
 
-	
-	@Test()
 	public void testCommandCheckScan() throws Exception {
 		final String[] args = new String[] { "scan" };
 		CommandLine cl = suposecli.doParseArgs(args);
 		assertTrue(cl.hasOption(suposecli.getScanCommand()));
 		assertFalse(cl.hasOption(suposecli.getSearchCommand()));
 	}
-	@Test()
+
 	public void testCommandCheckSearch() throws Exception {
 		final String[] args = new String[] { "search" };
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -80,7 +77,6 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
 	}
 
-	@Test()
 	public void testCommandScan() throws Exception {
 		final String[] args = new String[] { "scan" };
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -89,7 +85,6 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getScanCommand()));
 	}
 
-	@Test()
 	public void testCommandScanAbbreviation() throws Exception {
 		final String[] args = new String[] { "sc" };
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -98,7 +93,6 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getScanCommand()));
 	}
 
-	@Test()
 	public void testOptionHCommandScan() throws Exception {
 		final String[] args = new String[] { "scan", "-H"};
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -107,7 +101,6 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getScanCommand()));
 	}
 
-	@Test()
 	public void testCommandScanShortURL() throws Exception {
 		final String[] args = new String[] { "scan", "-U", "file:///testrepos/private"};
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -122,7 +115,6 @@ public class SupposeCLITest {
 		assertEquals(url, "file:///testrepos/private", "The parameter of the option --URL option is not as expected");
 	}
 
-	@Test()
 	public void testCommandScanLongURL() throws Exception {
 		final String[] args = new String[] { "scan", "--url", "file:///testrepos/private"};
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -136,7 +128,6 @@ public class SupposeCLITest {
 		assertEquals(url, "file:///testrepos/private", "The parameter of the option --URL option is not as expected");
 	}
 
-	@Test()
 	public void testCommandScanUsername() throws Exception {
 		final String[] args = new String[] { "scan", "--username", "xyz"};
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -153,7 +144,6 @@ public class SupposeCLITest {
 		assertEquals(username, "xyz", "The parameter of the option --username is not as expected");
 	}
 
-	@Test()
 	public void testCommandScanPassword() throws Exception {
 		final String[] args = new String[] { "scan", "--password", "xyz"};
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -174,7 +164,6 @@ public class SupposeCLITest {
 		assertEquals(password, "xyz", "The parameter of the option --password option is not as expected");
 	}
 
-	@Test()
 	public void testCommandFromRev() throws Exception {
 		final String[] args = new String[] { "scan", "--fromrev", "21"};
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -190,7 +179,6 @@ public class SupposeCLITest {
 		assertEquals(toRev, SVNRevision.HEAD.getNumber(), "We didn't get the expected toRev value(HEAD).");
 	}
 	
-	@Test()
 	public void testCommandFromToRev() throws Exception {
 		final String[] args = new String[] { "scan", "--fromrev", "156", "--torev", "200"};
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -209,7 +197,6 @@ public class SupposeCLITest {
 		assertFalse(create, "We had expected to get an deactivated create flag.");
 	}
 
-	@Test()
 	public void testCommandScanCreate() throws Exception {
 		final String[] args = new String[] { "scan", "--create" };
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -223,7 +210,6 @@ public class SupposeCLITest {
 		assertTrue(create, "We had expected to get an activated create flag.");
 	}
 
-	@Test()
 	public void testCommandSearch() throws Exception {
 		final String[] args = new String[] { "search" };
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -232,7 +218,6 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
 	}
 
-	@Test()
 	public void testCommandSearchAbbreviation() throws Exception {
 		final String[] args = new String[] { "se" };
 		CommandLine cl = suposecli.doParseArgs(args);
@@ -241,7 +226,6 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
 	}
 
-	@Test()
 	public void testOptionHCommandSearch() throws Exception {
 		final String[] args = new String[] { "search", "-H" };
 		CommandLine cl = suposecli.doParseArgs(args);
