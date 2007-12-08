@@ -5,6 +5,10 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.3.0 (Earth)" date="2007-XX-YY" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="24">- update changes file.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="23">- Maven2 build.</action>
+		</release>
 		<release version="0.2.0 (Venus)" date="2007-12-08" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="add" issue="19">- Printout usage.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="18">- Scan repository considering option --fromrev, --torev.</action>
