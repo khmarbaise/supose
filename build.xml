@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="latin1"?>
 <!--
-	SupoSE
+
+ The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
+
+ Copyright (c) 2007 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ Copyright (C) 2007 by Karl Heinz Marbaise
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+ The License can viewed online under http://www.gnu.org/licenses/gpl.html
+ If you have any questions about the Software or about the license
+ just write an email to license@soebes.de
+
 -->
 <project name="supose" basedir=".">
 
 	<description>
-		SupoSE
-	</description>
+The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
+</description>
 
 	<property name="dir.src" location="src" />
 
@@ -69,14 +92,14 @@
 		</javac>
 	</target>
 	
-	<target name="compile-dist" depends="init" description="compile the source " >
+	<target name="compile:dist" depends="init" description="compile the source " >
 		<!-- Compile the java code from ${src.dir} into ${build.dir} -->
 		<javac srcdir="${dir.src.main.java}" destdir="${dir.build.classes}" debug="yes">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
 	
-	<target name="jar" depends="compile-dist" description="generate the distribution" >
+	<target name="jar" depends="compile:dist" description="generate the distribution" >
 		<jar jarfile="${dir.dist}/${software.shortname}-${version}.jar">
 			<manifest>
 				<attribute name="Built-By" value="SoftwareEntwicklung Beratung Schulung" />
@@ -96,7 +119,7 @@
 		</jar>
 	</target>
 
-	<target name="tar.gz" depends="compile-dist,jar" description="generate the distribution (tar.gz)">
+	<target name="tar.gz" depends="compile:dist,jar" description="generate the distribution (tar.gz)">
 		<tar destfile="${dir.dist}/${software.shortname}-${version}.tar.gz" longfile="gnu" compression="gzip">
 			<tarfileset dir="${dir.lib}" prefix="/lib">
 				<include name="**/*.jar"/>
@@ -110,8 +133,31 @@
 			</tarfileset>
 		</tar>
 	</target>
+	
+	<target name="src.tar.gz" depends="init" description="generate source the distribution (tar.gz)">
+		<tar destfile="${dir.dist}/${software.shortname}-${version}-src.tar.gz" longfile="gnu" compression="gzip">
+			<tarfileset dir="${dir.lib}" prefix="/lib">
+				<include name="**/*.jar"/>
+			</tarfileset>
+			<tarfileset dir="${dir.src}" prefix="src">
+				<include name="**/**"/>
+			</tarfileset>
+			<tarfileset dir="${basedir}">
+				<include name="release.properties"/>
+				<include name="compile.properties"/>
+				<include name="build.xml"/>
+				<include name="pom.xml"/>
+				<include name=".classpath"/>
+				<include name=".project"/>
+				<include name="supose.cmd"/>
+			</tarfileset>
+			<tarfileset dir="${basedir}" mode="0755">
+				<include name="supose.sh"/>
+			</tarfileset>
+		</tar>
+	</target>
 
-	<target name="zip" depends="compile-dist,jar" description="generate the distribution (zip)">
+	<target name="zip" depends="compile:dist,jar" description="generate the distribution (zip)">
 		<zip destfile="${dir.dist}/${software.shortname}-${version}.zip">
 			<zipfileset dir="${dir.lib}" prefix="lib">
 				<include name="**/*.jar"/>
@@ -126,7 +172,28 @@
 			</zipfileset>
 		</zip>
 	</target>
+	
+	<target name="src.zip" depends="init" description="generate source distribution (zip)">
+		<zip destfile="${dir.dist}/${software.shortname}-${version}-src.zip">
+			<zipfileset dir="${dir.lib}" prefix="lib">
+				<include name="**/*.jar"/>
+			</zipfileset>
+			<zipfileset dir="${dir.src}" prefix="src">
+				<include name="**/**"/>
+			</zipfileset>
+			<zipfileset dir="${basedir}">
+				<include name="release.properties"/>
+				<include name="compile.properties"/>
+				<include name="build.xml"/>
+				<include name="pom.xml"/>
+				<include name=".classpath"/>
+				<include name=".project"/>
+				<include name="supose.cmd"/>
+				<include name="supose.sh"/>
+			</zipfileset>
+		</zip>
+	</target>
 
-	<target name="dist" depends="jar,zip,tar.gz"/>
+	<target name="dist" depends="jar,zip,tar.gz,src.zip,src.tar.gz"/>
 
 </project>
