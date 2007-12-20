@@ -255,13 +255,13 @@
 		</site>
 	</distributionManagement>
 
+	<!-- This is needed for TestNG -->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>apache.snapshots</id>
 			<url>http://people.apache.org/repo/m2-snapshot-repository/</url>
 		</pluginRepository>
 	</pluginRepositories>
-
 
     <dependencies>
         <dependency>
@@ -302,6 +302,18 @@
 			<groupId>pdfbox</groupId>
 			<artifactId>pdfbox</artifactId>
 			<version>0.7.3</version>
+		</dependency>
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>quartz-all</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jvnet.hudson.plugins.mercurial</groupId>
+			<artifactId>ini4j</artifactId>
+			<version>0.2.6</version>
+			<scope>system</scope>
+			<systemPath>${lib}/ini4j-0.2.6.jar</systemPath>
 		</dependency>
 	</dependencies>
 	

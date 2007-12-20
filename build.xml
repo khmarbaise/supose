@@ -48,7 +48,7 @@ The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
 	<property file="${basedir}/directory.properties"/>
 	<property file="${basedir}/release.properties"/>
 
-	<property name="version" value="${software.major}.${software.minor}.${software.patch}"/>
+	<property name="version" value="${software.major}.${software.minor}.${software.patch}.${software.bugfix}"/>
 
 	<path id="classpath">
 		<fileset dir="${dir.lib}">
@@ -104,7 +104,7 @@ The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
 			<manifest>
 				<attribute name="Built-By" value="SoftwareEntwicklung Beratung Schulung" />
 				<attribute name="Specification-Title" value="${software.name}" />
-				<attribute name="Specification-Version" value="${software.major}.${software.minor}.${software.patch}" />
+				<attribute name="Specification-Version" value="${version}" />
 				<attribute name="Specification-Vendor" value="SoftwareEntwicklung Beratung Schulung" />
 				<attribute name="Implementation-Title" value="${software.shortname}" />
 				<attribute name="Implementation-Vendor" value="SoftwareEntwicklung Beratung Schulung" />

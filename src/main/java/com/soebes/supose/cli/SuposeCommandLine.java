@@ -48,13 +48,18 @@ public class SuposeCommandLine extends CLIBase {
     //All available commands
     private Command scanCommand = null;
     private Command searchCommand = null;
+    private Command mergeCommand = null;
+    private Command scheduleCommand = null;
 
     private SearchCommand cliSearchCommand = null;
     private ScanCommand cliScanCommand = null;
+    private MergeCommand cliMergeCommand = null;
+    private ScheduleCommand cliScheduleCommand = null;
 
     private void initGlobalOptions() {
     	globalOptionH = obuilder
 	    	.withShortName("H")
+	    	.withLongName("help")
 	    	.withDescription("Displays usage information for command.")
 	    	.create();
     }
@@ -62,6 +67,8 @@ public class SuposeCommandLine extends CLIBase {
     private void initCommands() {
     	scanCommand = cliScanCommand.getCommand();
     	searchCommand = cliSearchCommand.getCommand();
+    	mergeCommand = cliMergeCommand.getCommand();
+    	scheduleCommand = cliScheduleCommand.getCommand();
     }
 
     public ScanCommand getScliScanCommand() {
@@ -72,6 +79,14 @@ public class SuposeCommandLine extends CLIBase {
     	return cliSearchCommand;
     }
 
+    public MergeCommand getScliMergeCommand() {
+    	return cliMergeCommand;
+    }
+    
+    public ScheduleCommand getScliScheduleCommand() {
+    	return cliScheduleCommand;
+    }
+
     public void init() {
 	    initCommands();
 		initGlobalOptions();
@@ -80,6 +95,8 @@ public class SuposeCommandLine extends CLIBase {
 			.withName("commands")
 				.withOption(scanCommand)
 				.withOption(searchCommand)
+				.withOption(mergeCommand)
+				.withOption(scheduleCommand)
 	            .create();
 	
 	    suposeOptions = gbuilder
@@ -93,6 +110,8 @@ public class SuposeCommandLine extends CLIBase {
 	public SuposeCommandLine () {
 		cliSearchCommand = new SearchCommand();
 		cliScanCommand = new ScanCommand();
+		cliMergeCommand = new MergeCommand();
+		cliScheduleCommand = new ScheduleCommand();
 		init();
 	}
 
@@ -108,6 +127,14 @@ public class SuposeCommandLine extends CLIBase {
 
 	public Command getSearchCommand() {
 		return searchCommand;
+	}
+
+	public Command getMergeCommand() {
+		return mergeCommand;
+	}
+	
+	public Command getScheduleCommand() {
+		return scheduleCommand;
 	}
 
 	public Option getGlobalOptionH() {

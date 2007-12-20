@@ -5,11 +5,22 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
-		<release version="0.3.0 (Earth)" date="2007-XX-YY" description="Milestone">
-			<action dev="Karl Heinz Marbaise" type="fix" issue="24">- update changes file.</action>
-			<action dev="Karl Heinz Marbaise" type="fix" issue="24">- update changes file.</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="23">- Maven2 build.</action>
+		<release version="0.3.0 (Earth)" date="2007-12-20" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="add" issue="38">- Integrated branches/B_QUARTZ to /trunk (R:32-67)</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="37">- Full release information in MANIFEST.MF file.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="32">- Added --configbase to define the configuration file storage.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="30">- Added missing long option for HELP</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="28">- Scan revision 1 if we run for the first time</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="27">- Integrated Bugfix from branch into branches/B_QUARTZ</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="26">- Added merge command for CLI to merge indexes</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="25">- Scanning via Quartz</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="24">- update changes file</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="23">- Maven2 build</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="22">- Create source distribution</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="22">- Source distribution.</action>
+		</release>
+		<release version="0.2.0.1 Venus (Bugfix)" date="2007-12-14" description="Bugfix">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="20">- Fixed scanning problem for large documents without partiuclar indexer.</action>
 		</release>
 		<release version="0.2.0 (Venus)" date="2007-12-08" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="add" issue="19">- Printout usage.</action>

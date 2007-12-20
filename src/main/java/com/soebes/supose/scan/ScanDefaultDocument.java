@@ -28,9 +28,10 @@ package com.soebes.supose.scan;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.log4j.Logger;
-import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.SVNDirEntry;
 
 import com.soebes.supose.FieldNames;
+import com.soebes.supose.repository.Repository;
 
 /**
  * @author Karl Heinz Marbaise
@@ -50,7 +51,7 @@ public class ScanDefaultDocument extends AScanDocument {
 	}
 
 	@Override
-	public void indexDocument(SVNRepository repository, String path, long revision) {
+	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
 		LOGGER.info("Scanning document");
 		
 		try {
@@ -62,10 +63,15 @@ public class ScanDefaultDocument extends AScanDocument {
 				addTokenizedField(FieldNames.CONTENTS, "BINARY CONTENT");
 			} else {
 				LOGGER.debug("We scan the contents, cause it's text.");
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				//This means we get the contents of the file only. No properties.
-				repository.getFile(path, revision, null, baos);
-				addTokenizedField(FieldNames.CONTENTS, baos.toByteArray());
+				if (dirEntry.getSize() > 10*1024*1024) {
+					LOGGER.warn("Document size exceeds limit of 10 Mibi!");
+				} else {
+					//Contents will be scanned if it is less than 10 Mibi
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					//This means we get the contents of the file only. No properties.
+					repository.getRepository().getFile(path, revision, null, baos);
+					addTokenizedField(FieldNames.CONTENTS, baos.toByteArray());
+				}
 			}
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with WordDocuments " + e);

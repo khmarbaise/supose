@@ -23,7 +23,6 @@
  * just write an email to license@soebes.de
  *
  */
-// SupoSE
 package com.soebes.supose.cli;
 
 import java.util.List;

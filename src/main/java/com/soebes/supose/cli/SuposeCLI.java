@@ -23,7 +23,6 @@
  * just write an email to license@soebes.de
  *
  */
-// SupoSE
 package com.soebes.supose.cli;
 
 import java.io.IOException;
@@ -41,13 +40,30 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
+import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import com.soebes.supose.FieldNames;
+import com.soebes.supose.config.ConfigurationRepositories;
+import com.soebes.supose.config.RepositoryConfiguration;
+import com.soebes.supose.config.RepositoryFactory;
+import com.soebes.supose.jobs.IndexHelper;
+import com.soebes.supose.jobs.JobDataNames;
+import com.soebes.supose.jobs.JobSchedulerListener;
+import com.soebes.supose.jobs.RepositoryScanJob;
+import com.soebes.supose.repository.Repository;
+import com.soebes.supose.scan.Index;
 import com.soebes.supose.scan.ScanRepository;
 
 /**
@@ -83,8 +99,12 @@ public class SuposeCLI {
 			runScan(suposecli.getScliScanCommand());
 		} else if (commandLine.hasOption(suposecli.getSearchCommand())) {
 			runSearch(suposecli.getScliSearchCommand());
+		} else if (commandLine.hasOption(suposecli.getMergeCommand())) {
+			runMerge(suposecli.getScliMergeCommand());
+		} else if (commandLine.hasOption(suposecli.getScheduleCommand())) {
+			runSchedule(suposecli.getScliScheduleCommand());
 		} else {
-			System.err.println("Error: You should define either scan or search as command or the -H option to get help.");
+			System.err.println("Error: You should define either scan, search, merge or schedule as command or use -H option to get further detailed information.");
 			System.exit(1);
 		}
 	}
@@ -100,24 +120,144 @@ public class SuposeCLI {
 		long toRev = scanCommand.getToRev(commandLine);
 		String indexDirectory = scanCommand.getIndexDir(commandLine);
 		boolean create = scanCommand.getCreate(commandLine);
+		String username = scanCommand.getUsername(commandLine);
+		String password = scanCommand.getPassword(commandLine);
 
-		scanRepository.setRepositoryURL(url);
+		Index index = new Index ();
+		//We will create a new one if --create is given on command line
+		//otherwise we will append to the existing index.
+		index.setCreate(create);
+		IndexWriter indexWriter = index.createIndexWriter(indexDirectory);
+
+		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
+			username, 
+			password
+		);
+		Repository repository = new Repository(url, authManager);
+
+		scanRepository.setRepository(repository);
 
 		//We start with the revision which is given on the command line.
 		//If it is not given we will start with revision 1.
 		scanRepository.setStartRevision(fromRev); 
 		//We will scan the repository to the current HEAD of the repository.
 		scanRepository.setEndRevision(toRev);
-		//This will define the indexDirectory
-		scanRepository.setIndexDirectory(indexDirectory);
-		//This will define if we use an existing index or create an new one.
-		scanRepository.setCreateIndex(create);
 
 		LOGGER.info("Scanning started.");
-		scanRepository.scan();
+		scanRepository.scan(indexWriter);
 		LOGGER.info("Scanning ready.");
+
+		try {
+			indexWriter.optimize();
+			indexWriter.close();
+		} catch (CorruptIndexException e) {
+			System.err.println("CorruptIndexException: Error during optimization of index: " + e);
+		} catch (IOException e) {
+			System.err.println("IOException: Error during optimization of index: " + e);
+		}
+
 	}
-	
+
+
+	private static void runSchedule(ScheduleCommand scheduleCommand) {
+		String configurationFile = scheduleCommand.getConfiguration(commandLine);
+		String configurationBaseDir = scheduleCommand.getConfBaseDir(commandLine);
+
+		System.out.println("Configuration file: " + configurationFile);
+		int scheduledJobs = 0;
+		Scheduler scheduler = null;
+        try {
+        	// Grab the Scheduler instance from the Factory 
+        	scheduler = StdSchedulerFactory.getDefaultScheduler();
+
+            // and start it off
+            scheduler.start();
+
+            JobSchedulerListener schedulerListener = new JobSchedulerListener();
+
+            scheduler.addSchedulerListener(schedulerListener);
+
+            ConfigurationRepositories confRepos = new ConfigurationRepositories(configurationFile);
+            LOGGER.info("We have " + confRepos.getNames().length + " repositories.");
+            for(int i=0; i<confRepos.getNames().length; i++) {
+            	String repositoryName = confRepos.getNames()[i];
+            	RepositoryConfiguration reposConfig = confRepos.getRepositoryConfiguration(repositoryName);
+            	Repository repository = RepositoryFactory.createInstance(reposConfig);
+            	if (!repository.validConnection()) {
+            		//Connection has failed.
+            		System.err.println("The repository " + repository.getUrl() + " can't be connected!");
+            		//Do not make a job from a non connectable repository.
+            		continue;
+            	}
+            	LOGGER.info("The repository " + repositoryName + " is ready for scanning.");
+            	JobDetail jobDetail = new JobDetail(repositoryName, null, RepositoryScanJob.class);
+            	
+            	jobDetail.getJobDataMap().put(JobDataNames.REPOSITORY, repository);
+            	jobDetail.getJobDataMap().put(JobDataNames.REPOSITORYCONFIGURATION, reposConfig);
+            	jobDetail.getJobDataMap().put(JobDataNames.BASEDIR, configurationBaseDir);
+
+            	CronTrigger cronTrigger1 = null;
+            	String cronExpression = "";
+            	//If the use would like to configure different scheduling trigger
+            	if (reposConfig.existCron()) {
+            		cronExpression = reposConfig.getCron();
+            	} else {
+            		//The default every minue...
+            		cronExpression = "0 * * ? * *";
+            	}
+
+            	try {
+            		cronTrigger1 = new CronTrigger(
+        				"SupoSE." + repositoryName,
+        				Scheduler.DEFAULT_GROUP,
+        				cronExpression
+            		);
+            	} catch (Exception e) {
+            		System.err.println("Error for cronTrigger wrong expression for cron: " + e);
+            		System.exit(1);
+            	}            
+            	
+            	scheduler.scheduleJob(jobDetail, cronTrigger1);
+            	scheduledJobs++;
+            }
+
+            //If we haven't started any job we shutdown...
+            if (scheduledJobs == 0) {
+            	System.err.println("We couldn't start any scan job so we are dying...");
+            	scheduler.shutdown();
+            }
+            System.out.println("End with CTRL-C");
+        } catch (SchedulerException se) {
+            se.printStackTrace();
+        } finally {
+//        	try {
+//        		if (scheduler != null) {
+//        			scheduler.shutdown();
+//        		}
+//			} catch (Exception e) {
+//				System.err.println("Shutdown has failed during finally block: " + e);
+//			}
+        }
+	}
+
+	/**
+	 * The merge command is used to merge two or more indexes together.
+	 * 
+	 * @param mergeCommand
+	 */
+	private static void runMerge(MergeCommand mergeCommand) {
+		List<String> indexList = mergeCommand.getIndex(commandLine);
+		String destination = mergeCommand.getDestination(commandLine);
+
+		for(int i=0; i<indexList.size(); i++) {
+			System.out.print("Index[" + i + "]=" + indexList.get(i) + " ");
+		}
+		System.out.println("");
+		System.out.println("Destination: " + destination);
+
+		IndexHelper.mergeIndex(destination, indexList);
+	}
+
 	private static void runSearch(SearchCommand searchCommand) {
 		LOGGER.info("Searching started...");
 		String indexDirectory = searchCommand.getIndexDir(commandLine);
@@ -182,8 +322,6 @@ public class SuposeCLI {
 				System.err.println("Error: IOException during close(): " + e);
 			}
 		}
-
-
 	}
 
 }

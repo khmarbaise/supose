@@ -30,10 +30,11 @@ import java.io.ByteArrayOutputStream;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
+import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.soebes.supose.FieldNames;
+import com.soebes.supose.repository.Repository;
 
 /**
  * @author Karl Heinz Marbaise
@@ -46,14 +47,14 @@ public class ScanPowerPointDocument extends AScanDocument {
 	}
 
 	@Override
-	public void indexDocument(SVNRepository repository, String path, long revision) {
+	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
 		LOGGER.info("Scanning document");
 
 
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			//This means we get the contents of the file only. No properties.
-			repository.getFile(path, revision, null, baos);
+			repository.getRepository().getFile(path, revision, null, baos);
 			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 
 //TODO: Check if this enough...

@@ -1,0 +1,35 @@
+<project name="SupoSE">
+	<bannerLeft>
+		<name>SupoSE</name>
+		<href>http://supose.soebes.de</href>
+	</bannerLeft>
+	<bannerRight>
+		<name>Subversion Repository Search Engine</name>
+		<src>http://maven.apache.org/images/apache-maven project.png</src>
+	</bannerRight>
+	<!-- 	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-default-skin</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</skin>
+	-->
+	<publishDate format="14 12 2007" />
+	<body>
+		<links>
+			<item name="Apache" href="http://www.apache.org/"/>
+			<item name="Maven" href="http://maven.apache.org/"/>
+			<item name="Continuum" href="http://maven.apache.org/continuum"/>
+		</links>
+		<head>
+			<meta name="faq" content="faq.html"/>
+		</head>
+		<menu name="Quick Links">
+			<item name="Features" href="/features.html"/>
+		</menu>
+		<menu name="About SupoSE">
+			<item name="What is SupoSE?" href="/what-is-supose.html"/>
+		</menu>
+		${reports}
+	</body>
+</project>
+

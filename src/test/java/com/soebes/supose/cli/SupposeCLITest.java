@@ -31,6 +31,8 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+
 import org.apache.commons.cli2.CommandLine;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -183,7 +185,7 @@ public class SupposeCLITest {
 		final String[] args = new String[] { "scan", "--fromrev", "156", "--torev", "200"};
 		CommandLine cl = suposecli.doParseArgs(args);
 		assertNotNull(cl, "The return value of the parse is null!");
-		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option not set.");
 		assertTrue(cl.hasOption(suposecli.getScanCommand()));
 
 		ScanCommand scanCommand = suposecli.getScliScanCommand();
@@ -201,7 +203,7 @@ public class SupposeCLITest {
 		final String[] args = new String[] { "scan", "--create" };
 		CommandLine cl = suposecli.doParseArgs(args);
 		assertNotNull(cl, "The return value of the parse is null!");
-		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option not set.");
 		assertTrue(cl.hasOption(suposecli.getScanCommand()));
 
 		ScanCommand scanCommand = suposecli.getScliScanCommand();
@@ -214,7 +216,7 @@ public class SupposeCLITest {
 		final String[] args = new String[] { "search" };
 		CommandLine cl = suposecli.doParseArgs(args);
 		assertNotNull(cl, "The return value of the parse is null!");
-		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option set.");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option set.");
 		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
 	}
 
@@ -222,7 +224,7 @@ public class SupposeCLITest {
 		final String[] args = new String[] { "se" };
 		CommandLine cl = suposecli.doParseArgs(args);
 		assertNotNull(cl, "The return value of the parse is null!");
-		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option set.");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option set.");
 		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
 	}
 
@@ -230,8 +232,53 @@ public class SupposeCLITest {
 		final String[] args = new String[] { "search", "-H" };
 		CommandLine cl = suposecli.doParseArgs(args);
 		assertNotNull(cl, "The return value of the parse is null!");
-		assertTrue(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");
+		assertTrue(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option not set.");
 		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
 	}
+	
+	public void testMergeCommand() throws Exception {
+		final String[] args = new String[] { "merge", "--destination", "result" };
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option not set.");
+		assertTrue(cl.hasOption(suposecli.getMergeCommand()));
+	}
 
+	public void testMergeCommandIndexList() throws Exception {
+		final String[] args = new String[] { "merge", "--index", "anton", "egon", "--destination", "result" };
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option not set.");
+		assertFalse(cl.hasOption(suposecli.getScanCommand()));
+		assertFalse(cl.hasOption(suposecli.getSearchCommand()));
+		assertFalse(cl.hasOption(suposecli.getScheduleCommand()));
+		assertTrue(cl.hasOption(suposecli.getMergeCommand()));
+		
+		MergeCommand mergeCommand = suposecli.getScliMergeCommand();
+
+		List<String> indexList = mergeCommand.getIndex(cl);
+		assertNotNull(indexList, "We had expected to get a list of index direcotriy");
+		assertEquals(indexList.size(), 2, "We had expected to get a least two elements");
+	}
+	
+	public void testScheduleCommand() throws Exception {
+		final String[] args = new String[] {
+			"schedule", 
+			"--configuration", 
+			"/home/kama/supose/test", 
+			"--configbase", "/home/kama/base" 
+		};
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option not set.");
+		assertFalse(cl.hasOption(suposecli.getScanCommand()));
+		assertFalse(cl.hasOption(suposecli.getSearchCommand()));
+		assertFalse(cl.hasOption(suposecli.getMergeCommand()));
+		assertTrue(cl.hasOption(suposecli.getScheduleCommand()));
+		
+		ScheduleCommand scheduleCommand = suposecli.getScliScheduleCommand();
+		String configBaseDir = scheduleCommand.getConfBaseDir(cl);
+		assertTrue(configBaseDir.length() > 0, "We had expected to get information for --configbasedir ..");
+		assertEquals(configBaseDir, "/home/kama/base", "We had expected to get exactly /home/kama/base");
+	}
 }
