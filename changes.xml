@@ -5,7 +5,11 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
-		<release version="0.3.0 (Earth)" date="2007-12-20" description="Milestone">
+		<release version="0.3.0.0 RC2 (Earth)" date="2007-12-20" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="42">- Fixed Maven2 compiling</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="41">- Calling from Windows command line does not work</action>
+		</release>
+		<release version="0.3.0.0 RC1 (Earth)" date="2007-12-20" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="add" issue="38">- Integrated branches/B_QUARTZ to /trunk (R:32-67)</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="37">- Full release information in MANIFEST.MF file.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="32">- Added --configbase to define the configuration file storage.</action>

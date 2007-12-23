@@ -16,7 +16,7 @@ SET CP=%CP%;.\lib\poi-3.0.1-FINAL-20070705.jar
 SET CP=%CP%;.\lib\poi-contrib-3.0.1-FINAL-20070705.jar
 SET CP=%CP%;.\lib\poi-scratchpad-3.0.1-FINAL-20070705.jar
 SET CP=%CP%;.\lib\svnkit.jar
-SET CP=%CP%;.\lib\SupoSE-0.2.0.jar
+SET CP=%CP%;.\lib\SupoSE-0.3.0.0.jar
 
 
 java -Xms512m -Xmx1024m -cp %CP% com.soebes.supose.cli.SuposeCLI %*
