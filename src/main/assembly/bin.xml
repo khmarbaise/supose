@@ -1,0 +1,31 @@
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>tar.gz</format>
+		<format>tar.bz2</format>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<fileSet>
+			<includes>
+				<include>supose.*</include>
+				<include>build.xml</include>
+				<include>release.*</include>
+				<include>pom.xml</include>
+			</includes>
+			<excludes>
+				<exclude>*.log</exclude>
+				<exclude>bin/**</exclude>
+				<exclude>**/target/**</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>target</directory>
+				<outputDirectory></outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>
+

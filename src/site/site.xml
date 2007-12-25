@@ -1,4 +1,4 @@
-<project name="SupoSE">
+<project name="SupoSE - The Subversion Repository Search Engine">
 	<bannerLeft>
 		<name>SupoSE</name>
 		<href>http://supose.soebes.de</href>
@@ -13,10 +13,10 @@
 		<version>1.0-SNAPSHOT</version>
 	</skin>
 	-->
-	<publishDate format="14 12 2007" />
+	<publishDate format="26 12 2007" />
 	<body>
 		<links>
-			<item name="Apache" href="http://www.apache.org/"/>
+			<item name="Issue Tracking" href="http://supose.soebes.de/"/>
 			<item name="Maven" href="http://maven.apache.org/"/>
 			<item name="Continuum" href="http://maven.apache.org/continuum"/>
 		</links>

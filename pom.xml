@@ -73,6 +73,11 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+			</plugin>
+
 			<!-- to be sure the created file of the coverage report will be delted -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -86,6 +91,41 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptor>src/main/assembly/bin.xml</descriptor>
+					<descriptor>src/main/assembly/src.xml</descriptor>
+					<descriptor>src/main/assembly/project.xml</descriptor>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<mainClass>com.soebes.supose.CLI.SuposeCLI</mainClass>
+							<packageName>com.soebes.supose</packageName>
+							<!-- options
+							<addClasspath>true</addClasspath>
+							<addExtensions/>
+							<classpathPrefix/>
+							-->
+						</manifest>
+						<manifestEntries>
+							<!-- This will overwrite the default Built-By entry... -->
+							<Built-By>Karl Heinz Marbaise</Built-By>
+							<mode>development</mode>
+							<url>${pom.url}</url>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 
 	</build>
@@ -245,13 +285,13 @@
 
 	<distributionManagement>
 		<repository>
-			<id>SupoSE</id>
-			<name>SupoSE Repository</name>
-			<url>file://${basedir}/target/deploy</url>
+			<id>mvn.repository.soebes.de</id>
+			<name>SoEBeS Repository</name>
+			<url>scp://h5593.serverkompetenz.net:/usr/local/vhosts/mvn.repository.soebes.de</url>
 		</repository>
 		<site>
-			<id>SupoSE</id>
-			<url>file://localhost/home/kama/mavenrepos/site/internal</url>
+			<id>mvn.supose.soebes.de</id>
+			<url>scp://h5593.serverkompetenz.net:/usr/local/vhosts/mvn.supose.soebes.de</url>
 		</site>
 	</distributionManagement>
 
