@@ -70,6 +70,9 @@
 					<printSummary>true</printSummary>
 					<useFile>true</useFile>
 					<testFailureIgnore>true</testFailureIgnore>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/resources/test-all.xml</suiteXmlFile>
+					</suiteXmlFiles>
 				</configuration>
 			</plugin>
 

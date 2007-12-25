@@ -5,7 +5,6 @@
 	</bannerLeft>
 	<bannerRight>
 		<name>Subversion Repository Search Engine</name>
-		<src>http://maven.apache.org/images/apache-maven project.png</src>
 	</bannerRight>
 	<!-- 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
@@ -17,8 +16,7 @@
 	<body>
 		<links>
 			<item name="Issue Tracking" href="http://supose.soebes.de/"/>
-			<item name="Maven" href="http://maven.apache.org/"/>
-			<item name="Continuum" href="http://maven.apache.org/continuum"/>
+			<item name="Impressum" href="http://www.soebes.de/impressum/impressum.html"/>
 		</links>
 		<head>
 			<meta name="faq" content="faq.html"/>
