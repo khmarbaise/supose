@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="0.3.0.0 RC2 (Earth)" date="2007-12-25" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="44">- Removed directories which had created by the unit tests.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="43">- Fixed missing dependencies in Windows command file</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="42">- Fixed Maven2 compiling</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="41">- Calling from Windows command line does not work</action>
