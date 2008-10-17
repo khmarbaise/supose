@@ -10,13 +10,16 @@
 		<fileSet>
 			<includes>
 				<include>supose.*</include>
-				<include>build.xml</include>
-				<include>release.*</include>
-				<include>pom.xml</include>
+				<include>*.xml</include>
+				<include>*.properties</include>
+				<include>lib/*</include>
 			</includes>
 			<excludes>
 				<exclude>*.log</exclude>
 				<exclude>bin/**</exclude>
+				<exclude>build/**</exclude>
+				<exclude>dist/**</exclude>
+				<exclude>test-output/**</exclude>
 				<exclude>**/target/**</exclude>
 			</excludes>
 		</fileSet>

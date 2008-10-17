@@ -1,0 +1,34 @@
+<profiles>
+	<profile>
+		<!--
+			This profile is used to define the URL's etc. if we are
+			on the traveler laptop.
+		-->
+		<id>homeoffice</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+		</activation>
+		<properties>
+			<system.scm.url>http://svn.traveler/supose/</system.scm.url>
+			<system.scm.url.dev>http://svn.traveler/supose/branches/B_0.4.0</system.scm.url.dev>
+			<issuemanagement.url>http://trac.traveler/supose/</issuemanagement.url>
+			<cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
+		</properties>
+	</profile>
+	<profile>
+		<!--
+			This profile is used to define the URL's etc. if we are
+			on the internet server (h5593.serverkompetenz.net).
+		-->
+		<id>online</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+		</activation>
+		<properties>
+			<system.scm.url>http://svn.soebes.de/supose/</system.scm.url>
+			<system.scm.url.dev>http://svn.soebes.de/supose/trunk</system.scm.url.dev>
+			<issuemanagement.url>http://supose.soebes.de/</issuemanagement.url>
+			<cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
+		</properties>
+	</profile>
+</profiles>

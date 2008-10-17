@@ -1,8 +1,8 @@
 /*
  * The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
  *
- * Copyright (c) 2007 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
- * Copyright (C) 2007 by Karl Heinz Marbaise
+ * Copyright (c) 2007, 2008 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007, 2008 by Karl Heinz Marbaise
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,8 +38,9 @@ import org.quartz.StatefulJob;
 
 import com.soebes.supose.config.RepositoryConfiguration;
 import com.soebes.supose.config.RepositoryJobConfiguration;
+import com.soebes.supose.index.Index;
+import com.soebes.supose.index.IndexHelper;
 import com.soebes.supose.repository.Repository;
-import com.soebes.supose.scan.Index;
 import com.soebes.supose.scan.ScanRepository;
 
 public class RepositoryScanJob implements StatefulJob {
@@ -75,7 +76,7 @@ public class RepositoryScanJob implements StatefulJob {
 		jobConfig = new RepositoryJobConfiguration(baseDir + File.separator + reposConfig.getRepositoryName() + ".ini", reposConfig);
 
 		String jobIndexName = baseDir + File.separator + "index." + reposConfig.getRepositoryName();
-		String resultIndexName = baseDir + File.separator + "index." + reposConfig.getResultIndex();
+		String resultIndexName = baseDir + File.separator + reposConfig.getResultIndex();
 
 		LOGGER.info("Revision: " + repos.getRepository().getLatestRevision() + " FromRev:" + reposConfig.getFromRev());
 		if (repos.getRepository().getLatestRevision() > reposConfig.getFromRev()) {

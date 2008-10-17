@@ -1,4 +1,5 @@
 <project name="SupoSE - The Subversion Repository Search Engine">
+	<version position="left"/>
 	<bannerLeft>
 		<name>SupoSE</name>
 		<href>http://supose.soebes.de</href>
@@ -12,7 +13,6 @@
 		<version>1.0-SNAPSHOT</version>
 	</skin>
 	-->
-	<publishDate format="26 12 2007" />
 	<body>
 		<links>
 			<item name="Issue Tracking" href="http://supose.soebes.de/"/>

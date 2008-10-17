@@ -1,8 +1,8 @@
 /*
  * The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
  *
- * Copyright (c) 2007 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
- * Copyright (C) 2007 by Karl Heinz Marbaise
+ * Copyright (c) 2007, 2008 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007, 2008 by Karl Heinz Marbaise
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ public class ConfigurationRepositoriesTest extends TestBase {
 	
 	@BeforeClass
 	public void beforeClass() {
-		confRepos = new ConfigurationRepositories(getFileResource("repositories-test.ini"));		
+		confRepos = new ConfigurationRepositories(getFileResource("/repositories-test.ini"));		
 		assertNotNull(confRepos, "We had expected to get an instance");
 	}
 
@@ -66,7 +66,7 @@ public class ConfigurationRepositoriesTest extends TestBase {
 		assertEquals(rconfig.getUrl(), "http://svn.traveler/jagosi", "We had expected to get an URL");
 		assertEquals(rconfig.getIndexUsername(), "kama", "We had expected to get the username 'kama'");
 		assertEquals(rconfig.getIndexPassword(), "kama", "We had expected to get the username 'kama'");
-		assertEquals(rconfig.getFromRev(), "1", "We had expected to get the revision 1");
+		assertEquals(rconfig.getFromRev(), 1, "We had expected to get the revision 1");
 		assertEquals(rconfig.getToRev(), "HEAD", "We had expected to get the revision HEAD");
 		assertEquals(rconfig.getCron(), "0 * * ? * *", "We had expected to get the cron expression '0 * * ? * *'");
 	}

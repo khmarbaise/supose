@@ -1,12 +1,26 @@
-What is SupoSE?
+		-----
+		What is SupoSE?
+		-----
+		Karl Heinz Marbaise
+		------
+		17.01.2008
 
- SupoSE is an abbreviation for Subversion Repository Search Engine.
+Overview
+
+ SupoSE is an abbreviation for Subversion Repository Search Engine. It's intention is to do search in all files
+ of all revision and all paths within multiple Subversion Repositories.
  
-* Things to write here
+* Approach
+
+ The basic approach is to scan the repository off-line, which means to scan the repository on time scheduled 
+ based. This means to scan e.g. every hour or minute or whatever the user likes to configure.
+ During such a scan, SupoSE will check if something has changed in the repository and scan all new
+ changes which had been made since the last scan.
 
 ---
- This is an code example.
+This is an code example.
 ---
  
+* Sub-Sub-section
 
-** Sub-Sub-section
+ This is a test.

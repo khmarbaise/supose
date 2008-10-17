@@ -1,8 +1,8 @@
 /*
  * The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
  *
- * Copyright (c) 2007 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
- * Copyright (C) 2007 by Karl Heinz Marbaise
+ * Copyright (c) 2007, 2008 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007, 2008 by Karl Heinz Marbaise
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +53,9 @@ public class Repository {
 	 * This will initialize the SVNKit library.
 	 * @param url The url of the repository we would 
 	 *   like to do a connection to.
+	 * @param authManager This will define the Authentication manager which 
+	 *   is used.
+	 * @see ISVNAuthenticationManager
 	 */
 	public Repository (String url, ISVNAuthenticationManager authManager) {
 		setUrl(url);
@@ -80,8 +83,8 @@ public class Repository {
 
 	/**
 	 * This will try to do a connection to the repository.
-	 * This is used to check the the username/password combination.
-	 * @return If true the connection could be established successfull
+	 * This is used to check the the user name/password combination.
+	 * @return If true the connection could be established success full
 	 *  false otherwise.
 	 */
 	public boolean validConnection() {
@@ -112,7 +115,7 @@ public class Repository {
              */
             repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(getUrl()));
         } catch (SVNException svne) {
-        	//This can only happen if we use a protocol wich is not registered.
+        	//This can only happen if we use a protocol which is not registered.
         	//Missing initialization of the library.
         	LOGGER.error("Error while creationg SVNRepository for location '" + getUrl() + "' " + svne);
         }

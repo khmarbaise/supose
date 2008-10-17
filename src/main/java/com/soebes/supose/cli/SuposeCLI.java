@@ -1,8 +1,8 @@
 /*
  * The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
  *
- * Copyright (c) 2007 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
- * Copyright (C) 2007 by Karl Heinz Marbaise
+ * Copyright (c) 2007, 2008 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007, 2008 by Karl Heinz Marbaise
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,12 +58,12 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.config.ConfigurationRepositories;
 import com.soebes.supose.config.RepositoryConfiguration;
 import com.soebes.supose.config.RepositoryFactory;
-import com.soebes.supose.jobs.IndexHelper;
+import com.soebes.supose.index.Index;
+import com.soebes.supose.index.IndexHelper;
 import com.soebes.supose.jobs.JobDataNames;
 import com.soebes.supose.jobs.JobSchedulerListener;
 import com.soebes.supose.jobs.RepositoryScanJob;
 import com.soebes.supose.repository.Repository;
-import com.soebes.supose.scan.Index;
 import com.soebes.supose.scan.ScanRepository;
 
 /**

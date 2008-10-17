@@ -1,8 +1,8 @@
 /*
  * The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
  *
- * Copyright (c) 2007 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
- * Copyright (C) 2007 by Karl Heinz Marbaise
+ * Copyright (c) 2007, 2008 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007, 2008 by Karl Heinz Marbaise
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,17 +95,17 @@ public class ScanRepository {
             return;
         }
 
-        LOGGER.debug("We have " + logEntries.size() + " LogEntries to scan.");
+        LOGGER.debug("We have " + logEntries.size() + " change sets to scan.");
         for (Iterator entries = logEntries.iterator(); entries.hasNext();) {
             SVNLogEntry logEntry = (SVNLogEntry) entries.next();
 
-            LOGGER.debug("---------------------------------------------");
-            LOGGER.debug("revision: " + logEntry.getRevision());
-            LOGGER.debug("author: " + logEntry.getAuthor());
-            LOGGER.debug("date: " + logEntry.getDate());
-            LOGGER.debug("log message: " + logEntry.getMessage());
-//            System.out.printf("\r%7d", logEntry.getRevision());
-//            System.out.print(" Date: " + logEntry.getDate());
+            if (LOGGER.isDebugEnabled()) {
+	            LOGGER.debug("---------------------------------------------");
+	            LOGGER.debug("revision: " + logEntry.getRevision());
+	            LOGGER.debug("author: " + logEntry.getAuthor());
+	            LOGGER.debug("date: " + logEntry.getDate());
+	            LOGGER.debug("log message: " + logEntry.getMessage());
+            }
 
             if (logEntry.getChangedPaths().size() > 0) {
             	LOGGER.debug("changed paths:");
@@ -122,6 +122,12 @@ public class ScanRepository {
 	}
 
 
+	/**
+	 * Here we have a single ChangeSet which will be analyzed separate.
+	 * @param indexWriter 
+	 * @param repository
+	 * @param logEntry
+	 */
 	private void workOnChangeSet(IndexWriter indexWriter, Repository repository, SVNLogEntry logEntry) {
 		Set changedPathsSet = logEntry.getChangedPaths().keySet();
 
@@ -139,6 +145,7 @@ public class ScanRepository {
 		                    + entryPath.getCopyPath() + " revision "
 		                    + entryPath.getCopyRevision() + ")" : ""));
 
+			//We would like to know something about the entry.
 			SVNDirEntry dirEntry = getInformationAboutEntry(repository, logEntry, entryPath);
 		    
 			try {
@@ -251,8 +258,6 @@ public class ScanRepository {
 				repository.getRepository().getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, null);
 				indexProperties(fileProperties, doc);
 
-//TODO: Do we really need this?
-//				addUnTokenizedField(doc, FieldNames.SIZE, Long.toString(baos.size()));
 				FileExtensionHandler feh = new FileExtensionHandler();
 				feh.setFileProperties(fileProperties);
 				feh.setDoc(doc);
@@ -266,7 +271,7 @@ public class ScanRepository {
 
 	private void indexProperties(Map<String, String> fileProperties, Document doc) {
 		for (Map.Entry<String, String> item : fileProperties.entrySet()) {
-			if (!SVNProperty.isEntryProperty(item.getKey())) {
+			if (!SVNProperty.isSVNProperty(item.getKey())) {
 				//Every property will be stored with key:value.
 				LOGGER.debug("Indexing property: " + item.getKey() + " value:'" + item.getValue() + "'"); 
 				addUnTokenizedField(doc, item.getKey(), item.getValue());
@@ -274,7 +279,6 @@ public class ScanRepository {
 		}
 	}
 
-	
 	private SVNDirEntry getInformationAboutEntry(Repository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) {
 		SVNDirEntry dirEntry = null;
 		try {

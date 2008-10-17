@@ -1,8 +1,8 @@
 /*
  * The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
  *
- * Copyright (c) 2007 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
- * Copyright (C) 2007 by Karl Heinz Marbaise
+ * Copyright (c) 2007, 2008 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007, 2008 by Karl Heinz Marbaise
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,8 @@ import org.apache.lucene.document.Document;
 import org.tmatesoft.svn.core.SVNDirEntry;
 
 import com.soebes.supose.repository.Repository;
+import com.soebes.supose.scan.document.AScanDocument;
+import com.soebes.supose.scan.document.ScanDefaultDocument;
 import com.soebes.supose.utility.FileExtensionProperty;
 import com.soebes.supose.utility.FileName;
 
@@ -70,17 +72,22 @@ public class FileExtensionHandler {
 				//There is no entry for the extension so we use the default
 				//scanner for all other document types.
 				LOGGER.info("There is no property entry defined for the file extension '" + fn.getExt() + "'");
-				AScanDocument dh = new ScanDefaultDocument();
-				dh.setProperties(getFileProperties());
-				dh.setDocument(doc);
-				dh.indexDocument(repository, dirEntry, path, revision);
+				indexDefaultDoc(repository, dirEntry, path, revision);
 			}
 		} else {
 			LOGGER.info("We have no file extension found for the file '" + path + "'");
+			indexDefaultDoc(repository, dirEntry, path, revision);
 		}
 	}
 
-	public Document getDoc() {
+	 public void indexDefaultDoc(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
+		 AScanDocument dh = new ScanDefaultDocument();
+		 dh.setProperties(getFileProperties());
+		 dh.setDocument(doc);
+		 dh.indexDocument(repository, dirEntry, path, revision);
+	}
+
+	 public Document getDoc() {
 		return doc;
 	}
 

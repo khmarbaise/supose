@@ -5,6 +5,27 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.4.0.0 RC2 (Mars)" date="2008-03-26" description="Milestone">
+			<action dev="msuchy@redhat.com" type="fix" issue="64">- Used submitted patch for scanning documents without extension</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="63">- Missed to update the correct revision/date for the POI jar files.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="62">- Removed doubled http in ci management in profiles.xml file.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="61">- Missed the locally stored jar files and source for Eclipse environment.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="60">- Update to Lucene 2.3.1.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="59">- Problem with profiles fixed.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="58">- External profiles file instead of POM inline profiles.</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="57">- Update POI to 3.0.2</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="56">- Build of different files now working via Maven</action>
+			<action dev="Karl Heinz Marbaise" type="add" >- Added contributors</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="55">- Added mission directory.properties to distribution</action>
+		</release>
+		<release version="0.4.0.0 RC1 (Mars)" date="2008-01-12" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="54">- No prefix for the destination index</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="53">- Don't index svn:wc properties</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="52">- Wrong indexing fixed for contents of non binary files</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="48">- Update copyright year</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="45">- Branch created to start working on Milestone</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="40">- Scanning of Java files</action>
+		</release>
 		<release version="0.3.0.0 RC2 (Earth)" date="2007-12-25" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="fix" issue="44">- Removed directories which had created by the unit tests.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="43">- Fixed missing dependencies in Windows command file</action>

@@ -1,0 +1,19 @@
+SupoSE
+
+If you like to build yourself you have to install 
+ini4j before you can compile via Maven 2.
+
+The local installation of ini4j is needed, cause currently the
+up-to-date releases of ini4j only support Java 1.6
+
+The old release 0.2.6 of ini4j is Java 1.5 compatible.
+
+
+Currently the commons-cli-2.0 is not released officially.
+I have take a checkout from ASF and build a jar file myself.
+Currently there is no SNAPSHOT Release nor an beta release
+in any Maven 2 Repository available.
+So you have to install it in your local repository before
+you can build SupoSE via Maven.
+
+Take a look at install.cmd or install.sh scripts.

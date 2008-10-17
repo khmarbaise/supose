@@ -6,17 +6,25 @@
 		<format>zip</format>
 	</formats>
 	<baseDirectory>${artifactId}-${version}</baseDirectory>
+	<includeSiteDirectory>false</includeSiteDirectory>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>	
 	<fileSets>
 		<fileSet>
 			<includes>
 				<include>supose.*</include>
-				<include>build.xml</include>
-				<include>release.*</include>
-				<include>pom.xml</include>
 			</includes>
 			<excludes>
 				<exclude>*.log</exclude>
 				<exclude>bin/**</exclude>
+				<exclude>build/**</exclude>
+				<exclude>dist/**</exclude>
+				<exclude>test-output/**</exclude>
 				<exclude>**/target/**</exclude>
 			</excludes>
 		</fileSet>
