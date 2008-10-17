@@ -5,6 +5,9 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.5.0 (Ceres)" date="2008-XX-XX" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="70">- Output on CLI is now sorted based on the revision number.</action>
+		</release>
 		<release version="0.4.0.0 RC2 (Mars)" date="2008-03-26" description="Milestone">
 			<action dev="msuchy@redhat.com" type="fix" issue="64">- Used submitted patch for scanning documents without extension</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="63">- Missed to update the correct revision/date for the POI jar files.</action>

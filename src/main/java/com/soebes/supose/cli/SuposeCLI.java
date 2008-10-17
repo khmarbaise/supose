@@ -46,6 +46,8 @@ import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -280,11 +282,16 @@ public class SuposeCLI {
 	    	Searcher searcher = new IndexSearcher(reader);
 //	    	Analyzer analyzer = new StandardAnalyzer();
 	    	Analyzer analyzer = new KeywordAnalyzer();
-	    	
+
+	    	SortField[] sf = {
+	    		new SortField(FieldNames.REVISION),
+	    		new SortField(FieldNames.FILENAME),
+	    	};
+	    	Sort sort = new Sort(sf);
 	    	//Here we define the default field for searching.
 	        QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
 	        Query query = parser.parse(queryLine);
-			Hits hits = searcher.search(query);
+			Hits hits = searcher.search(query, sort);
 
 			for (int i = 0; i < hits.length(); i++) {
 				Document doc = hits.doc(i);
