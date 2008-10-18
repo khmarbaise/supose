@@ -255,6 +255,37 @@
 				</executions>
 			</plugin>
 
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			-->
+			<plugin>
+			<groupId>org.dstovall</groupId>
+				<artifactId>onejar-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<configuration>
+							<!-- Optional -->
+							<onejarVersion>0.96</onejarVersion>
+							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
+						</configuration>
+						<goals>
+							<goal>one-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 
 	</build>
@@ -442,9 +473,8 @@
 			<url>http://people.apache.org/repo/m2-snapshot-repository</url>
 		</pluginRepository>
 		<pluginRepository>
-			<id>tlc</id>
-			<name>TLC Repository</name>
-			<url>http://commons.ucalgary.ca/pub/m2</url>
+			<id>dstovall.org</id>
+			<url>http://dstovall.org/maven2/</url>
 		</pluginRepository>
 	</pluginRepositories>
 
