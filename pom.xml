@@ -345,7 +345,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-changes-plugin</artifactId>
 				<configuration>
-					<issueLinkTemplate>%URL%/ticket/%ISSUE%</issueLinkTemplate>
+					<issueLinkTemplate>%URL%/issues/show/%ISSUE%</issueLinkTemplate>
 					<xmlPath>${basedir}/changes.xml</xmlPath>
 				</configuration>
 				<reportSets>
