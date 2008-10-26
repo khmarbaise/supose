@@ -212,12 +212,15 @@ public class ScanRepository {
 			addUnTokenizedField(doc, FieldNames.PATH, fileName.getPath());
 
 			if (isDir) {
+				LOGGER.debug("The " + entryPath.getPath() + " is a directory entry.");
 				addUnTokenizedField(doc, FieldNames.NODE, "dir");
 			} else if (isFile) {
+				LOGGER.debug("The " + entryPath.getPath() + " is a file entry.");
 				addUnTokenizedField(doc, FieldNames.NODE, "file");
 			} else {
 				//This means a file/directory has been deleted.
 				addUnTokenizedField(doc, FieldNames.NODE, "unknown");
+				LOGGER.debug("The " + entryPath.getPath() + " is an unknown entry.");
 			}
 
 			//Does a copy operation took place...

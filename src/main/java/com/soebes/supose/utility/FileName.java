@@ -135,6 +135,10 @@ public class FileName {
 		this.path = path;
 	}
 
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	public String getNameWithoutExtension() {
 		return nameWithoutExtension;
 	}

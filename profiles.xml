@@ -10,8 +10,8 @@
 		</activation>
 		<properties>
 			<system.scm.url>http://svn.traveler/supose/</system.scm.url>
-			<system.scm.url.dev>http://svn.traveler/supose/branches/B_0.4.0</system.scm.url.dev>
-			<issuemanagement.url>http://trac.traveler/supose/</issuemanagement.url>
+			<system.scm.url.dev>http://svn.traveler/supose/trunk</system.scm.url.dev>
+			<issuemanagement.url>http://redmine.soebes.de/projects/show/supose</issuemanagement.url>
 			<cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
 		</properties>
 	</profile>

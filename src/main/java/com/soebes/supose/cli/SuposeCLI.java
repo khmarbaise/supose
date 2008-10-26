@@ -35,7 +35,7 @@ import org.apache.commons.cli2.OptionException;
 import org.apache.commons.cli2.util.HelpFormatter;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.KeywordAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
@@ -128,6 +128,8 @@ public class SuposeCLI {
 		Index index = new Index ();
 		//We will create a new one if --create is given on command line
 		//otherwise we will append to the existing index.
+		Analyzer analyzer = new StandardAnalyzer();		
+		index.setAnalyzer(analyzer);
 		index.setCreate(create);
 		IndexWriter indexWriter = index.createIndexWriter(indexDirectory);
 
@@ -280,9 +282,11 @@ public class SuposeCLI {
 	    	reader = IndexReader.open(indexDirectory);
 	    	
 	    	Searcher searcher = new IndexSearcher(reader);
-//	    	Analyzer analyzer = new StandardAnalyzer();
-	    	Analyzer analyzer = new KeywordAnalyzer();
+	    	Analyzer analyzer = new StandardAnalyzer();
+//	    	Analyzer analyzer = new KeywordAnalyzer();
 
+	    	//Sort primary based on Revision
+	    	//secondary by filename.
 	    	SortField[] sf = {
 	    		new SortField(FieldNames.REVISION),
 	    		new SortField(FieldNames.FILENAME),
@@ -290,9 +294,12 @@ public class SuposeCLI {
 	    	Sort sort = new Sort(sf);
 	    	//Here we define the default field for searching.
 	        QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
+	        //We will allow using a wildcard at the beginning of the expression.
+	        parser.setAllowLeadingWildcard(true);
 	        Query query = parser.parse(queryLine);
 			Hits hits = searcher.search(query, sort);
 
+			System.out.println("Query analyzer:" + query.toString());
 			for (int i = 0; i < hits.length(); i++) {
 				Document doc = hits.doc(i);
 				List<Field> fieldList = doc.getFields();
