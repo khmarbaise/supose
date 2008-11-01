@@ -1,6 +1,6 @@
 package com.soebes.supose.lucene;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 import java.io.IOException;
 
@@ -76,6 +76,16 @@ public class LuceneTest {
 	    isearcher = new IndexSearcher(directory);
 	}
 
+	private void printOut(String msg, Hits hits) throws CorruptIndexException, IOException {
+		System.out.println(msg);
+	    for (int i = 0; i < hits.length(); i++) {
+	      Document hitDoc = hits.doc(i);
+	      System.out.println("\tDoc [" + i + "]"); 
+	      System.out.println("\t   filename:" + hitDoc.get(FieldNames.FILENAME));
+	      System.out.println("\t  fieldname:" + hitDoc.get(FieldNames.CONTENTS));
+	    }
+	}
+	
 	@AfterClass
 	public void afterClass() throws IOException {
 		isearcher.close();
@@ -90,7 +100,8 @@ public class LuceneTest {
 	    Query query = parser.parse("+filename:/*.doc");
 	    Hits hits = isearcher.search(query);
 	    // Iterate through the results:
-	    printOut("testTheFirstSearch", hits);
+	    printOut("testTheFirstSearch[" + hits.length() + "]", hits);
+	    assertEquals(hits.length(), 3);
 	}
 
 	
@@ -102,18 +113,10 @@ public class LuceneTest {
 	    Query query = parser.parse("+filename:/trunk/*.doc");
 	    Hits hits = isearcher.search(query);
 	    // Iterate through the results:
-	    printOut("testTheSecondSearch", hits);
+	    printOut("testTheSecondSearch[" + hits.length() + "]", hits);
+	    assertEquals(hits.length(), 2);
 	}
 
-	private void printOut(String msg, Hits hits) throws CorruptIndexException, IOException {
-		System.out.println(msg);
-	    for (int i = 0; i < hits.length(); i++) {
-	      Document hitDoc = hits.doc(i);
-	      System.out.println("\tDoc [" + i + "]"); 
-	      System.out.println("\t   filename:" + hitDoc.get(FieldNames.FILENAME));
-	      System.out.println("\t  fieldname:" + hitDoc.get(FieldNames.CONTENTS));
-	    }
-	}
 	@Test
 	public void testTheThirdSearch() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
@@ -122,8 +125,10 @@ public class LuceneTest {
 	    Query query = parser.parse("+filename:/*te*.doc");
 	    System.out.println("Query: " + query.toString());
 	    Hits hits = isearcher.search(query);
-	    printOut("testTheThirsSearch", hits);
+	    printOut("testTheThirdSearch[" + hits.length() + "]", hits);
+	    assertEquals(hits.length(), 1);
 	}
+
 	@Test
 	public void testTheForthSearch() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
@@ -132,7 +137,8 @@ public class LuceneTest {
 	    Query query = parser.parse("+filename:/*/SCMPlan.doc");
 	    System.out.println("Query: " + query.toString());
 	    Hits hits = isearcher.search(query);
-	    printOut("testTheForthSearch", hits);
+	    printOut("testTheForthSearch[" + hits.length() + "]", hits);
+	    assertTrue(hits.length() == 1, "Expected to get at least one element.");
 	}
 	
 }
