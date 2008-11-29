@@ -269,7 +269,7 @@
 			</plugin>
 			-->
 			<plugin>
-			<groupId>org.dstovall</groupId>
+				<groupId>org.dstovall</groupId>
 				<artifactId>onejar-maven-plugin</artifactId>
 				<version>1.2.1</version>
 				<executions>
@@ -285,7 +285,34 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<configuration>
+					<!-- prefix all bin files with "SupoSE" -->
+					<binPrefix>SupoSE</binPrefix>
+					<!-- set alternative assemble directory -->
+					<assembleDirectory>${project.build.directory}/mycompany-assemble</assembleDirectory>
+					<!-- Extra JVM arguments that will be included in the bin scripts -->
+					<extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
+					<generateRepository>false</generateRepository>
+					<repositoryLayout>flat</repositoryLayout>
+					<includeConfigurationDirectoryInClasspath>false</includeConfigurationDirectoryInClasspath>
+					<!-- Generate bin scripts for windows and unix pr default -->
+					<platforms>
+						<platform>windows</platform>
+						<platform>unix</platform>
+					</platforms>
+					<programs>
+						<program>
+							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
+
+
 		</plugins>
 
 	</build>

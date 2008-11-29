@@ -134,7 +134,10 @@ public class LuceneTest {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
-	    Query query = parser.parse("+filename:/*/SCMPlan.doc");
+	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
+	    System.out.println("S:" + parser.getPhraseSlop());
+	    parser.setLowercaseExpandedTerms(false);
+	    Query query = parser.parse("+filename:/*SCM*.doc");
 	    System.out.println("Query: " + query.toString());
 	    Hits hits = isearcher.search(query);
 	    printOut("testTheForthSearch[" + hits.length() + "]", hits);
