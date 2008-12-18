@@ -46,6 +46,7 @@ import org.tmatesoft.svn.core.SVNProperty;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
+import com.soebes.supose.search.NumberUtils;
 import com.soebes.supose.utility.FileName;
 
 /**
@@ -203,7 +204,7 @@ public class ScanRepository {
 			SVNNodeKind nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision());
 
 			Document doc = new Document();
-			addUnTokenizedField(doc, FieldNames.REVISION, logEntry.getRevision());
+			addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(logEntry.getRevision()));
 
 			boolean isDir = nodeKind == SVNNodeKind.DIR;
 			boolean isFile = nodeKind == SVNNodeKind.FILE;

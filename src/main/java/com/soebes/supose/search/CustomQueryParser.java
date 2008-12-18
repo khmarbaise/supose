@@ -10,6 +10,8 @@ import org.apache.lucene.search.RangeQuery;
 import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanTermQuery;
 
+import com.soebes.supose.FieldNames;
+
 public class CustomQueryParser extends QueryParser {
 	public CustomQueryParser(String field, Analyzer analyzer) {
 		super(field, analyzer);
@@ -28,7 +30,7 @@ public class CustomQueryParser extends QueryParser {
 	@Override
 	protected Query getRangeQuery(String field, String part1, String part2,
 		boolean inclusive) throws ParseException {
-		if ("id".equals(field)) {
+		if (FieldNames.REVISION.equals(field)) {
 			try {
 				int num1 = Integer.parseInt(part1);
 				int num2 = Integer.parseInt(part2);
@@ -42,22 +44,22 @@ public class CustomQueryParser extends QueryParser {
 			}
 		}
 
-		if ("special".equals(field)) {
-			System.out.println(part1 + "->" + part2);
-			return new RangeQuery("*".equals(part1) ? null : new Term("field",
-					part1),
-					"*".equals(part2) ? null : new Term("field", part2),
-					inclusive);
-		}
+//		if ("special".equals(field)) {
+//			System.out.println(part1 + "->" + part2);
+//			return new RangeQuery("*".equals(part1) ? null : new Term("field",
+//					part1),
+//					"*".equals(part2) ? null : new Term("field", part2),
+//					inclusive);
+//		}
 
 		return super.getRangeQuery(field, part1, part2, inclusive);
 	}
 
-	@Override
-	protected final Query getWildcardQuery(String field, String termStr)
-			throws ParseException {
-		throw new ParseException("Wildcard not allowed");
-	}
+//	@Override
+//	protected final Query getWildcardQuery(String field, String termStr)
+//			throws ParseException {
+//		throw new ParseException("Wildcard not allowed");
+//	}
 
 	/**
 	 * Replace PhraseQuery with SpanNearQuery to force in-order phrase matching

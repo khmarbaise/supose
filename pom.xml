@@ -58,7 +58,7 @@
 	</contributors>
 
 	<issueManagement>
-		<system>Trac</system>
+		<system>Redmine</system>
 		<url>${issuemanagement.url}</url>
 	</issueManagement>
 

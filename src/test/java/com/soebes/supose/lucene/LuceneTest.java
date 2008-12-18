@@ -23,6 +23,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.soebes.supose.FieldNames;
+import com.soebes.supose.search.CustomQueryParser;
+import com.soebes.supose.search.NumberUtils;
 
 public class LuceneTest {
     // Store the index in memory:
@@ -48,24 +50,28 @@ public class LuceneTest {
 
 	    Document doc = new Document();
 	    String text = "This is the text to be indexed.";
+		addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(1));
 	    addTokenizedField(doc, FieldNames.CONTENTS, text);
 	    addUnTokenizedField(doc, FieldNames.FILENAME, "/trunk/doc/testXML.doc");
 	    iwriter.addDocument(doc);
 	    
 	    doc = new Document();
 	    text = "This is different text.";
+		addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(2));
 	    addTokenizedField(doc, FieldNames.CONTENTS, text);
 	    addUnTokenizedField(doc, FieldNames.FILENAME, "/tags/docs/XYZabc.java");
 	    iwriter.addDocument(doc);
 	    
 	    doc = new Document();
 	    text = "This is more different text.";
+		addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(3));
 	    addTokenizedField(doc, FieldNames.CONTENTS, text);
 	    addUnTokenizedField(doc, FieldNames.FILENAME, "/tags/docs/SCMPlan.doc");
 	    iwriter.addDocument(doc);
 
 	    doc = new Document();
 	    text = "This is the third text.";
+		addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(4));
 	    addTokenizedField(doc, FieldNames.CONTENTS, text);
 	    addUnTokenizedField(doc, FieldNames.FILENAME, "/trunk/subdir/elviraXML.doc");
 	    iwriter.addDocument(doc);
@@ -96,7 +102,7 @@ public class LuceneTest {
 	public void testTheFirstSearch() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
-	    QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
+	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/*.doc");
 	    Hits hits = isearcher.search(query);
 	    // Iterate through the results:
@@ -109,7 +115,7 @@ public class LuceneTest {
 	public void testTheSecondSearch() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
-	    QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
+	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/trunk/*.doc");
 	    Hits hits = isearcher.search(query);
 	    // Iterate through the results:
@@ -121,7 +127,7 @@ public class LuceneTest {
 	public void testTheThirdSearch() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
-	    QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
+	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/*te*.doc");
 	    System.out.println("Query: " + query.toString());
 	    Hits hits = isearcher.search(query);
@@ -133,7 +139,7 @@ public class LuceneTest {
 	public void testTheForthSearch() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
-	    QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
+	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
 	    System.out.println("S:" + parser.getPhraseSlop());
 	    parser.setLowercaseExpandedTerms(false);
@@ -142,6 +148,35 @@ public class LuceneTest {
 	    Hits hits = isearcher.search(query);
 	    printOut("testTheForthSearch[" + hits.length() + "]", hits);
 	    assertTrue(hits.length() == 1, "Expected to get at least one element.");
+	}
+
+	@Test
+	public void testTheFifthSearch10() throws ParseException, IOException {
+		Analyzer analyzer = new StandardAnalyzer();
+	    // Parse a simple query that searches for "text":
+	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
+	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
+	    System.out.println("S:" + parser.getPhraseSlop());
+	    parser.setLowercaseExpandedTerms(true);
+	    Query query = parser.parse("+filename:/*.doc +revision:[1 TO 3]");
+	    System.out.println("Query: " + query.toString());
+	    Hits hits = isearcher.search(query);
+	    printOut("testTheFifthSearch[" + hits.length() + "]", hits);
+	    assertTrue(hits.length() == 2, "Expected to get two elements.");
+	}
+	@Test
+	public void testTheFifthSearch11() throws ParseException, IOException {
+		Analyzer analyzer = new StandardAnalyzer();
+	    // Parse a simple query that searches for "text":
+	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
+	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
+	    System.out.println("S:" + parser.getPhraseSlop());
+	    parser.setLowercaseExpandedTerms(true);
+	    Query query = parser.parse("+filename:/*.doc +revision:[1 TO 2]");
+	    System.out.println("Query: " + query.toString());
+	    Hits hits = isearcher.search(query);
+	    printOut("testTheFifthSearch[" + hits.length() + "]", hits);
+	    assertTrue(hits.length() == 1, "Expected to get two elements.");
 	}
 	
 }

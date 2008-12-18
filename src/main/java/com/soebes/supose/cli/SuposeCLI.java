@@ -67,6 +67,7 @@ import com.soebes.supose.jobs.JobSchedulerListener;
 import com.soebes.supose.jobs.RepositoryScanJob;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
+import com.soebes.supose.search.CustomQueryParser;
 
 /**
  * This will define the Command Line Version of SupoSE.
@@ -293,7 +294,7 @@ public class SuposeCLI {
 	    	};
 	    	Sort sort = new Sort(sf);
 	    	//Here we define the default field for searching.
-	        QueryParser parser = new QueryParser(FieldNames.CONTENTS, analyzer);
+	        QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	        //We will allow using a wildcard at the beginning of the expression.
 	        parser.setAllowLeadingWildcard(true);
 	        Query query = parser.parse(queryLine);
