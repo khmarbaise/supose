@@ -311,7 +311,8 @@ public class SuposeCLI {
 						System.out.print(field.name() + ": " + field.stringValue() + " ");
 					} else {
 						if (FieldNames.REVISION.equals(field.name())) {
-							System.out.print("R:" + field.stringValue() + " ");
+							long rev = Long.parseLong(field.stringValue());
+							System.out.print("R:" + rev + " ");
 						}
 						if (FieldNames.FILENAME.equals(field.name())) {
 							System.out.print("F:" + field.stringValue() + " ");

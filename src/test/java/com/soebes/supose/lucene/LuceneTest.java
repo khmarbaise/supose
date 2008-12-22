@@ -179,4 +179,19 @@ public class LuceneTest {
 	    assertTrue(hits.length() == 1, "Expected to get two elements.");
 	}
 	
+	@Test
+	public void testTheSixthSearch() throws ParseException, IOException {
+		Analyzer analyzer = new StandardAnalyzer();
+	    // Parse a simple query that searches for "text":
+	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
+	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
+	    System.out.println("S:" + parser.getPhraseSlop());
+	    parser.setLowercaseExpandedTerms(true);
+	    Query query = parser.parse("+revision:1");
+	    System.out.println("Query: " + query.toString());
+	    Hits hits = isearcher.search(query);
+	    printOut("testTheFifthSearch[" + hits.length() + "]", hits);
+	    assertTrue(hits.length() == 1, "Expected to get two elements.");
+	}
+
 }

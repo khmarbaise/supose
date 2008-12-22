@@ -6,7 +6,7 @@
 	</properties>
 	<body>
 		<release version="0.5.0 (Ceres)" date="2008-XX-XX" description="Milestone">
-			<action dev="Karl Heinz Marbaise" type="fix" issue="119">- Using of ranges now working</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="119">- Using of revision ranges and single revisions now working</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="110">- Update to 0.5.0-SNAPSHOT</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="109">- Linking in changes report was wrong.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="107">- Change URL to new Issue tracking system.</action>
