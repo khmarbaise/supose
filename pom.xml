@@ -220,7 +220,7 @@
 				<artifactId>maven-license-plugin</artifactId>
 				<version>${maven-license-plugin.version}</version>
 				<configuration>
-					<header>${basedir}/src/etc/header.txt</header>
+					<header>src/etc/header.txt</header>
 					<quiet>false</quiet>
 					<failIfMissing>false</failIfMissing>
 					<includes>
