@@ -587,14 +587,12 @@
 			<url>http://download.java.net/maven/2/</url>
 			<layout>default</layout>
 		</repository>
-	<!--
+		<!-- for SVNKit Release 1.1.8 -->
 		<repository>
 			<id>atlassian.m2proxy</id>
 			<name>Atlassian.com m2proxy</name>
 			<url>https://m2proxy.atlassian.com/repository/public</url>
 			<layout>default</layout>
 		</repository>
-
-		-->
 	</repositories>
 </project>
