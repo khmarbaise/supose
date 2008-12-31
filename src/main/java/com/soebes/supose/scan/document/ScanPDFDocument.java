@@ -27,19 +27,14 @@ package com.soebes.supose.scan.document;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.Calendar;
 
 import org.apache.log4j.Logger;
-import org.pdfbox.exceptions.CryptographyException;
-import org.pdfbox.exceptions.InvalidPasswordException;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.pdmodel.PDDocumentInformation;
-import org.pdfbox.util.PDFTextStripper;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
@@ -63,7 +58,7 @@ public class ScanPDFDocument extends AScanDocument {
 			//This means we get the contents of the file only. No properties.
 			repository.getRepository().getFile(path, revision, null, baos);
 			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
-			addContent(str);
+			scan(str, path);
 		} catch (SVNException e) {
 			LOGGER.error("Exception by SVN: " + e);
 		} catch (Exception e) {
@@ -71,83 +66,33 @@ public class ScanPDFDocument extends AScanDocument {
 		}
 	}
 	
-	
-    /**
-     * This will add the contents to the lucene document.
-     *
-     * @param document The document to add the contents to.
-     * @param is The stream to get the contents from.
-     * @param documentLocation The location of the document, used just for debug messages.
-     *
-     * @throws IOException If there is an error parsing the document.
-     * 
-     * !!! THIS CODE PART IS "STOLEN" from LucenePDFDocument of PDFBox!!!
-     */
-    private void addContent(InputStream is) throws IOException
-    {
-    	PDFTextStripper stripper = null;
-        PDDocument pdfDocument = null;
-        try
-        {
-            pdfDocument = PDDocument.load( is );
+	private void scan(ByteArrayInputStream in, String path) {
+		try {
+			Metadata metadata = new Metadata();
+			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+			AutoDetectParser parser = new AutoDetectParser();
+			DefaultHandler handler = new BodyContentHandler();
+			parser.parse(in, handler, metadata);
 
-            if( pdfDocument.isEncrypted() )
-            {
-                //Just try using the default password and move on
-                pdfDocument.decrypt("");
-            }
+			String pdfAuthor = metadata.get(Metadata.AUTHOR);
+			String pdfKeywords = metadata.get(Metadata.KEYWORDS);
+			String pdfTitle = metadata.get(Metadata.TITLE);
+			String pdfSubject = metadata.get(Metadata.SUBJECT);
 
-            //create a writer where to append the text content.
-            StringWriter writer = new StringWriter();
-            if (stripper == null) {
-                stripper = new PDFTextStripper();
-            } else {
-                stripper.resetEngine();
-            }
-            stripper.writeText( pdfDocument, writer );
-
-            // Note: the buffer to string operation is costless;
-            // the char array value of the writer buffer and the content string
-            // is shared as long as the buffer content is not modified, which will
-            // not occur here.
-            String contents = writer.getBuffer().toString();
-
-            // Add the tag-stripped contents as a Reader-valued Text field so it will
-            // get tokenized and indexed.
-			addTokenizedField(FieldNames.CONTENTS, contents);
-
-            PDDocumentInformation info = pdfDocument.getDocumentInformation();
-            if (info != null) {
-            	//We save the supplemental fields of the PDF into special named
-            	//fields, to make them searchable.
-            	addUnTokenizedField(FieldNames.PDFAUTHOR, info.getAuthor() == null ? "" : info.getAuthor());
-            	addUnTokenizedField(FieldNames.PDFCREATIONDATE, info.getCreationDate() == null ? Calendar.getInstance() : info.getCreationDate());
-            	addUnTokenizedField(FieldNames.PDFCREATOR, info.getCreator() == null ? "" : info.getCreator());
-            	addUnTokenizedField(FieldNames.PDFKEYWORDS, info.getKeywords() == null ? "" : info.getKeywords());
-            	addUnTokenizedField(FieldNames.PDFMODIFICATIONDATE, info.getModificationDate() == null ? Calendar.getInstance() : info.getModificationDate());
-            	addUnTokenizedField(FieldNames.PDFPRODUCER, info.getProducer() == null ? "" : info.getProducer());
-            	addUnTokenizedField(FieldNames.PDFSUBJECT, info.getSubject() == null ? "" : info.getSubject());
-            	addUnTokenizedField(FieldNames.PDFTITLE, info.getTitle() == null ? "" : info.getTitle());
-            	addUnTokenizedField(FieldNames.PDFTRAPPED, info.getTrapped() == null ? "" : info.getTrapped());
-            	LOGGER.info("PDF Document: " + info.toString());
-            }
-//            int summarySize = Math.min( contents.length(), 500 );
-//            String summary = contents.substring( 0, summarySize );
-//            // Add the summary as an UnIndexed field, so that it is stored and returned
-//            // with hit documents for display.
-//            addUnindexedField( document, "summary", summary );
-
-        } catch( CryptographyException e ) {
-			LOGGER.error("Error: decrypting has failed! " + e);
-        } catch( InvalidPasswordException e ) {
-            //they didn't supply a password and the default of "" was wrong.
-			LOGGER.error("Error: The document is encrypted and can't be decrypted! We will not index this document! " + e);
-        } finally {
-            if (pdfDocument != null) {
-                pdfDocument.close();
-            }
-        }
-    }
-
-	
+			//TODO: Check if can get more information out of the PDF file.
+			addUnTokenizedField(FieldNames.PDFAUTHOR, pdfAuthor == null ? "" : pdfAuthor);
+			addUnTokenizedField(FieldNames.PDFKEYWORDS, pdfKeywords == null ? "" : pdfKeywords);
+			addUnTokenizedField(FieldNames.PDFTITLE, pdfTitle == null ? "" : pdfTitle);
+			addUnTokenizedField(FieldNames.PDFTITLE, pdfSubject == null ? "" : pdfSubject);
+			addTokenizedField(FieldNames.CONTENTS, handler.toString());
+		} catch (Exception e) {
+			LOGGER.error("We had an exception: " + e);
+		} finally {
+			try {
+				in.close();
+			} catch (Exception e) {
+				LOGGER.error("We had an exception during closing: " + e);
+			}
+		}
+	}
 }
