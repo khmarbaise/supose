@@ -56,6 +56,7 @@ public final class FieldNames {
 	public final static String XLSSHEETNAME = "xlssheetname";
 	public final static String XLSCOMMENT = "xlscomment";
 	public final static String XLSCOMMENTAUTHOR = "xlscommentauthor";
+	public final static String XLSAUTHOR = "xlsauthor";
 
 	public final static String PDFAUTHOR = "pdfauthor";
 	public final static String PDFCREATIONDATE = "pdfcreationdate";

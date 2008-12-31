@@ -29,13 +29,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFComment;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
@@ -45,10 +44,7 @@ import com.soebes.supose.repository.Repository;
  * It will use the following fields:
  *
  * <ul>
- * <li><i>xlssheets</i> This represents the number of sheets within a workbook.</li>
- * <li><i>xlscommentauthor</i> The author of a cell comment.</li>
- * <li><i>xlscomment</i> The comment for an cell which can be assigned to a cell.</li>
- * <li><i>xlssheetname</i> The name of the sheets within the workbook.</li>
+ * <li><i>xlsauthor</i> The author of Excel document stored in the Excel document.</li>
  * </ul> 
  * @author Karl Heinz Marbaise
  */
@@ -66,7 +62,7 @@ public class ScanExcelDocument extends AScanDocument {
 			//This means we get the contents of the file only. No properties.
 			repository.getRepository().getFile(path, revision, null, baos);
 			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
-			scan(str);
+			scan(str, path);
 		} catch (SVNException e) {
 			LOGGER.error("Exception by SVN: " + e);
 		} catch (Exception e) {
@@ -74,88 +70,26 @@ public class ScanExcelDocument extends AScanDocument {
 		}
 	}
 
-	private void scan(ByteArrayInputStream in) {
+	private void scan(ByteArrayInputStream in, String path) {
 		try {
-//			POIFSFileSystem fs = new POIFSFileSystem(in);
-			HSSFWorkbook workBook = new HSSFWorkbook(in);
-			if (workBook != null) {
-				int numberOfSheets = workBook.getNumberOfSheets();
-				addUnTokenizedField(FieldNames.XLSSHEETS, Integer.toString(numberOfSheets));
-				if (numberOfSheets > 0) {
-					for (int i=0; i<numberOfSheets; i++) {
-						HSSFSheet sheet = workBook.getSheetAt(i);
-						if (sheet != null)
-							scanSheet(workBook.getSheetName(i), sheet);
-				 	}
-				} else {
-					LOGGER.info("There are no sheets in the excel file!");
-				}
-			} else {
-				LOGGER.error("The workBook is null!");
-			}
+			Metadata metadata = new Metadata();
+			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+			AutoDetectParser parser = new AutoDetectParser();
+			DefaultHandler handler = new BodyContentHandler();
+			parser.parse(in, handler, metadata);
+			String excelAuthor = metadata.get(Metadata.AUTHOR);
+			addUnTokenizedField(FieldNames.XLSAUTHOR, excelAuthor == null ? "" : excelAuthor);
+			addTokenizedField(FieldNames.CONTENTS, handler.toString());
+			
 		} catch (Exception e) {
 			LOGGER.error("We had an exception: " + e);
-		}
-	}
-
-
-	private void scanSheet(String sheetName, HSSFSheet sheet) {
-
-		StringBuffer text = new StringBuffer();
-		for (int row=sheet.getFirstRowNum (); row<sheet.getLastRowNum (); row++) {
-			HSSFRow or = sheet.getRow(row);
-
-			if (or != null) {
-				for (short column=or.getFirstCellNum (); column<or.getLastCellNum (); column++) {
-					HSSFCell cell = or.getCell(column);
-					if (cell != null) {
-						HSSFComment comment = cell.getCellComment();
-						if (comment != null) {
-							addUnTokenizedField(FieldNames.XLSCOMMENTAUTHOR, comment.getAuthor() == null ? "" : comment.getAuthor());
-							addUnTokenizedField(FieldNames.XLSCOMMENT, comment.getString() == null ? "" : comment.getString().toString());
-						}
-		
-						text.append(scanCell(sheetName, row, column, cell) + " ");
-					}
-				}
+		} finally {
+			try {
+				in.close();
+			} catch (Exception e) {
+				LOGGER.error("We had an exception during closing: " + e);
 			}
 		}
-		addUnTokenizedField(FieldNames.XLSSHEETNAME, sheetName);
-		addTokenizedField(FieldNames.CONTENTS, text.toString());
 	}
 
-	private String scanCell(String sheetName, int row, short column, HSSFCell cell) {
-		int celltype = cell.getCellType ();
-		String result = "";
-		switch (celltype) {
-			case HSSFCell.CELL_TYPE_STRING:
-				LOGGER.debug("CELL_TYPE_STRING: row:" + row + " column:" + column + " read.");
-				result = cell.getRichStringCellValue().toString();
-				break;
-			case HSSFCell.CELL_TYPE_NUMERIC:
-				LOGGER.debug("CELL_TYPE_NUMERIC: row:" + row + " column:" + column + " read.");
-				result = Double.toString(cell.getNumericCellValue());
-				break;
-			case HSSFCell.CELL_TYPE_FORMULA:
-				LOGGER.debug("CELL_TYPE_FORMULA: row:" + row + " column:" + column + " read.");
-				result = cell.getCellFormula();
-				break;
-			case HSSFCell.CELL_TYPE_BLANK:
-				LOGGER.debug("CELL_TYPE_BLANK: row:" + row + " column:" + column + " read.");
-				result = "";
-				break;
-			case HSSFCell.CELL_TYPE_BOOLEAN:
-				LOGGER.debug("CELL_TYPE_BOOLEAN: row:" + row + " column:" + column + " read.");
-				result = Boolean.toString(cell.getBooleanCellValue());
-				break;
-			case HSSFCell.CELL_TYPE_ERROR:
-				LOGGER.warn("Cell in Excel Sheet: " + sheetName + " produces an CELL_TYPE_ERROR");
-				break;
-			default:
-				LOGGER.error("We got an unknown celltype back celltype=" + celltype);
-				break;
-		}
-		return result;
-	}
-	
 }
