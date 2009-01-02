@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release version="0.5.0 (Ceres)" date="2009-XX-XX" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="add" issue="130">- Update to Lucene 2.4.0</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="135">- New Formats XML, HTML and RTF are now being parsed.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="134">- Updated all License Header informations</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="131">- Integration of Tika for parsing different document types.</action>
