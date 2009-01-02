@@ -29,8 +29,12 @@ import java.io.ByteArrayOutputStream;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
@@ -56,10 +60,7 @@ public class ScanPowerPointDocument extends AScanDocument {
 			repository.getRepository().getFile(path, revision, null, baos);
 			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 
-//TODO: Check if this enough...
-			PowerPointExtractor pe = new PowerPointExtractor(str);
-//TODO: Add fields for slides, title etc.
-			addTokenizedField(FieldNames.CONTENTS, pe.getText());
+			scan(str, path);
 		} catch (SVNException e) {
 			LOGGER.error("Exception by SVN: " + e);
 		} catch (Exception e) {
@@ -67,4 +68,27 @@ public class ScanPowerPointDocument extends AScanDocument {
 		}
 	}
 
+	
+	private void scan(ByteArrayInputStream in, String path) {
+		try {
+			Metadata metadata = new Metadata();
+			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+			AutoDetectParser parser = new AutoDetectParser();
+			DefaultHandler handler = new BodyContentHandler();
+			parser.parse(in, handler, metadata);
+
+//TODO: Check if can get more information out of the PPT file.
+			//like AUTHOR, KEYWORDS etc.
+			addTokenizedField(FieldNames.CONTENTS, handler.toString());
+		} catch (Exception e) {
+			LOGGER.error("We had an exception: " + e);
+		} finally {
+			try {
+				in.close();
+			} catch (Exception e) {
+				LOGGER.error("We had an exception during closing: " + e);
+			}
+		}
+	}
+	
 }
