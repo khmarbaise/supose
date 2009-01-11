@@ -239,6 +239,7 @@
 						<include>**/test/**</include>
 					</includes>
 					<excludes>
+						<exclude>src/main/antlr/**</exclude>
 						<exclude>src/main/java-generated/**</exclude>
 						<exclude>target/**</exclude>
 						<exclude>build/**</exclude>
