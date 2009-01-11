@@ -31,4 +31,20 @@
 			<cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
 		</properties>
 	</profile>
+	<profile>
+		<!--
+			This profile is used to define the URL's etc. if we are
+			on the traveler laptop.
+		-->
+		<id>homeoffice-mac</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+		</activation>
+		<properties>
+			<system.scm.url>http://svn.traveler/supose/</system.scm.url>
+			<system.scm.url.dev>http://svn.traveler/supose/trunk</system.scm.url.dev>
+			<issuemanagement.url>http://redmine.soebes.de/projects/show/supose</issuemanagement.url>
+			<cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
+		</properties>
+	</profile>
 </profiles>
