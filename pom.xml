@@ -562,7 +562,8 @@
 		<dependency>
 			<groupId>org.ini4j</groupId> 
 			<artifactId>ini4j</artifactId> 
-			<version>0.2.6</version>
+			<version>0.3.2</version>
+			<classifier>jdk14</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
