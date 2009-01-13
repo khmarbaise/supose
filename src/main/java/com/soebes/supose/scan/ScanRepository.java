@@ -274,7 +274,8 @@ public class ScanRepository {
 
 	private void indexProperties(Map<String, String> fileProperties, Document doc) {
 		for (Map.Entry<String, String> item : fileProperties.entrySet()) {
-			if (!SVNProperty.isSVNProperty(item.getKey())) {
+			LOGGER.debug("Property: " + item.getKey() + " value:'" + item.getValue() + "'");
+			if (SVNProperty.isRegularProperty(item.getKey())) {
 				//Every property will be stored with key:value.
 				LOGGER.debug("Indexing property: " + item.getKey() + " value:'" + item.getValue() + "'"); 
 				addUnTokenizedField(doc, item.getKey(), item.getValue());
