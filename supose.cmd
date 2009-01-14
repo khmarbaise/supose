@@ -4,29 +4,33 @@
 
 SET CP=
 SET CP=%CP%;.
-SET CP=%CP%;.\lib\commons-cli-2.0-SNAPSHOT.jar
-SET CP=%CP%;.\lib\commons-collections-3.1.jar
-SET CP=%CP%;.\lib\commons-logging-1.0.4.jar
-SET CP=%CP%;.\lib\commons-logging-api.jar
-SET CP=%CP%;.\lib\ganymed.jar
-SET CP=%CP%;.\lib\log4j-1.2.11.jar
-SET CP=%CP%;.\lib\bcmail-jdk14-132.jar
-SET CP=%CP%;.\lib\bcprov-jdk14-132.jar
-SET CP=%CP%;.\lib\FontBox-0.1.0-dev.jar
-SET CP=%CP%;.\lib\lucene-core-2.3.1.jar
-SET CP=%CP%;.\lib\PDFBox-0.7.3.jar
-SET CP=%CP%;.\lib\poi-3.0.2-FINAL-20080204.jar
-SET CP=%CP%;.\lib\poi-contrib-3.0.2-FINAL-20080204.jar
-SET CP=%CP%;.\lib\poi-scratchpad-3.0.2-FINAL-20080204.jar
-SET CP=%CP%;.\lib\quartz-all-1.6.0.jar
-SET CP=%CP%;.\lib\ini4j-0.2.6.jar
-SET CP=%CP%;.\lib\svnkit.jar
-SET CP=%CP%;.\lib\ganymed.jar
-SET CP=%CP%;.\lib\jbossall-client.jar
 SET CP=%CP%;.\lib\antlr-2.7.7.jar
 SET CP=%CP%;.\lib\antlr-3.0.jar
+SET CP=%CP%;.\lib\asm-3.1.jar
+SET CP=%CP%;.\lib\bcmail-jdk14-136.jar
+SET CP=%CP%;.\lib\bcprov-jdk14-136.jar
+SET CP=%CP%;.\lib\commons-cli-2.0-DEV.jar
+SET CP=%CP%;.\lib\commons-codec-1.3.jar
+SET CP=%CP%;.\lib\commons-io-1.4.jar
+SET CP=%CP%;.\lib\commons-lang-2.1.jar
+SET CP=%CP%;.\lib\commons-logging-1.1.jar
+SET CP=%CP%;.\lib\fontbox-0.1.0.jar
+SET CP=%CP%;.\lib\icu4j-3.8.jar
+SET CP=%CP%;.\lib\ini4j-0.3.2-jdk14.jar
+SET CP=%CP%;.\lib\jempbox-0.2.0.jar
+SET CP=%CP%;.\lib\log4j-1.2.14.jar
+SET CP=%CP%;.\lib\lucene-core-2.4.0.jar
+SET CP=%CP%;.\lib\nekohtml-1.9.9.jar
+SET CP=%CP%;.\lib\pdfbox-0.7.3.jar
+SET CP=%CP%;.\lib\poi-3.1-FINAL.jar
+SET CP=%CP%;.\lib\poi-scratchpad-3.1-FINAL.jar
+SET CP=%CP%;.\lib\quartz-all-1.6.0.jar
 SET CP=%CP%;.\lib\stringtemplate-3.0.jar
-SET CP=%CP%;.\lib\@SUPOSE@
-
+SET CP=%CP%;.\lib\supose-0.5.0-SNAPSHOT.jar
+SET CP=%CP%;.\lib\svnkit-1.2.0.4949.jar
+SET CP=%CP%;.\lib\tika-0.2.jar
+SET CP=%CP%;.\lib\trilead-ssh2-build213-svnkit-1.2-patch.jar
+SET CP=%CP%;.\lib\xercesImpl-2.8.1.jar
+SET CP=%CP%;.\lib\xml-apis-1.3.03.jar
 
 java -Xms512m -Xmx1024m -cp %CP% com.soebes.supose.cli.SuposeCLI %*
