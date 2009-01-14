@@ -1,9 +1,38 @@
-+message:fixed +filename:/*/*.xml
+Examples:
+
+The detailed description of the different commands can be found:
+
+http://redmine.soebes.de/wiki/supose/CommandLineDescription
+
+Other Query examples can be found online under:
+
+http://redmine.soebes.de/wiki/supose/RepositoryQuestions
+
+
+Example call:
+  supose.cmd search --index IndexName --query 'querycontent'
+
+
+where querycontent can be of the following:
+
+
+  +message:fixed +filename:/*/*.xml
+
+  +message:fixed +filename:*.xml
 
 Search for a particular property-keys with value
-+svn\:executable:"*"
 
-+svn\:mime-type:"application/octet-stream"
+  +svn\:executable:"*"
 
-Search for revision 100-102 where the filename is eq. to "*.pm"
-(revision:100 revision:101 revision:102) AND (filename:/*/*.pm)
+  +svn\:mime-type:"application/octet-stream"
+
+Search for particular revisions:
+  (revision:100 revision:101 revision:102) AND (filename:/*/*.pm)
+
+
+Search only in a range of revisions:
+
+  +message:fixed +revision:[1 TO 100]
+
+  This will constrain the search for the text in the message field
+  to the revisions 1 to 100.
