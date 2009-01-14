@@ -27,9 +27,7 @@ package com.soebes.supose.scan;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -41,7 +39,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;
 import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.SVNProperties;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
@@ -198,7 +196,7 @@ public class ScanRepository {
 
 	private void indexFile(IndexWriter indexWriter, SVNDirEntry dirEntry, Repository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
 		throws SVNException, IOException {
-			HashMap<String, String> fileProperties  = new HashMap<String, String>();
+			SVNProperties fileProperties = new SVNProperties();
 
 			SVNNodeKind nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision());
 
@@ -258,6 +256,7 @@ public class ScanRepository {
 				//The given entry is a file.
 				//This means we will get every file from the repository....
 				//Get only the properties of the file
+				
 				repository.getRepository().getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, null);
 				indexProperties(fileProperties, doc);
 
@@ -272,14 +271,19 @@ public class ScanRepository {
 	}
 
 
-	private void indexProperties(Map<String, String> fileProperties, Document doc) {
-		for (Map.Entry<String, String> item : fileProperties.entrySet()) {
-			LOGGER.debug("Property: " + item.getKey() + " value:'" + item.getValue() + "'");
-			if (SVNProperty.isRegularProperty(item.getKey())) {
-				//Every property will be stored with key:value.
-				LOGGER.debug("Indexing property: " + item.getKey() + " value:'" + item.getValue() + "'"); 
-				addUnTokenizedField(doc, item.getKey(), item.getValue());
-			}
+	/**
+	 * This method will index only those properties which do not start
+	 * with {@link SVN_WC_PREFIX} nor with {@link SVN_ENTRY_PREFIX}.
+	 * @param fileProperties
+	 * @param doc
+	 */
+	private void indexProperties(SVNProperties fileProperties, Document doc) {
+		SVNProperties list = fileProperties.getRegularProperties();
+
+		for (Iterator<String> iterator = list.nameSet().iterator(); iterator.hasNext();) {
+			String propname = (String) iterator.next();
+			LOGGER.debug("Indexing property: " + propname); 
+			addUnTokenizedField(doc, propname, list.getStringValue(propname));
 		}
 	}
 

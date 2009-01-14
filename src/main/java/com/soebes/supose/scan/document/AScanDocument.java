@@ -26,11 +26,11 @@ package com.soebes.supose.scan.document;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.tmatesoft.svn.core.SVNDirEntry;
+import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNProperty;
 
 import com.soebes.supose.repository.Repository;
@@ -50,7 +50,7 @@ import com.soebes.supose.repository.Repository;
 public abstract class AScanDocument {
 
 	private Document doc;
-	private Map<String, String> properties;
+	private SVNProperties properties;
 
 
 	public AScanDocument() {
@@ -100,20 +100,20 @@ public abstract class AScanDocument {
 	}
 
 	protected boolean isBinary () {
-		String mimeType = getProperties().get(SVNProperty.MIME_TYPE);
+		String mimeType = getProperties().getStringValue(SVNProperty.MIME_TYPE);
 		return SVNProperty.isBinaryMimeType(mimeType);
 	}
 	protected boolean isText () {
-		String mimeType = getProperties().get(SVNProperty.MIME_TYPE);
+		String mimeType = getProperties().getStringValue(SVNProperty.MIME_TYPE);
 		return SVNProperty.isTextMimeType(mimeType);
 	}
 
 	
-	public Map<String, String> getProperties() {
+	public SVNProperties getProperties() {
 		return properties;
 	}
 
-	public void setProperties(Map<String, String> properties) {
+	public void setProperties(SVNProperties properties) {
 		this.properties = properties;
 	}
 

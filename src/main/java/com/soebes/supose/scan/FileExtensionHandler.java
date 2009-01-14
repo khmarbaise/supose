@@ -24,11 +24,10 @@
  */
 package com.soebes.supose.scan;
 
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.tmatesoft.svn.core.SVNDirEntry;
+import org.tmatesoft.svn.core.SVNProperties;
 
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.document.AScanDocument;
@@ -43,7 +42,7 @@ import com.soebes.supose.utility.FileName;
 public class FileExtensionHandler {
 	private Document doc;
 
-	private Map fileProperties;
+	private SVNProperties fileProperties;
 
 	private static Logger LOGGER = Logger.getLogger(FileExtensionProperty.class);
 
@@ -94,11 +93,11 @@ public class FileExtensionHandler {
 		this.doc = doc;
 	}
 
-	public Map getFileProperties() {
+	public SVNProperties getFileProperties() {
 		return fileProperties;
 	}
 
-	public void setFileProperties(Map fileProperties) {
+	public void setFileProperties(SVNProperties fileProperties) {
 		this.fileProperties = fileProperties;
 	}
 }
