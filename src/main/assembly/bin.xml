@@ -43,6 +43,7 @@
 		<fileSet>
 			<includes>
 				<include>supose.*</include>
+				<include>search-examples.txt</include>
 			</includes>
 			<excludes>
 				<exclude>*.log</exclude>
