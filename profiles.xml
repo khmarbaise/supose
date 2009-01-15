@@ -9,8 +9,8 @@
 			<activeByDefault>false</activeByDefault>
 		</activation>
 		<properties>
-			<system.scm.url>http://svn.traveler/supose/</system.scm.url>
-			<system.scm.url.dev>http://svn.traveler/supose/trunk</system.scm.url.dev>
+			<system.scm.url>http://svn.serverix/supose/</system.scm.url>
+			<system.scm.url.dev>http://svn.serverix/supose/trunk</system.scm.url.dev>
 			<issuemanagement.url>http://redmine.soebes.de/projects/show/supose</issuemanagement.url>
 			<cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
 		</properties>
