@@ -505,18 +505,6 @@
 		</site>
 	</distributionManagement>
 
-	<!-- This is needed for TestNG -->
-	<pluginRepositories>
-		<pluginRepository>
-			<id>apache.snapshots</id>
-			<url>http://people.apache.org/repo/m2-snapshot-repository</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>dstovall.org</id>
-			<url>http://dstovall.org/maven2/</url>
-		</pluginRepository>
-	</pluginRepositories>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -536,11 +524,6 @@
 			<version>1.2.0.4949</version>
 			<!--			<version>1.2.2.5405</version> -->
 		</dependency>
-		<dependency>
-			<groupId>com.trilead</groupId>
-			<artifactId>trilead-ssh2</artifactId>
-			<version>build213-svnkit-1.2-patch</version>
-  		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -584,34 +567,4 @@
 		</dependency>
 	</dependencies>
 
-	<repositories>
-		<!-- Repository needed for ini4j -->
-		<!-- We couldn't use it this time, cause it using Java 1.6 => README -->
-		<!--
-		<repository>
-			<id>ini4j-release</id> 
-			<name>[ini4j] releases on SourceForge</name> 
-			<url>http://www.ini4j.org/repository/release/</url> 
-		</repository>
-		-->
-		<repository>
-			<id>JBoss</id>
-			<name>JBoss</name>
-			<url>http://repository.jboss.com/maven2/</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<name>Java.net Repository for Maven</name>
-			<url>http://download.java.net/maven/2/</url>
-			<layout>default</layout>
-		</repository>
-		<!-- for SVNKit Release 1.1.8 -->
-		<repository>
-			<id>atlassian.m2proxy</id>
-			<name>Atlassian.com m2proxy</name>
-			<url>https://m2proxy.atlassian.com/repository/public</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
 </project>

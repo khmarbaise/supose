@@ -5,6 +5,10 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.5.0 (Ceres) Alpha 2" date="2009-XX-XX" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="add" issue="145">- Removed Repository dependencies from POM.</action>
+
+		</release>
 		<release version="0.5.0 (Ceres) Alpha 1" date="2009-01-14" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="add" issue="144">- Add search-examples.txt file to the distribution archived.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="143">- Fixed assembly configuration file for bin distribution not to doulbe supose jar file.</action>
