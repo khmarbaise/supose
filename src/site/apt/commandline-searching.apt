@@ -23,42 +23,27 @@
 ~~ just write an email to license@soebes.de
 ~~
 		-----
-		Features of SupoSE
+		Command line
 		-----
 		Karl Heinz Marbaise
 		------
 
-Features of SupoSE
+Searching via Command Line
 
-* Basics
+* Overview
 
-  * Multiple Repository Support
-
-  * Search for Filenames
-
-  * You can search for the contents of files
-
-  * You can search for particular revisions or revision ranges
-
-  * You can search for properties
+  To search for particular information you can use the command line
+  search.
 
 
-  More or less all the above can be combined to constrain a search for particular 
-  informations whihch are stored in the repository.
+  The command to start with searching is as follows:
 
++---
+supose.cmd search --index IndexName --query "..."
++---
 
+  The option <<<--index IndexName>>>, will define the name of the index which 
+  will be used for searching.
 
-
-** Sub-Sub-section
-
- * Item 1
- * Item 2
-   Paragraph asdflasdkjflaj adf asdfl
-   * Item 11
-   * Item 12
-
-*** Sub-Sub-Sub-section
-
-**** Sub-Sub-Sub-Sub-section
-
-
+  The option <<<--query "...">>> contains the real Lucene query which 
+  defines the criterias to search the index.

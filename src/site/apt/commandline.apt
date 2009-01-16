@@ -23,42 +23,30 @@
 ~~ just write an email to license@soebes.de
 ~~
 		-----
-		Features of SupoSE
+		Command line
 		-----
 		Karl Heinz Marbaise
 		------
 
-Features of SupoSE
+Command Line Description
 
-* Basics
+* Overview
 
-  * Multiple Repository Support
+  You can use SupoSE to scan a single or multiple repositories. As a
+  start you can scan a single repository. In real live situation you 
+  would use the Scheduling mechanism to scan your repositories 
+  for new changesets. 
 
-  * Search for Filenames
+  To search for particular information you can use the command line
+  search.
 
-  * You can search for the contents of files
+  The merging can be used to merge different indexes together.
 
-  * You can search for particular revisions or revision ranges
+** Command Line overview
 
-  * You can search for properties
+  The commandline comprises of command and it's appropriate options for that
+  command.
 
-
-  More or less all the above can be combined to constrain a search for particular 
-  informations whihch are stored in the repository.
-
-
-
-
-** Sub-Sub-section
-
- * Item 1
- * Item 2
-   Paragraph asdflasdkjflaj adf asdfl
-   * Item 11
-   * Item 12
-
-*** Sub-Sub-Sub-section
-
-**** Sub-Sub-Sub-Sub-section
-
-
++--- 
+supose.cmd Command Options
++---

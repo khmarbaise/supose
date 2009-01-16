@@ -47,11 +47,13 @@
 		<head>
 			<meta name="faq" content="faq.html"/>
 		</head>
-		<menu name="Quick Links">
-			<item name="Features" href="/features.html"/>
-		</menu>
 		<menu name="About SupoSE">
 			<item name="What is SupoSE?" href="/what-is-supose.html"/>
+			<item name="Features" href="/features.html"/>
+		</menu>
+		<menu name="Command Line">
+			<item name="Command Line" href="/commandline.html"/>
+			<item name="Searching" href="/commandline-searching.html"/>
 		</menu>
 		${reports}
 	</body>
