@@ -521,8 +521,7 @@
 		<dependency>
 			<groupId>org.tmatesoft.svnkit</groupId>
 			<artifactId>svnkit</artifactId>
-			<version>1.2.0.4949</version>
-			<!--			<version>1.2.2.5405</version> -->
+			<version>1.2.2.5405</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
