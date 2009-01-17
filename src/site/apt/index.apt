@@ -27,24 +27,12 @@
 		-----
 		Karl Heinz Marbaise
 		------
-		17.01.2008
+		18.01.2008
 
-Section title
+Overview
 
-* Sub-section
+  SupoSE is an abbreviation for Subversion Repository Search Engine. It's intention is to search in all files
+  of all revision and all paths within single or multiple Subversion Repositories.
 
-** Sub-Sub-section
-
- * Item 1
-
- * Item 2
-
-   Paragraph asdflasdkjflaj adf asdfl
-
-   * Item 11
-   * Item 12
-
-*** Sub-Sub-Sub-section
-
-**** Sub-Sub-Sub-Sub-section
+  If you have any questions about SupoSE just simple write an email to {{mailto:supose@soebes.de}}
 

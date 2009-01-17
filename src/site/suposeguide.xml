@@ -1,0 +1,34 @@
+<book>
+	<id>supose-guide</id>
+	<title>The SupoSE Manual</title>
+	<chapters>
+		<chapter>
+			<title>Overview</title>
+			<id>features</id>
+			<sections>
+				<section>
+					<id>index</id>
+				</section>
+				<section>
+					<id>what-is-supose</id>
+				</section>
+				<section>
+					<id>features</id>
+				</section>
+			</sections>
+		</chapter>
+		<chapter>
+			<title>Command Line</title>
+			<id>command</id>
+			<sections>
+				<section>
+					<id>commandline</id>
+				</section>
+				<section>
+					<id>commandline-searching</id>
+				</section>
+			</sections>
+		</chapter>
+	</chapters>
+</book>
+
