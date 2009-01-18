@@ -59,7 +59,7 @@ public class IndexMergeTest {
 	}
 
 	private static void addTokenizedField(Document doc, String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.TOKENIZED));
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.ANALYZED));
 	}
 
 	@AfterClass

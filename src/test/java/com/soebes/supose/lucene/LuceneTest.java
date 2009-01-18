@@ -24,9 +24,11 @@
  */
 package com.soebes.supose.lucene;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -36,9 +38,9 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
@@ -57,10 +59,10 @@ public class LuceneTest {
     private IndexSearcher isearcher = null;
 
 	private void addUnTokenizedField(Document doc, String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.UN_TOKENIZED));
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 	private void addTokenizedField(Document doc, String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.TOKENIZED));
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.ANALYZED));
 	}
 
 	@BeforeClass
@@ -69,7 +71,7 @@ public class LuceneTest {
 
 	    // To store an index on disk, use this instead:
 	    //Directory directory = FSDirectory.getDirectory("/tmp/testindex");
-	    IndexWriter iwriter = new IndexWriter(directory, analyzer, true);
+	    IndexWriter iwriter = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
 	    iwriter.setMaxFieldLength(25000);
 
 	    Document doc = new Document();
@@ -106,15 +108,19 @@ public class LuceneTest {
 	    isearcher = new IndexSearcher(directory);
 	}
 
-	private void printOut(String msg, Hits hits) throws CorruptIndexException, IOException {
-		System.out.println(msg);
-	    for (int i = 0; i < hits.length(); i++) {
-	      Document hitDoc = hits.doc(i);
-	      System.out.println("\tDoc [" + i + "]"); 
-	      System.out.println("\t   filename:" + hitDoc.get(FieldNames.FILENAME));
-	      System.out.println("\t  fieldname:" + hitDoc.get(FieldNames.CONTENTS));
-	    }
+	private void printOut(Query query, String msg, TopDocs result) throws CorruptIndexException, IOException {
+		System.out.println("Message: " + msg);
+		System.out.println(" -> Query: " + query.toString());
+	    for (int i = 0; i < result.scoreDocs.length; i++) {
+	    	System.out.println(" -> Document[" + i + "]");
+	    	Document hit = isearcher.doc(result.scoreDocs[i].doc);
+	    	for (Iterator<Field> iterator = hit.getFields().iterator(); iterator.hasNext();) {
+	    		Field field = (Field) iterator.next();
+				System.out.println("   --> Field: " + field.name() + " v:" + field.stringValue());
+			}
+		}
 	}
+
 	
 	@AfterClass
 	public void afterClass() throws IOException {
@@ -123,99 +129,97 @@ public class LuceneTest {
 	}
 
 	@Test
-	public void testTheFirstSearch() throws ParseException, IOException {
+	public void testSingleAsterik() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/*.doc");
-	    Hits hits = isearcher.search(query);
-	    // Iterate through the results:
-	    printOut("testTheFirstSearch[" + hits.length() + "]", hits);
-	    assertEquals(hits.length(), 3);
+	    TopDocs result = isearcher.search(query, null, 10);
+	    printOut(query, "testSingleAsterik", result);
+	    assertEquals(result.totalHits, 3);
 	}
 
 	
 	@Test
-	public void testTheSecondSearch() throws ParseException, IOException {
+	public void testSingleAsterikWithPrefix() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/trunk/*.doc");
-	    Hits hits = isearcher.search(query);
+	    TopDocs result = isearcher.search(query, null, 10);
 	    // Iterate through the results:
-	    printOut("testTheSecondSearch[" + hits.length() + "]", hits);
-	    assertEquals(hits.length(), 2);
+	    printOut(query, "testSingleAsterikWithPrefix", result);
+	    assertEquals(result.totalHits, 2);
 	}
 
 	@Test
-	public void testTheThirdSearch() throws ParseException, IOException {
+	public void testMultipleAsterik() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/*te*.doc");
-	    System.out.println("Query: " + query.toString());
-	    Hits hits = isearcher.search(query);
-	    printOut("testTheThirdSearch[" + hits.length() + "]", hits);
-	    assertEquals(hits.length(), 1);
+	    TopDocs result = isearcher.search(query, null, 10);
+	    printOut(query, "testMultipleAsterik", result);
+	    assertEquals(result.totalHits, 1);
 	}
 
 	@Test
-	public void testTheForthSearch() throws ParseException, IOException {
+	public void testMultipleAsterikUppercase() throws ParseException, IOException {
 		 Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
-	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
-	    System.out.println("S:" + parser.getPhraseSlop());
 	    parser.setLowercaseExpandedTerms(false);
 	    Query query = parser.parse("+filename:/*SCM*.doc");
-	    System.out.println("Query: " + query.toString());
-	    Hits hits = isearcher.search(query);
-	    printOut("testTheForthSearch[" + hits.length() + "]", hits);
-	    assertTrue(hits.length() == 1, "Expected to get at least one element.");
+	    TopDocs result = isearcher.search(query, null, 10);
+	    printOut(query, "testMultipleAsterikUppercase", result);
+	    assertTrue(result.totalHits == 1, "Expected to get at least one element.");
 	}
 
 	@Test
-	public void testTheFifthSearch10() throws ParseException, IOException {
+	public void testMultipleAsterikLowerCase() throws ParseException, IOException {
+		 Analyzer analyzer = new StandardAnalyzer();
+	    // Parse a simple query that searches for "text":
+	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
+	    parser.setLowercaseExpandedTerms(false);
+	    Query query = parser.parse("+filename:/*scm*.doc");
+	    TopDocs result = isearcher.search(query, null, 10);
+	    printOut(query, "testMultipleAsterikLowerCase", result);
+	    assertTrue(result.totalHits == 1, "Expected to get at least one element.");
+	}
+
+	@Test
+	public void testSingleAsterikRestrictionToRevisionRange() throws ParseException, IOException {
 		Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
-	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
-	    System.out.println("S:" + parser.getPhraseSlop());
 	    parser.setLowercaseExpandedTerms(true);
 	    Query query = parser.parse("+filename:/*.doc +revision:[1 TO 3]");
-	    System.out.println("Query: " + query.toString());
-	    Hits hits = isearcher.search(query);
-	    printOut("testTheFifthSearch[" + hits.length() + "]", hits);
-	    assertTrue(hits.length() == 2, "Expected to get two elements.");
+	    TopDocs result = isearcher.search(query, null, 10);
+	    printOut(query, "testSingleAsterikRestrictionToRevisionRange", result);
+	    assertTrue(result.totalHits == 2, "Expected to get two elements.");
 	}
 	@Test
-	public void testTheFifthSearch11() throws ParseException, IOException {
+	public void testSingleAsterikRestrictionToDifferentRevisionRange() throws ParseException, IOException {
 		Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
-	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
-	    System.out.println("S:" + parser.getPhraseSlop());
 	    parser.setLowercaseExpandedTerms(true);
 	    Query query = parser.parse("+filename:/*.doc +revision:[1 TO 2]");
-	    System.out.println("Query: " + query.toString());
-	    Hits hits = isearcher.search(query);
-	    printOut("testTheFifthSearch[" + hits.length() + "]", hits);
-	    assertTrue(hits.length() == 1, "Expected to get two elements.");
+	    TopDocs result = isearcher.search(query, null, 10);
+	    printOut(query, "testSingleAsterikRestrictionToDifferentRevisionRange", result);
+	    assertTrue(result.totalHits == 1, "Expected to get two elements.");
 	}
 	
 	@Test
-	public void testTheSixthSearch() throws ParseException, IOException {
+	public void testSingleRevision() throws ParseException, IOException {
 		Analyzer analyzer = new StandardAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
-	    System.out.println("X:" + parser.getLowercaseExpandedTerms());
-	    System.out.println("S:" + parser.getPhraseSlop());
 	    parser.setLowercaseExpandedTerms(true);
 	    Query query = parser.parse("+revision:1");
-	    System.out.println("Query: " + query.toString());
-	    Hits hits = isearcher.search(query);
-	    printOut("testTheFifthSearch[" + hits.length() + "]", hits);
-	    assertTrue(hits.length() == 1, "Expected to get two elements.");
+	    TopDocs result = isearcher.search(query, null, 10);
+	    printOut(query, "testTheFifthSearch]", result);
+	    assertTrue(result.totalHits == 1, "Expected to get two elements.");
 	}
 
 }

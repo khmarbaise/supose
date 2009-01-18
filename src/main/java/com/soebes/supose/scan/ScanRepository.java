@@ -179,19 +179,19 @@ public class ScanRepository {
 	}
 
 	protected void addTokenizedField(Document doc, String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.TOKENIZED));
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.ANALYZED));
 	}
 	private void addUnTokenizedField(Document doc, String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.UN_TOKENIZED));
+		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 	private void addUnTokenizedField(Document doc, String fieldName, Long value) {
-		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 	private void addUnTokenizedField(Document doc, String fieldName, Date value) {
-		doc.add(new Field(fieldName,  value.toGMTString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+		doc.add(new Field(fieldName,  value.toGMTString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 	private void addUnTokenizedField(Document doc, String fieldName, Character value) {
-		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 
 	private void indexFile(IndexWriter indexWriter, SVNDirEntry dirEntry, Repository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 

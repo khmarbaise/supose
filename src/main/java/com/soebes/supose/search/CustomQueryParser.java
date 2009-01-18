@@ -66,7 +66,6 @@ public class CustomQueryParser extends QueryParser {
 	protected Query getRangeQuery(String field, String part1, String part2,
 		boolean inclusive) throws ParseException {
 		if (FieldNames.REVISION.equals(field)) {
-			System.out.println("*** The revision field A:" + part1 + " B:" + part2);
 			try {
 				int num1 = Integer.parseInt(part1);
 				int num2 = Integer.parseInt(part2);

@@ -27,6 +27,7 @@ package com.soebes.supose.cli;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.cli2.CommandLine;
@@ -41,12 +42,15 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.HitCollector;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TopDocs;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -296,25 +300,31 @@ public class SuposeCLI {
 	        QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	        //We will allow using a wildcard at the beginning of the expression.
 	        parser.setAllowLeadingWildcard(true);
+	        //The search term will not be expanded to lowercase.
+	        parser.setLowercaseExpandedTerms(false);
 	        Query query = parser.parse(queryLine);
-			Hits hits = searcher.search(query, sort);
 
-			System.out.println("Query analyzer:" + query.toString());
-			for (int i = 0; i < hits.length(); i++) {
-				Document doc = hits.doc(i);
-				List<Field> fieldList = doc.getFields();
+	        //That's not the best idea...but currently i have not better solution for this...
+	        TopDocs tmp = searcher.search(query, null, 20, sort);
+		    TopDocs result = searcher.search(query, null, tmp.totalHits, sort);
+
+		    System.out.println("Query analyzer:" + query.toString());
+			System.out.println("Total Hits: " + result.totalHits);
+		    for (int i = 0; i < result.scoreDocs.length; i++) {
+		    	Document hit = searcher.doc(result.scoreDocs[i].doc);
+				List<Field> fieldList = hit.getFields();
 				System.out.print((i+1) + ". ");
 				for(int k=0; k<fieldList.size();k++) {
 					Field field = (Field) fieldList.get(k);
 					if ((cliFields.size() > 0) && cliFields.contains(field.name())) {
 						System.out.print(field.name() + ": " + field.stringValue() + " ");
 					} else {
+						if (FieldNames.FILENAME.equals(field.name())) {
+							System.out.print("F:" + field.stringValue() + " ");
+						}
 						if (FieldNames.REVISION.equals(field.name())) {
 							long rev = Long.parseLong(field.stringValue());
 							System.out.print("R:" + rev + " ");
-						}
-						if (FieldNames.FILENAME.equals(field.name())) {
-							System.out.print("F:" + field.stringValue() + " ");
 						}
 						if (FieldNames.KIND.equals(field.name())) {
 							System.out.print("K:" + field.stringValue() + " ");
