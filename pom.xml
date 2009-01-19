@@ -8,6 +8,7 @@
 	<name>Subversion Repository Search Engine</name>
 	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
 		into an Lucene Index to do search queris on it later.</description>
+	<url>http://www.supose.org</url>
 	<licenses>
 		<license>
 			<name>The GNU General Public License Version 2</name>
