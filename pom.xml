@@ -331,7 +331,7 @@
 				<version>1.0-alpha-10</version>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>pre-site</phase>
 						<goals>
 							<goal>render-books</goal>
 						</goals>

@@ -48,12 +48,16 @@
 			<meta name="faq" content="faq.html"/>
 		</head>
 		<menu name="About SupoSE">
+			<item name="Home" href="/index.html"/>
 			<item name="What is SupoSE?" href="/what-is-supose.html"/>
 			<item name="Features" href="/features.html"/>
 		</menu>
 		<menu name="Command Line">
-			<item name="Command Line" href="/commandline.html"/>
-			<item name="Searching" href="/commandline-searching.html"/>
+			<item name="Overview" href="/commandline.html"/>
+			<item name="Scanning" href="/commandline-scan.html"/>
+			<item name="Searching" href="/commandline-search.html"/>
+			<item name="Scheduling" href="/commandline-schedule.html"/>
+			<item name="Merging" href="/commandline-merge.html"/>
 		</menu>
 		${reports}
 	</body>

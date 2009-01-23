@@ -23,33 +23,25 @@
 ~~ just write an email to license@soebes.de
 ~~
 		-----
-		Command line
+		Merge
 		-----
 		Karl Heinz Marbaise
 		------
 
-Command Line
+Merging via Command Line
 
 * Overview
 
-  You can use SupoSE to scan a single or multiple repositories. As a
-  start you can scan a single repository. In real live situation you 
-  would use the scheduling mechanism to scan your repositories 
-  for new changesets. 
+  If you have multiple indexes generated you can use the merge
+  command to combine those indexes into a single one.
 
-  To search for particular information you can use the
-  {{{commandline-search.html}command line search}}.
 
-  The merging can be used to merge different indexes together.
+  The command to start with merge is as follows:
 
-** Different Commands
-
-  The commandline comprises of command and it's appropriate options for that
-  command.
-
-+--- 
-supose.cmd Command Options
++---
+supose.cmd merge --url URL --index IndexName --create
 +---
 
-  Currently the commands {{{commandline-scan.html}scan}}, {{{commandline-search.html}search}},
-  {{{commandline-merge.html}merge}} and {{{commandline-schedule.html}schedule}} are available.
+  The option <<<--url URL>>>, will define which repository will be scanned
+  and indexed. Usually you give a thing like http://svn.supose.org/supose
+  to define a particular repository.
