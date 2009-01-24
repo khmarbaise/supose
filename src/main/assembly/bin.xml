@@ -41,8 +41,13 @@
 	</dependencySets>	
 	<fileSets>
 		<fileSet>
+			<filtered>true</filtered>
 			<includes>
-				<include>supose.*</include>
+				<include>supose.cmd</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<includes>
 				<include>search-examples.txt</include>
 			</includes>
 			<excludes>

@@ -19,8 +19,10 @@
 	</licenses>
 
 	<properties>
-		<lib>${basedir}/lib</lib>
 		<maven-license-plugin.version>1.4.0</maven-license-plugin.version>
+		<quartz.version>1.6.4</quartz.version>
+		<ini4j.version>0.3.2</ini4j.version>
+		<lucene.version>2.4.0</lucene.version>
 	</properties>
 
 	<organization>
@@ -155,6 +157,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-3</version>
 				<configuration>
 					<descriptors>
 						<descriptor>src/main/assembly/bin.xml</descriptor>
@@ -299,20 +302,19 @@
 				</executions>
 			</plugin>
 
+<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.0-beta-2</version>
 				<configuration>
-					<!-- prefix all bin files with "SupoSE" -->
 					<binPrefix>SupoSE</binPrefix>
-					<!-- set alternative assemble directory -->
-					<assembleDirectory>${project.build.directory}/mycompany-assemble</assembleDirectory>
-					<!-- Extra JVM arguments that will be included in the bin scripts -->
+					<assembleDirectory>${project.build.directory}/supose-assemble</assembleDirectory>
 					<extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
 					<generateRepository>false</generateRepository>
+					<repositoryName>lib</repositoryName>
 					<repositoryLayout>flat</repositoryLayout>
-					<includeConfigurationDirectoryInClasspath>false</includeConfigurationDirectoryInClasspath>
-					<!-- Generate bin scripts for windows and unix pr default -->
+					<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
 					<platforms>
 						<platform>windows</platform>
 						<platform>unix</platform>
@@ -320,11 +322,20 @@
 					<programs>
 						<program>
 							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
+							<name>supose</name>
 						</program>
 					</programs>
+					<executions>
+						<execution>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>assemble</goal>
+							</goals>
+						</execution>
+					</executions>
 				</configuration>
 			</plugin>
-
+-->
 			<plugin>
 				<groupId>org.apache.maven.doxia</groupId>
 				<artifactId>doxia-maven-plugin</artifactId>
@@ -577,7 +588,7 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>2.4.0</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>pdfbox</groupId>
@@ -587,12 +598,12 @@
 		<dependency>
 			<groupId>opensymphony</groupId>
 			<artifactId>quartz</artifactId>
-			<version>1.6.4</version>
+			<version>${quartz.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.ini4j</groupId> 
 			<artifactId>ini4j</artifactId> 
-			<version>0.3.2</version>
+			<version>${ini4j.version}</version>
 			<classifier>jdk14</classifier>
 		</dependency>
 		<dependency>
