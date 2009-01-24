@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.soebes</groupId>
 	<artifactId>supose</artifactId>
-	<version>0.5.0</version>
+	<version>0.5.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Subversion Repository Search Engine</name>
@@ -71,9 +71,9 @@
 	</ciManagement>
 
 	<scm>
-		<connection>scm:svn:http://svn.serverix/supose/tags/R_0.5.0</connection>
-		<developerConnection>scm:svn:http://svn.serverix/supose/tags/R_0.5.0</developerConnection>
-		<url>http://svn.serverix/supose/tags/R_0.5.0</url>
+		<connection>scm:svn:http://svn.serverix/supose/</connection>
+		<developerConnection>scm:svn:http://svn.serverix/supose/trunk</developerConnection>
+		<url>http://svn.serverix/supose/</url>
 	</scm>
 
 	<build>
