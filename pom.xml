@@ -255,8 +255,8 @@
 					</mapping>
 					<useDefaultMapping>true</useDefaultMapping>
 					<properties>
-						<year>${project.inceptionYear}</year>
-						<email>my@email.com</email>
+						<year>2007, 2008, 2009</year>
+						<email>supose@soebes.org</email>
 					</properties>
 				</configuration>
 				<executions>
