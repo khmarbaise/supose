@@ -73,14 +73,14 @@
 	</issueManagement>
 
 	<ciManagement>
-		<system>continuum</system>
+		<system>Hudson</system>
 		<url>${cimanagement.url}</url>
 	</ciManagement>
 
 	<scm>
-		<connection>scm:svn:http://svn.serverix/supose/</connection>
-		<developerConnection>scm:svn:http://svn.serverix/supose/trunk</developerConnection>
-		<url>http://svn.serverix/supose/</url>
+		<connection>scm:svn:${system.scm.url.dev}/trunk</connection>
+		<developerConnection>scm:svn:${system.scm.url.dev}/trunk</developerConnection>
+		<url>http://www.supose.org/repositories/show/supose</url>
 	</scm>
 
 	<build>
