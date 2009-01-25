@@ -45,7 +45,6 @@
 
 	<contributors>
 		<contributor>
-			<id>msuchy</id>
 			<email>msuchy@redhat.com</email>
 			<roles>
 				<role>reporter</role>
@@ -53,7 +52,6 @@
 			</roles>
 		</contributor>
 		<contributor>
-			<id>blee</id>
 			<email>bill.lee@sungardhe.com</email>
 			<roles>
 				<role>reporter</role>
@@ -61,7 +59,6 @@
 			</roles>
 		</contributor>
 		<contributor>
-			<id>mschlieker</id>
 			<name>Mark Schlieker</name>
 			<roles>
 				<role>reporter</role>
