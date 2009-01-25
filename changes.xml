@@ -5,6 +5,9 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.5.1 Europa" date="2009-XX-XX" description="Milestone">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="158">- Fixed URL to issue tracking system in generated site.</action>
+		</releasae>
 		<release version="0.5.0 Ceres" date="2009-01-24" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="fix" issue="153">- Removed references to Hits; Using different approach.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="152">- Added URL for project.</action>
