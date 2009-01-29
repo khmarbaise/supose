@@ -132,8 +132,7 @@ public class SuposeCLI {
 		Index index = new Index ();
 		//We will create a new one if --create is given on command line
 		//otherwise we will append to the existing index.
-//		Analyzer analyzer = new StandardAnalyzer();		
-		Analyzer analyzer = new IgnoreCaseAnalyzer();		
+		Analyzer analyzer = new StandardAnalyzer();		
 		index.setAnalyzer(analyzer);
 		index.setCreate(create);
 		IndexWriter indexWriter = index.createIndexWriter(indexDirectory);
@@ -287,8 +286,7 @@ public class SuposeCLI {
 	    	reader = IndexReader.open(indexDirectory);
 	    	
 	    	Searcher searcher = new IndexSearcher(reader);
-//	    	Analyzer analyzer = new StandardAnalyzer();
-	    	Analyzer analyzer = new IgnoreCaseAnalyzer();
+	    	Analyzer analyzer = new StandardAnalyzer();
 //	    	Analyzer analyzer = new KeywordAnalyzer();
 
 	    	//Sort primary based on Revision
