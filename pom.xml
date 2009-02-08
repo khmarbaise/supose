@@ -69,7 +69,7 @@
 
 	<issueManagement>
 		<system>Redmine</system>
-		<url>${issuemanagement.url}</url>
+		<url>http://www.supose.org</url>
 	</issueManagement>
 
 	<ciManagement>
@@ -78,9 +78,9 @@
 	</ciManagement>
 
 	<scm>
-		<connection>scm:svn:${system.scm.url.dev}/trunk</connection>
-		<developerConnection>scm:svn:${system.scm.url.dev}/trunk</developerConnection>
-		<url>http://www.supose.org/repositories/show/supose</url>
+		<connection>${system.scm.connection}</connection>
+		<developerConnection>${system.scm.dev}/trunk</developerConnection>
+		<url>${system.scm.url}</url>
 	</scm>
 
 	<build>
@@ -95,10 +95,9 @@
 						<phase>clean</phase>
 						<configuration>
 							<tasks unless="maven.test.skip">
-								<echo>Profile: ${system.profile}</echo>
-								<echo>    Env: ${system.profile.environment}</echo>
-								<echo> DB URL: ${database.url}</echo>
 								<echo>SCM URL: ${system.scm.url}</echo>
+								<echo>SCM DEV: ${system.scm.dev}</echo>
+								<echo>SCM CON: ${system.scm.connection}</echo>
 								<echo> DI URL: ${system.site.deployment}</echo>
 							</tasks>
 						</configuration>
@@ -236,8 +235,10 @@
 				</executions>
 			</plugin>
 			
-		<!-- Configuration of the plugin: http://code.google.com/p/maven-license-plugin/wiki/Configuration -->
 			<plugin>
+				<!--
+					Configuration of the plugin: http://code.google.com/p/maven-license-plugin/wiki/Configuration
+				-->
 				<groupId>com.google.code.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<version>${maven-license-plugin.version}</version>
@@ -430,8 +431,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-changes-plugin</artifactId>
+				<version>2.1</version>
 				<configuration>
-					<issueLinkTemplate>http://redmine.soebes.de/issues/show/%ISSUE%</issueLinkTemplate>
+					<issueLinkTemplate>http://www.supose.org/issues/show/%ISSUE%</issueLinkTemplate>
+					<!-- 
+						WARNING:	Currently the using of the following does not work as expected.
+									The above line will produce a warning during site generation goal.
+
+						<issueLinkTemplatePerSystem>
+							<Redmine>http://www.supose.org/issues/show/%ISSUE%</Redmine>
+						</issueLinkTemplatePerSystem>
+					-->
 					<xmlPath>${basedir}/changes.xml</xmlPath>
 				</configuration>
 				<reportSets>

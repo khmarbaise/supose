@@ -83,7 +83,7 @@ public class ScanRepository {
 	@SuppressWarnings("unchecked")
 	public void scan(IndexWriter writer) {
 
-       LOGGER.debug("Repositories latest Revision: " + endRevision);
+       LOGGER.trace("Repositories latest Revision: " + endRevision);
         Collection<SVNLogEntry> logEntries = null;
         try {
             logEntries = repository.getRepository().log(new String[] {""}, null, startRevision, endRevision, true, true);
@@ -93,27 +93,27 @@ public class ScanRepository {
             return;
         }
 
-        LOGGER.debug("We have " + logEntries.size() + " change sets to scan.");
+        LOGGER.info("We have " + logEntries.size() + " change sets to scan.");
         for (Iterator entries = logEntries.iterator(); entries.hasNext();) {
             SVNLogEntry logEntry = (SVNLogEntry) entries.next();
 
             if (LOGGER.isDebugEnabled()) {
-	            LOGGER.debug("---------------------------------------------");
-	            LOGGER.debug("revision: " + logEntry.getRevision());
-	            LOGGER.debug("author: " + logEntry.getAuthor());
-	            LOGGER.debug("date: " + logEntry.getDate());
-	            LOGGER.debug("log message: " + logEntry.getMessage());
+	            LOGGER.trace("---------------------------------------------");
+	            LOGGER.trace("revision: " + logEntry.getRevision());
+	            LOGGER.trace("author: " + logEntry.getAuthor());
+	            LOGGER.trace("date: " + logEntry.getDate());
+	            LOGGER.trace("log message: " + logEntry.getMessage());
             }
 
             if (logEntry.getChangedPaths().size() > 0) {
-            	LOGGER.debug("changed paths:");
+            	LOGGER.trace("changed paths:");
 				try {
 					workOnChangeSet(writer, repository, logEntry);
 				} catch (Exception e) {
 	            	LOGGER.error("Error during workOnChangeSet() " + e);
 				}                
             } else {
-            	LOGGER.debug("No changed paths found!");
+            	LOGGER.trace("No changed paths found!");
             }
         }
 		repository.close();
@@ -135,7 +135,7 @@ public class ScanRepository {
 			count ++;
 
 			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
-			LOGGER.debug(" "
+			LOGGER.trace(" "
 		            + entryPath.getType()
 		            + "	"
 		            + entryPath.getPath()
@@ -148,24 +148,24 @@ public class ScanRepository {
 		    
 			try {
 				if (SVNLogEntryPath.TYPE_ADDED == entryPath.getType()) {
-					LOGGER.debug("File " + entryPath.getPath() + " added...");
+					LOGGER.trace("File " + entryPath.getPath() + " added...");
 					//get All file content and index it.
 					indexFile(indexWriter, dirEntry, repository, logEntry, entryPath);
 				}
 				if (SVNLogEntryPath.TYPE_MODIFIED == entryPath.getType()) {
 					//Get all file content and index it...
-					LOGGER.debug("Modified file...");
+					LOGGER.trace("Modified file...");
 					//get All file content and index it.
 					indexFile(indexWriter, dirEntry, repository, logEntry, entryPath);
 				}
 				if (SVNLogEntryPath.TYPE_REPLACED == entryPath.getType()) {
 					//Get all file content and index it...
-					LOGGER.debug("Replaced file...");
+					LOGGER.trace("Replaced file...");
 					//get All file content and index it.
 					indexFile(indexWriter, dirEntry, repository, logEntry, entryPath);
 				}
 				if (SVNLogEntryPath.TYPE_DELETED == entryPath.getType()) {
-					LOGGER.debug("The file '" + entryPath.getPath() + "' has been deleted.");
+					LOGGER.trace("The file '" + entryPath.getPath() + "' has been deleted.");
 					indexFile(indexWriter, dirEntry, repository, logEntry, entryPath);
 				}
 			} catch (IOException e) {
@@ -210,15 +210,15 @@ public class ScanRepository {
 			addUnTokenizedField(doc, FieldNames.PATH, fileName.getPath());
 
 			if (isDir) {
-				LOGGER.debug("The " + entryPath.getPath() + " is a directory entry.");
+				LOGGER.trace("The " + entryPath.getPath() + " is a directory entry.");
 				addUnTokenizedField(doc, FieldNames.NODE, "dir");
 			} else if (isFile) {
-				LOGGER.debug("The " + entryPath.getPath() + " is a file entry.");
+				LOGGER.trace("The " + entryPath.getPath() + " is a file entry.");
 				addUnTokenizedField(doc, FieldNames.NODE, "file");
 			} else {
 				//This means a file/directory has been deleted.
 				addUnTokenizedField(doc, FieldNames.NODE, "unknown");
-				LOGGER.debug("The " + entryPath.getPath() + " is an unknown entry.");
+				LOGGER.trace("The " + entryPath.getPath() + " is an unknown entry.");
 			}
 
 			//Does a copy operation took place...
@@ -242,10 +242,10 @@ public class ScanRepository {
 			addUnTokenizedField(doc, FieldNames.REPOSITORY, getName());
 
 			if (nodeKind == SVNNodeKind.NONE) {
-				LOGGER.debug("The " + entryPath.getPath() + " is a NONE entry.");
+				LOGGER.trace("The " + entryPath.getPath() + " is a NONE entry.");
 			} else if (nodeKind == SVNNodeKind.DIR) {
 				//The given entry is a directory.
-				LOGGER.debug("The " + entryPath.getPath() + " is a directory.");
+				LOGGER.trace("The " + entryPath.getPath() + " is a directory.");
 				//Here we need to call getDir to get directory properties.
 				Collection<SVNDirEntry> dirEntries = null;
 				repository.getRepository().getDir(entryPath.getPath(), logEntry.getRevision(), fileProperties, dirEntries);
@@ -267,7 +267,7 @@ public class ScanRepository {
 			}
 
 			indexWriter.addDocument(doc);
-			LOGGER.debug("File " + entryPath.getPath() + " indexed...");
+			LOGGER.trace("File " + entryPath.getPath() + " indexed...");
 	}
 
 
@@ -282,7 +282,7 @@ public class ScanRepository {
 
 		for (Iterator<String> iterator = list.nameSet().iterator(); iterator.hasNext();) {
 			String propname = (String) iterator.next();
-			LOGGER.debug("Indexing property: " + propname); 
+			LOGGER.trace("Indexing property: " + propname); 
 			addUnTokenizedField(doc, propname, list.getStringValue(propname));
 		}
 	}

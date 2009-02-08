@@ -9,9 +9,10 @@
 			<activeByDefault>false</activeByDefault>
 		</activation>
 		<properties>
-			<system.scm.url>http://svn.serverix/supose/</system.scm.url>
-			<system.scm.url.dev>http://svn.serverix/supose/trunk</system.scm.url.dev>
-			<issuemanagement.url>http://redmine.soebes.de/projects/show/supose</issuemanagement.url>
+			<system.scm.connection>scm:svn:http://svn.serverix/supose/</system.scm.connection>
+			<system.scm.dev>${system.scm.connection}</system.scm.dev>
+			<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+			<issuemanagement.url>http://www.supose.org</issuemanagement.url>
 			<cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
 		</properties>
 	</profile>
@@ -25,9 +26,10 @@
 			<activeByDefault>false</activeByDefault>
 		</activation>
 		<properties>
-			<system.scm.url>http://svn.supose.org/repositories/show/supose/</system.scm.url>
-			<system.scm.url.dev>http://svn.supose.org/supose</system.scm.url.dev>
-			<issuemanagement.url>http://www.supose.org/projects/show/supose</issuemanagement.url>
+			<system.scm.connection>scm:svn:http://svn.supose.org/supose/</system.scm.connection>
+			<system.scm.dev>${system.scm.connection}</system.scm.dev>
+			<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+			<issuemanagement.url>http://www.supose.org</issuemanagement.url>
 			<cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
 		</properties>
 	</profile>
@@ -41,9 +43,10 @@
 			<activeByDefault>false</activeByDefault>
 		</activation>
 		<properties>
-			<system.scm.url>http://svn.serverix/supose/</system.scm.url>
-			<system.scm.url.dev>http://svn.serverix/supose/</system.scm.url.dev>
-			<issuemanagement.url>http://redmine.soebes.de/projects/show/supose</issuemanagement.url>
+			<system.scm.connection>scm:svn:http://svn.serverix/supose/</system.scm.connection>
+			<system.scm.dev>${system.scm.connection}</system.scm.dev>
+			<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+			<issuemanagement.url>http://www.supose.org</issuemanagement.url>
 			<cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
 		</properties>
 	</profile>
