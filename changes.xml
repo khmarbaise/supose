@@ -8,6 +8,9 @@
 		<release version="0.5.1 Europa" date="2009-XX-XX" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="fix" issue="158">- Fixed URL to issue tracking system in generated site.</action>
 		</release>
+		<release version="0.5.0.1 (Ceres)" date="2009-02-19" description="Bug Fix Release">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="169">- Fixed missing dependency for commons-collections.</action>
+		</release>
 		<release version="0.5.0 Ceres" date="2009-01-24" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="fix" issue="153">- Removed references to Hits; Using different approach.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="152">- Added URL for project.</action>
@@ -18,7 +21,6 @@
 			<action dev="Karl Heinz Marbaise" type="fix" issue="137">- Updated to Quartz 1.6.4.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="132">- Removed Ant Support from project.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="72">- Updated to SVNKit 1.2.2.5405 build.</action>
-
 		</release>
 		<release version="0.5.0 (Ceres) Alpha 1" date="2009-01-14" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="add" issue="144">- Add search-examples.txt file to the distribution archived.</action>

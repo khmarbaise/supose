@@ -14,6 +14,7 @@ SET CP=%CP%;.\lib\commons-codec-1.3.jar
 SET CP=%CP%;.\lib\commons-io-1.4.jar
 SET CP=%CP%;.\lib\commons-lang-2.1.jar
 SET CP=%CP%;.\lib\commons-logging-1.1.jar
+SET CP=%CP%;.\lib\commons-collections-3.1.jar
 SET CP=%CP%;.\lib\fontbox-0.1.0.jar
 SET CP=%CP%;.\lib\icu4j-3.8.jar
 SET CP=%CP%;.\lib\ini4j-0.3.2-jdk14.jar
