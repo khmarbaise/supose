@@ -42,14 +42,17 @@ import com.soebes.supose.config.ini.IniFileEntryNames;
  * @author Karl Heinz Marbaise
  */
 public class RepositoryJobConfiguration {
-	private static Logger LOGGER = Logger.getLogger(RepositoryConfiguration.class);
+	private static Logger LOGGER = Logger.getLogger(RepositoryJobConfiguration.class);
 
 	private String configFile;
 	private Ini iniFile;
 	private boolean newCreated;
+	
+	private RepositoryConfiguration reposConfig;
 
 	public RepositoryJobConfiguration(String configFile, RepositoryConfiguration reposConfig) throws Exception {
 		setConfigFile(configFile);
+		setReposConfig(reposConfig);
 		File f = new File(configFile);
 		if (f.exists()) {
 			setNewCreated(false);
@@ -83,8 +86,17 @@ public class RepositoryJobConfiguration {
 		}
 	}
 
+	public RepositoryConfiguration getReposConfig() {
+		return reposConfig;
+	}
+
+	public void setReposConfig(RepositoryConfiguration reposConfig) {
+		this.reposConfig = reposConfig;
+	}
+
 	public void save() {
 		try {
+			iniFile.put("repositoryJobConfiguration", getReposConfig().getSection());
 			LOGGER.debug("Trying to write new configuration.");
 			FileWriter out = new FileWriter(new File(getConfigFile()));
 			iniFile.store(out);

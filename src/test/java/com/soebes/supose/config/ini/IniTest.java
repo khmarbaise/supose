@@ -24,19 +24,26 @@
  */
 package com.soebes.supose.config.ini;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.ini4j.Ini;
 import org.ini4j.InvalidIniFormatException;
 import org.ini4j.Ini.Section;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-@Test
-public class IniTest {
+import com.soebes.supose.TestBase;
+
+public class IniTest extends TestBase {
 	private static Logger LOGGER = Logger.getLogger(IniTest.class);
 
+	@Test
 	public void testReadIni() {
 		try {
 			Ini ini = new Ini(IniTest.class.getResourceAsStream("/repositories.ini"));
@@ -57,4 +64,61 @@ public class IniTest {
 			LOGGER.error("Error: " + e);
 		}
 	}
+	
+
+	@Test
+	public void testReadIniWithInterface() throws InvalidIniFormatException, IOException {
+		String url = "file:///" + getTargetDir() + "/test-classes/testInterface.ini";
+		LOGGER.debug("URL: " + url);
+		Ini ini = new Ini(new URL(url));
+		IReposConfig rc = ini.get("Test").as(IReposConfig.class);
+		LOGGER.debug("FromRev: " + rc.getFromrev());
+		LOGGER.debug("ToRev: " + rc.getTorev());
+		LOGGER.debug("IndexUserName: " + rc.getIndexusername());
+		LOGGER.debug("IndexPassword: " + rc.getIndexpassword());
+		LOGGER.debug("URL: " + rc.getUrl());
+		LOGGER.debug("ResultIndex: " + rc.getResultindex());
+		LOGGER.debug("Cron: " + rc.getCron());
+		Assert.assertEquals(rc.getFromrev(), "1");
+		Assert.assertEquals(rc.getTorev(), "10");
+		Assert.assertEquals(rc.getIndexusername(), "hoge");
+		Assert.assertEquals(rc.getIndexpassword(), "elfe");
+		Assert.assertEquals(rc.getUrl(), "http://svn.supose.org/supose");
+		Assert.assertEquals(rc.getResultindex(), "summary");
+		Assert.assertEquals(rc.getCron(), "0 0 18 ? * *");
+	}
+
+	@Test
+	public void testWriteIniWithInterface() throws InvalidIniFormatException, IOException {
+		String urlSource = getTargetDir() + "/test-classes/testInterface.ini";
+		String urlDest = getTargetDir() + "/NewTestInterface.ini";
+		Ini ini = new Ini(new FileInputStream(urlSource));
+		IReposConfig rcSource = ini.get("Test").as(IReposConfig.class);
+		LOGGER.debug("FromRev: " + rcSource.getFromrev());
+		LOGGER.debug("ToRev: " + rcSource.getTorev());
+		LOGGER.debug("IndexUserName: " + rcSource.getIndexusername());
+		LOGGER.debug("IndexPassword: " + rcSource.getIndexpassword());
+		LOGGER.debug("URL: " + rcSource.getUrl());
+		LOGGER.debug("ResultIndex: " + rcSource.getResultindex());
+		LOGGER.debug("Cron: " + rcSource.getCron());
+		Assert.assertEquals(rcSource.getFromrev(), "1");
+		Assert.assertEquals(rcSource.getTorev(), "10");
+		Assert.assertEquals(rcSource.getIndexusername(), "hoge");
+		Assert.assertEquals(rcSource.getIndexpassword(), "elfe");
+		Assert.assertEquals(rcSource.getUrl(), "http://svn.supose.org/supose");
+		Assert.assertEquals(rcSource.getResultindex(), "summary");
+		Assert.assertEquals(rcSource.getCron(), "0 0 18 ? * *");
+		
+		rcSource.setFromrev("299");
+		rcSource.setTorev("399");
+
+		Ini iniDest = new Ini();
+		Section sec = iniDest.add("Test");
+		sec.from(rcSource);
+
+		FileWriter out = new FileWriter(new File(urlDest));
+		iniDest.store(out);
+		out.close();
+	}
+	
 }

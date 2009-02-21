@@ -21,7 +21,7 @@
 	<properties>
 		<maven-license-plugin.version>1.4.0</maven-license-plugin.version>
 		<quartz.version>1.6.4</quartz.version>
-		<ini4j.version>0.3.2</ini4j.version>
+		<ini4j.version>0.4.0</ini4j.version>
 		<lucene.version>2.4.0</lucene.version>
 	</properties>
 
@@ -637,6 +637,12 @@
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
 			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.retrotranslator</groupId>
+			<artifactId>retrotranslator-runtime</artifactId>
+			<version>1.2.4</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

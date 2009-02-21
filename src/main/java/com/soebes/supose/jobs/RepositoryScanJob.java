@@ -119,6 +119,8 @@ public class RepositoryScanJob implements StatefulJob {
 			//save the configuration file with the new revision numbers.
 			reposConfig.setFromRev(endRev);
 			//store the changed configuration items.
+
+			LOGGER.info("Revision: FromRev:" + reposConfig.getFromRev() + " ToRev:" + reposConfig.getToRev());
 			jobConfig.save();
 		} else {
 			LOGGER.info("Nothing to do, cause no changes had been made at the repository.");

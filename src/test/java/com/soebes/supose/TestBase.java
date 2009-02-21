@@ -56,4 +56,23 @@ public class TestBase {
 		}
 	}
 
+	/**
+	 * Return the base directory of the project.
+	 * @return
+	 */
+	public String getMavenBaseDir() {
+		//basedir is defined by Maven 
+		//but the above will not work under Eclipse.
+		//So there I'M using user.dir 
+		return System.getProperty("basedir", System.getProperty("user.dir", "."));
+	}
+
+	
+	/**
+	 * Return the target directory of the current project.
+	 * @return
+	 */
+	public String getTargetDir() {
+		return getMavenBaseDir() + "/target";
+	}
 }
