@@ -27,7 +27,6 @@ package com.soebes.supose.cli;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.cli2.CommandLine;
@@ -42,9 +41,6 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.HitCollector;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;

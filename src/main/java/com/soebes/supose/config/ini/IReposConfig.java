@@ -22,12 +22,28 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.jobs;
+package com.soebes.supose.config.ini;
 
-public final class JobDataNames {
-	public final static String REPOSITORY = "repository";
-	public final static String REPOSITORYCONFIGURATION = "repositoryConfiguraion";
-	public final static String INDEX = "index";
-	// TODO: Change the name of BASEDIR or the value
-	public final static String BASEDIR = "configDir";
+/**
+ * Define the names which the config files can contain.
+ * 
+ * @author Karl Heinz Marbaise
+ *
+ */
+public interface IReposConfig {
+
+	String getFromrev();
+	void setFromrev(String rev);
+	String getTorev();
+	void setTorev(String rev);
+	String getIndexusername();
+	void setIndexusername(String username);
+	String getIndexpassword();
+	void setIndexpassword(String password);
+	String getUrl();
+	void setUrl(String url);
+	String getResultindex();
+	void setResultindex(String index);
+	String getCron();
+	void setCron(String cron);
 }

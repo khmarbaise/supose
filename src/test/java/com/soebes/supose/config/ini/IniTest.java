@@ -111,6 +111,7 @@ public class IniTest extends TestBase {
 		
 		rcSource.setFromrev("299");
 		rcSource.setTorev("399");
+		rcSource.setIndexpassword("Elfine");
 
 		Ini iniDest = new Ini();
 		Section sec = iniDest.add("Test");
@@ -119,6 +120,18 @@ public class IniTest extends TestBase {
 		FileWriter out = new FileWriter(new File(urlDest));
 		iniDest.store(out);
 		out.close();
+		
+		//Reread the file which has been written before...
+		Ini iniReread = new Ini(new FileInputStream(urlDest));
+		IReposConfig rcReread = iniReread.get("Test").as(IReposConfig.class);
+		Assert.assertEquals(rcReread.getFromrev(), "299");
+		Assert.assertEquals(rcReread.getTorev(), "399");
+		Assert.assertEquals(rcReread.getIndexusername(), "hoge");
+		Assert.assertEquals(rcReread.getIndexpassword(), "Elfine");
+		Assert.assertEquals(rcReread.getUrl(), "http://svn.supose.org/supose");
+		Assert.assertEquals(rcReread.getResultindex(), "summary");
+		Assert.assertEquals(rcReread.getCron(), "0 0 18 ? * *");
+		
 	}
 	
 }

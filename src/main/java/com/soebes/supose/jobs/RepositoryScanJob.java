@@ -77,16 +77,17 @@ public class RepositoryScanJob implements StatefulJob {
 		String jobIndexName = baseDir + File.separator + "index." + reposConfig.getRepositoryName();
 		String resultIndexName = baseDir + File.separator + reposConfig.getResultIndex();
 
-		LOGGER.info("Revision: " + repos.getRepository().getLatestRevision() + " FromRev:" + reposConfig.getFromRev());
-		if (repos.getRepository().getLatestRevision() > reposConfig.getFromRev()) {
+		LOGGER.info("Repository Revision: " + repos.getRepository().getLatestRevision() + " Configuration File FromRev:" + jobConfig.getConfigData().getFromrev());
+		long fromRev = Long.parseLong(jobConfig.getConfigData().getFromrev());
+		if (repos.getRepository().getLatestRevision() > fromRev) {
 
-			long startRev = 1;
+			long startRev = 0;
 			if (jobConfig.isNewCreated()) {
 				LOGGER.info("This is the first time we scan the repository.");
-				startRev = reposConfig.getFromRev();
+				startRev = jobConfig.getReposConfig().getFromRev();
 			} else {
 				LOGGER.info("This is n'th time we scan the repository.");
-				startRev += reposConfig.getFromRev();
+				startRev += jobConfig.getReposConfig().getFromRev();
 			}
 			long endRev = repos.getRepository().getLatestRevision();
 			scanRepos.setRepository(repos);
@@ -117,10 +118,10 @@ public class RepositoryScanJob implements StatefulJob {
 			IndexHelper.mergeIndex(resultIndexName, jobIndexName);
 
 			//save the configuration file with the new revision numbers.
-			reposConfig.setFromRev(endRev);
+			jobConfig.getConfigData().setFromrev(Long.toString(endRev));
 			//store the changed configuration items.
 
-			LOGGER.info("Revision: FromRev:" + reposConfig.getFromRev() + " ToRev:" + reposConfig.getToRev());
+			LOGGER.info("Revision: FromRev:" + jobConfig.getConfigData().getFromrev() + " ToRev:" + jobConfig.getConfigData().getTorev());
 			jobConfig.save();
 		} else {
 			LOGGER.info("Nothing to do, cause no changes had been made at the repository.");

@@ -43,7 +43,7 @@ public class CLIBase {
 	protected static final GroupBuilder gbuilder = new GroupBuilder();
 
 	public Command getCommand() {
-		return command;
+		return this.command;
 	}
 
 	public void setCommand(Command command) {

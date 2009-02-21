@@ -34,7 +34,7 @@ import org.ini4j.Ini;
 import org.ini4j.InvalidIniFormatException;
 import org.ini4j.Ini.Section;
 
-import com.soebes.supose.config.ini.IniFileEntryNames;
+import com.soebes.supose.config.ini.IReposConfig;
 
 /**
  * This class will handle the configuration for the Job
@@ -43,11 +43,15 @@ import com.soebes.supose.config.ini.IniFileEntryNames;
  */
 public class RepositoryJobConfiguration {
 	private static Logger LOGGER = Logger.getLogger(RepositoryJobConfiguration.class);
+	
+	private String REPOSITORY_CONFIG_SECTION = "repositoryJobConfiguration"; 
 
 	private String configFile;
 	private Ini iniFile;
 	private boolean newCreated;
-	
+
+	private IReposConfig configData;
+
 	private RepositoryConfiguration reposConfig;
 
 	public RepositoryJobConfiguration(String configFile, RepositoryConfiguration reposConfig) throws Exception {
@@ -59,6 +63,7 @@ public class RepositoryJobConfiguration {
 			try {
 				FileInputStream fin = new FileInputStream(f);
 				iniFile = new Ini(fin);
+				configData = iniFile.get(REPOSITORY_CONFIG_SECTION).as(IReposConfig.class);
 			} catch (InvalidIniFormatException e) {
 				LOGGER.error("The format of the given INI is not correct. " + e);
 				throw e;
@@ -67,13 +72,14 @@ public class RepositoryJobConfiguration {
 				throw e;
 			}
 		} else {
+			LOGGER.debug("We will create a new configuration file " + configFile);
 			setNewCreated(true);
 			//The first time. We will create a new configuration file.
 			iniFile = new Ini();
-			iniFile.add("repositoryJobConfiguration");
-			Section section = iniFile.get("repositoryJobConfiguration");
-			section.put(IniFileEntryNames.FROMREV, Long.toString(reposConfig.getFromRev()));
-			section.put(IniFileEntryNames.TOREV, reposConfig.getToRev());
+			iniFile.add(REPOSITORY_CONFIG_SECTION);
+			configData = iniFile.get(REPOSITORY_CONFIG_SECTION).as(IReposConfig.class);
+			configData.setFromrev(Long.toString(reposConfig.getFromRev()));
+			configData.setTorev(reposConfig.getToRev());
 			try {
 				if (f.createNewFile()) {
 					FileWriter out = new FileWriter(f);
@@ -96,9 +102,10 @@ public class RepositoryJobConfiguration {
 
 	public void save() {
 		try {
-			iniFile.put("repositoryJobConfiguration", getReposConfig().getSection());
 			LOGGER.debug("Trying to write new configuration.");
 			FileWriter out = new FileWriter(new File(getConfigFile()));
+			Section sec = iniFile.get(REPOSITORY_CONFIG_SECTION);
+			sec.from(configData);
 			iniFile.store(out);
 			out.close();
 			LOGGER.debug("Writing of new configuration file '" + getConfigFile() + "'sucessful.");
@@ -122,6 +129,15 @@ public class RepositoryJobConfiguration {
 	public void setNewCreated(boolean newCreated) {
 		this.newCreated = newCreated;
 	}
+
+	public IReposConfig getConfigData() {
+		return configData;
+	}
+
+	public void setConfigData(IReposConfig configData) {
+		this.configData = configData;
+	}
+
 
 }
 
