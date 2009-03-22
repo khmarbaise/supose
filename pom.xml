@@ -35,10 +35,10 @@
 			<id>kama</id>
 			<name>Karl Heinz Marbase</name>
 			<email>khm@soebes.de</email>
+			<timezone>+1</timezone>
 			<roles>
 				<role>project lead</role>
 				<role>commiter</role>
-				<timezone>+1</timezone>
 			</roles>
 		</developer>
 	</developers>
