@@ -2,11 +2,11 @@ Examples:
 
 The detailed description of the different commands can be found:
 
-http://redmine.soebes.de/wiki/supose/CommandLineDescription
+http://www.supose.org/wiki/supose/CommandLineDescription
 
 Other Query examples can be found online under:
 
-http://redmine.soebes.de/wiki/supose/RepositoryQuestions
+http://www.supose.org/wiki/supose/RepositoryQuestions
 
 
 Example call:
