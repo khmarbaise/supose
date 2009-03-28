@@ -21,8 +21,9 @@
 	<properties>
 		<maven-license-plugin.version>1.4.0</maven-license-plugin.version>
 		<quartz.version>1.6.4</quartz.version>
-		<ini4j.version>0.4.0</ini4j.version>
+		<ini4j.version>0.4.1</ini4j.version>
 		<lucene.version>2.4.0</lucene.version>
+		<tika.version>0.3</tika.version>
 	</properties>
 
 	<organization>
@@ -79,7 +80,7 @@
 
 	<scm>
 		<connection>scm:svn:http://svn.serverix/supose/</connection>
-		<developerConnection>scm:svn:http://svn.serverix/supose//trunk</developerConnection>
+		<developerConnection>scm:svn:http://svn.serverix/supose/trunk</developerConnection>
 		<url>http://www.supose.org/repositories/show/supose</url>
 	</scm>
 
@@ -314,7 +315,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>1.0-beta-2</version>
+				<version>1.0</version>
 				<configuration>
 					<binPrefix>SupoSE</binPrefix>
 					<assembleDirectory>${project.build.directory}/supose-assemble</assembleDirectory>
@@ -631,7 +632,7 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika</artifactId>
-			<version>0.2</version>
+			<version>${tika.version}</version>
 		</dependency>
         <dependency>
             <groupId>commons-collections</groupId>

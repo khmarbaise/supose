@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -177,7 +178,7 @@ public class LuceneTest {
 
 	@Test
 	public void testMultipleAsterikLowerCase() throws ParseException, IOException {
-		 Analyzer analyzer = new StandardAnalyzer();
+		 Analyzer analyzer = new KeywordAnalyzer();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    parser.setLowercaseExpandedTerms(false);
