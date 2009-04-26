@@ -24,6 +24,7 @@
  */
 package com.soebes.supose;
 
+import java.io.File;
 import java.net.URL;
 
 /**
@@ -73,6 +74,15 @@ public class TestBase {
 	 * @return
 	 */
 	public String getTargetDir() {
-		return getMavenBaseDir() + "/target";
+		return getMavenBaseDir() + File.separatorChar + "target";
+	}
+	
+	/**
+	 * This will give you back the position of a repository which
+	 * is stored inside the <b>target</b> directory.
+	 * @return The directory where the repository has been stored.
+	 */
+	public String getRepositoryDirectory() {
+		return getTargetDir() + File.separatorChar + "repos";
 	}
 }

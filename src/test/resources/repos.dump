@@ -1,0 +1,160 @@
+SVN-fs-dump-format-version: 2
+
+UUID: 58c1f42f-7468-0410-b7b2-e59d238ae045
+
+Revision-number: 0
+Prop-content-length: 56
+Content-length: 56
+
+K 8
+svn:date
+V 27
+2009-04-26T12:15:36.925708Z
+PROPS-END
+
+Revision-number: 1
+Prop-content-length: 131
+Content-length: 131
+
+K 7
+svn:log
+V 32
+- Create structure in repository
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T12:15:36.955490Z
+PROPS-END
+
+Node-path: project1
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: project1/branches
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: project1/tags
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: project1/trunk
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Revision-number: 2
+Prop-content-length: 114
+Content-length: 114
+
+K 7
+svn:log
+V 15
+- First changes
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T12:15:37.150297Z
+PROPS-END
+
+Node-path: project1/trunk/f1.txt
+Node-kind: file
+Node-action: add
+Prop-content-length: 10
+Text-content-length: 9
+Text-content-md5: 8c8fcf3bde9134e67882706cfec3ef22
+Content-length: 19
+
+PROPS-END
+Content1
+
+
+Node-path: project1/trunk/f2.txt
+Node-kind: file
+Node-action: add
+Prop-content-length: 10
+Text-content-length: 9
+Text-content-md5: 8c8fcf3bde9134e67882706cfec3ef22
+Content-length: 19
+
+PROPS-END
+Content1
+
+
+Revision-number: 3
+Prop-content-length: 128
+Content-length: 128
+
+K 7
+svn:log
+V 29
+- First Tag for Release 0.0.1
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T12:15:38.126192Z
+PROPS-END
+
+Node-path: project1/tags/RELEASE-0.0.1
+Node-kind: dir
+Node-action: add
+Node-copyfrom-rev: 2
+Node-copyfrom-path: project1/trunk
+
+
+Revision-number: 4
+Prop-content-length: 131
+Content-length: 131
+
+K 7
+svn:log
+V 32
+- First Branch for Release 0.0.2
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T12:15:38.158124Z
+PROPS-END
+
+Node-path: project1/branches/B_0.0.2
+Node-kind: dir
+Node-action: add
+Node-copyfrom-rev: 3
+Node-copyfrom-path: project1/trunk
+
+
