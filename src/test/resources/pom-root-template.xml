@@ -3,7 +3,7 @@
 	<groupId>com.soebes</groupId>
 	<artifactId>supose</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>SupoSE :: Root</name>
 	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
@@ -22,6 +22,10 @@
 		<name>SoftwareEntwicklung Beratung Schulung</name>
 		<url>http://www.soebes.de</url>
 	</organization>
+
+	<modules>
+		<module>module</module>
+	</modules>
 
 	<developers>
 		<developer>

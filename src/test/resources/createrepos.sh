@@ -36,8 +36,6 @@ cd $POS
 # Create a first Tag
 svn cp $URL/project1/trunk $URL/project1/tags/RELEASE-0.0.1 -m"- First Tag for Release 0.0.1"
 #
-# Create a first branch
-svn cp $URL/project1/trunk $URL/project1/branches/B_0.0.2 -m"- First Branch for Release 0.0.2"
 #
 #
 # Replace URL's for the repository with actual path's.
@@ -50,14 +48,18 @@ svn ci -m"- First Maven file."
 mvn -B release:prepare
 cd $POS
 #
+# Create a first branch
+svn cp $URL/project1/trunk $URL/project1/branches/B_0.0.2 -m"- First Branch for Release 0.0.2"
 #
 #
 svn co $URL/project1/branches/B_0.0.2 $WC2
 cd $WC2
 mkdir module
 cd $POS
-cat pom-template.xml | sed  "s!@@SVNCON@@!$URL/project1/!g" | sed  "s!@@SVNDEV@@!$URL/project1/trunk/module/!g" >$WC2/module/pom.xml
+cat pom-module-template.xml >$WC2/module/pom.xml
+cat pom-root-template.xml | sed  "s!@@SVNCON@@!$URL/project1/!g" | sed  "s!@@SVNDEV@@!$URL/project1/trunk/!g" >$WC2/pom.xml
 cd $WC2
+
 svn add module
 svn ci -m"- Added Sub Module"
 cd $POS
@@ -67,6 +69,12 @@ cd $WC1
 svn update
 svn merge $URL/project1/branches/B_0.0.2
 svn ci -m"- Merged branches/B_0.0.2"
+cd $POS
+#
+#
+cd $WC1
+svn mv f1.txt f3.txt
+svn ci -m"- Rename file."
 cd $POS
 #
 #
