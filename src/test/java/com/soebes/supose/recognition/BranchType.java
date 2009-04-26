@@ -6,7 +6,7 @@ public class BranchType {
 		BRANCH,
 		TAG
 	}
-	
+
 	private Type type;
 	private String name;
 	private long revision;

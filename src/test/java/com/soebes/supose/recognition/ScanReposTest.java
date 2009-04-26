@@ -79,6 +79,10 @@ public class ScanReposTest extends TestBase {
 	    assertEquals(result.get(1).getCopyFromRevision(), 3);
 	    assertEquals(result.get(1).getRevision(), 4);
 	    
+//	    assertEquals(result.get(2).getType(), BranchType.Type.TAG);
+//	    assertEquals(result.get(2).getName(), "/project1/tags/supose-0.0.1");
+//	    assertEquals(result.get(2).getCopyFromRevision(), 3);
+//	    assertEquals(result.get(2).getRevision(), 7);
 	}
 
 	private ArrayList<BranchType> analyzeLog(Repository repository) throws SVNException {
@@ -93,11 +97,16 @@ public class ScanReposTest extends TestBase {
 				System.out.println();
 				System.out.println("changed paths:");
 				Set changedPathsSet = logEntry.getChangedPaths().keySet();
-				
-				//This might be TAG
+
 				for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 					SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
-					checkForTagOrBranch(result, logEntry, changedPathsSet, entryPath);
+					if (changedPathsSet.size() == 1) {
+						//Here we change if we usual tags/branches
+						checkForTagOrBranch(result, logEntry, changedPathsSet, entryPath);
+					} else {
+						//Particular situations like Maven Tags.
+//						checkForParticularTags(result, logEntry, changedPathsSet);
+					}
 					System.out.println(" "
 							+ " Type:" + entryPath.getType()
 							+ " "
@@ -112,28 +121,38 @@ public class ScanReposTest extends TestBase {
         return result;
 	}
 
+	private void checkForParticularTags(
+			ArrayList<BranchType> result,
+			SVNLogEntry logEntry, 
+			Set changedPathsSet, 
+			SVNLogEntryPath entryPath
+		) {
+		//
+		if (logEntry.getMessage().startsWith("[maven-release-plugin]  copy for tag ")) {
+			//Might be a Maven Tag...
+		}
+	}
 
 	private void checkForTagOrBranch(
 		ArrayList<BranchType> result, 
 		SVNLogEntry logEntry, 
-		Set changedPathsSet, 
-		SVNLogEntryPath entryPath) {
+		Set changedPathsSet,
+		SVNLogEntryPath entryPath
+		) {
 
-		if (changedPathsSet.size() == 1) {
-			//a copy-to has happened so we can have a branch or a tag?
-			if (entryPath.getCopyPath() != null) {
-				BranchType bt = new BranchType();
-				bt.setName(entryPath.getPath());
-				bt.setRevision(logEntry.getRevision());
-				bt.setCopyFromRevision(entryPath.getCopyRevision());
+		//a copy-to has happened so we can have a branch or a tag?
+		if (entryPath.getCopyPath() != null) {
+			BranchType bt = new BranchType();
+			bt.setName(entryPath.getPath());
+			bt.setRevision(logEntry.getRevision());
+			bt.setCopyFromRevision(entryPath.getCopyRevision());
 //FIXME: the hard coded value "/tags/" must be made configurably.				
-				if (entryPath.getPath().contains("/tags/")) {
-					bt.setType(BranchType.Type.TAG);
-				} else {
-					bt.setType(BranchType.Type.BRANCH);
-				}
-				result.add(bt);
+			if (entryPath.getPath().contains("/tags/")) {
+				bt.setType(BranchType.Type.TAG);
+			} else {
+				bt.setType(BranchType.Type.BRANCH);
 			}
+			result.add(bt);
 		}
 	}
 }

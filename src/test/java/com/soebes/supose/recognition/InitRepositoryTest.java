@@ -71,7 +71,6 @@ public class InitRepositoryTest extends TestBase {
 			+ File.separatorChar + "test" 
 			+ File.separatorChar + "resources"
 			+ File.separatorChar + "repos.dump";
-//			+ File.separatorChar + "supose.dump";
 		SVNAdminClient admin = new SVNAdminClient((ISVNAuthenticationManager)null, null);
 		admin.doLoad(new File(getRepositoryDirectory()), new FileInputStream(dumpFile));
 		admin.doVerify(new File(getRepositoryDirectory()));
