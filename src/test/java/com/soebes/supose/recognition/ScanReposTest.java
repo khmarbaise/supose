@@ -50,6 +50,8 @@ import com.soebes.supose.repository.Repository;
 public class ScanReposTest extends TestBase {
 	private static Logger LOGGER = Logger.getLogger(ScanReposTest.class);
 
+	private static final String TAGS = "/tags/";
+
 	private Repository repository = null;
 
 	@BeforeTest
@@ -68,29 +70,29 @@ public class ScanReposTest extends TestBase {
 
 	@Test
 	public void analyzeTestFirstTag() throws SVNException {
-		ArrayList<BranchType> result = analyzeLog(repository);
-		for (BranchType branchType : result) {
+		ArrayList<TagType> result = analyzeLog(repository);
+		for (TagType branchType : result) {
 			System.out.println("BT: " + branchType.getType() + " Name:" + branchType.getName());
 		}
 	    assertEquals(result.size(), 3);
-	    assertEquals(result.get(0).getType(), BranchType.Type.TAG);
+	    assertEquals(result.get(0).getType(), TagType.Type.TAG);
 	    assertEquals(result.get(0).getName(), "/project1/tags/RELEASE-0.0.1");
 	    assertEquals(result.get(0).getCopyFromRevision(), 2);
 	    assertEquals(result.get(0).getRevision(), 3);
 	    
-	    assertEquals(result.get(1).getType(), BranchType.Type.BRANCH);
+	    assertEquals(result.get(1).getType(), TagType.Type.BRANCH);
 	    assertEquals(result.get(1).getName(), "/project1/branches/B_0.0.2");
 	    assertEquals(result.get(1).getCopyFromRevision(), 3);
 	    assertEquals(result.get(1).getRevision(), 4);
 
-	    assertEquals(result.get(2).getType(), BranchType.Type.TAG);
+	    assertEquals(result.get(2).getType(), TagType.Type.TAG);
 	    assertEquals(result.get(2).getName(), "/project1/tags/supose-0.0.1");
 //	    assertEquals(result.get(2).getCopyFromRevision(), 3);
 	    assertEquals(result.get(2).getRevision(), 7);
 	}
 
-	private ArrayList<BranchType> analyzeLog(Repository repository) throws SVNException {
-		ArrayList<BranchType> result = new ArrayList<BranchType>();
+	private ArrayList<TagType> analyzeLog(Repository repository) throws SVNException {
+		ArrayList<TagType> result = new ArrayList<TagType>();
 		Collection logEntries = null;
         logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
         for (Iterator iterator = logEntries.iterator(); iterator.hasNext();) {
@@ -107,7 +109,7 @@ public class ScanReposTest extends TestBase {
 					checkForTagOrBranch(result, logEntry, changedPathsSet);
 				} else {
 					//Particular situations like Maven Tags.
-					checkForParticularTags(result, logEntry, changedPathsSet);
+					checkForMavenTag(result, logEntry, changedPathsSet);
 				}
 				for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 					SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
@@ -125,8 +127,8 @@ public class ScanReposTest extends TestBase {
         return result;
 	}
 
-	private void checkForParticularTags(
-			ArrayList<BranchType> result,
+	private void checkForMavenTag(
+			ArrayList<TagType> result,
 			SVNLogEntry logEntry, 
 			Set changedPathsSet 
 		) {
@@ -144,7 +146,7 @@ public class ScanReposTest extends TestBase {
 					SVNDirEntry destEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getPath());
 					SVNDirEntry sourceEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getCopyPath());
 					
-					BranchType bt = new BranchType();
+					TagType bt = new TagType();
 					bt.setName(entryPath.getPath());
 					bt.setRevision(logEntry.getRevision());
 					bt.setCopyFromRevision(entryPath.getCopyRevision());
@@ -154,8 +156,8 @@ public class ScanReposTest extends TestBase {
 						&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
 
 						//If we the /tags/ part this is assumed to be a Tag.
-						if (entryPath.getPath().contains("/tags/")) {
-							bt.setType(BranchType.Type.TAG);
+						if (entryPath.getPath().contains(TAGS)) {
+							bt.setType(TagType.Type.TAG);
 							result.add(bt);
 						}
 					}
@@ -177,7 +179,7 @@ public class ScanReposTest extends TestBase {
 	}
 
 	private void checkForTagOrBranch(
-		ArrayList<BranchType> result, 
+		ArrayList<TagType> result, 
 		SVNLogEntry logEntry, 
 		Set changedPathsSet
 		) {
@@ -187,15 +189,15 @@ public class ScanReposTest extends TestBase {
 
 		//a copy-to has happened so we can have a branch or a tag?
 		if (entryPath.getCopyPath() != null) {
-			BranchType bt = new BranchType();
+			TagType bt = new TagType();
 			bt.setName(entryPath.getPath());
 			bt.setRevision(logEntry.getRevision());
 			bt.setCopyFromRevision(entryPath.getCopyRevision());
 //FIXME: the hard coded value "/tags/" must be made configurably.				
-			if (entryPath.getPath().contains("/tags/")) {
-				bt.setType(BranchType.Type.TAG);
+			if (entryPath.getPath().contains(TAGS)) {
+				bt.setType(TagType.Type.TAG);
 			} else {
-				bt.setType(BranchType.Type.BRANCH);
+				bt.setType(TagType.Type.BRANCH);
 			}
 			result.add(bt);
 		}

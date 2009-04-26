@@ -1,6 +1,6 @@
 package com.soebes.supose.recognition;
 
-public class BranchType {
+public class TagType {
 
 	public enum Type {
 		BRANCH,
@@ -13,7 +13,7 @@ public class BranchType {
 	private long copyFromRevision;
 	private boolean mavenTag;
 
-	public BranchType(String name, long revision, long copyFromRevision, Type type) {
+	public TagType(String name, long revision, long copyFromRevision, Type type) {
 		super();
 		this.copyFromRevision = copyFromRevision;
 		this.name = name;
@@ -22,7 +22,7 @@ public class BranchType {
 		this.mavenTag = false;
 	}
 
-	public BranchType() {
+	public TagType() {
 		this.name = null;
 		this.type = null;
 		this.revision = -1;
