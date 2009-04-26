@@ -1,6 +1,6 @@
 SVN-fs-dump-format-version: 2
 
-UUID: 628465f9-7468-0410-8bd9-dbe6eb8d4ca9
+UUID: ef5d89aa-7968-0410-a7c6-d6328b82a12d
 
 Revision-number: 0
 Prop-content-length: 56
@@ -9,7 +9,7 @@ Content-length: 56
 K 8
 svn:date
 V 27
-2009-04-26T13:11:56.520457Z
+2009-04-26T18:47:48.306335Z
 PROPS-END
 
 Revision-number: 1
@@ -27,7 +27,7 @@ kama
 K 8
 svn:date
 V 27
-2009-04-26T13:11:56.547207Z
+2009-04-26T18:47:48.334135Z
 PROPS-END
 
 Node-path: project1
@@ -81,7 +81,7 @@ kama
 K 8
 svn:date
 V 27
-2009-04-26T13:11:57.151173Z
+2009-04-26T18:47:49.151034Z
 PROPS-END
 
 Node-path: project1/trunk/f1.txt
@@ -123,7 +123,7 @@ kama
 K 8
 svn:date
 V 27
-2009-04-26T13:11:58.126085Z
+2009-04-26T18:47:50.126936Z
 PROPS-END
 
 Node-path: project1/tags/RELEASE-0.0.1
@@ -148,7 +148,7 @@ kama
 K 8
 svn:date
 V 27
-2009-04-26T13:11:58.156041Z
+2009-04-26T18:47:50.159890Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2
@@ -173,7 +173,7 @@ kama
 K 8
 svn:date
 V 27
-2009-04-26T13:11:58.207053Z
+2009-04-26T18:47:50.210888Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -246,7 +246,7 @@ kama
 K 8
 svn:date
 V 27
-2009-04-26T13:12:10.614012Z
+2009-04-26T18:48:02.647908Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -316,7 +316,7 @@ kama
 K 8
 svn:date
 V 27
-2009-04-26T13:12:11.155973Z
+2009-04-26T18:48:03.153897Z
 PROPS-END
 
 Node-path: project1/tags/supose-0.0.1
@@ -365,7 +365,7 @@ kama
 K 8
 svn:date
 V 27
-2009-04-26T13:12:12.182716Z
+2009-04-26T18:48:04.177708Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -419,4 +419,124 @@ Content-length: 1504
 		<url>http://www.supose.org/repositories/show/supose</url>
 	</scm>
 </project>
+
+Revision-number: 9
+Prop-content-length: 117
+Content-length: 117
+
+K 7
+svn:log
+V 18
+- Added Sub Module
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T18:48:06.155366Z
+PROPS-END
+
+Node-path: project1/branches/B_0.0.2/module
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: project1/branches/B_0.0.2/module/pom.xml
+Node-kind: file
+Node-action: add
+Prop-content-length: 10
+Text-content-length: 1556
+Text-content-md5: 7576fb67443cb7fd9b2aea2ffffa717c
+Content-length: 1566
+
+PROPS-END
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.soebes</groupId>
+	<artifactId>supose</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>Subversion Repository Search Engine Test</name>
+	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
+		into an Lucene Index to do search queris on it later.</description>
+	<url>http://www.supose.org</url>
+	<licenses>
+		<license>
+			<name>The GNU General Public License Version 2</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+			<distribution>repo</distribution>
+			<!-- 			<comments>Comments</comments>  -->
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SoftwareEntwicklung Beratung Schulung</name>
+		<url>http://www.soebes.de</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>kama</id>
+			<name>Karl Heinz Marbase</name>
+			<email>khm@soebes.de</email>
+			<timezone>+1</timezone>
+			<roles>
+				<role>project lead</role>
+				<role>commiter</role>
+			</roles>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:svn:file:///home/kama/test/repos/project1/</connection>
+		<developerConnection>scm:svn:file:///home/kama/test/repos/project1/trunk/module/</developerConnection>
+		<url>http://www.supose.org/repositories/show/supose</url>
+	</scm>
+</project>
+
+
+Revision-number: 10
+Prop-content-length: 124
+Content-length: 124
+
+K 7
+svn:log
+V 25
+- Merged branches/B_0.0.2
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T18:48:09.133912Z
+PROPS-END
+
+Node-path: project1/trunk
+Node-kind: dir
+Node-action: change
+Prop-content-length: 65
+Content-length: 65
+
+K 13
+svn:mergeinfo
+V 30
+/project1/branches/B_0.0.2:4-9
+PROPS-END
+
+
+Node-path: project1/trunk/module
+Node-kind: dir
+Node-action: add
+Node-copyfrom-rev: 9
+Node-copyfrom-path: project1/branches/B_0.0.2/module
+
 

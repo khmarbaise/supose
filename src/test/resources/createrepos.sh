@@ -51,6 +51,25 @@ mvn -B release:prepare
 cd $POS
 #
 #
+#
+svn co $URL/project1/branches/B_0.0.2 $WC2
+cd $WC2
+mkdir module
+cd $POS
+cat pom-template.xml | sed  "s!@@SVNCON@@!$URL/project1/!g" | sed  "s!@@SVNDEV@@!$URL/project1/trunk/module/!g" >$WC2/module/pom.xml
+cd $WC2
+svn add module
+svn ci -m"- Added Sub Module"
+cd $POS
+#
+#
+cd $WC1
+svn update
+svn merge $URL/project1/branches/B_0.0.2
+svn ci -m"- Merged branches/B_0.0.2"
+cd $POS
+#
+#
 svnadmin dump $POS/$REPOS >$REPOS.dump
 #
 #

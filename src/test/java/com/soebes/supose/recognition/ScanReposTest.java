@@ -71,9 +71,6 @@ public class ScanReposTest extends TestBase {
 	@Test
 	public void analyzeTestFirstTag() throws SVNException {
 		ArrayList<TagType> result = analyzeLog(repository);
-		for (TagType branchType : result) {
-			System.out.println("BT: " + branchType.getType() + " Name:" + branchType.getName());
-		}
 	    assertEquals(result.size(), 3);
 	    assertEquals(result.get(0).getType(), TagType.Type.TAG);
 	    assertEquals(result.get(0).getName(), "/project1/tags/RELEASE-0.0.1");
@@ -87,7 +84,6 @@ public class ScanReposTest extends TestBase {
 
 	    assertEquals(result.get(2).getType(), TagType.Type.TAG);
 	    assertEquals(result.get(2).getName(), "/project1/tags/supose-0.0.1");
-//	    assertEquals(result.get(2).getCopyFromRevision(), 3);
 	    assertEquals(result.get(2).getRevision(), 7);
 	}
 
@@ -97,11 +93,7 @@ public class ScanReposTest extends TestBase {
         logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
         for (Iterator iterator = logEntries.iterator(); iterator.hasNext();) {
 			SVNLogEntry logEntry = (SVNLogEntry) iterator.next();
-			LOGGER.info("Rev: " + logEntry.getRevision());
-			System.out.println("Rev:" + logEntry.getRevision());
 			if (logEntry.getChangedPaths().size() > 0) {
-				System.out.println();
-				System.out.println("changed paths:");
 				Set changedPathsSet = logEntry.getChangedPaths().keySet();
 
 				if (changedPathsSet.size() == 1) {
@@ -110,16 +102,6 @@ public class ScanReposTest extends TestBase {
 				} else {
 					//Particular situations like Maven Tags.
 					checkForMavenTag(result, logEntry, changedPathsSet);
-				}
-				for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
-					SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
-					System.out.println(" "
-							+ " Type:" + entryPath.getType()
-							+ " "
-							+ entryPath.getPath()
-							+ ((entryPath.getCopyPath() != null) ? " (from "
-									+ entryPath.getCopyPath() + " revision "
-									+ entryPath.getCopyRevision() + ")" : ""));
 				}
 			}
 
