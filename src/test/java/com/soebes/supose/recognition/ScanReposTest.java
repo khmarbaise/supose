@@ -35,13 +35,14 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;
+import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
-import org.tmatesoft.svn.core.wc.admin.SVNAdminClient;
 
 import com.soebes.supose.TestBase;
 import com.soebes.supose.repository.Repository;
@@ -68,7 +69,10 @@ public class ScanReposTest extends TestBase {
 	@Test
 	public void analyzeTestFirstTag() throws SVNException {
 		ArrayList<BranchType> result = analyzeLog(repository);
-	    assertEquals(result.size(), 2);
+		for (BranchType branchType : result) {
+			System.out.println("BT: " + branchType.getType() + " Name:" + branchType.getName());
+		}
+	    assertEquals(result.size(), 3);
 	    assertEquals(result.get(0).getType(), BranchType.Type.TAG);
 	    assertEquals(result.get(0).getName(), "/project1/tags/RELEASE-0.0.1");
 	    assertEquals(result.get(0).getCopyFromRevision(), 2);
@@ -78,11 +82,11 @@ public class ScanReposTest extends TestBase {
 	    assertEquals(result.get(1).getName(), "/project1/branches/B_0.0.2");
 	    assertEquals(result.get(1).getCopyFromRevision(), 3);
 	    assertEquals(result.get(1).getRevision(), 4);
-	    
-//	    assertEquals(result.get(2).getType(), BranchType.Type.TAG);
-//	    assertEquals(result.get(2).getName(), "/project1/tags/supose-0.0.1");
+
+	    assertEquals(result.get(2).getType(), BranchType.Type.TAG);
+	    assertEquals(result.get(2).getName(), "/project1/tags/supose-0.0.1");
 //	    assertEquals(result.get(2).getCopyFromRevision(), 3);
-//	    assertEquals(result.get(2).getRevision(), 7);
+	    assertEquals(result.get(2).getRevision(), 7);
 	}
 
 	private ArrayList<BranchType> analyzeLog(Repository repository) throws SVNException {
@@ -98,15 +102,15 @@ public class ScanReposTest extends TestBase {
 				System.out.println("changed paths:");
 				Set changedPathsSet = logEntry.getChangedPaths().keySet();
 
+				if (changedPathsSet.size() == 1) {
+					//Here we change if we usual tags/branches
+					checkForTagOrBranch(result, logEntry, changedPathsSet);
+				} else {
+					//Particular situations like Maven Tags.
+					checkForParticularTags(result, logEntry, changedPathsSet);
+				}
 				for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 					SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
-					if (changedPathsSet.size() == 1) {
-						//Here we change if we usual tags/branches
-						checkForTagOrBranch(result, logEntry, changedPathsSet, entryPath);
-					} else {
-						//Particular situations like Maven Tags.
-//						checkForParticularTags(result, logEntry, changedPathsSet);
-					}
 					System.out.println(" "
 							+ " Type:" + entryPath.getType()
 							+ " "
@@ -124,21 +128,62 @@ public class ScanReposTest extends TestBase {
 	private void checkForParticularTags(
 			ArrayList<BranchType> result,
 			SVNLogEntry logEntry, 
-			Set changedPathsSet, 
-			SVNLogEntryPath entryPath
+			Set changedPathsSet 
 		) {
-		//
-		if (logEntry.getMessage().startsWith("[maven-release-plugin]  copy for tag ")) {
-			//Might be a Maven Tag...
+		//The log message is the first indication for a maven tag...
+//FIXME: The hard coded value for the message of Maven must be made configurable...		
+		if (!logEntry.getMessage().startsWith("[maven-release-plugin]  copy for tag ")) {
+			return;
 		}
+
+		//The first assumption the log message is correct...
+		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
+			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
+			if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
+				if (entryPath.getCopyPath() != null) {
+					SVNDirEntry destEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getPath());
+					SVNDirEntry sourceEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getCopyPath());
+					
+					BranchType bt = new BranchType();
+					bt.setName(entryPath.getPath());
+					bt.setRevision(logEntry.getRevision());
+					bt.setCopyFromRevision(entryPath.getCopyRevision());
+
+					//Source and destination of the copy operation must be a directory
+					if (	destEntry.getKind() == SVNNodeKind.DIR
+						&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
+
+						//If we the /tags/ part this is assumed to be a Tag.
+						if (entryPath.getPath().contains("/tags/")) {
+							bt.setType(BranchType.Type.TAG);
+							result.add(bt);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	
+	private SVNDirEntry getInformationAboutEntry(long revision, String path) {
+		SVNDirEntry dirEntry = null;
+		try {
+			LOGGER.debug("getInformationAboutEntry() name:" + path + " rev:" + revision);
+			dirEntry = repository.getRepository().info(path, revision);
+		} catch (SVNException e) {
+			LOGGER.error("Unexpected Exception: " + e);
+		}
+		return dirEntry;
 	}
 
 	private void checkForTagOrBranch(
 		ArrayList<BranchType> result, 
 		SVNLogEntry logEntry, 
-		Set changedPathsSet,
-		SVNLogEntryPath entryPath
+		Set changedPathsSet
 		) {
+
+		Iterator changedPaths = changedPathsSet.iterator();
+		SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 
 		//a copy-to has happened so we can have a branch or a tag?
 		if (entryPath.getCopyPath() != null) {

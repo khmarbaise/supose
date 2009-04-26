@@ -11,6 +11,7 @@ public class BranchType {
 	private String name;
 	private long revision;
 	private long copyFromRevision;
+	private boolean mavenTag;
 
 	public BranchType(String name, long revision, long copyFromRevision, Type type) {
 		super();
@@ -18,6 +19,7 @@ public class BranchType {
 		this.name = name;
 		this.revision = revision;
 		this.type = type;
+		this.mavenTag = false;
 	}
 
 	public BranchType() {
@@ -25,6 +27,7 @@ public class BranchType {
 		this.type = null;
 		this.revision = -1;
 		this.copyFromRevision = -1;
+		this.mavenTag = false;
 	}
 
 	public long getRevision() {
@@ -50,6 +53,14 @@ public class BranchType {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setMavenTag(boolean mavenTag) {
+		this.mavenTag = mavenTag;
+	}
+
+	public boolean isMavenTag() {
+		return mavenTag;
 	}
 
 	
