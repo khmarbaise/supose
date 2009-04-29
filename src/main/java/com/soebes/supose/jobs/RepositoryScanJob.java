@@ -30,10 +30,12 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
+import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
+import org.quartz.UnableToInterruptJobException;
 
 import com.soebes.supose.config.RepositoryConfiguration;
 import com.soebes.supose.config.RepositoryJobConfiguration;
@@ -42,8 +44,10 @@ import com.soebes.supose.index.IndexHelper;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
 
-public class RepositoryScanJob implements StatefulJob {
+public class RepositoryScanJob implements InterruptableJob, StatefulJob {
 	private static Logger LOGGER = Logger.getLogger(RepositoryScanJob.class);
+
+	private boolean shutdown = false;
 
 	private ScanRepository scanRepos = null;
 	private RepositoryJobConfiguration jobConfig = null;
@@ -137,6 +141,20 @@ public class RepositoryScanJob implements StatefulJob {
 		} catch (Exception e) {
 			LOGGER.error("We had an unexpected Exception: " + e);
 		}
+	}
+
+	public void interrupt() throws UnableToInterruptJobException {
+		LOGGER.info("Shutdown Signal received.");
+		setShutdown(true);
+		scanRepos.setAbbort(true);
+	}
+
+	public void setShutdown(boolean shutdown) {
+		this.shutdown = shutdown;
+	}
+
+	public boolean isShutdown() {
+		return shutdown;
 	}
 	
 }
