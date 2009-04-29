@@ -80,6 +80,8 @@ public class ScanReposTest extends TestBase {
 	    assertEquals(result.get(1).getType(), TagType.Type.TAG);
 	    assertEquals(result.get(1).getName(), "/project1/tags/supose-0.0.2");
 	    assertEquals(result.get(1).getRevision(), 6);
+	    assertEquals(result.get(1).isMavenTag(), true);
+	    
 
 	    assertEquals(result.get(2).getType(), TagType.Type.BRANCH);
 	    assertEquals(result.get(2).getName(), "/project1/branches/B_0.0.2");
@@ -141,6 +143,7 @@ public class ScanReposTest extends TestBase {
 						//If we the /tags/ part this is assumed to be a Tag.
 						if (entryPath.getPath().contains(TAGS)) {
 							bt.setType(TagType.Type.TAG);
+							bt.setMavenTag(true);
 							result.add(bt);
 						}
 					}
