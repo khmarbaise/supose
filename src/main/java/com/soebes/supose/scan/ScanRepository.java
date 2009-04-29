@@ -53,6 +53,8 @@ import com.soebes.supose.utility.FileName;
 public class ScanRepository {
 	private static Logger LOGGER = Logger.getLogger(ScanRepository.class);
 
+	private boolean abbort;
+
 	private String name;
 	
 	/**
@@ -71,6 +73,7 @@ public class ScanRepository {
 		setEndRevision(0);
 		setRepository(null);
 		setName("");
+		setAbbort(false);
 	}
 
 	/**
@@ -114,6 +117,10 @@ public class ScanRepository {
 				}                
             } else {
             	LOGGER.debug("No changed paths found!");
+            }
+            if (isAbbort()) {
+            	LOGGER.warn("We have received an abort signal!");
+            	break;
             }
         }
 		repository.close();
@@ -328,6 +335,14 @@ public class ScanRepository {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isAbbort() {
+		return abbort;
+	}
+
+	public void setAbbort(boolean abbort) {
+		this.abbort = abbort;
 	}
 
 }

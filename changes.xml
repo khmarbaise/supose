@@ -5,6 +5,9 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.5.2 Europa" date="2009-XX-XX" description="Interims Milestone Release">
+			<action dev="Karl Heinz Marbaise" type="add" issue="184">- Make interuption of scan process possible via signal handler.</action>
+		</release>
 		<release version="0.5.1 Europa" date="2009-02-21" description="Interims Milestone Release">
 			<action dev="Karl Heinz Marbaise" type="fix" issue="170">- Rescanning of repository after restart in scheduler mode.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="159">- SCM URL wasn't ok for Online distribution.</action>
