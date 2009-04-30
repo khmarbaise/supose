@@ -76,18 +76,18 @@ public class ScanReposTest extends TestBase {
 	    assertEquals(result.get(0).getName(), "/project1/tags/RELEASE-0.0.1");
 	    assertEquals(result.get(0).getCopyFromRevision(), 2);
 	    assertEquals(result.get(0).getRevision(), 3);
+	    assertEquals(result.get(0).isMavenTag(), false);
 	    
 	    assertEquals(result.get(1).getType(), TagType.Type.TAG);
 	    assertEquals(result.get(1).getName(), "/project1/tags/supose-0.0.2");
 	    assertEquals(result.get(1).getRevision(), 6);
 	    assertEquals(result.get(1).isMavenTag(), true);
-	    
 
 	    assertEquals(result.get(2).getType(), TagType.Type.BRANCH);
 	    assertEquals(result.get(2).getName(), "/project1/branches/B_0.0.2");
 	    assertEquals(result.get(2).getCopyFromRevision(), 7);
 	    assertEquals(result.get(2).getRevision(), 8);
-	    
+	    assertEquals(result.get(2).isMavenTag(), false);
 	}
 
 	private ArrayList<TagType> analyzeLog(Repository repository) throws SVNException {
@@ -126,6 +126,7 @@ public class ScanReposTest extends TestBase {
 		//The first assumption the log message is correct...
 		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
+
 			if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
 				if (entryPath.getCopyPath() != null) {
 					SVNDirEntry destEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getPath());
