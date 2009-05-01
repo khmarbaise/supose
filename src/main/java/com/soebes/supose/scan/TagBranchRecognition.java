@@ -11,7 +11,6 @@ import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;
 import org.tmatesoft.svn.core.SVNNodeKind;
 
-import com.soebes.supose.recognition.TagType;
 import com.soebes.supose.repository.Repository;
 
 public class TagBranchRecognition {

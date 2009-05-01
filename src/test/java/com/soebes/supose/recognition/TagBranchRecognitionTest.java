@@ -47,6 +47,7 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import com.soebes.supose.TestBase;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.TagBranchRecognition;
+import com.soebes.supose.scan.TagType;
 
 public class TagBranchRecognitionTest extends TestBase {
 	private static Logger LOGGER = Logger.getLogger(TagBranchRecognitionTest.class);

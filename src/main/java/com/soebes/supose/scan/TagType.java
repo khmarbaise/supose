@@ -1,4 +1,4 @@
-package com.soebes.supose.recognition;
+package com.soebes.supose.scan;
 
 public class TagType {
 
