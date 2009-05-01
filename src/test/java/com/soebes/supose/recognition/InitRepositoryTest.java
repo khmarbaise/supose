@@ -40,6 +40,9 @@ import org.tmatesoft.svn.core.wc.admin.SVNAdminClient;
 import com.soebes.supose.TestBase;
 
 /**
+ * This will initialize a repository and load the contents from
+ * an existing dump file which contains particular test cases.
+ * 
  * @author Karl Heinz Marbaise
  *
  */

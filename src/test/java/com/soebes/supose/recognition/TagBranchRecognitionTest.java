@@ -46,14 +46,15 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import com.soebes.supose.TestBase;
 import com.soebes.supose.repository.Repository;
+import com.soebes.supose.scan.TagBranchRecognition;
 
-public class ScanReposTest extends TestBase {
-	private static Logger LOGGER = Logger.getLogger(ScanReposTest.class);
+public class TagBranchRecognitionTest extends TestBase {
+	private static Logger LOGGER = Logger.getLogger(TagBranchRecognitionTest.class);
 
-	private static final String TAGS = "/tags/";
 
 	private Repository repository = null;
-
+	private TagBranchRecognition tbr = null;
+	
 	@BeforeTest
 	public void beforeTest() throws SVNException {
 		//For the test repositories we don't use authentication, cause
@@ -65,6 +66,8 @@ public class ScanReposTest extends TestBase {
 		String repositoryDir = getRepositoryDirectory();
 		SVNURL url = SVNURL.fromFile(new File(repositoryDir));
 		repository = new Repository("file://" + url.getURIEncodedPath(), authManager);
+		tbr = new TagBranchRecognition();
+		tbr.setRepository(repository);
 	}
 	
 
@@ -92,8 +95,7 @@ public class ScanReposTest extends TestBase {
 
 	private ArrayList<TagType> analyzeLog(Repository repository) throws SVNException {
 		ArrayList<TagType> result = new ArrayList<TagType>();
-		Collection logEntries = null;
-        logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
+		Collection logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
         for (Iterator iterator = logEntries.iterator(); iterator.hasNext();) {
 			SVNLogEntry logEntry = (SVNLogEntry) iterator.next();
 			if (logEntry.getChangedPaths().size() > 0) {
@@ -101,10 +103,10 @@ public class ScanReposTest extends TestBase {
 
 				if (changedPathsSet.size() == 1) {
 					//Here we change if we usual tags/branches
-					checkForTagOrBranch(result, logEntry, changedPathsSet);
+					tbr.checkForTagOrBranch(result, logEntry, changedPathsSet);
 				} else {
 					//Particular situations like Maven Tags.
-					checkForMavenTag(result, logEntry, changedPathsSet);
+					tbr.checkForMavenTag(result, logEntry, changedPathsSet);
 				}
 			}
 
@@ -112,81 +114,4 @@ public class ScanReposTest extends TestBase {
         return result;
 	}
 
-	private void checkForMavenTag(
-			ArrayList<TagType> result,
-			SVNLogEntry logEntry, 
-			Set changedPathsSet 
-		) {
-		//The log message is the first indication for a maven tag...
-//FIXME: The hard coded value for the message of Maven must be made configurable...		
-		if (!logEntry.getMessage().startsWith("[maven-release-plugin]  copy for tag ")) {
-			return;
-		}
-
-		//The first assumption the log message is correct...
-		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
-			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
-
-			if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
-				if (entryPath.getCopyPath() != null) {
-					SVNDirEntry destEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getPath());
-					SVNDirEntry sourceEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getCopyPath());
-					
-					TagType bt = new TagType();
-					bt.setName(entryPath.getPath());
-					bt.setRevision(logEntry.getRevision());
-					bt.setCopyFromRevision(entryPath.getCopyRevision());
-
-					//Source and destination of the copy operation must be a directory
-					if (	destEntry.getKind() == SVNNodeKind.DIR
-						&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
-
-						//If we the /tags/ part this is assumed to be a Tag.
-						if (entryPath.getPath().contains(TAGS)) {
-							bt.setType(TagType.Type.TAG);
-							bt.setMavenTag(true);
-							result.add(bt);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	
-	private SVNDirEntry getInformationAboutEntry(long revision, String path) {
-		SVNDirEntry dirEntry = null;
-		try {
-			LOGGER.debug("getInformationAboutEntry() name:" + path + " rev:" + revision);
-			dirEntry = repository.getRepository().info(path, revision);
-		} catch (SVNException e) {
-			LOGGER.error("Unexpected Exception: " + e);
-		}
-		return dirEntry;
-	}
-
-	private void checkForTagOrBranch(
-		ArrayList<TagType> result, 
-		SVNLogEntry logEntry, 
-		Set changedPathsSet
-		) {
-
-		Iterator changedPaths = changedPathsSet.iterator();
-		SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
-
-		//a copy-to has happened so we can have a branch or a tag?
-		if (entryPath.getCopyPath() != null) {
-			TagType bt = new TagType();
-			bt.setName(entryPath.getPath());
-			bt.setRevision(logEntry.getRevision());
-			bt.setCopyFromRevision(entryPath.getCopyRevision());
-//FIXME: the hard coded value "/tags/" must be made configurably.				
-			if (entryPath.getPath().contains(TAGS)) {
-				bt.setType(TagType.Type.TAG);
-			} else {
-				bt.setType(TagType.Type.BRANCH);
-			}
-			result.add(bt);
-		}
-	}
 }
