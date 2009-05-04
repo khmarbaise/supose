@@ -35,11 +35,8 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
-import org.tmatesoft.svn.core.SVNLogEntryPath;
-import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
@@ -71,7 +68,6 @@ public class TagBranchRecognitionTest extends TestBase {
 		tbr.setRepository(repository);
 	}
 	
-
 	@Test
 	public void analyzeTestFirstTag() throws SVNException {
 		ArrayList<TagType> result = analyzeLog(repository);

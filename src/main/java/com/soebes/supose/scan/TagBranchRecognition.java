@@ -1,3 +1,27 @@
+/**
+ * The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
+ *
+ * Copyright (c) 2007, 2008, 2009 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007, 2008, 2009 by Karl Heinz Marbaise
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ *
+ * The License can viewed online under http://www.gnu.org/licenses/gpl.html
+ * If you have any questions about the Software or about the license
+ * just write an email to license@soebes.de
+ */
 package com.soebes.supose.scan;
 
 import java.util.ArrayList;
@@ -13,10 +37,17 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 
 import com.soebes.supose.repository.Repository;
 
+/**
+ * This class is intended to analyze if a tag or branch is on hand.
+ * 
+ * @author Karl Heinz Marbaise
+ *
+ */
 public class TagBranchRecognition {
 	private static Logger LOGGER = Logger.getLogger(TagBranchRecognition.class);
 
 	public static final String TAGS = "/tags/";
+	public static final String MAVEN_TAG_PREFIX = "[maven-release-plugin]  copy for tag ";
 
 	private Repository repository = null;
 
@@ -31,6 +62,14 @@ public class TagBranchRecognition {
 		return dirEntry;
 	}
 	
+	/**
+	 * A <a href="http://maven.apache.org">Maven</a> tag is currently 
+	 * based on a <a href="http://svnbook.red-bean.com/en/1.5/svn-book.html#svn.branchmerge.tags.mkcomplex">complex tag</a> 
+	 * in Subversion.
+	 * @param result
+	 * @param logEntry
+	 * @param changedPathsSet
+	 */
 	public void checkForMavenTag(
 			ArrayList<TagType> result,
 			SVNLogEntry logEntry, 
@@ -38,7 +77,7 @@ public class TagBranchRecognition {
 		) {
 		//The log message is the first indication for a maven tag...
 //FIXME: The hard coded value for the message of Maven must be made configurable...		
-		if (!logEntry.getMessage().startsWith("[maven-release-plugin]  copy for tag ")) {
+		if (!logEntry.getMessage().startsWith(MAVEN_TAG_PREFIX)) {
 			return;
 		}
 
@@ -72,6 +111,17 @@ public class TagBranchRecognition {
 		}
 	}
 
+	/**
+	 * This method will check entries within a ChangeSet to check 
+	 * if a Tag/Branch has been created.
+	 * The first indication is the copy operation which has been done
+	 * and the ChangeSet does contain only a single
+	 * (<a href="http://www.supose.org/issues/show/106">Issue 106</a>).
+	 *   
+	 * @param result
+	 * @param logEntry
+	 * @param changedPathsSet
+	 */
 	public void checkForTagOrBranch(
 		ArrayList<TagType> result, 
 		SVNLogEntry logEntry, 
