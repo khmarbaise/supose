@@ -9,6 +9,7 @@
 			<action dev="Karl Heinz Marbaise" type="add" issue="184, 183">- Make interuption of scan process possible via signal handler.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="181">- Fixed some problems with pom.xml and new release of Maven</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="177">- The pipe symbol is currently not supported by SVNKit library so neither we can support it.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="179">- Updated ini4j to release 0.4.1</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="175">- Updated to Tika release 0.3</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="112">- Searching with multiple wildcards is now working.</action>
 		</release>
