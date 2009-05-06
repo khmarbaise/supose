@@ -75,6 +75,36 @@ cd $POS
 cd $WC1
 svn mv f1.txt f3.txt
 svn ci -m"- Rename file."
+svn up
+cd $POS
+#
+#
+#
+cp $POS/test-documents/testPPT.ppt $WC1/testPPT.ppt
+cp $POS/test-documents/testPPT.pptx $WC1/testPPT.pptx
+cd $WC1
+svn add testPPT.*
+svn ci -m"- Added PPT files."
+svn up
+cd $POS
+#
+#
+cp $POS/test-documents/testWORD.doc $WC1/testWORD.doc
+cp $POS/test-documents/testWORD.docx $WC1/testWORD.docx
+cd $WC1
+svn add testWORD.*
+svn ci -m"- Added DOC files."
+svn up
+cd $POS
+#
+cp $POS/test-documents/testEXCEL-formats.xls $WC1/testEXCEL-formats.xls
+cp $POS/test-documents/testEXCEL-formats.xlsx $WC1/testEXCEL-formats.xlsx
+cp $POS/test-documents/testEXCEL.xls $WC1/testEXCEL.xls
+cp $POS/test-documents/testEXCEL.xlsx $WC1/testEXCEL.xlsx
+cd $WC1
+svn add testEXCEL*.*
+svn ci -m"- Added XLS files."
+svn up
 cd $POS
 #
 #
