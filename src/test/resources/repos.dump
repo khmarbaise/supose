@@ -1,0 +1,663 @@
+SVN-fs-dump-format-version: 2
+
+UUID: 27fde5e6-7a68-0410-87c9-a9e97a86f2b8
+
+Revision-number: 0
+Prop-content-length: 56
+Content-length: 56
+
+K 8
+svn:date
+V 27
+2009-04-26T20:16:15.977667Z
+PROPS-END
+
+Revision-number: 1
+Prop-content-length: 131
+Content-length: 131
+
+K 7
+svn:log
+V 32
+- Create structure in repository
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:16.006265Z
+PROPS-END
+
+Node-path: project1
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: project1/branches
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: project1/tags
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: project1/trunk
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Revision-number: 2
+Prop-content-length: 114
+Content-length: 114
+
+K 7
+svn:log
+V 15
+- First changes
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:17.152148Z
+PROPS-END
+
+Node-path: project1/trunk/f1.txt
+Node-kind: file
+Node-action: add
+Prop-content-length: 10
+Text-content-length: 9
+Text-content-md5: 8c8fcf3bde9134e67882706cfec3ef22
+Content-length: 19
+
+PROPS-END
+Content1
+
+
+Node-path: project1/trunk/f2.txt
+Node-kind: file
+Node-action: add
+Prop-content-length: 10
+Text-content-length: 9
+Text-content-md5: 8c8fcf3bde9134e67882706cfec3ef22
+Content-length: 19
+
+PROPS-END
+Content1
+
+
+Revision-number: 3
+Prop-content-length: 128
+Content-length: 128
+
+K 7
+svn:log
+V 29
+- First Tag for Release 0.0.1
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:18.130090Z
+PROPS-END
+
+Node-path: project1/tags/RELEASE-0.0.1
+Node-kind: dir
+Node-action: add
+Node-copyfrom-rev: 2
+Node-copyfrom-path: project1/trunk
+
+
+Revision-number: 4
+Prop-content-length: 118
+Content-length: 118
+
+K 7
+svn:log
+V 19
+- First Maven file.
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:18.183000Z
+PROPS-END
+
+Node-path: project1/trunk/pom.xml
+Node-kind: file
+Node-action: add
+Prop-content-length: 10
+Text-content-length: 1523
+Text-content-md5: 43764ce68278ab4957b32126c422fd37
+Content-length: 1533
+
+PROPS-END
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.soebes</groupId>
+	<artifactId>supose</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>SupoSE :: Root</name>
+	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
+		into an Lucene Index to do search queris on it later.</description>
+	<url>http://www.supose.org</url>
+	<licenses>
+		<license>
+			<name>The GNU General Public License Version 2</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+			<distribution>repo</distribution>
+			<!-- 			<comments>Comments</comments>  -->
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SoftwareEntwicklung Beratung Schulung</name>
+		<url>http://www.soebes.de</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>kama</id>
+			<name>Karl Heinz Marbase</name>
+			<email>khm@soebes.de</email>
+			<timezone>+1</timezone>
+			<roles>
+				<role>project lead</role>
+				<role>commiter</role>
+			</roles>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:svn:file:///home/kama/test/repos/project1/</connection>
+		<developerConnection>scm:svn:file:///home/kama/test/repos/project1/trunk/</developerConnection>
+		<url>http://www.supose.org/repositories/show/supose</url>
+	</scm>
+</project>
+
+
+Revision-number: 5
+Prop-content-length: 150
+Content-length: 150
+
+K 7
+svn:log
+V 51
+[maven-release-plugin] prepare release supose-0.0.2
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:30.584049Z
+PROPS-END
+
+Node-path: project1/trunk/pom.xml
+Node-kind: file
+Node-action: change
+Text-content-length: 1515
+Text-content-md5: 9c407f37e13352c7704418633960b372
+Content-length: 1515
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.soebes</groupId>
+	<artifactId>supose</artifactId>
+	<version>0.0.2</version>
+	<packaging>jar</packaging>
+
+	<name>SupoSE :: Root</name>
+	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
+		into an Lucene Index to do search queris on it later.</description>
+	<url>http://www.supose.org</url>
+	<licenses>
+		<license>
+			<name>The GNU General Public License Version 2</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+			<distribution>repo</distribution>
+			<!-- 			<comments>Comments</comments>  -->
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SoftwareEntwicklung Beratung Schulung</name>
+		<url>http://www.soebes.de</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>kama</id>
+			<name>Karl Heinz Marbase</name>
+			<email>khm@soebes.de</email>
+			<timezone>+1</timezone>
+			<roles>
+				<role>project lead</role>
+				<role>commiter</role>
+			</roles>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:svn:file:///home/kama/test/repos/project1/tags/supose-0.0.2</connection>
+		<developerConnection>scm:svn:file:///home/kama/test/repos/project1/tags/supose-0.0.2</developerConnection>
+		<url>http://www.supose.org/repositories/show/supose/tags/supose-0.0.2</url>
+	</scm>
+</project>
+
+Revision-number: 6
+Prop-content-length: 148
+Content-length: 148
+
+K 7
+svn:log
+V 49
+[maven-release-plugin]  copy for tag supose-0.0.2
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:31.158983Z
+PROPS-END
+
+Node-path: project1/tags/supose-0.0.2
+Node-kind: dir
+Node-action: add
+Node-copyfrom-rev: 1
+Node-copyfrom-path: project1/trunk
+
+
+Node-path: project1/tags/supose-0.0.2/f1.txt
+Node-kind: file
+Node-action: add
+Node-copyfrom-rev: 2
+Node-copyfrom-path: project1/trunk/f1.txt
+Text-copy-source-md5: 8c8fcf3bde9134e67882706cfec3ef22
+
+
+Node-path: project1/tags/supose-0.0.2/f2.txt
+Node-kind: file
+Node-action: add
+Node-copyfrom-rev: 2
+Node-copyfrom-path: project1/trunk/f2.txt
+Text-copy-source-md5: 8c8fcf3bde9134e67882706cfec3ef22
+
+
+Node-path: project1/tags/supose-0.0.2/pom.xml
+Node-kind: file
+Node-action: add
+Node-copyfrom-rev: 5
+Node-copyfrom-path: project1/trunk/pom.xml
+Text-copy-source-md5: 9c407f37e13352c7704418633960b372
+
+
+Revision-number: 7
+Prop-content-length: 160
+Content-length: 160
+
+K 7
+svn:log
+V 61
+[maven-release-plugin] prepare for next development iteration
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:32.179810Z
+PROPS-END
+
+Node-path: project1/trunk/pom.xml
+Node-kind: file
+Node-action: change
+Text-content-length: 1478
+Text-content-md5: a13d84e8ce664b814a9eee0cf5883a19
+Content-length: 1478
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.soebes</groupId>
+	<artifactId>supose</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>SupoSE :: Root</name>
+	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
+		into an Lucene Index to do search queris on it later.</description>
+	<url>http://www.supose.org</url>
+	<licenses>
+		<license>
+			<name>The GNU General Public License Version 2</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+			<distribution>repo</distribution>
+			<!-- 			<comments>Comments</comments>  -->
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SoftwareEntwicklung Beratung Schulung</name>
+		<url>http://www.soebes.de</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>kama</id>
+			<name>Karl Heinz Marbase</name>
+			<email>khm@soebes.de</email>
+			<timezone>+1</timezone>
+			<roles>
+				<role>project lead</role>
+				<role>commiter</role>
+			</roles>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:svn:file:///home/kama/test/repos/project1/</connection>
+		<developerConnection>scm:svn:file:///home/kama/test/repos/project1/trunk/</developerConnection>
+		<url>http://www.supose.org/repositories/show/supose</url>
+	</scm>
+</project>
+
+Revision-number: 8
+Prop-content-length: 131
+Content-length: 131
+
+K 7
+svn:log
+V 32
+- First Branch for Release 0.0.2
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:33.256564Z
+PROPS-END
+
+Node-path: project1/branches/B_0.0.2
+Node-kind: dir
+Node-action: add
+Node-copyfrom-rev: 7
+Node-copyfrom-path: project1/trunk
+
+
+Revision-number: 9
+Prop-content-length: 117
+Content-length: 117
+
+K 7
+svn:log
+V 18
+- Added Sub Module
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:34.159463Z
+PROPS-END
+
+Node-path: project1/branches/B_0.0.2/module
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: project1/branches/B_0.0.2/module/pom.xml
+Node-kind: file
+Node-action: add
+Prop-content-length: 10
+Text-content-length: 509
+Text-content-md5: 9681ada1c709da43f5937ab5c27cf7b5
+Content-length: 519
+
+PROPS-END
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.soebes</groupId>
+		<artifactId>supose</artifactId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
+	<groupId>com.soebes</groupId>
+	<artifactId>module</artifactId>
+	<packaging>jar</packaging>
+	<name>SupoSE :: module</name>
+
+</project>
+
+
+Node-path: project1/branches/B_0.0.2/pom.xml
+Node-kind: file
+Node-action: change
+Text-content-length: 1577
+Text-content-md5: 5ad31ae094218da76c63450b4f463391
+Content-length: 1577
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.soebes</groupId>
+	<artifactId>supose</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>SupoSE :: Root</name>
+	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
+		into an Lucene Index to do search queris on it later.</description>
+	<url>http://www.supose.org</url>
+	<licenses>
+		<license>
+			<name>The GNU General Public License Version 2</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+			<distribution>repo</distribution>
+			<!-- 			<comments>Comments</comments>  -->
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SoftwareEntwicklung Beratung Schulung</name>
+		<url>http://www.soebes.de</url>
+	</organization>
+
+	<modules>
+		<module>module</module>
+	</modules>
+
+	<developers>
+		<developer>
+			<id>kama</id>
+			<name>Karl Heinz Marbase</name>
+			<email>khm@soebes.de</email>
+			<timezone>+1</timezone>
+			<roles>
+				<role>project lead</role>
+				<role>commiter</role>
+			</roles>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:svn:file:///home/kama/test/repos/project1/</connection>
+		<developerConnection>scm:svn:file:///home/kama/test/repos/project1/trunk/</developerConnection>
+		<url>http://www.supose.org/repositories/show/supose</url>
+	</scm>
+</project>
+
+
+Revision-number: 10
+Prop-content-length: 124
+Content-length: 124
+
+K 7
+svn:log
+V 25
+- Merged branches/B_0.0.2
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:37.139954Z
+PROPS-END
+
+Node-path: project1/trunk
+Node-kind: dir
+Node-action: change
+Prop-content-length: 65
+Content-length: 65
+
+K 13
+svn:mergeinfo
+V 30
+/project1/branches/B_0.0.2:8-9
+PROPS-END
+
+
+Node-path: project1/trunk/module
+Node-kind: dir
+Node-action: add
+Node-copyfrom-rev: 9
+Node-copyfrom-path: project1/branches/B_0.0.2/module
+
+
+Node-path: project1/trunk/pom.xml
+Node-kind: file
+Node-action: change
+Text-content-length: 1577
+Text-content-md5: 5ad31ae094218da76c63450b4f463391
+Content-length: 1577
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.soebes</groupId>
+	<artifactId>supose</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>SupoSE :: Root</name>
+	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
+		into an Lucene Index to do search queris on it later.</description>
+	<url>http://www.supose.org</url>
+	<licenses>
+		<license>
+			<name>The GNU General Public License Version 2</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+			<distribution>repo</distribution>
+			<!-- 			<comments>Comments</comments>  -->
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SoftwareEntwicklung Beratung Schulung</name>
+		<url>http://www.soebes.de</url>
+	</organization>
+
+	<modules>
+		<module>module</module>
+	</modules>
+
+	<developers>
+		<developer>
+			<id>kama</id>
+			<name>Karl Heinz Marbase</name>
+			<email>khm@soebes.de</email>
+			<timezone>+1</timezone>
+			<roles>
+				<role>project lead</role>
+				<role>commiter</role>
+			</roles>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:svn:file:///home/kama/test/repos/project1/</connection>
+		<developerConnection>scm:svn:file:///home/kama/test/repos/project1/trunk/</developerConnection>
+		<url>http://www.supose.org/repositories/show/supose</url>
+	</scm>
+</project>
+
+
+Revision-number: 11
+Prop-content-length: 113
+Content-length: 113
+
+K 7
+svn:log
+V 14
+- Rename file.
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-04-26T20:16:39.134643Z
+PROPS-END
+
+Node-path: project1/trunk/f3.txt
+Node-kind: file
+Node-action: add
+Node-copyfrom-rev: 9
+Node-copyfrom-path: project1/trunk/f1.txt
+Text-copy-source-md5: 8c8fcf3bde9134e67882706cfec3ef22
+Prop-content-length: 34
+Content-length: 34
+
+K 13
+svn:mergeinfo
+V 0
+
+PROPS-END
+
+
+Node-path: project1/trunk/f1.txt
+Node-action: delete
+
+
