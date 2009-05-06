@@ -5,7 +5,7 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
-		<release version="0.5.2 Europa" date="2009-XX-XX" description="Interims Milestone Release">
+		<release version="0.5.2 Europa" date="2009-05-06" description="Interims Milestone Release">
 			<action dev="Karl Heinz Marbaise" type="add" issue="184, 183">- Make interuption of scan process possible via signal handler.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="181">- Fixed some problems with pom.xml and new release of Maven</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="177">- The pipe symbol is currently not supported by SVNKit library so neither we can support it.</action>
