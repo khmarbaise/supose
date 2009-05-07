@@ -30,7 +30,6 @@ import java.io.FileNotFoundException;
 
 import org.apache.log4j.Logger;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
@@ -56,17 +55,16 @@ public class InitRepositoryTest extends TestBase {
 	 * will be used to test the functionality of the scanning
 	 * indexing and search process.
 	 * @throws SVNException 
+	 * @throws FileNotFoundException 
 	 */
 	@BeforeSuite
-	public void createRepository() throws SVNException {
+	public void createRepository() throws SVNException, FileNotFoundException {
 		LOGGER.info("Using the following directory: " + getRepositoryDirectory());
 		repositoryURL = SVNRepositoryFactory.createLocalRepository(new File(getRepositoryDirectory()), false, true);
 		LOGGER.info("Integration Test Repository created.");
 		LOGGER.info("The URL:" + repositoryURL.toString());
-	}
-	
-	@Test
-	public void RevisionLoadTest () throws FileNotFoundException, SVNException {
+		
+		LOGGER.info("Start loading the dump file into the repository.");
 		//Create the path to the repos.dump file which is located 
 		//in the src/test/resources directory.
 		String dumpFile = getMavenBaseDir() 
@@ -76,6 +74,8 @@ public class InitRepositoryTest extends TestBase {
 			+ File.separatorChar + "repos.dump";
 		SVNAdminClient admin = new SVNAdminClient((ISVNAuthenticationManager)null, null);
 		admin.doLoad(new File(getRepositoryDirectory()), new FileInputStream(dumpFile));
+		LOGGER.info("Start verifying the repository.");
 		admin.doVerify(new File(getRepositoryDirectory()));
 	}
+	
 }

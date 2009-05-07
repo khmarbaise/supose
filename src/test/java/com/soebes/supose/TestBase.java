@@ -85,4 +85,13 @@ public class TestBase {
 	public String getRepositoryDirectory() {
 		return getTargetDir() + File.separatorChar + "repos";
 	}
+	
+	/**
+	 * This will give you back the position of an index directory
+	 * which is stored inside the <b>target</b> directory.
+	 * @return The directory where the index is stored.
+	 */
+	public String getIndexDirectory() {
+		return getTargetDir() + File.separatorChar + "index.Test";
+	}
 }
