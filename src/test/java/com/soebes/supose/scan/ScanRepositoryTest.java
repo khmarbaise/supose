@@ -83,6 +83,7 @@ public class ScanRepositoryTest extends TestBase {
 	
 	
 	private TopDocs getQueryResult(String queryLine) {
+		System.out.println("Query:" + queryLine);
 		String indexDirectory = getIndexDirectory();
 	    IndexReader reader = null;
 	    TopDocs result = null;	    
@@ -112,8 +113,7 @@ public class ScanRepositoryTest extends TestBase {
 		    	Document hit = searcher.doc(result.scoreDocs[i].doc);
 				List<Field> fieldList = hit.getFields();
 				System.out.print((i+1) + ". ");
-				for(int k=0; k<fieldList.size();k++) {
-					Field field = (Field) fieldList.get(k);
+				for (Field field : fieldList) {
 					if (FieldNames.FILENAME.equals(field.name())) {
 						System.out.print("F:" + field.stringValue() + " ");
 					}
@@ -144,10 +144,58 @@ public class ScanRepositoryTest extends TestBase {
 		return result;
 	}
 
+	@Test(enabled = false)
+	public void testQueryForFilenameOnlyWhichCurrentlyDoesNotWork() {
+		TopDocs result = getQueryResult("+filename:f1.txt");
+	    assertEquals(result.totalHits, 0);
+	}
+
 	@Test
-	public void testQueryForFilename() {
+	public void testQueryForFilenameWithPrefixedWildcardTextFiles() {
 		TopDocs result = getQueryResult("+filename:*.txt");
 	    assertEquals(result.totalHits, 6);
 	}
 	
+	@Test
+	public void testQueryForFilenameWithPrefixedWildcardExcelFiles() {
+		TopDocs result = getQueryResult("+filename:*.xls");
+	    assertEquals(result.totalHits, 2);
+	}
+
+	@Test
+	public void testQueryForFilenameWithPrefixedWildcardExcel2007Files() {
+		TopDocs result = getQueryResult("+filename:*.xlsx");
+	    assertEquals(result.totalHits, 2);
+	}
+
+	@Test
+	public void testQueryForTermForExcelWorksheet() {
+		TopDocs result = getQueryResult("+contents:\"Sample Excel Worksheet\"");
+	    assertEquals(result.totalHits, 2);
+	}
+	
+	@Test
+	public void testQueryForTermForExcelWorksheetCombination() {
+		TopDocs result = getQueryResult("+contents:\"Sample Excel Worksheet\" +filename:*.xls");
+	    assertEquals(result.totalHits, 1);
+	}
+	
+	@Test
+	public void testQueryForTermFromWord() {
+		TopDocs result = getQueryResult("+contents:\"Sample Word\"");
+	    assertEquals(result.totalHits, 2);
+	}
+	
+	@Test
+	public void testQueryForTermFromWordCombination() {
+		TopDocs result = getQueryResult("+contents:\"Sample Word\" +filename:*.doc");
+	    assertEquals(result.totalHits, 1);
+	}
+
+	@Test
+	public void testQueryForTermOfPowerPoint() {
+		TopDocs result = getQueryResult("+contents:\"Sample Powerpoint\"");
+	    assertEquals(result.totalHits, 2);
+	}
+
 }

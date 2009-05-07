@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <document>
 	<properties>
-		<title>Subversion Repository Search Engine</title>
+		<title>SupoSE - Release History</title>
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
 		<release version="0.5.3 Bebhionn" date="2009-05-XX" description="Interims Milestone Release">
-			<action dev="Karl Heinz Marbaise" type="fixed" issue="106, 129">- Make interuption of scan process possible via signal handler.</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="187">
+				- Support of docx, xlsx and pptx file types.
+			</action>
+			<action dev="Karl Heinz Marbaise" type="fix">
+				- Interuption of scan process possible via Signal handler
+				<fixes issue="106"/>
+				<fixes issue="129"/>
+			</action>
 		</release>
-		<release version="0.5.2 Bergelmir" date="2009-05-06" description="Interims Milestone Release">
-			<action dev="Karl Heinz Marbaise" type="add" issue="184, 183">- Make interuption of scan process possible via signal handler.</action>
+		<release version="0.5.2 Bergelmir" date="2009-05-06" description="Bug Fix and Enhancement Release">
+			<action dev="Karl Heinz Marbaise" type="add">
+				- Make interuption of scan process possible via signal handler.
+				<fixes issue="183"/>
+				<fixes issue="184"/>
+			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="181">- Fixed some problems with pom.xml and new release of Maven</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="177">- The pipe symbol is currently not supported by SVNKit library so neither we can support it.</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="179">- Updated ini4j to release 0.4.1</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="175">- Updated to Tika release 0.3</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="179">- Updated ini4j to release 0.4.1</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="175">- Updated to Tika release 0.3</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="112">- Searching with multiple wildcards is now working.</action>
 		</release>
 		<release version="0.5.1 Europa" date="2009-02-21" description="Interims Milestone Release">
@@ -32,24 +43,24 @@
 			<action dev="Karl Heinz Marbaise" type="fix" issue="149">- After update supose.cmd does not work anymore.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="146">- Enhance Documentation.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="145">- Removed Repository dependencies from POM.</action>
-			<action dev="Karl Heinz Marbaise" type="fix" issue="137">- Updated to Quartz 1.6.4.</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="137">- Updated to Quartz 1.6.4.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="132">- Removed Ant Support from project.</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="72">- Updated to SVNKit 1.2.2.5405 build.</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="72">- Updated to SVNKit 1.2.2.5405 build.</action>
 		</release>
 		<release version="0.5.0 (Ceres) Alpha 1" date="2009-01-14" description="Milestone">
 			<action dev="Karl Heinz Marbaise" type="add" issue="144">- Add search-examples.txt file to the distribution archived.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="143">- Fixed assembly configuration file for bin distribution not to doulbe supose jar file.</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="142">- Updated to SVNKit 1.2.0</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="138">- Update ini4j to 0.3.2 using classifier.</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="142">- Updated to SVNKit 1.2.0</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="138">- Update ini4j to 0.3.2 using classifier.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="136">- Removing of test-output folder added.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="135">- New Formats XML, HTML and RTF are now being parsed.</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="134">- Updated all License Header informations</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="134">- Updated all License Header informations</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="133">- Indexing the properties in the correct way.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="131">- Integration of Tika for parsing different document types.</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="130">- Update to Lucene 2.4.0</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="130">- Update to Lucene 2.4.0</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="120">- Calling of supose.cmd fixed, cause of changed dependencies.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="119">- Using of revision ranges and single revisions now working</action>
-			<action dev="Karl Heinz Marbaise" type="fix" issue="110">- Update to 0.5.0-SNAPSHOT</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="110">- Update to 0.5.0-SNAPSHOT</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="109">- Linking in changes report was wrong.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="107">- Change URL to new Issue tracking system.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="71">- Create a single jar application.</action>
@@ -60,10 +71,10 @@
 			<action dev="Karl Heinz Marbaise" type="fix" issue="63">- Missed to update the correct revision/date for the POI jar files.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="62">- Removed doubled http in ci management in profiles.xml file.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="61">- Missed the locally stored jar files and source for Eclipse environment.</action>
-			<action dev="Karl Heinz Marbaise" type="fix" issue="60">- Update to Lucene 2.3.1.</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="60">- Update to Lucene 2.3.1.</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="59">- Problem with profiles fixed.</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="58">- External profiles file instead of POM inline profiles.</action>
-			<action dev="Karl Heinz Marbaise" type="fix" issue="57">- Update POI to 3.0.2</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="57">- Update POI to 3.0.2</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="56">- Build of different files now working via Maven</action>
 			<action dev="Karl Heinz Marbaise" type="add" >- Added contributors</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="55">- Added mission directory.properties to distribution</action>
@@ -72,7 +83,7 @@
 			<action dev="Karl Heinz Marbaise" type="fix" issue="54">- No prefix for the destination index</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="53">- Don't index svn:wc properties</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="52">- Wrong indexing fixed for contents of non binary files</action>
-			<action dev="Karl Heinz Marbaise" type="add" issue="48">- Update copyright year</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="48">- Update copyright year</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="45">- Branch created to start working on Milestone</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="40">- Scanning of Java files</action>
 		</release>
