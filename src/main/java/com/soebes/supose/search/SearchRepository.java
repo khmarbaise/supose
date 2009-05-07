@@ -25,9 +25,106 @@
 // SupoSE
 package com.soebes.supose.search;
 
-public class SearchRepository {
+import java.io.IOException;
+import java.util.List;
 
-	public SearchRepository () {
-		
+import org.apache.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Searcher;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TopDocs;
+
+import com.soebes.supose.FieldNames;
+
+public class SearchRepository {
+	private static Logger LOGGER = Logger.getLogger(SearchRepository.class);
+	
+	private String indexDirectory = null;
+	
+	public SearchRepository() {
+		setIndexDirectory(null);
 	}
+
+	public SearchRepository(String indexDirectory) {
+		setIndexDirectory(indexDirectory);
+	}
+
+	public TopDocs getQueryResult(String queryLine) {
+		System.out.println("Query:" + queryLine);
+	    IndexReader reader = null;
+	    TopDocs result = null;	    
+	    try {
+	    	
+	    	reader = IndexReader.open(getIndexDirectory());
+	    	
+	    	Searcher searcher = new IndexSearcher(reader);
+	    	Analyzer analyzer = new StandardAnalyzer();
+	    	SortField[] sf = {
+	    		new SortField(FieldNames.REVISION),
+	    		new SortField(FieldNames.FILENAME),
+	    	};
+	    	Sort sort = new Sort(sf);
+	    	//Here we define the default field for searching.
+	        QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
+	        //We will allow using a wildcard at the beginning of the expression.
+	        parser.setAllowLeadingWildcard(true);
+	        //The search term will not be expanded to lowercase.
+	        parser.setLowercaseExpandedTerms(false);
+	        Query query = parser.parse(queryLine);
+
+	        //That's not the best idea...but currently i have not better solution for this...
+	        TopDocs tmp = searcher.search(query, null, 20, sort);
+		    result = searcher.search(query, null, tmp.totalHits, sort);
+		    for (int i = 0; i < result.scoreDocs.length; i++) {
+		    	Document hit = searcher.doc(result.scoreDocs[i].doc);
+				List<Field> fieldList = hit.getFields();
+				System.out.print((i+1) + ". ");
+				for (Field field : fieldList) {
+					if (FieldNames.FILENAME.equals(field.name())) {
+						System.out.print("F:" + field.stringValue() + " ");
+					}
+					if (FieldNames.REVISION.equals(field.name())) {
+						long rev = Long.parseLong(field.stringValue());
+						System.out.print("R:" + rev + " ");
+					}
+					if (FieldNames.KIND.equals(field.name())) {
+						System.out.print("K:" + field.stringValue() + " ");
+					}
+				}
+				System.out.println("");
+			}
+
+	    } catch (CorruptIndexException e) {
+			LOGGER.error("Error: The index is corrupted: " + e);
+	    } catch (IOException e) {
+			System.err.println("Error: IOException: " + e);
+		} catch (Exception e) {
+			LOGGER.error("Error: Something has gone wrong: " + e);
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				LOGGER.error("Error: IOException during close(): " + e);
+			}
+		}
+		return result;
+	}
+
+	public void setIndexDirectory(String indexDirectory) {
+		this.indexDirectory = indexDirectory;
+	}
+
+	public String getIndexDirectory() {
+		return indexDirectory;
+	}
+
 }

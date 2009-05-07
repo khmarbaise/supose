@@ -27,19 +27,32 @@ package com.soebes.supose;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexWriter;
 import org.testng.annotations.BeforeSuite;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
+import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import org.tmatesoft.svn.core.wc.admin.SVNAdminClient;
+
+import com.soebes.supose.index.Index;
+import com.soebes.supose.repository.Repository;
+import com.soebes.supose.scan.ScanRepository;
 
 
 /**
  * This will initialize a repository and load the contents from
  * an existing dump file which contains particular test cases.
+ * 
+ * The next part is to scan the repository and create an index
+ * which will be used for the query tests.
  * 
  * @author Karl Heinz Marbaise
  *
@@ -49,14 +62,23 @@ public class InitRepository extends TestBase {
 
 	private SVNURL repositoryURL = null;
 
+	private static ScanRepository scanRepository = new ScanRepository();
+
 	/**
 	 * The first step is to create a test repository which
 	 * will be used to test the functionality of the scanning
 	 * indexing and search process.
 	 * @throws SVNException 
 	 * @throws FileNotFoundException 
+	 * @throws SVNException 
+	 * @throws FileNotFoundException 
 	 */
 	@BeforeSuite
+	public void beforeSuite() throws FileNotFoundException, SVNException {
+		createRepository();
+		scanRepos();
+	}
+
 	public void createRepository() throws SVNException, FileNotFoundException {
 		LOGGER.info("Using the following directory: " + getRepositoryDirectory());
 		repositoryURL = SVNRepositoryFactory.createLocalRepository(new File(getRepositoryDirectory()), false, true);
@@ -75,6 +97,46 @@ public class InitRepository extends TestBase {
 		admin.doLoad(new File(getRepositoryDirectory()), new FileInputStream(dumpFile));
 		LOGGER.info("Start verifying the repository.");
 		admin.doVerify(new File(getRepositoryDirectory()));
+	}
+	
+	public void scanRepos() throws SVNException {
+		Index index = new Index ();
+		//We will create a new one if --create is given on command line
+		//otherwise we will append to the existing index.
+		Analyzer analyzer = new StandardAnalyzer();		
+		index.setAnalyzer(analyzer);
+		//For the test we allways create the index.
+		index.setCreate(true);
+		IndexWriter indexWriter = index.createIndexWriter(getIndexDirectory());
+
+		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
+			"", 
+			""
+		);
+		String repositoryDir = getRepositoryDirectory();
+		SVNURL url = SVNURL.fromFile(new File(repositoryDir));
+		Repository repository = new Repository("file://" + url.getURIEncodedPath(), authManager);
+
+		scanRepository.setRepository(repository);
+
+		//We start with the revision which is given on the command line.
+		//If it is not given we will start with revision 1.
+		scanRepository.setStartRevision(1); 
+		//We will scan the repository to the current HEAD of the repository.
+		scanRepository.setEndRevision(-1);
+
+		LOGGER.info("Scanning started.");
+		scanRepository.scan(indexWriter);
+		LOGGER.info("Scanning ready.");
+
+		try {
+			indexWriter.optimize();
+			indexWriter.close();
+		} catch (CorruptIndexException e) {
+			LOGGER.error("CorruptIndexException: Error during optimization of index: " + e);
+		} catch (IOException e) {
+			LOGGER.error("IOException: Error during optimization of index: " + e);
+		}
 	}
 	
 }
