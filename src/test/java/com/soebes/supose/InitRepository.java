@@ -22,7 +22,7 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.recognition;
+package com.soebes.supose;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,7 +36,6 @@ import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.admin.SVNAdminClient;
 
-import com.soebes.supose.TestBase;
 
 /**
  * This will initialize a repository and load the contents from
@@ -45,8 +44,8 @@ import com.soebes.supose.TestBase;
  * @author Karl Heinz Marbaise
  *
  */
-public class InitRepositoryTest extends TestBase {
-	private static Logger LOGGER = Logger.getLogger(InitRepositoryTest.class);
+public class InitRepository extends TestBase {
+	private static Logger LOGGER = Logger.getLogger(InitRepository.class);
 
 	private SVNURL repositoryURL = null;
 
