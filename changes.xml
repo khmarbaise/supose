@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release version="0.5.3 Bebhionn" date="2009-05-XX" description="Interims Milestone Release">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="163">
+				File encoding set for copying via maven resources plugin
+			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="187">
 				- Support of docx, xlsx and pptx file types.
 			</action>
