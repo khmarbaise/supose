@@ -100,10 +100,16 @@ public class TagBranchRecognitionTest extends TestBase {
 
 				if (changedPathsSet.size() == 1) {
 					//Here we change if we usual tags/branches
-					tbr.checkForTagOrBranch(result, logEntry, changedPathsSet);
+					TagType res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
+					if (res != null) {
+						result.add(res);
+					}
 				} else {
 					//Particular situations like Maven Tags.
-					tbr.checkForMavenTag(result, logEntry, changedPathsSet);
+					TagType res = tbr.checkForMavenTag(logEntry, changedPathsSet);
+					if (res != null) {
+						result.add(res);
+					}
 				}
 			}
 

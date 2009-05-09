@@ -69,16 +69,17 @@ public class TagBranchRecognition {
 	 * @param result
 	 * @param logEntry
 	 * @param changedPathsSet
+	 * @return Will return the TagType or null if no appropriate Type (Maven Tag) has been found.
 	 */
-	public void checkForMavenTag(
-			ArrayList<TagType> result,
+	public TagType checkForMavenTag(
 			SVNLogEntry logEntry, 
 			Set changedPathsSet 
 		) {
+		TagType result = null;
 		//The log message is the first indication for a maven tag...
 //FIXME: The hard coded value for the message of Maven must be made configurable...		
 		if (!logEntry.getMessage().startsWith(MAVEN_TAG_PREFIX)) {
-			return;
+			return result;
 		}
 
 		//The first assumption the log message is correct...
@@ -103,12 +104,13 @@ public class TagBranchRecognition {
 						if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
 							bt.setType(TagType.Type.TAG);
 							bt.setMavenTag(true);
-							result.add(bt);
+							result = bt;
 						}
 					}
 				}
 			}
 		}
+		return result;
 	}
 
 	/**
@@ -122,12 +124,12 @@ public class TagBranchRecognition {
 	 * @param logEntry
 	 * @param changedPathsSet
 	 */
-	public void checkForTagOrBranch(
-		ArrayList<TagType> result, 
+	public TagType checkForTagOrBranch(
 		SVNLogEntry logEntry, 
 		Set changedPathsSet
 		) {
 
+		TagType result = null;
 		Iterator changedPaths = changedPathsSet.iterator();
 		SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 
@@ -143,8 +145,9 @@ public class TagBranchRecognition {
 			} else {
 				bt.setType(TagType.Type.BRANCH);
 			}
-			result.add(bt);
+			result = bt;
 		}
+		return result;
 	}
 	
 	public Repository getRepository() {
