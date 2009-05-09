@@ -40,12 +40,6 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.Searcher;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
@@ -66,7 +60,6 @@ import com.soebes.supose.jobs.JobSchedulerListener;
 import com.soebes.supose.jobs.RepositoryScanJob;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
-import com.soebes.supose.search.CustomQueryParser;
 import com.soebes.supose.search.SearchRepository;
 
 /**
@@ -275,10 +268,8 @@ public class SuposeCLI {
 		}
 		System.out.println("");
 		
-		SearchRepository searchRepository = new SearchRepository();
+		SearchRepository searchRepository = new SearchRepository(indexDirectory);
 		
-		searchRepository.setIndexDirectory(indexDirectory);
-
 		TopDocs result = searchRepository.getQueryResult(queryLine);
 
 //		System.out.println("Query analyzer:" + query.toString());

@@ -72,7 +72,8 @@ public class IndexHelper {
 			for (int i = 0; i < indexList.size(); i++) {
 				fsDirs[i] = FSDirectory.getDirectory(indexList.get(i));
 			}
-			indexWriter.addIndexes(fsDirs);
+			indexWriter.addIndexesNoOptimize(fsDirs);
+			indexWriter.optimize();
 			indexWriter.close();
 			LOGGER.info("Merging of indexes succesfull.");
 		} catch (Exception e) {
