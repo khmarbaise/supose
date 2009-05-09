@@ -24,13 +24,11 @@
  */
 package com.soebes.supose.scan;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.tmatesoft.svn.core.SVNDirEntry;
-import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;
 import org.tmatesoft.svn.core.SVNNodeKind;
@@ -51,17 +49,6 @@ public class TagBranchRecognition {
 
 	private Repository repository = null;
 
-	private SVNDirEntry getInformationAboutEntry(long revision, String path) {
-		SVNDirEntry dirEntry = null;
-		try {
-			LOGGER.debug("getInformationAboutEntry() name:" + path + " rev:" + revision);
-			dirEntry = repository.getRepository().info(path, revision);
-		} catch (SVNException e) {
-			LOGGER.error("Unexpected Exception: " + e);
-		}
-		return dirEntry;
-	}
-	
 	/**
 	 * A <a href="http://maven.apache.org">Maven</a> tag is currently 
 	 * based on a <a href="http://svnbook.red-bean.com/en/1.5/svn-book.html#svn.branchmerge.tags.mkcomplex">complex tag</a> 
@@ -88,8 +75,16 @@ public class TagBranchRecognition {
 
 			if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
 				if (entryPath.getCopyPath() != null) {
-					SVNDirEntry destEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getPath());
-					SVNDirEntry sourceEntry = getInformationAboutEntry(logEntry.getRevision(), entryPath.getCopyPath());
+					SVNDirEntry destEntry = RepositoryInformation.getInformationAboutEntry(
+						getRepository(), 
+						logEntry.getRevision(), 
+						entryPath.getPath()
+					);
+					SVNDirEntry sourceEntry = RepositoryInformation.getInformationAboutEntry(
+						getRepository(), 
+						logEntry.getRevision(), 
+						entryPath.getCopyPath()
+					);
 					
 					TagType bt = new TagType();
 					bt.setName(entryPath.getPath());

@@ -109,6 +109,7 @@ public class ScanRepository {
             }
 
             if (logEntry.getChangedPaths().size() > 0) {
+            	
             	LOGGER.debug("changed paths:");
 				try {
 					workOnChangeSet(writer, repository, logEntry);
@@ -136,11 +137,42 @@ public class ScanRepository {
 	private void workOnChangeSet(IndexWriter indexWriter, Repository repository, SVNLogEntry logEntry) {
 		Set changedPathsSet = logEntry.getChangedPaths().keySet();
 
+		TagBranchRecognition tbr = new TagBranchRecognition();
+		tbr.setRepository(repository);
+
 		int count = 0;
 		LOGGER.info("Number of files for revision: " + changedPathsSet.size());
 		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 			count ++;
 
+			Document doc = new Document();
+
+			//It is needed to check it in every entry 
+			//This will result in making entries for every record of the ChangeSet.
+
+			//Check to see if we have a Tag....
+			if (changedPathsSet.size() == 1) {
+				TagType res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
+				if (res != null) {
+					//Yes we have found branch/tag
+					if (res.getType().equals(TagType.Type.BRANCH)) {
+						//This is a branch
+						addUnTokenizedField(doc, FieldNames.BRANCH, res.getName());
+					} else {
+						//This is a tag...
+						addUnTokenizedField(doc, FieldNames.TAG, res.getName());
+					}
+				}
+			} else {
+				TagType res = tbr.checkForMavenTag(logEntry, changedPathsSet);
+				if (res != null) {
+					//Yes there is a Maven Tag.
+					//So we will find the Maven Tag as a TAG as well as a Maven Tag.
+					addUnTokenizedField(doc, FieldNames.TAG, res.getName());
+					addUnTokenizedField(doc, FieldNames.MAVENTAG, res.getName());
+				}
+			}
+			
 			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 			LOGGER.debug(" "
 		            + entryPath.getType()
@@ -151,30 +183,10 @@ public class ScanRepository {
 		                    + entryPath.getCopyRevision() + ")" : ""));
 
 			//We would like to know something about the entry.
-			SVNDirEntry dirEntry = getInformationAboutEntry(repository, logEntry, entryPath);
+			SVNDirEntry dirEntry = RepositoryInformation.getInformationAboutEntry(repository, logEntry.getRevision(), entryPath.getPath());
 		    
 			try {
-				if (SVNLogEntryPath.TYPE_ADDED == entryPath.getType()) {
-					LOGGER.debug("File " + entryPath.getPath() + " added...");
-					//get All file content and index it.
-					indexFile(indexWriter, dirEntry, repository, logEntry, entryPath);
-				}
-				if (SVNLogEntryPath.TYPE_MODIFIED == entryPath.getType()) {
-					//Get all file content and index it...
-					LOGGER.debug("Modified file...");
-					//get All file content and index it.
-					indexFile(indexWriter, dirEntry, repository, logEntry, entryPath);
-				}
-				if (SVNLogEntryPath.TYPE_REPLACED == entryPath.getType()) {
-					//Get all file content and index it...
-					LOGGER.debug("Replaced file...");
-					//get All file content and index it.
-					indexFile(indexWriter, dirEntry, repository, logEntry, entryPath);
-				}
-				if (SVNLogEntryPath.TYPE_DELETED == entryPath.getType()) {
-					LOGGER.debug("The file '" + entryPath.getPath() + "' has been deleted.");
-					indexFile(indexWriter, dirEntry, repository, logEntry, entryPath);
-				}
+				indexFile(doc, indexWriter, dirEntry, repository, logEntry, entryPath);
 			} catch (IOException e) {
 				LOGGER.error("IOExcepiton: " + e);
 			} catch (SVNException e) {
@@ -201,13 +213,12 @@ public class ScanRepository {
 		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 
-	private void indexFile(IndexWriter indexWriter, SVNDirEntry dirEntry, Repository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
+	private void indexFile(Document doc, IndexWriter indexWriter, SVNDirEntry dirEntry, Repository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
 		throws SVNException, IOException {
 			SVNProperties fileProperties = new SVNProperties();
 
 			SVNNodeKind nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision());
 
-			Document doc = new Document();
 			addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(logEntry.getRevision()));
 
 			boolean isDir = nodeKind == SVNNodeKind.DIR;
@@ -292,17 +303,6 @@ public class ScanRepository {
 			LOGGER.debug("Indexing property: " + propname); 
 			addUnTokenizedField(doc, propname, list.getStringValue(propname));
 		}
-	}
-
-	private SVNDirEntry getInformationAboutEntry(Repository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) {
-		SVNDirEntry dirEntry = null;
-		try {
-			LOGGER.debug("getInformationAboutEntry() name:" + entryPath.getPath() + " rev:" + logEntry.getRevision());
-			dirEntry = repository.getRepository().info(entryPath.getPath(), logEntry.getRevision());
-		} catch (SVNException e) {
-			LOGGER.error("Unexpected Exception: " + e);
-		}
-		return dirEntry;
 	}
 
 	public long getStartRevision() {

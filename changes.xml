@@ -6,6 +6,10 @@
 	</properties>
 	<body>
 		<release version="0.5.3 Bebhionn" date="2009-05-XX" description="Interims Milestone Release">
+			<action dev="Karl Heinz Marbaise" type="add" issue="190">
+				We now can recognize Tags/Branches and Maven Tags and the information is stored
+				into the index and can be queried.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="add">
 				Refactored out the query code from the unit tests to be used by the command line interface as well.
 			</action>

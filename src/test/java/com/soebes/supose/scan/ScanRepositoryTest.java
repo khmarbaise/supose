@@ -107,5 +107,25 @@ public class ScanRepositoryTest extends TestBase {
 		TopDocs result = searchRepository.getQueryResult("+contents:\"Sample Powerpoint\"");
 	    assertEquals(result.totalHits, 2);
 	}
+	
+	@Test
+	public void testQueryForTags() {
+		TopDocs result = searchRepository.getQueryResult("+tag:*");
+		//This will be 4 entries which are coming from the tag entry
+		//and one entry which is coming from the maventag.
+		assertEquals(result.totalHits, 5);
+		result = searchRepository.getQueryResult("+maventag:*");
+		assertEquals(result.totalHits, 4);
+		
+		result = searchRepository.getQueryResult("+tag:* -maventag:*");
+		//This has to be result into a single entry for the tag.
+		assertEquals(result.totalHits, 1);
+	}
 
+	@Test
+	public void testQueryForBranches() {
+		TopDocs result = searchRepository.getQueryResult("+branch:*");
+		//We have only a single entry here
+		assertEquals(result.totalHits, 1);
+	}
 }

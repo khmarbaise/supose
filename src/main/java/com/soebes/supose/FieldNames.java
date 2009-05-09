@@ -50,6 +50,10 @@ public final class FieldNames {
 	public final static String REPOSITORY = "repository";
 	public final static String REPOSITORYUUID = "repositoryuuid";
 	public final static String SIZE = "size";
+	
+	public final static String TAG = "tag";
+	public final static String MAVENTAG = "maventag";
+	public final static String BRANCH = "branch";
 
 	public final static String XLSSHEETS = "xlssheets";
 	public final static String XLSSHEETNAME = "xlssheetname";
