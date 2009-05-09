@@ -29,7 +29,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.ini4j.Ini;
-import org.ini4j.InvalidIniFormatException;
+import org.ini4j.InvalidFileFormatException;
 
 
 /**
@@ -46,7 +46,7 @@ public class ConfigurationRepositories {
 		setConfigFile(configFile);
 		try {
 			iniFile = new Ini(new FileInputStream(configFile));
-		} catch (InvalidIniFormatException e) {
+		} catch (InvalidFileFormatException e) {
 			LOGGER.error("The format of the given INI is not correct. " + e);
 		} catch (IOException e) {
 			LOGGER.error("Some problems happen with the INI File " + e);

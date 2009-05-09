@@ -33,8 +33,8 @@ import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.ini4j.Ini;
-import org.ini4j.InvalidIniFormatException;
-import org.ini4j.Ini.Section;
+import org.ini4j.InvalidFileFormatException;
+import org.ini4j.Profile.Section;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -58,7 +58,7 @@ public class IniTest extends TestBase {
 					LOGGER.debug("  -> key: " + keySection + " value:" + valueSection);
 				}
 			}
-		} catch (InvalidIniFormatException e) {
+		} catch (InvalidFileFormatException e) {
 			LOGGER.error("Error: " + e);
 		} catch (IOException e) {
 			LOGGER.error("Error: " + e);
@@ -67,7 +67,7 @@ public class IniTest extends TestBase {
 	
 
 	@Test
-	public void testReadIniWithInterface() throws InvalidIniFormatException, IOException {
+	public void testReadIniWithInterface() throws InvalidFileFormatException, IOException {
 		String url = "file:///" + getTargetDir() + "/test-classes/testInterface.ini";
 		LOGGER.debug("URL: " + url);
 		Ini ini = new Ini(new URL(url));
@@ -89,7 +89,7 @@ public class IniTest extends TestBase {
 	}
 
 	@Test
-	public void testWriteIniWithInterface() throws InvalidIniFormatException, IOException {
+	public void testWriteIniWithInterface() throws InvalidFileFormatException, IOException {
 		String urlSource = getTargetDir() + "/test-classes/testInterface.ini";
 		String urlDest = getTargetDir() + "/NewTestInterface.ini";
 		Ini ini = new Ini(new FileInputStream(urlSource));

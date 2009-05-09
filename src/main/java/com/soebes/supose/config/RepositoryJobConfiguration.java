@@ -31,8 +31,8 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.ini4j.Ini;
-import org.ini4j.InvalidIniFormatException;
-import org.ini4j.Ini.Section;
+import org.ini4j.InvalidFileFormatException;
+import org.ini4j.Profile.Section;
 
 import com.soebes.supose.config.ini.IReposConfig;
 
@@ -64,7 +64,7 @@ public class RepositoryJobConfiguration {
 				FileInputStream fin = new FileInputStream(f);
 				iniFile = new Ini(fin);
 				configData = iniFile.get(REPOSITORY_CONFIG_SECTION).as(IReposConfig.class);
-			} catch (InvalidIniFormatException e) {
+			} catch (InvalidFileFormatException e) {
 				LOGGER.error("The format of the given INI is not correct. " + e);
 				throw e;
 			} catch (IOException e) {

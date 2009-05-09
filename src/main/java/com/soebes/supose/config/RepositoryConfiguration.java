@@ -24,7 +24,7 @@
  */
 package com.soebes.supose.config;
 
-import org.ini4j.Ini.Section;
+import org.ini4j.Profile.Section;
 
 import com.soebes.supose.config.ini.IniFileEntryNames;
 
