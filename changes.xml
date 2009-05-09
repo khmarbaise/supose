@@ -13,13 +13,13 @@
 				Wrong dependencies in supose.cmd file given.
 			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="187">
-				- Support of docx, xlsx and pptx file types.
+				Support of docx, xlsx and pptx file types.
 			</action>
 			<action dev="Karl Heinz Marbaise" type="update" issue="173">
 				Updated SVNKit from 1.2.2 to 1.2.3.
 			</action>
 			<action dev="Karl Heinz Marbaise" type="fix">
-				- Interuption of scan process possible via Signal handler
+				Interuption of scan process possible via Signal handler
 				<fixes issue="106"/>
 				<fixes issue="129"/>
 			</action>
