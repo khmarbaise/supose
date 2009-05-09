@@ -33,6 +33,11 @@ import org.apache.lucene.search.RangeQuery;
 
 import com.soebes.supose.FieldNames;
 
+/**
+ * The CustomQueryParser handles particular queries for revision ranges.
+ * @author Karl Heinz Marbaise
+ *
+ */
 public class CustomQueryParser extends QueryParser {
 	public CustomQueryParser(String field, Analyzer analyzer) {
 		super(field, analyzer);

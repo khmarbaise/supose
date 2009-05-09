@@ -26,8 +26,12 @@ package com.soebes.supose.scan;
 
 import static org.testng.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.TopDocs;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -42,6 +46,11 @@ public class ScanRepositoryTest extends TestBase {
 	@BeforeClass
 	public void beforeClass() {
 		searchRepository.setIndexDirectory(getIndexDirectory());
+	}
+	@AfterClass
+	public void afterClass() throws IOException {
+		IndexReader reader = searchRepository.getReader();
+		reader.close();
 	}
 
 	

@@ -67,6 +67,7 @@ import com.soebes.supose.jobs.RepositoryScanJob;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
 import com.soebes.supose.search.CustomQueryParser;
+import com.soebes.supose.search.SearchRepository;
 
 /**
  * This will define the Command Line Version of SupoSE.
@@ -269,45 +270,23 @@ public class SuposeCLI {
 		List<String> cliFields = searchCommand.getFields(commandLine);
 
 		System.out.println("Query: '" + queryLine + "'");
-
 		for(int i=0; i<cliFields.size(); i++) {
 			System.out.print("Field[" + i + "]=" + cliFields.get(i) + " ");
 		}
 		System.out.println("");
+		
+		SearchRepository searchRepository = new SearchRepository();
+		
+		searchRepository.setIndexDirectory(indexDirectory);
 
-	    IndexReader reader = null;
-	    
-	    try {
-	    	
-	    	reader = IndexReader.open(indexDirectory);
-	    	
-	    	Searcher searcher = new IndexSearcher(reader);
-	    	Analyzer analyzer = new StandardAnalyzer();
-//	    	Analyzer analyzer = new KeywordAnalyzer();
+		TopDocs result = searchRepository.getQueryResult(queryLine);
 
-	    	//Sort primary based on Revision
-	    	//secondary by filename.
-	    	SortField[] sf = {
-	    		new SortField(FieldNames.REVISION),
-	    		new SortField(FieldNames.FILENAME),
-	    	};
-	    	Sort sort = new Sort(sf);
-	    	//Here we define the default field for searching.
-	        QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
-	        //We will allow using a wildcard at the beginning of the expression.
-	        parser.setAllowLeadingWildcard(true);
-	        //The search term will not be expanded to lowercase.
-	        parser.setLowercaseExpandedTerms(false);
-	        Query query = parser.parse(queryLine);
-
-	        //That's not the best idea...but currently i have not better solution for this...
-	        TopDocs tmp = searcher.search(query, null, 20, sort);
-		    TopDocs result = searcher.search(query, null, tmp.totalHits, sort);
-
-		    System.out.println("Query analyzer:" + query.toString());
-			System.out.println("Total Hits: " + result.totalHits);
+//		System.out.println("Query analyzer:" + query.toString());
+		System.out.println("Total Hits: " + result.totalHits);
+		try {
 		    for (int i = 0; i < result.scoreDocs.length; i++) {
-		    	Document hit = searcher.doc(result.scoreDocs[i].doc);
+		    	Document hit;
+					hit = searchRepository.getSearcher().doc(result.scoreDocs[i].doc);
 				List<Field> fieldList = hit.getFields();
 				System.out.print((i+1) + ". ");
 				for(int k=0; k<fieldList.size();k++) {
@@ -329,18 +308,16 @@ public class SuposeCLI {
 				}
 				System.out.println("");
 			}
-			
-	    } catch (CorruptIndexException e) {
-			System.err.println("Error: The index is corrupted: " + e);
-	    } catch (IOException e) {
-			System.err.println("Error: IOException: " + e);
-		} catch (Exception e) {
-			System.err.println("Error: Something has gone wrong: " + e);
+		} catch (CorruptIndexException e) {
+			LOGGER.error("Currupted Index exception happened. " + e.getLocalizedMessage());
+		} catch (IOException e) {
+			LOGGER.error("IOException had happen:" + e.getLocalizedMessage());
 		} finally {
+			IndexReader reader = searchRepository.getReader();
 			try {
 				reader.close();
 			} catch (IOException e) {
-				System.err.println("Error: IOException during close(): " + e);
+				LOGGER.error("Error during closing of the index happened: " + e.getLocalizedMessage());
 			}
 		}
 	}
