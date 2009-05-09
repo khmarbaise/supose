@@ -45,6 +45,7 @@ public class RepositoryTest {
 		assertNotNull(confRepos, "We had expected to get an instance");
 	}
 
+	@Test(enabled = false)
 	public void testConnection() {
     	RepositoryConfiguration reposConfig = confRepos.getRepositoryConfiguration(confRepos.getNames()[0]);
     	assertNotNull(reposConfig, "We had expected to get a configuration for a single repository.");

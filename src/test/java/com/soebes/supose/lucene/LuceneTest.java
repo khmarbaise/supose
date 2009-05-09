@@ -176,7 +176,7 @@ public class LuceneTest {
 	    assertTrue(result.totalHits == 1, "Expected to get at least one element.");
 	}
 
-	@Test
+	@Test(enabled = false)
 	public void testMultipleAsterikLowerCase() throws ParseException, IOException {
 		 Analyzer analyzer = new KeywordAnalyzer();
 	    // Parse a simple query that searches for "text":
