@@ -53,12 +53,30 @@ public class ScanRepositoryTest extends TestBase {
 		reader.close();
 	}
 
-	
-	@Test(enabled = false)
-	public void testQueryForFilenameOnlyWhichCurrentlyDoesNotWork() {
+	@Test
+	public void testQueryForFilenameOnly() {
 		TopDocs result = searchRepository.getQueryResult("+filename:f1.txt");
-	    assertEquals(result.totalHits, 0);
+	    assertEquals(result.totalHits, 3);
 	}
+
+	@Test
+	public void testQueryForFilenameOnlyUppercase() {
+		TopDocs result = searchRepository.getQueryResult("+filename:F1.txt");
+	    assertEquals(result.totalHits, 3);
+	}
+	
+	@Test
+	public void testQueryForFilenameMixedCaseTestPPT() {
+		TopDocs result = searchRepository.getQueryResult("+filename:testPPT.*");
+	    assertEquals(result.totalHits, 2);
+	}
+
+	@Test
+	public void testQueryForFilenameLowercaseTestPPT() {
+		TopDocs result = searchRepository.getQueryResult("+filename:testppt.*");
+	    assertEquals(result.totalHits, 2);
+	}
+
 
 	@Test
 	public void testQueryForFilenameWithPrefixedWildcardTextFiles() {
@@ -76,6 +94,17 @@ public class ScanRepositoryTest extends TestBase {
 	public void testQueryForFilenameWithPrefixedWildcardExcel2007Files() {
 		TopDocs result = searchRepository.getQueryResult("+filename:*.xlsx");
 	    assertEquals(result.totalHits, 2);
+	}
+	
+	@Test
+	public void testQueryForPathMixedCase() {
+		TopDocs result = searchRepository.getQueryResult("+path:/*/B_*");
+	    assertEquals(result.totalHits, 4);
+	}
+	@Test
+	public void testQueryForPathLowerCase() {
+		TopDocs result = searchRepository.getQueryResult("+path:/*/b_*");
+	    assertEquals(result.totalHits, 4);
 	}
 
 	@Test

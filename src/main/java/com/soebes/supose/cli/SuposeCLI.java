@@ -27,6 +27,7 @@ package com.soebes.supose.cli;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.cli2.CommandLine;
@@ -266,6 +267,18 @@ public class SuposeCLI {
 		for(int i=0; i<cliFields.size(); i++) {
 			System.out.print("Field[" + i + "]=" + cliFields.get(i) + " ");
 		}
+		
+		//Here we translate the search fields into the display fieldnames.
+		List<String> cliDFields = new ArrayList<String>();
+		for (String fieldName : cliFields) {
+			if (fieldName.equals(FieldNames.FILENAME)) {
+				cliDFields.add(FieldNames.DFILENAME);
+			}
+			if (fieldName.equals(FieldNames.PATH)) {
+				cliDFields.add(FieldNames.DPATH);
+			}
+		}
+		
 		System.out.println("");
 		
 		SearchRepository searchRepository = new SearchRepository(indexDirectory);
@@ -282,10 +295,13 @@ public class SuposeCLI {
 				System.out.print((i+1) + ". ");
 				for(int k=0; k<fieldList.size();k++) {
 					Field field = (Field) fieldList.get(k);
-					if ((cliFields.size() > 0) && cliFields.contains(field.name())) {
+					if ((cliDFields.size() > 0) && cliDFields.contains(field.name())) {
 						System.out.print(field.name() + ": " + field.stringValue() + " ");
 					} else {
-						if (FieldNames.FILENAME.equals(field.name())) {
+						if (FieldNames.DPATH.equals(field.name())) {
+							System.out.print("P:" + field.stringValue() + " ");
+						}
+						if (FieldNames.DFILENAME.equals(field.name())) {
 							System.out.print("F:" + field.stringValue() + " ");
 						}
 						if (FieldNames.REVISION.equals(field.name())) {

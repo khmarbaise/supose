@@ -225,7 +225,9 @@ public class ScanRepository {
 			boolean isFile = nodeKind == SVNNodeKind.FILE;
 			FileName fileName = new FileName(entryPath.getPath(), isDir);
 			LOGGER.info("FileName: '" + entryPath.getPath() + "'");
-			addUnTokenizedField(doc, FieldNames.PATH, fileName.getPath());
+			//TODO: We have to check if we need to set localization
+			addUnTokenizedField(doc, FieldNames.PATH, fileName.getPath().toLowerCase());
+			addUnTokenizedField(doc, FieldNames.DPATH, fileName.getPath());
 
 			if (isDir) {
 				LOGGER.debug("The " + entryPath.getPath() + " is a directory entry.");
@@ -245,7 +247,12 @@ public class ScanRepository {
 				addUnTokenizedField(doc, FieldNames.FROMREV, entryPath.getCopyRevision());
 			}
 
-			addUnTokenizedField(doc, FieldNames.FILENAME, entryPath.getPath());
+			//The field we use for searching is stored as lowercase.
+			//TODO: We have to check if we need to set localization
+			addUnTokenizedField(doc, FieldNames.FILENAME, fileName.getBaseName().toLowerCase());
+			//The field we use to display the filename is stored as case as in the original.
+			addUnTokenizedField(doc, FieldNames.DFILENAME, fileName.getBaseName());
+
 			addUnTokenizedField(doc, FieldNames.AUTHOR, logEntry.getAuthor() == null ? "" : logEntry.getAuthor());
 
 			//We will add the message as tokenized field to be able to search within the log messages.

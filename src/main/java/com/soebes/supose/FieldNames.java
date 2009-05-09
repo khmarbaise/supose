@@ -40,8 +40,10 @@ public final class FieldNames {
 	public final static String REVISION = "revision";
 	public final static String KIND = "kind";
 	public final static String NODE = "node";
-	public final static String PATH = "path";
+	public final static String PATH = "path"; //Used for searching.
+	public final static String DPATH = "dpath"; //Display Path
 	public final static String FILENAME = "filename";
+	public final static String DFILENAME = "dfilename"; //The filename which is used for displaying.
 	public final static String AUTHOR = "author";
 	public final static String MESSAGE = "message";
 	public final static String DATE = "date";

@@ -74,7 +74,7 @@ public class SearchRepository {
 	    	setSearcher(searcher);
 	    	SortField[] sf = {
 	    		new SortField(FieldNames.REVISION),
-	    		new SortField(FieldNames.FILENAME),
+	    		new SortField(FieldNames.DFILENAME), //We use for sorting the display Filename
 	    	};
 	    	Sort sort = new Sort(sf);
 	    	//Here we define the default field for searching.
@@ -82,7 +82,7 @@ public class SearchRepository {
 	        //We will allow using a wildcard at the beginning of the expression.
 	        parser.setAllowLeadingWildcard(true);
 	        //The search term will not be expanded to lowercase.
-	        parser.setLowercaseExpandedTerms(false);
+	        parser.setLowercaseExpandedTerms(true);
 	        Query query = parser.parse(queryLine);
 
 	        //That's not the best idea...but currently i have not better solution for this...

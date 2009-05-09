@@ -25,6 +25,12 @@
 			<action dev="Karl Heinz Marbaise" type="update" issue="173">
 				Updated SVNKit from 1.2.2 to 1.2.3.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="155">
+				Now we have the filename stored as the filename whereas
+				the path is stored separateley in path. 
+				Searches will be done internally lowercase for filenames
+				as well as for paths.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="fix">
 				Interuption of scan process possible via Signal handler
 				<fixes issue="106"/>
