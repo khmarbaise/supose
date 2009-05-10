@@ -285,6 +285,10 @@ public class SuposeCLI {
 		
 		TopDocs result = searchRepository.getQueryResult(queryLine);
 
+		if (result == null) {
+			System.out.println("Somethings has gone wrong. Check the Logging output!");
+			return;
+		}
 //		System.out.println("Query analyzer:" + query.toString());
 		System.out.println("Total Hits: " + result.totalHits);
 		try {

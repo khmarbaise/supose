@@ -152,6 +152,12 @@ public class ScanRepositoryTest extends TestBase {
 	}
 
 	@Test
+	public void testQueryForBranchPath() {
+		TopDocs result = searchRepository.getQueryResult("+path:*/branches/*");
+		assertEquals(result.totalHits, 4);
+	}
+
+	@Test
 	public void testQueryForBranches() {
 		TopDocs result = searchRepository.getQueryResult("+branch:*");
 		//We have only a single entry here

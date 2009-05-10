@@ -33,6 +33,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
@@ -69,7 +70,8 @@ public class SearchRepository {
 	    	
 	    	reader = IndexReader.open(getIndexDirectory());
 	    	setReader(reader);
-	    	
+
+	    	BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
 	    	Searcher searcher = new IndexSearcher(reader);
 	    	setSearcher(searcher);
 	    	SortField[] sf = {
