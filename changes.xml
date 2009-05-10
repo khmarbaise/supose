@@ -6,9 +6,12 @@
 	</properties>
 	<body>
 		<release version="0.5.3 Bebhionn" date="2009-05-XX" description="Interims Milestone Release">
-			<action dev="Karl Heinz Marbaise" type="add" issue="190">
+			<action dev="Karl Heinz Marbaise" type="add">
 				We now can recognize Tags/Branches and Maven Tags and the information is stored
 				into the index and can be queried.
+				<fixes issue="106"/>
+				<fixes issue="129"/>
+				<fixes issue="190"/>
 			</action>
 			<action dev="Karl Heinz Marbaise" type="add">
 				Refactored out the query code from the unit tests to be used by the command line interface as well.
@@ -33,11 +36,6 @@
 				the path is stored separateley in path. 
 				Searches will be done internally lowercase for filenames
 				as well as for paths.
-			</action>
-			<action dev="Karl Heinz Marbaise" type="fix">
-				Interuption of scan process possible via Signal handler
-				<fixes issue="106"/>
-				<fixes issue="129"/>
 			</action>
 		</release>
 		<release version="0.5.2 Bergelmir" date="2009-05-06" description="Bug Fix and Enhancement Release">
