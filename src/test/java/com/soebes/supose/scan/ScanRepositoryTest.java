@@ -81,7 +81,7 @@ public class ScanRepositoryTest extends TestBase {
 	@Test
 	public void testQueryForFilenameWithPrefixedWildcardTextFiles() {
 		TopDocs result = searchRepository.getQueryResult("+filename:*.txt");
-	    assertEquals(result.totalHits, 6);
+	    assertEquals(result.totalHits, 7);
 	}
 	
 	@Test
@@ -99,12 +99,12 @@ public class ScanRepositoryTest extends TestBase {
 	@Test
 	public void testQueryForPathMixedCase() {
 		TopDocs result = searchRepository.getQueryResult("+path:/*/B_*");
-	    assertEquals(result.totalHits, 4);
+	    assertEquals(result.totalHits, 5);
 	}
 	@Test
 	public void testQueryForPathLowerCase() {
 		TopDocs result = searchRepository.getQueryResult("+path:/*/b_*");
-	    assertEquals(result.totalHits, 4);
+	    assertEquals(result.totalHits, 5);
 	}
 
 	@Test
@@ -154,7 +154,7 @@ public class ScanRepositoryTest extends TestBase {
 	@Test
 	public void testQueryForBranchPath() {
 		TopDocs result = searchRepository.getQueryResult("+path:*/branches/*");
-		assertEquals(result.totalHits, 4);
+		assertEquals(result.totalHits, 5);
 	}
 
 	@Test

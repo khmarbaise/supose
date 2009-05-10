@@ -130,17 +130,33 @@ public class TagBranchRecognition {
 
 		//a copy-to has happened so we can have a branch or a tag?
 		if (entryPath.getCopyPath() != null) {
-			TagType bt = new TagType();
-			bt.setName(entryPath.getPath());
-			bt.setRevision(logEntry.getRevision());
-			bt.setCopyFromRevision(entryPath.getCopyRevision());
+			SVNDirEntry destEntry = RepositoryInformation.getInformationAboutEntry(
+				getRepository(), 
+				logEntry.getRevision(), 
+				entryPath.getPath()
+			);
+			SVNDirEntry sourceEntry = RepositoryInformation.getInformationAboutEntry(
+				getRepository(), 
+				logEntry.getRevision(), 
+				entryPath.getCopyPath()
+			);
+			
+			//Source and destination of the copy operation must be a directories
+			if (	destEntry.getKind() == SVNNodeKind.DIR
+				&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
+				TagType bt = new TagType();
+				bt.setName(entryPath.getPath());
+				bt.setRevision(logEntry.getRevision());
+				bt.setCopyFromRevision(entryPath.getCopyRevision());
 //FIXME: the hard coded value "/tags/" must be made configurably.				
-			if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
-				bt.setType(TagType.Type.TAG);
-			} else {
-				bt.setType(TagType.Type.BRANCH);
+				if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
+					bt.setType(TagType.Type.TAG);
+				} else {
+					bt.setType(TagType.Type.BRANCH);
+				}
+				result = bt;
 			}
-			result = bt;
+
 		}
 		return result;
 	}

@@ -107,6 +107,8 @@ svn ci -m"- Added XLS files."
 svn up
 cd $POS
 #
+svn cp $URL/project1/trunk/f3.txt $URL/project1/branches/B_0.0.2 -m"- Added f3 from trunk."
+#
 #
 svnadmin dump $POS/$REPOS >$REPOS.dump
 #

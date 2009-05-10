@@ -1,6 +1,6 @@
 SVN-fs-dump-format-version: 2
 
-UUID: d98f7691-4669-0410-9818-c68c3b6ae274
+UUID: fecfcd0e-9269-0410-989a-e9a290a19fd4
 
 Revision-number: 0
 Prop-content-length: 56
@@ -9,7 +9,7 @@ Content-length: 56
 K 8
 svn:date
 V 27
-2009-05-06T23:15:15.940074Z
+2009-05-10T17:19:01.356839Z
 PROPS-END
 
 Revision-number: 1
@@ -27,7 +27,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:15.970732Z
+2009-05-10T17:19:01.493989Z
 PROPS-END
 
 Node-path: project1
@@ -81,7 +81,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:16.154463Z
+2009-05-10T17:19:02.163949Z
 PROPS-END
 
 Node-path: project1/trunk/f1.txt
@@ -123,7 +123,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:17.129390Z
+2009-05-10T17:19:03.126783Z
 PROPS-END
 
 Node-path: project1/tags/RELEASE-0.0.1
@@ -148,7 +148,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:17.184393Z
+2009-05-10T17:19:03.269828Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -221,7 +221,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:29.628512Z
+2009-05-10T17:19:19.257210Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -291,7 +291,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:30.159426Z
+2009-05-10T17:19:20.154179Z
 PROPS-END
 
 Node-path: project1/tags/supose-0.0.2
@@ -340,7 +340,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:31.184175Z
+2009-05-10T17:19:21.183954Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -410,7 +410,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:32.217123Z
+2009-05-10T17:19:22.231788Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2
@@ -435,7 +435,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:33.160943Z
+2009-05-10T17:19:23.205604Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2/module
@@ -543,7 +543,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:36.140485Z
+2009-05-10T17:19:26.140690Z
 PROPS-END
 
 Node-path: project1/trunk
@@ -638,7 +638,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:38.134147Z
+2009-05-10T17:19:28.131851Z
 PROPS-END
 
 Node-path: project1/trunk/f3.txt
@@ -676,7 +676,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:40.178764Z
+2009-05-10T17:19:30.207455Z
 PROPS-END
 
 Node-path: project1/trunk/testPPT.ppt
@@ -938,7 +938,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:42.164455Z
+2009-05-10T17:19:32.162184Z
 PROPS-END
 
 Node-path: project1/trunk/testWORD.doc
@@ -1028,7 +1028,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-06T23:15:44.188085Z
+2009-05-10T17:19:34.219857Z
 PROPS-END
 
 Node-path: project1/trunk/testEXCEL-formats.xls
@@ -1305,4 +1305,38 @@ jgAì).à≥AÌQÎß§œsu≈›WÃvfg‚'YpR:ÔbRgs‚õúƒøfõ∏W¥o©‰ße}5ÛﬂBgTﬂÔãö—⁄V;ÍÇV$ç˜øqM
   xl/theme/theme1.xmlPK-      ! j´¢˘W  6                 xl/worksheets/sheet2.xmlPK-      ! j´¢˘W  6               ú  xl/worksheets/sheet3.xmlPK-      ! p8?ñ]  œ
                )  xl/worksheets/sheet1.xmlPK-      ! v   v               º  xl/sharedStrings.xmlPK-      ! ˜â+|Á  û               Ú  xl/styles.xmlPK-      ! 
 Ò4Ù   A                 xl/calcChain.xmlPK-      ! 4¸ó e  ê               &  docProps/core.xmlPK-      ! )˘ÎÀï  G               ¬  docProps/app.xmlPK      J  ç!    
+
+Revision-number: 15
+Prop-content-length: 121
+Content-length: 121
+
+K 7
+svn:log
+V 22
+- Added f3 from trunk.
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-05-10T17:19:36.133575Z
+PROPS-END
+
+Node-path: project1/branches/B_0.0.2/f3.txt
+Node-kind: file
+Node-action: add
+Node-copyfrom-rev: 14
+Node-copyfrom-path: project1/trunk/f3.txt
+Text-copy-source-md5: 8c8fcf3bde9134e67882706cfec3ef22
+Prop-content-length: 34
+Content-length: 34
+
+K 13
+svn:mergeinfo
+V 0
+
+PROPS-END
+
 
