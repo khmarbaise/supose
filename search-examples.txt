@@ -10,15 +10,36 @@ http://www.supose.org/wiki/supose/RepositoryQuestions
 
 
 Example call:
-  supose.cmd search --index IndexName --query 'querycontent'
+  supose.cmd search --index IndexName --query "querycontent"
 
 
 where querycontent can be of the following:
 
-
-  +message:fixed +filename:/*/*.xml
+  - Search the log message for the word "fixed" but only
+    where in the change contains an xml file.
 
   +message:fixed +filename:*.xml
+
+  - Search Word files only on trunk
+
+  +filename:*.doc +path:/trunk/*
+
+  - Search for Tags (will printout Maven Tags as well)
+
+  +tag:*
+
+  - Search for Maven Tags:
+
+  +maventag:*
+  
+  - Search for Tags without Maven Tags
+
+  +tag:* -maventag:*
+
+  - Search for Branches:
+
+  +branch:*
+
 
 Search for a particular property-keys with value
 
