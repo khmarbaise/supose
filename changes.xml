@@ -40,6 +40,9 @@
 				Searches will be done internally lowercase for filenames
 				as well as for paths.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="148">
+				Removed print outs to console from unit tests.
+			</action>
 		</release>
 		<release version="0.5.2 Bergelmir" date="2009-05-06" description="Bug Fix and Enhancement Release">
 			<action dev="Karl Heinz Marbaise" type="add">

@@ -110,14 +110,14 @@ public class LuceneTest {
 	}
 
 	private void printOut(Query query, String msg, TopDocs result) throws CorruptIndexException, IOException {
-		System.out.println("Message: " + msg);
-		System.out.println(" -> Query: " + query.toString());
+//		System.out.println("Message: " + msg);
+//		System.out.println(" -> Query: " + query.toString());
 	    for (int i = 0; i < result.scoreDocs.length; i++) {
-	    	System.out.println(" -> Document[" + i + "]");
+//	    	System.out.println(" -> Document[" + i + "]");
 	    	Document hit = isearcher.doc(result.scoreDocs[i].doc);
 	    	for (Iterator<Field> iterator = hit.getFields().iterator(); iterator.hasNext();) {
 	    		Field field = (Field) iterator.next();
-				System.out.println("   --> Field: " + field.name() + " v:" + field.stringValue());
+//				System.out.println("   --> Field: " + field.name() + " v:" + field.stringValue());
 			}
 		}
 	}
