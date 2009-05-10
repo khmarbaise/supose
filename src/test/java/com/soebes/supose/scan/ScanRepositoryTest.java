@@ -138,15 +138,22 @@ public class ScanRepositoryTest extends TestBase {
 	}
 	
 	@Test
-	public void testQueryForTags() {
+	public void testQueryForTagsOfAllKind() {
 		TopDocs result = searchRepository.getQueryResult("+tag:*");
 		//This will be 4 entries which are coming from the tag entry
 		//and one entry which is coming from the maventag.
 		assertEquals(result.totalHits, 5);
-		result = searchRepository.getQueryResult("+maventag:*");
+	}
+
+	@Test
+	public void testQueryForMavenTags() {
+		TopDocs result = searchRepository.getQueryResult("+maventag:*");
 		assertEquals(result.totalHits, 4);
-		
-		result = searchRepository.getQueryResult("+tag:* -maventag:*");
+	}
+
+	@Test
+	public void testQueryForTagsOnly() {
+		TopDocs result = searchRepository.getQueryResult("+tag:* -maventag:*");
 		//This has to be result into a single entry for the tag.
 		assertEquals(result.totalHits, 1);
 	}
