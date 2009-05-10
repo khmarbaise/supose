@@ -33,6 +33,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriter.MaxFieldLength;
 import org.apache.lucene.store.LockObtainFailedException;
 
 /**
@@ -69,12 +70,12 @@ public class Index {
 			if (isCreate()) {
 				LOGGER.debug("Trying to create a new index (overwrite an exsting)");
 				//This will create a new index. Independent if one existed before.
-				writer = new IndexWriter(indexDir, getAnalyzer(), true);
+				writer = new IndexWriter(indexDir, getAnalyzer(), true, MaxFieldLength.UNLIMITED);
 			} else {
 				LOGGER.debug("Trying to create a new index (using an exsting)");
 				//This will use an existing index or will create one if 
 				//no existed before.
-				writer = new IndexWriter(indexDir, getAnalyzer());
+				writer = new IndexWriter(indexDir, getAnalyzer(), MaxFieldLength.UNLIMITED);
 			}
 			LOGGER.debug("Created new index.");
 			writer.setUseCompoundFile(isUseCompoundFile());

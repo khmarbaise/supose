@@ -13,6 +13,9 @@
 				<fixes issue="129"/>
 				<fixes issue="190"/>
 			</action>
+			<action dev="Karl Heinz Marbaise" type="fix">
+				Removed deprected calls to IndexWriter constructors.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="add">
 				Refactored out the query code from the unit tests to be used by the command line interface as well.
 			</action>
