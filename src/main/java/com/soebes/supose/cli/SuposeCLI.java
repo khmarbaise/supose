@@ -86,10 +86,10 @@ public class SuposeCLI {
 
 		if (commandLine.hasOption(suposecli.getGlobalOptionH())) {
 	        final StringWriter out = new StringWriter();
-	        final HelpFormatter helpFormatter = new HelpFormatter();
-	        helpFormatter.setGroup(suposecli.getSuposeOptions());
-	        helpFormatter.setPrintWriter(new PrintWriter(out));
-	        helpFormatter.printHelp();
+	        final HelpFormatter hf = new HelpFormatter();
+	        hf.setGroup(suposecli.getSuposeOptions());
+	        hf.setPrintWriter(new PrintWriter(out));
+	        hf.printHelp();
 	        System.out.println(out);
 	        System.exit(0);
 		} else if (commandLine.hasOption(suposecli.getScanCommand())) {

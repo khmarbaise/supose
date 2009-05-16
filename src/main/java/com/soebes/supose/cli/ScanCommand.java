@@ -54,39 +54,75 @@ public class ScanCommand extends CLIBase {
     	optionURL = obuilder
     		.withShortName("U")
     		.withLongName("url")
-    		.withArgument(abuilder.withName("url").create())
+    		.withArgument(
+    			abuilder
+    			.withName("url")
+    			.withMinimum(1)
+    			.withMaximum(1)
+    			.create()
+    		)
     		.withDescription("Define the position where to find the index created by an scan.")
     		.create();
     	
     	optionUsername = obuilder
 			.withLongName("username")
-			.withArgument(abuilder.withName("username").create())
+			.withArgument(
+				abuilder
+				.withName("username")
+				.withMinimum(1)
+				.withMaximum(1)
+				.create()
+			)
 			.withDescription("Define the username which is used to make an authorization against the Subversion repository.")
 			.create();
 
     	optionPassword = obuilder
     		.withShortName("p")
 			.withLongName("password")
-			.withArgument(abuilder.withName("password").create())
+			.withArgument(
+				abuilder
+				.withName("password")
+				.withMinimum(1)
+				.withMaximum(1)
+				.create()
+			)
 			.withDescription("Define the password which is used to make an authorization against the Subversion repository.")
 			.create();
 
     	optionFromRev = obuilder
 			.withLongName("fromrev")
-			.withArgument(abuilder.withName("fromrev").create())
+			.withArgument(
+				abuilder
+				.withName("fromrev")
+				.withMinimum(1)
+				.withMaximum(1)
+				.create()
+			)
 			.withDescription("Define the revision from which we will start to scan the repository.")
 			.create();
 
     	optionToRev = obuilder
 	    	.withLongName("torev")
-	    	.withArgument(abuilder.withName("torev").create())
+	    	.withArgument(
+	    		abuilder
+	    		.withName("torev")
+				.withMinimum(1)
+				.withMaximum(1)
+	    		.create()
+	    	)
 	    	.withDescription("Define the revision to which we will scan the repository. If it's not given we scan til HEAD.")
 	    	.create();
 
     	optionIndexDir = obuilder
 			.withShortName("I")
 			.withLongName("index")
-			.withArgument(abuilder.withName("index").create())
+			.withArgument(
+				abuilder
+				.withName("index")
+				.withMinimum(1)
+				.withMaximum(1)
+				.create()
+			)
 			.withDescription("Define the index directory where the created index will be stored.")
 			.create();
 

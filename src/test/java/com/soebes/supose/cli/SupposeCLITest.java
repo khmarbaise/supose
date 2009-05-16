@@ -33,6 +33,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.List;
 
 import org.apache.commons.cli2.CommandLine;
+import org.apache.commons.cli2.OptionException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tmatesoft.svn.core.wc.SVNRevision;
@@ -99,6 +100,15 @@ public class SupposeCLITest {
 		CommandLine cl = suposecli.doParseArgs(args);
 		assertNotNull(cl, "The return value of the parse is null!");
 		assertTrue(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");
+		assertTrue(cl.hasOption(suposecli.getScanCommand()));
+	}
+
+	@Test(expectedExceptions = OptionException.class)
+	public void testCommandScanShortURLWithoutParameter() throws Exception {
+		final String[] args = new String[] { "scan", "-U"};
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globel Help option not set.");
 		assertTrue(cl.hasOption(suposecli.getScanCommand()));
 	}
 
