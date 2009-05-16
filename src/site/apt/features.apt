@@ -46,3 +46,5 @@ Features of SupoSE
   * You can search for particular revisions or revision ranges.
 
   * You can search for property names and for their contents.
+
+  * You can search if items have been added,modified,deleted or replaced.
