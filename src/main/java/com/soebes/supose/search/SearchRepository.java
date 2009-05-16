@@ -86,7 +86,7 @@ public class SearchRepository {
 	        //The search term will not be expanded to lowercase.
 	        parser.setLowercaseExpandedTerms(true);
 	        Query query = parser.parse(queryLine);
-
+	        LOGGER.info("Query: " + query.toString());
 	        //That's not the best idea...but currently i have not better solution for this...
 	        //This is intended to get all results not only a limited number results.
 	        TopDocs tmp = searcher.search(query, null, 20, sort);

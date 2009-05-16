@@ -170,4 +170,18 @@ public class ScanRepositoryTest extends TestBase {
 		//We have only a single entry here
 		assertEquals(result.totalHits, 1);
 	}
+	
+	@Test
+	public void testQueryForKind() {
+		TopDocs result = searchRepository.getQueryResult("+kind:D");
+		//We have only a single entry here
+		assertEquals(result.totalHits, 1);
+	}
+
+	@Test
+	public void testQueryForNode() {
+		TopDocs result = searchRepository.getQueryResult("+node:dir");
+		//We have only a single entry here
+		assertEquals(result.totalHits, 10);
+	}
 }

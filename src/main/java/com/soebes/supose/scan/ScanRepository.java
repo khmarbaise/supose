@@ -261,7 +261,7 @@ public class ScanRepository {
 			addTokenizedField(doc, FieldNames.MESSAGE, logEntry.getMessage() == null ? "" : logEntry.getMessage());
 			addUnTokenizedField(doc, FieldNames.DATE, logEntry.getDate());
 
-			addUnTokenizedField(doc, FieldNames.KIND, entryPath.getType());
+			addUnTokenizedField(doc, FieldNames.KIND, String.valueOf(entryPath.getType()).toLowerCase());
 
 //TODO: May be don't need this if we use repository name?
 			addUnTokenizedField(doc, FieldNames.REPOSITORYUUID, repository.getRepository().getRepositoryUUID(false));
