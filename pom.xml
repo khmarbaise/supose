@@ -155,6 +155,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
+				<version>2.0</version>
 			</plugin>
 
 			<!-- to be sure the created file of the coverage report will be delted -->
@@ -358,10 +359,10 @@
 			<plugin>
 				<groupId>org.apache.maven.doxia</groupId>
 				<artifactId>doxia-maven-plugin</artifactId>
-				<version>1.0-alpha-10</version>
+				<version>1.1</version>
 				<executions>
 					<execution>
-						<phase>pre-site</phase>
+						<phase>site</phase>
 						<goals>
 							<goal>render-books</goal>
 						</goals>

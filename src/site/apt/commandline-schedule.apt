@@ -22,20 +22,14 @@
 ~~ If you have any questions about the Software or about the license
 ~~ just write an email to license@soebes.de
 ~~
-		-----
-		Schedule
-		-----
-		Karl Heinz Marbaise
-		------
 
 Scheduling via Command Line
 
 * Overview
 
-  If you like to scan one ore more repositories not
-  by if the contents has been changed you can use the scheduling feature
-  of SupoSE to support.
-
+  If you like to scan one ore more repositories on a scheduled if their
+  contents has been changed you can use the scheduling feature
+  of SupoSE to do so.
 
   The command to start with schedule is as follows:
 
@@ -46,3 +40,5 @@ supose.cmd schedule --url URL --index IndexName --create
   The option <<<--url URL>>>, will define which repository will be scanned
   and indexed. Usually you give a thing like http://svn.supose.org/supose
   to define a particular repository.
+
+

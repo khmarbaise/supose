@@ -22,12 +22,6 @@
 ~~ If you have any questions about the Software or about the license
 ~~ just write an email to license@soebes.de
 ~~
-		-----
-		Titel der Seite
-		-----
-		Karl Heinz Marbaise
-		------
-		18.01.2008
 
 Overview
 
@@ -35,4 +29,12 @@ Overview
   of all revision and all paths within single or multiple Subversion Repositories.
 
   If you have any questions about SupoSE just simple write an email to {{mailto:supose@soebes.de}}
+  
+  Approach
+  
+  The basic approach is to scan the repository off-line, which means to scan the repository on time scheduled 
+  based. This means to scan e.g. every hour or minute or whatever the user likes to configure.
+  During such a scan, SupoSE will check if something has changed in the repository and scan all new
+  changes which had been made since the last scan.
+
 

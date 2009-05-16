@@ -22,11 +22,6 @@
 ~~ If you have any questions about the Software or about the license
 ~~ just write an email to license@soebes.de
 ~~
-		-----
-		Command line
-		-----
-		Karl Heinz Marbaise
-		------
 
 Searching via Command Line
 
@@ -43,7 +38,14 @@ supose.cmd search --index IndexName --query "..."
 +---
 
   The option <<<--index IndexName>>>, will define the name of the index which 
-  will be used for searching.
+  will be used for searching. This has been created by an earlier run of SupoSE 
+  with the {{{./commandline-scan.html}scan}} command.
 
   The option <<<--query "...">>> contains the real Lucene query which 
-  defines the criterias to search the index.
+  defines the criteria to search within the index.
+
+  If you would like to know how you can search for {{{./commandline-search-files.html}filename}},
+  {{{./commandline-search-paths.html}paths}}, 
+  {{{./commandline-search-tagsbranches.html}tags or branches}} etc. take a look into 
+  the particular areas.
+

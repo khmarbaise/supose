@@ -22,13 +22,8 @@
 ~~ If you have any questions about the Software or about the license
 ~~ just write an email to license@soebes.de
 ~~
-		-----
-		Merge
-		-----
-		Karl Heinz Marbaise
-		------
 
-Merging via Command Line
+{Merging via Command Line}
 
 * Overview
 
@@ -45,3 +40,4 @@ supose.cmd merge --url URL --index IndexName --create
   The option <<<--url URL>>>, will define which repository will be scanned
   and indexed. Usually you give a thing like http://svn.supose.org/supose
   to define a particular repository.
+

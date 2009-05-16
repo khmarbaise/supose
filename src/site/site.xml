@@ -55,7 +55,11 @@
 		<menu name="Command Line">
 			<item name="Overview" href="/commandline.html"/>
 			<item name="Scanning" href="/commandline-scan.html"/>
-			<item name="Searching" href="/commandline-search.html"/>
+			<item name="Searching" href="/commandline-search.html">
+				<item name="Files" href="/commandline-search-files.html"/>
+				<item name="Paths" href="/commandline-search-path.html"/>
+				<item name="Tags/Branches" href="/commandline-search-tagsbranches.html"/>
+			</item>
 			<item name="Scheduling" href="/commandline-schedule.html"/>
 			<item name="Merging" href="/commandline-merge.html"/>
 		</menu>

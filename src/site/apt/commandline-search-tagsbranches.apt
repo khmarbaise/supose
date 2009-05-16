@@ -23,29 +23,47 @@
 ~~ just write an email to license@soebes.de
 ~~
 
-Command Line
+{Tags/Branches searching}
+
 
 * Overview
 
-  You can use SupoSE to scan a single or multiple repositories. As a
-  start you can scan a single repository. In real live situation you 
-  would use the scheduling mechanism to scan your repositories 
-  for new changesets. 
+  If you like to search for tags or branches you can use the <<<tag>>>
+  or <<<branch>>> field which contains the names of the tags or
+  branches.
 
-  To search for particular information you can use the
-  {{{./commandline-search.html}command line search}}.
+* Searching for tags
 
-  The merging can be used to merge different indexes together.
+  By using the <<<tag>>> field within the search query you 
+  will define the pattern you would like search for. The pattern
+  can contain wildcard as you might expect they to work e.g.
+  known by the command line.
 
-** Different Commands
+  The following query will find all tags which are existing
+  pattern in all revisions within the repository.
 
-  The commandline comprises of command and it's appropriate options for that
-  command.
++--
++tag:*
++--
 
-+--- 
-supose.cmd Command Options
-+---
+  The result list will contain all existing tags incl. 
+  Maven Tags which have a particular pattern.
 
-  Currently the commands {{{./commandline-scan.html}scan}}, {{{./commandline-search.html}search}},
-  {{{./commandline-merge.html}merge}} and {{{./commandline-schedule.html}schedule}} are available.
+  If you like to see only the list of tags without the
+  Maven Tags just extend the query as follows:
+
++--
++tag:* -maventag:*
++--
+
+
+* Searching for branches
+
+  If you like to search for a branch you can use the <<<branch>>>
+  field to define the pattern for the branch name you would like
+  to search for.
+
++--
++branch:*
++--
 

@@ -22,43 +22,27 @@
 ~~ If you have any questions about the Software or about the license
 ~~ just write an email to license@soebes.de
 ~~
-		-----
-		Features of SupoSE
-		-----
-		Karl Heinz Marbaise
-		------
 
 Features of SupoSE
 
-* Basics
+* Scanning
 
-  * Multiple Repository Support
+  * Scanning of a single Repository.
 
-  * Search for Filenames
+  * Scanning of multiple Repositories.
 
-  * You can search for the contents of files
+  * Scanning on a scheduled base.
 
-  * You can search for particular revisions or revision ranges
+* Searching
 
-  * You can search for properties
+  * Searching in one or multiple repositories.
 
+  * Search for {{{./commandline-search-files.html}filenames}}.
 
-  More or less all the above can be combined to constrain a search for particular 
-  informations whihch are stored in the repository.
+  * Search for {{{./commandline-search-paths.html}paths}}.
 
+  * Search for contents of files.
 
+  * You can search for particular revisions or revision ranges.
 
-
-** Sub-Sub-section
-
- * Item 1
- * Item 2
-   Paragraph asdflasdkjflaj adf asdfl
-   * Item 11
-   * Item 12
-
-*** Sub-Sub-Sub-section
-
-**** Sub-Sub-Sub-Sub-section
-
-
+  * You can search for property names and for their contents.
