@@ -42,6 +42,8 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNProperties;
 
 import com.soebes.supose.FieldNames;
+import com.soebes.supose.recognition.TagBranchRecognition;
+import com.soebes.supose.recognition.TagType;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.search.NumberUtils;
 import com.soebes.supose.utility.FileName;

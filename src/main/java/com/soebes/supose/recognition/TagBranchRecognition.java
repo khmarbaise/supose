@@ -22,7 +22,7 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.scan;
+package com.soebes.supose.recognition;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -34,6 +34,7 @@ import org.tmatesoft.svn.core.SVNLogEntryPath;
 import org.tmatesoft.svn.core.SVNNodeKind;
 
 import com.soebes.supose.repository.Repository;
+import com.soebes.supose.scan.RepositoryInformation;
 
 /**
  * This class is intended to analyze if a tag or branch is on hand.
