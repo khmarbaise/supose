@@ -13,12 +13,6 @@
 				<fixes issue="129"/>
 				<fixes issue="190"/>
 			</action>
-			<action dev="Karl Heinz Marbaise" type="update" issue="192">
-			 	Update doxia-maven-plugin from 1.0-alpha-10 to 1.1
-			</action>
-			<action dev="Karl Heinz Marbaise" type="update" issue="193">
-			 	Finalized version of maven-site-plugin (2.0)
-			</action>
 			<action dev="Karl Heinz Marbaise" type="fix">
 				Removed deprected calls to IndexWriter constructors.
 			</action>
@@ -33,6 +27,12 @@
 			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="187">
 				Support of docx, xlsx and pptx file types.
+			</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="192">
+			 	Update doxia-maven-plugin from 1.0-alpha-10 to 1.1
+			</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="193">
+			 	Finalized version of maven-site-plugin (2.0)
 			</action>
 			<action dev="Karl Heinz Marbaise" type="update" issue="189">
 				Updated ini4j from 0.4.1 to 0.5.1
