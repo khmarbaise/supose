@@ -25,16 +25,22 @@
 package com.soebes.supose.scan;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.TopDocs;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.soebes.supose.FieldNames;
 import com.soebes.supose.TestBase;
 import com.soebes.supose.search.SearchRepository;
 
@@ -99,12 +105,12 @@ public class ScanRepositoryTest extends TestBase {
 	@Test
 	public void testQueryForPathMixedCase() {
 		TopDocs result = searchRepository.getQueryResult("+path:/*/B_*");
-	    assertEquals(result.totalHits, 5);
+	    assertEquals(result.totalHits, 6);
 	}
 	@Test
 	public void testQueryForPathLowerCase() {
 		TopDocs result = searchRepository.getQueryResult("+path:/*/b_*");
-	    assertEquals(result.totalHits, 5);
+	    assertEquals(result.totalHits, 6);
 	}
 
 	@Test
@@ -175,7 +181,7 @@ public class ScanRepositoryTest extends TestBase {
 	public void testQueryForKind() {
 		TopDocs result = searchRepository.getQueryResult("+kind:D");
 		//We have only a single entry here
-		assertEquals(result.totalHits, 2);
+		assertEquals(result.totalHits, 3);
 	}
 
 	@Test
@@ -184,4 +190,34 @@ public class ScanRepositoryTest extends TestBase {
 		//We have only a single entry here
 		assertEquals(result.totalHits, 11);
 	}
+	
+	private Field searchForField (Document hit, String name) {
+		Field result = null;
+		List<Field> fieldList = hit.getFields();
+		for (Field field : fieldList) {
+			if (field.name().equals(name)) {
+				result = field;
+			}
+		}
+		return result;
+	}
+	@Test
+	public void testQueryForDeletedTag() throws CorruptIndexException, IOException {
+		TopDocs result = searchRepository.getQueryResult("+path:*/tags/* +kind:d");
+		assertEquals(result.totalHits, 1);
+
+		Document hit = searchRepository.getSearcher().doc(result.scoreDocs[0].doc);
+		List<Field> fieldList = hit.getFields();
+
+		//This entry is not allowed to have a filename entry!!!
+		Field fileNameField  = searchForField(hit, FieldNames.FILENAME);
+		assertNotNull(fileNameField, "We have expected to find the " + FieldNames.FILENAME + " field.");
+		assertEquals(fileNameField.stringValue().length(), 0, "We have expected to get an empty filename field for a tag which is a directory.");
+
+		Field pathField  = searchForField(hit, FieldNames.PATH);
+		assertNotNull(pathField, "We have expected to find the " + FieldNames.PATH + " field.");
+		System.out.println("path: " + pathField.toString());
+		assertEquals(pathField.stringValue(), "/project1/tags/release-0.0.1", "We have expected to get an particular path value");
+	}
+	
 }

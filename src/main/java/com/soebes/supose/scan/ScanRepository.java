@@ -223,38 +223,41 @@ public class ScanRepository {
 			//if the entry has been deleted we will check the information about the entry 
 			//via the revision before...
 			LOGGER.debug("Before checking...");
-//			if (entryPath.getType() == SVNLogEntryPath.TYPE_DELETED) {
-//				LOGGER.debug("Before checking...Deleted entry.");
-//				nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision() - 1);
-//			} else {
-				LOGGER.debug("Before checking...Default entry.");
-				nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision());
-//			}
+			nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision());
 			LOGGER.debug("After checking...");
 
 			addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(logEntry.getRevision()));
 
 			boolean isDir = nodeKind == SVNNodeKind.DIR;
 			boolean isFile = nodeKind == SVNNodeKind.FILE;
-			FileName fileName = new FileName(entryPath.getPath(), isDir);
+			FileName fileName = null;
+			if (isDir) {
+				LOGGER.debug("The " + entryPath.getPath() + " is a directory entry.");
+				addUnTokenizedField(doc, FieldNames.NODE, "dir");
+				fileName = new FileName(entryPath.getPath(), true);
+			} else if (isFile) {
+				LOGGER.debug("The " + entryPath.getPath() + " is a file entry.");
+				addUnTokenizedField(doc, FieldNames.NODE, "file");
+				fileName = new FileName(entryPath.getPath(), false);
+			} else {
+				//This means a file/directory has been deleted.
+				addUnTokenizedField(doc, FieldNames.NODE, "unknown");
+				LOGGER.debug("The " + entryPath.getPath() + " is an unknown entry.");
+
+				//We would like to know what is has been?
+				//Directory? File? So we go a step back in History...
+				long rev = logEntry.getRevision() - 1;
+				SVNNodeKind nodeKindUnknown = repository.getRepository().checkPath(entryPath.getPath(), rev);
+				LOGGER.debug("NodeKind(" + rev + "): " + nodeKindUnknown.toString());
+				fileName = new FileName(entryPath.getPath(), nodeKindUnknown == SVNNodeKind.DIR);
+			}
+
 			LOGGER.debug("FileNameCheck: entryPath   -> kind:" + nodeKind.toString() + " path:" + entryPath.getPath());
 			LOGGER.debug("FileNameCheck:                path:'" + fileName.getPath() + "' filename:'" + fileName.getBaseName() + "'");
 			//TODO: We have to check if we need to set localization
 			addUnTokenizedField(doc, FieldNames.PATH, fileName.getPath().toLowerCase());
 			addUnTokenizedField(doc, FieldNames.DPATH, fileName.getPath());
-
-			if (isDir) {
-				LOGGER.debug("The " + entryPath.getPath() + " is a directory entry.");
-				addUnTokenizedField(doc, FieldNames.NODE, "dir");
-			} else if (isFile) {
-				LOGGER.debug("The " + entryPath.getPath() + " is a file entry.");
-				addUnTokenizedField(doc, FieldNames.NODE, "file");
-			} else {
-				//This means a file/directory has been deleted.
-				addUnTokenizedField(doc, FieldNames.NODE, "unknown");
-				LOGGER.debug("The " + entryPath.getPath() + " is an unknown entry.");
-			}
-
+			
 			//Does a copy operation took place...
 			if (entryPath.getCopyPath() != null) {
 				addUnTokenizedField(doc, FieldNames.FROM, entryPath.getCopyPath());

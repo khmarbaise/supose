@@ -19,6 +19,10 @@
 			<action dev="Karl Heinz Marbaise" type="add">
 				Refactored out the query code from the unit tests to be used by the command line interface as well.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="194">
+				Fixed problem with recognizing directories which have been deleled and 
+				make correct entries for filename and path.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="195">
 				Fixed typo in link
 			</action>

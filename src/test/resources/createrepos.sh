@@ -117,6 +117,8 @@ cd $POS
 #
 svn rm $URL/project1/branches/B_0.0.2 -m"- Removed integrated branch"
 #
+svn rm $URL/project1/tags/RELEASE-0.0.1 -m"- Removed unused tag."
+#
 #
 svnadmin dump $POS/$REPOS >$REPOS.dump
 #

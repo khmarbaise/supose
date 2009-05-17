@@ -1,6 +1,6 @@
 SVN-fs-dump-format-version: 2
 
-UUID: 41852f46-196a-0410-b1e3-a97b3992c0fd
+UUID: 7e81aefc-1a6a-0410-a774-ea2cbd96be72
 
 Revision-number: 0
 Prop-content-length: 56
@@ -9,7 +9,7 @@ Content-length: 56
 K 8
 svn:date
 V 27
-2009-05-17T10:38:11.094363Z
+2009-05-17T12:40:47.833916Z
 PROPS-END
 
 Revision-number: 1
@@ -27,7 +27,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:11.205710Z
+2009-05-17T12:40:47.862083Z
 PROPS-END
 
 Node-path: project1
@@ -81,7 +81,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:12.165077Z
+2009-05-17T12:40:48.152213Z
 PROPS-END
 
 Node-path: project1/trunk/f1.txt
@@ -123,7 +123,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:13.127954Z
+2009-05-17T12:40:49.130062Z
 PROPS-END
 
 Node-path: project1/tags/RELEASE-0.0.1
@@ -148,7 +148,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:13.245927Z
+2009-05-17T12:40:49.182100Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -221,7 +221,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:28.043547Z
+2009-05-17T12:41:01.685004Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -291,7 +291,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:29.157421Z
+2009-05-17T12:41:02.159011Z
 PROPS-END
 
 Node-path: project1/tags/supose-0.0.2
@@ -340,7 +340,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:30.201351Z
+2009-05-17T12:41:03.181785Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -410,7 +410,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:31.207103Z
+2009-05-17T12:41:04.214604Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2
@@ -435,7 +435,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:32.201003Z
+2009-05-17T12:41:05.158435Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2/module
@@ -543,7 +543,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:35.139544Z
+2009-05-17T12:41:08.140414Z
 PROPS-END
 
 Node-path: project1/trunk
@@ -638,7 +638,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:37.130225Z
+2009-05-17T12:41:10.131637Z
 PROPS-END
 
 Node-path: project1/trunk/f3.txt
@@ -668,7 +668,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:39.200792Z
+2009-05-17T12:41:12.203779Z
 PROPS-END
 
 Node-path: project1/trunk/testPPT.ppt
@@ -930,7 +930,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:41.180517Z
+2009-05-17T12:41:14.176926Z
 PROPS-END
 
 Node-path: project1/trunk/testWORD.doc
@@ -1020,7 +1020,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:43.216191Z
+2009-05-17T12:41:16.215695Z
 PROPS-END
 
 Node-path: project1/trunk/testEXCEL-formats.xls
@@ -1313,7 +1313,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:45.132927Z
+2009-05-17T12:41:18.133426Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2/f3.txt
@@ -1347,7 +1347,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:46.135870Z
+2009-05-17T12:41:19.135230Z
 PROPS-END
 
 Node-path: project1/trunk
@@ -1378,10 +1378,32 @@ kama
 K 8
 svn:date
 V 27
-2009-05-17T10:38:48.127536Z
+2009-05-17T12:41:21.129002Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2
+Node-action: delete
+
+
+Revision-number: 18
+Prop-content-length: 120
+Content-length: 120
+
+K 7
+svn:log
+V 21
+- Removed unused tag.
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-05-17T12:41:21.160916Z
+PROPS-END
+
+Node-path: project1/tags/RELEASE-0.0.1
 Node-action: delete
 
 
