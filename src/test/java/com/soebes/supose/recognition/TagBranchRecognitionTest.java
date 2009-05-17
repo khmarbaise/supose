@@ -69,7 +69,10 @@ public class TagBranchRecognitionTest extends TestBase {
 	@Test
 	public void analyzeTestFirstTag() throws SVNException {
 		ArrayList<TagType> result = analyzeLog(repository);
-	    assertEquals(result.size(), 3);
+//		for (TagType tagType : result) {
+//			System.out.println(" N:" + tagType.getName() + " T:" + tagType.getType() + " MT:" + tagType.isMavenTag() + " SVNT:" + tagType.isSubversionTag());
+//		}
+	    assertEquals(result.size(), 4);
 	    assertEquals(result.get(0).getType(), TagType.Type.TAG);
 	    assertEquals(result.get(0).getName(), "/project1/tags/RELEASE-0.0.1");
 	    assertEquals(result.get(0).getCopyFromRevision(), 2);
@@ -86,6 +89,13 @@ public class TagBranchRecognitionTest extends TestBase {
 	    assertEquals(result.get(2).getCopyFromRevision(), 7);
 	    assertEquals(result.get(2).getRevision(), 8);
 	    assertEquals(result.get(2).isMavenTag(), false);
+
+	    assertEquals(result.get(3).getType(), TagType.Type.TAG);
+	    assertEquals(result.get(3).getName(), "/project1/tags/RELEASE-0.0.2");
+	    assertEquals(result.get(3).getCopyFromRevision(), 16);
+	    assertEquals(result.get(3).getRevision(), 19);
+	    assertEquals(result.get(3).isMavenTag(), false);
+	    assertEquals(result.get(3).isSubversionTag(), true);
 	}
 
 	private ArrayList<TagType> analyzeLog(Repository repository) throws SVNException {
@@ -105,7 +115,12 @@ public class TagBranchRecognitionTest extends TestBase {
 				} else {
 					//Particular situations like Maven Tags.
 					TagType res = tbr.checkForMavenTag(logEntry, changedPathsSet);
-					if (res != null) {
+					if (res == null) {
+						res = tbr.checkForSubverisonTag(logEntry, changedPathsSet);
+						if (res != null) {
+							result.add(res);
+						}
+					} else {
 						result.add(res);
 					}
 				}

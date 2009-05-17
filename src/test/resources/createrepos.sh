@@ -119,6 +119,14 @@ svn rm $URL/project1/branches/B_0.0.2 -m"- Removed integrated branch"
 #
 svn rm $URL/project1/tags/RELEASE-0.0.1 -m"- Removed unused tag."
 #
+rm -fr $WC1
+#
+svn co $URL/project1/branches/B_0.0.2@16 $WC1
+cd $WC1
+echo "Release 0.0.2" >>f1.txt
+svn cp . $URL/project1/tags/RELEASE-0.0.2 -m"- Release 0.0.2"
+cd $POS
+#
 #
 svnadmin dump $POS/$REPOS >$REPOS.dump
 #

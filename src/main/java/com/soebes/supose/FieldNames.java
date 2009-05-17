@@ -55,6 +55,7 @@ public final class FieldNames {
 	
 	public final static String TAG = "tag";
 	public final static String MAVENTAG = "maventag";
+	public final static String SUBVERSIONTAG = "subversiontag";
 	public final static String BRANCH = "branch";
 
 	public final static String XLSSHEETS = "xlssheets";

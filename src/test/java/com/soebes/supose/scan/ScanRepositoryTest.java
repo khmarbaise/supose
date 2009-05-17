@@ -62,13 +62,13 @@ public class ScanRepositoryTest extends TestBase {
 	@Test
 	public void testQueryForFilenameOnly() {
 		TopDocs result = searchRepository.getQueryResult("+filename:f1.txt");
-	    assertEquals(result.totalHits, 3);
+	    assertEquals(result.totalHits, 4);
 	}
 
 	@Test
 	public void testQueryForFilenameOnlyUppercase() {
 		TopDocs result = searchRepository.getQueryResult("+filename:F1.txt");
-	    assertEquals(result.totalHits, 3);
+	    assertEquals(result.totalHits, 4);
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class ScanRepositoryTest extends TestBase {
 	@Test
 	public void testQueryForFilenameWithPrefixedWildcardTextFiles() {
 		TopDocs result = searchRepository.getQueryResult("+filename:*.txt");
-	    assertEquals(result.totalHits, 7);
+	    assertEquals(result.totalHits, 8);
 	}
 	
 	@Test
@@ -148,7 +148,7 @@ public class ScanRepositoryTest extends TestBase {
 		TopDocs result = searchRepository.getQueryResult("+tag:*");
 		//This will be 4 entries which are coming from the tag entry
 		//and one entry which is coming from the maventag.
-		assertEquals(result.totalHits, 5);
+		assertEquals(result.totalHits, 7);
 	}
 
 	@Test
@@ -159,9 +159,16 @@ public class ScanRepositoryTest extends TestBase {
 
 	@Test
 	public void testQueryForTagsOnly() {
-		TopDocs result = searchRepository.getQueryResult("+tag:* -maventag:*");
-		//This has to be result into a single entry for the tag.
+		TopDocs result = searchRepository.getQueryResult("+tag:* -maventag:* -subversiontag:*");
+		//This has to be result of the tags only.
 		assertEquals(result.totalHits, 1);
+	}
+
+	@Test
+	public void testQueryForSubversionTagsOnly() {
+		TopDocs result = searchRepository.getQueryResult("+subversiontag:*");
+		//This has to be result into a single entry for the tag.
+		assertEquals(result.totalHits, 2);
 	}
 
 	@Test
@@ -188,7 +195,7 @@ public class ScanRepositoryTest extends TestBase {
 	public void testQueryForNode() {
 		TopDocs result = searchRepository.getQueryResult("+node:dir");
 		//We have only a single entry here
-		assertEquals(result.totalHits, 11);
+		assertEquals(result.totalHits, 12);
 	}
 	
 	private Field searchForField (Document hit, String name) {

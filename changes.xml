@@ -5,7 +5,7 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
-		<release version="0.5.3 Bebhionn" date="2009-05-XX" description="Interims Milestone Release">
+		<release version="0.5.3 Bebhionn" date="2009-05-XX" description="Enhancement Release">
 			<action dev="Karl Heinz Marbaise" type="add">
 				We now can recognize Tags/Branches and Maven Tags and the information is stored
 				into the index and can be queried.
@@ -22,6 +22,10 @@
 			<action dev="Karl Heinz Marbaise" type="fix" issue="194">
 				Fixed problem with recognizing directories which have been deleled and 
 				make correct entries for filename and path.
+			</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="196">
+				We can recognize Subversion Tags as the Subversion team uses 
+				for labeling of the Subversion Releases. They use complex tags.
 			</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="195">
 				Fixed typo in link

@@ -167,7 +167,13 @@ public class ScanRepository {
 				}
 			} else {
 				TagType res = tbr.checkForMavenTag(logEntry, changedPathsSet);
-				if (res != null) {
+				if (res == null) {
+					res = tbr.checkForSubverisonTag(logEntry, changedPathsSet);
+					if (res!= null) {
+						addUnTokenizedField(doc, FieldNames.TAG, res.getName());
+						addUnTokenizedField(doc, FieldNames.SUBVERSIONTAG, res.getName());
+					}
+				} else {
 					//Yes there is a Maven Tag.
 					//So we will find the Maven Tag as a TAG as well as a Maven Tag.
 					addUnTokenizedField(doc, FieldNames.TAG, res.getName());

@@ -36,6 +36,7 @@ public class TagType {
 	private long revision;
 	private long copyFromRevision;
 	private boolean mavenTag;
+	private boolean subversionTag;
 
 	public TagType(String name, long revision, long copyFromRevision, Type type) {
 		super();
@@ -44,6 +45,7 @@ public class TagType {
 		this.revision = revision;
 		this.type = type;
 		this.mavenTag = false;
+		this.setSubversionTag(false);
 	}
 
 	public TagType() {
@@ -85,6 +87,14 @@ public class TagType {
 
 	public boolean isMavenTag() {
 		return mavenTag;
+	}
+
+	public void setSubversionTag(boolean subversionTag) {
+		this.subversionTag = subversionTag;
+	}
+
+	public boolean isSubversionTag() {
+		return subversionTag;
 	}
 
 	

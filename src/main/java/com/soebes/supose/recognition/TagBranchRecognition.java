@@ -138,7 +138,7 @@ public class TagBranchRecognition {
 			);
 			SVNDirEntry sourceEntry = RepositoryInformation.getInformationAboutEntry(
 				getRepository(), 
-				logEntry.getRevision(), 
+				entryPath.getCopyRevision(), 
 				entryPath.getCopyPath()
 			);
 			
@@ -161,6 +161,85 @@ public class TagBranchRecognition {
 		}
 		return result;
 	}
+
+	/**
+	 * This method will recognize a Subversion Tag. This kind of tags is
+	 * used by the Subversion team to mark a particular release.
+	 * 
+	 * The following pattern defines such kind of Subversion Tag.
+	 * <pre>
+	 * A /tags/RELEASE-1.0.0 (from: /branches/1.6.1:39700)
+	 * M /tags/RELEASE-1.0.0/svn_version.h</pre>
+	 * 
+	 * In Subversion terms it's called a complex tag.
+	 * (<a href="http://www.supose.org/issues/show/196">Feature 196</a>).
+	 * 
+	 * @param logEntry
+	 * @param changedPathsSet
+	 * @return null otherwise the information about the complex tag.
+	 */
+	public TagType checkForSubverisonTag(SVNLogEntry logEntry, Set changedPathsSet) {
+		TagType result = null;
+
+		//The first assumption the log message is correct...
+		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
+
+			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
+			
+			if (entryPath.getType() == SVNLogEntryPath.TYPE_MODIFIED) {
+				//No copy operation has taken place.
+				if (entryPath.getCopyPath() == null) {
+					SVNDirEntry destEntry = RepositoryInformation.getInformationAboutEntry(
+						getRepository(), 
+						logEntry.getRevision(), 
+						entryPath.getPath()
+					);
+					if (destEntry.getKind() == SVNNodeKind.FILE) {
+						//That might be a candidate...
+						if (result != null) {
+							if (entryPath.getPath().startsWith(result.getName())) {
+								//If the modification is done in the Tags path...
+								result.setSubversionTag(true);
+							} else {
+								result = null;
+							}
+						}
+					}
+				}
+			} else if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
+				//The usual Tag part... /tags/RELEASE-1.0.0 (from: /trunk:23)				
+				if (entryPath.getCopyPath() != null) {
+					SVNDirEntry destEntry = RepositoryInformation.getInformationAboutEntry(
+						getRepository(), 
+						logEntry.getRevision(), 
+						entryPath.getPath()
+					);
+					SVNDirEntry sourceEntry = RepositoryInformation.getInformationAboutEntry(
+						getRepository(), 
+						entryPath.getCopyRevision(), 
+						entryPath.getCopyPath()
+					);
+					TagType bt = new TagType();
+					bt.setName(entryPath.getPath());
+					bt.setRevision(logEntry.getRevision());
+					bt.setCopyFromRevision(entryPath.getCopyRevision());
+
+					//Source and destination of the copy operation must be a directory
+					if (	destEntry.getKind() == SVNNodeKind.DIR
+						&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
+
+						//If we the /tags/ part this is assumed to be a Tag.
+						if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
+							bt.setType(TagType.Type.TAG);
+							bt.setMavenTag(false);
+							result = bt;
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
 	
 	public Repository getRepository() {
 		return repository;
@@ -170,5 +249,4 @@ public class TagBranchRecognition {
 		this.repository = repository;
 	}
 
-	
 }
