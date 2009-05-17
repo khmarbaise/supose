@@ -41,9 +41,11 @@
 	</dependencySets>	
 	<fileSets>
 		<fileSet>
-			<filtered>true</filtered>
+			<directory>${project.build.directory}/appassembler/bin</directory>
+			<outputDirectory>bin</outputDirectory>
 			<includes>
-				<include>supose.cmd</include>
+				<include>supose.bat</include>
+				<include>supose</include>
 			</includes>
 		</fileSet>
 		<fileSet>

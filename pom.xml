@@ -172,6 +172,40 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<binPrefix>SupoSE</binPrefix>
+					<assembleDirectory>${project.build.directory}/appassembler</assembleDirectory>
+					<extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
+					<generateRepository>false</generateRepository>
+					<repositoryName>lib</repositoryName>
+					<repositoryLayout>flat</repositoryLayout>
+					<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+					<platforms>
+						<platform>windows</platform>
+						<platform>unix</platform>
+					</platforms>
+					<programs>
+						<program>
+							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
+							<name>supose</name>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -321,41 +355,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-<!--
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>1.0</version>
-				<configuration>
-					<binPrefix>SupoSE</binPrefix>
-					<assembleDirectory>${project.build.directory}/supose-assemble</assembleDirectory>
-					<extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
-					<generateRepository>false</generateRepository>
-					<repositoryName>lib</repositoryName>
-					<repositoryLayout>flat</repositoryLayout>
-					<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-					<platforms>
-						<platform>windows</platform>
-						<platform>unix</platform>
-					</platforms>
-					<programs>
-						<program>
-							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
-							<name>supose</name>
-						</program>
-					</programs>
-					<executions>
-						<execution>
-							<phase>prepare-package</phase>
-							<goals>
-								<goal>assemble</goal>
-							</goals>
-						</execution>
-					</executions>
-				</configuration>
-			</plugin>
--->
 			<plugin>
 				<groupId>org.apache.maven.doxia</groupId>
 				<artifactId>doxia-maven-plugin</artifactId>
