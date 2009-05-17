@@ -19,6 +19,11 @@
 			<action dev="Karl Heinz Marbaise" type="add">
 				Refactored out the query code from the unit tests to be used by the command line interface as well.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="165">
+				Added etc directory to the delivery package and put the log4j.properties
+				file into it. You can control the behaviour now from outside the application
+				by just simply changing the contents of log4j.properties.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="197">
 				We use now the appassembler-maven-plugin to produce the batch file
 				to call supose from command line.

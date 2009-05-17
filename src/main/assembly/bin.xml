@@ -41,6 +41,13 @@
 	</dependencySets>	
 	<fileSets>
 		<fileSet>
+			<directory>src/main/resources</directory>
+			<outputDirectory>etc</outputDirectory>
+			<includes>
+				<include>log4j.properties</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>${project.build.directory}/appassembler/bin</directory>
 			<outputDirectory>bin</outputDirectory>
 			<includes>
