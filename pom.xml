@@ -325,36 +325,6 @@
 				</executions>
 			</plugin>
 
-			<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			-->
-			<plugin>
-				<groupId>org.dstovall</groupId>
-				<artifactId>onejar-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<configuration>
-							<!-- Optional -->
-							<onejarVersion>0.96</onejarVersion>
-							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
-						</configuration>
-						<goals>
-							<goal>one-jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.doxia</groupId>
 				<artifactId>doxia-maven-plugin</artifactId>

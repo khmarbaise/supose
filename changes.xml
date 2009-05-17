@@ -24,6 +24,9 @@
 				file into it. You can control the behaviour now from outside the application
 				by just simply changing the contents of log4j.properties.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="198">
+				Removed support for one-jar in build process.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="197">
 				We use now the appassembler-maven-plugin to produce the batch file
 				to call supose from command line.
