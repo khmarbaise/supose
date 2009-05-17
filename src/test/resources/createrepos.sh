@@ -109,6 +109,14 @@ cd $POS
 #
 svn cp $URL/project1/trunk/f3.txt $URL/project1/branches/B_0.0.2 -m"- Added f3 from trunk."
 #
+cd $WC1
+svn merge $URL/project1/branches/B_0.0.2
+svn ci -m"- Merge branches/B_0.0.2"
+svn up
+cd $POS
+#
+svn rm $URL/project1/branches/B_0.0.2 -m"- Removed integrated branch"
+#
 #
 svnadmin dump $POS/$REPOS >$REPOS.dump
 #

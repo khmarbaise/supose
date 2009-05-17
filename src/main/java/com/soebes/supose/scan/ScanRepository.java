@@ -176,7 +176,7 @@ public class ScanRepository {
 			}
 			
 			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
-			LOGGER.debug(" "
+			LOGGER.debug("SVNEntry: "
 		            + entryPath.getType()
 		            + "	"
 		            + entryPath.getPath()
@@ -219,14 +219,26 @@ public class ScanRepository {
 		throws SVNException, IOException {
 			SVNProperties fileProperties = new SVNProperties();
 
-			SVNNodeKind nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision());
+			SVNNodeKind nodeKind = null;
+			//if the entry has been deleted we will check the information about the entry 
+			//via the revision before...
+			LOGGER.debug("Before checking...");
+//			if (entryPath.getType() == SVNLogEntryPath.TYPE_DELETED) {
+//				LOGGER.debug("Before checking...Deleted entry.");
+//				nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision() - 1);
+//			} else {
+				LOGGER.debug("Before checking...Default entry.");
+				nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision());
+//			}
+			LOGGER.debug("After checking...");
 
 			addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(logEntry.getRevision()));
 
 			boolean isDir = nodeKind == SVNNodeKind.DIR;
 			boolean isFile = nodeKind == SVNNodeKind.FILE;
 			FileName fileName = new FileName(entryPath.getPath(), isDir);
-			LOGGER.info("FileName: '" + entryPath.getPath() + "'");
+			LOGGER.debug("FileNameCheck: entryPath   -> kind:" + nodeKind.toString() + " path:" + entryPath.getPath());
+			LOGGER.debug("FileNameCheck:                path:'" + fileName.getPath() + "' filename:'" + fileName.getBaseName() + "'");
 			//TODO: We have to check if we need to set localization
 			addUnTokenizedField(doc, FieldNames.PATH, fileName.getPath().toLowerCase());
 			addUnTokenizedField(doc, FieldNames.DPATH, fileName.getPath());

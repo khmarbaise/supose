@@ -161,7 +161,7 @@ public class ScanRepositoryTest extends TestBase {
 	@Test
 	public void testQueryForBranchPath() {
 		TopDocs result = searchRepository.getQueryResult("+path:*/branches/*");
-		assertEquals(result.totalHits, 5);
+		assertEquals(result.totalHits, 6);
 	}
 
 	@Test
@@ -175,13 +175,13 @@ public class ScanRepositoryTest extends TestBase {
 	public void testQueryForKind() {
 		TopDocs result = searchRepository.getQueryResult("+kind:D");
 		//We have only a single entry here
-		assertEquals(result.totalHits, 1);
+		assertEquals(result.totalHits, 2);
 	}
 
 	@Test
 	public void testQueryForNode() {
 		TopDocs result = searchRepository.getQueryResult("+node:dir");
 		//We have only a single entry here
-		assertEquals(result.totalHits, 10);
+		assertEquals(result.totalHits, 11);
 	}
 }

@@ -106,4 +106,13 @@ public class FileNameTest {
 		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
 		assertEquals(fn.getPath(), "/", "The path is not as expected.");
 	}
+	
+	public void testF80() {
+		String fileName = "/tags/1.5.o-beta1";
+		FileName fn = new FileName(fileName, true);
+		assertEquals(fn.getExt(), "", "The extension is not as expected.");
+		assertEquals(fn.getBaseName(), "", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/tags/1.5.o-beta1", "The path is not as expected.");
+	}
 }

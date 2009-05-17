@@ -37,7 +37,6 @@ import java.io.File;
  */
 public class FileName {
 
-	private String fileName;
     private String name;
     private String ext;
     private String baseName;
@@ -114,10 +113,6 @@ public class FileName {
         this.name = name;
     }
 
-    public String getFileName() {
-    	return fileName;
-    }
-
 	public String getBaseName() {
 		return baseName;
 	}
@@ -132,10 +127,6 @@ public class FileName {
 
 	public void setPath(String path) {
 		this.path = path;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
 	}
 
 	public String getNameWithoutExtension() {
