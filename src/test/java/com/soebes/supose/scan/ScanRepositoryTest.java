@@ -223,7 +223,6 @@ public class ScanRepositoryTest extends TestBase {
 
 		Field pathField  = searchForField(hit, FieldNames.PATH);
 		assertNotNull(pathField, "We have expected to find the " + FieldNames.PATH + " field.");
-		System.out.println("path: " + pathField.toString());
 		assertEquals(pathField.stringValue(), "/project1/tags/release-0.0.1", "We have expected to get an particular path value");
 	}
 	
