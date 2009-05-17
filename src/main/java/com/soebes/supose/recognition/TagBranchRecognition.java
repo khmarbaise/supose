@@ -33,6 +33,7 @@ import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;
 import org.tmatesoft.svn.core.SVNNodeKind;
 
+import com.soebes.supose.recognition.TagBranch.TagType;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.RepositoryInformation;
 
@@ -59,11 +60,11 @@ public class TagBranchRecognition {
 	 * @param changedPathsSet
 	 * @return Will return the TagType or null if no appropriate Type (Maven Tag) has been found.
 	 */
-	public TagType checkForMavenTag(
+	public TagBranch checkForMavenTag(
 			SVNLogEntry logEntry, 
 			Set changedPathsSet 
 		) {
-		TagType result = null;
+		TagBranch result = null;
 		//The log message is the first indication for a maven tag...
 //FIXME: The hard coded value for the message of Maven must be made configurable...		
 		if (!logEntry.getMessage().startsWith(MAVEN_TAG_PREFIX)) {
@@ -87,7 +88,7 @@ public class TagBranchRecognition {
 						entryPath.getCopyPath()
 					);
 					
-					TagType bt = new TagType();
+					TagBranch bt = new TagBranch();
 					bt.setName(entryPath.getPath());
 					bt.setRevision(logEntry.getRevision());
 					bt.setCopyFromRevision(entryPath.getCopyRevision());
@@ -98,8 +99,8 @@ public class TagBranchRecognition {
 
 						//If we the /tags/ part this is assumed to be a Tag.
 						if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
-							bt.setType(TagType.Type.TAG);
-							bt.setMavenTag(true);
+							bt.setType(TagBranch.Type.TAG);
+							bt.setTagType(TagBranch.TagType.MAVENTAG);
 							result = bt;
 						}
 					}
@@ -120,12 +121,12 @@ public class TagBranchRecognition {
 	 * @param logEntry
 	 * @param changedPathsSet
 	 */
-	public TagType checkForTagOrBranch(
+	public TagBranch checkForTagOrBranch(
 		SVNLogEntry logEntry, 
 		Set changedPathsSet
 		) {
 
-		TagType result = null;
+		TagBranch result = null;
 		Iterator changedPaths = changedPathsSet.iterator();
 		SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 
@@ -145,15 +146,17 @@ public class TagBranchRecognition {
 			//Source and destination of the copy operation must be a directories
 			if (	destEntry.getKind() == SVNNodeKind.DIR
 				&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
-				TagType bt = new TagType();
+				TagBranch bt = new TagBranch();
 				bt.setName(entryPath.getPath());
 				bt.setRevision(logEntry.getRevision());
 				bt.setCopyFromRevision(entryPath.getCopyRevision());
 //FIXME: the hard coded value "/tags/" must be made configurably.				
 				if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
-					bt.setType(TagType.Type.TAG);
+					bt.setType(TagBranch.Type.TAG);
+					bt.setTagType(TagType.TAG);
 				} else {
-					bt.setType(TagType.Type.BRANCH);
+					bt.setType(TagBranch.Type.BRANCH);
+					bt.setTagType(TagType.NONE);
 				}
 				result = bt;
 			}
@@ -178,8 +181,8 @@ public class TagBranchRecognition {
 	 * @param changedPathsSet
 	 * @return null otherwise the information about the complex tag.
 	 */
-	public TagType checkForSubverisonTag(SVNLogEntry logEntry, Set changedPathsSet) {
-		TagType result = null;
+	public TagBranch checkForSubverisonTag(SVNLogEntry logEntry, Set changedPathsSet) {
+		TagBranch result = null;
 
 		//The first assumption the log message is correct...
 		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
@@ -199,7 +202,7 @@ public class TagBranchRecognition {
 						if (result != null) {
 							if (entryPath.getPath().startsWith(result.getName())) {
 								//If the modification is done in the Tags path...
-								result.setSubversionTag(true);
+								result.setTagType(TagType.SUBVERSIONTAG);
 							} else {
 								result = null;
 							}
@@ -219,7 +222,7 @@ public class TagBranchRecognition {
 						entryPath.getCopyRevision(), 
 						entryPath.getCopyPath()
 					);
-					TagType bt = new TagType();
+					TagBranch bt = new TagBranch();
 					bt.setName(entryPath.getPath());
 					bt.setRevision(logEntry.getRevision());
 					bt.setCopyFromRevision(entryPath.getCopyRevision());
@@ -230,8 +233,8 @@ public class TagBranchRecognition {
 
 						//If we the /tags/ part this is assumed to be a Tag.
 						if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
-							bt.setType(TagType.Type.TAG);
-							bt.setMavenTag(false);
+							bt.setType(TagBranch.Type.TAG);
+							bt.setTagType(TagType.TAG);
 							result = bt;
 						}
 					}

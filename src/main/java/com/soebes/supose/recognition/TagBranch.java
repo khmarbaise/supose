@@ -24,36 +24,52 @@
  */
 package com.soebes.supose.recognition;
 
-public class TagType {
+/**
+ * This class will store the information about a tag/branch.
+ * 
+ * If it is a branch the Type.BRANCH whereas the TagType.NONE.
+ * 
+ * If it is a Tag the Type.TAG whereas the TagType can be TAG, MAVENTAG
+ * or SUBVERSIONTAG.
+ * 
+ * @author Karl Heinz Marbaise
+ *
+ */
+public class TagBranch {
 
 	public enum Type {
 		BRANCH,
 		TAG
 	}
 
+	public enum TagType {
+		NONE,
+		TAG,
+		MAVENTAG,
+		SUBVERSIONTAG
+	}
+
 	private Type type;
+	private TagType tagType;
 	private String name;
 	private long revision;
 	private long copyFromRevision;
-	private boolean mavenTag;
-	private boolean subversionTag;
 
-	public TagType(String name, long revision, long copyFromRevision, Type type) {
+	public TagBranch(String name, long revision, long copyFromRevision, Type type) {
 		super();
 		this.copyFromRevision = copyFromRevision;
 		this.name = name;
 		this.revision = revision;
 		this.type = type;
-		this.mavenTag = false;
-		this.setSubversionTag(false);
+		this.tagType = TagType.NONE;
 	}
 
-	public TagType() {
+	public TagBranch() {
 		this.name = null;
 		this.type = null;
 		this.revision = -1;
 		this.copyFromRevision = -1;
-		this.mavenTag = false;
+		this.tagType = TagType.NONE;
 	}
 
 	public long getRevision() {
@@ -81,21 +97,12 @@ public class TagType {
 		this.name = name;
 	}
 
-	public void setMavenTag(boolean mavenTag) {
-		this.mavenTag = mavenTag;
+	public TagType getTagType() {
+		return tagType;
 	}
 
-	public boolean isMavenTag() {
-		return mavenTag;
+	public void setTagType(TagType tagType) {
+		this.tagType = tagType;
 	}
 
-	public void setSubversionTag(boolean subversionTag) {
-		this.subversionTag = subversionTag;
-	}
-
-	public boolean isSubversionTag() {
-		return subversionTag;
-	}
-
-	
 }

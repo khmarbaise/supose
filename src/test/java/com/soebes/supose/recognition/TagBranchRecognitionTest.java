@@ -42,6 +42,7 @@ import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import com.soebes.supose.TestBase;
+import com.soebes.supose.recognition.TagBranch.TagType;
 import com.soebes.supose.repository.Repository;
 
 public class TagBranchRecognitionTest extends TestBase {
@@ -68,38 +69,37 @@ public class TagBranchRecognitionTest extends TestBase {
 	
 	@Test
 	public void analyzeTestFirstTag() throws SVNException {
-		ArrayList<TagType> result = analyzeLog(repository);
+		ArrayList<TagBranch> result = analyzeLog(repository);
 //		for (TagType tagType : result) {
 //			System.out.println(" N:" + tagType.getName() + " T:" + tagType.getType() + " MT:" + tagType.isMavenTag() + " SVNT:" + tagType.isSubversionTag());
 //		}
 	    assertEquals(result.size(), 4);
-	    assertEquals(result.get(0).getType(), TagType.Type.TAG);
+	    assertEquals(result.get(0).getType(), TagBranch.Type.TAG);
 	    assertEquals(result.get(0).getName(), "/project1/tags/RELEASE-0.0.1");
 	    assertEquals(result.get(0).getCopyFromRevision(), 2);
 	    assertEquals(result.get(0).getRevision(), 3);
-	    assertEquals(result.get(0).isMavenTag(), false);
+	    assertEquals(result.get(0).getTagType(), TagType.TAG);
 	    
-	    assertEquals(result.get(1).getType(), TagType.Type.TAG);
+	    assertEquals(result.get(1).getType(), TagBranch.Type.TAG);
 	    assertEquals(result.get(1).getName(), "/project1/tags/supose-0.0.2");
 	    assertEquals(result.get(1).getRevision(), 6);
-	    assertEquals(result.get(1).isMavenTag(), true);
+	    assertEquals(result.get(1).getTagType(), TagType.MAVENTAG);
 
-	    assertEquals(result.get(2).getType(), TagType.Type.BRANCH);
+	    assertEquals(result.get(2).getType(), TagBranch.Type.BRANCH);
 	    assertEquals(result.get(2).getName(), "/project1/branches/B_0.0.2");
 	    assertEquals(result.get(2).getCopyFromRevision(), 7);
 	    assertEquals(result.get(2).getRevision(), 8);
-	    assertEquals(result.get(2).isMavenTag(), false);
+	    assertEquals(result.get(2).getTagType(), TagType.NONE);
 
-	    assertEquals(result.get(3).getType(), TagType.Type.TAG);
+	    assertEquals(result.get(3).getType(), TagBranch.Type.TAG);
 	    assertEquals(result.get(3).getName(), "/project1/tags/RELEASE-0.0.2");
 	    assertEquals(result.get(3).getCopyFromRevision(), 16);
 	    assertEquals(result.get(3).getRevision(), 19);
-	    assertEquals(result.get(3).isMavenTag(), false);
-	    assertEquals(result.get(3).isSubversionTag(), true);
+	    assertEquals(result.get(3).getTagType(), TagType.SUBVERSIONTAG);
 	}
 
-	private ArrayList<TagType> analyzeLog(Repository repository) throws SVNException {
-		ArrayList<TagType> result = new ArrayList<TagType>();
+	private ArrayList<TagBranch> analyzeLog(Repository repository) throws SVNException {
+		ArrayList<TagBranch> result = new ArrayList<TagBranch>();
 		Collection logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
         for (Iterator iterator = logEntries.iterator(); iterator.hasNext();) {
 			SVNLogEntry logEntry = (SVNLogEntry) iterator.next();
@@ -108,13 +108,13 @@ public class TagBranchRecognitionTest extends TestBase {
 
 				if (changedPathsSet.size() == 1) {
 					//Here we change if we usual tags/branches
-					TagType res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
+					TagBranch res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
 					if (res != null) {
 						result.add(res);
 					}
 				} else {
 					//Particular situations like Maven Tags.
-					TagType res = tbr.checkForMavenTag(logEntry, changedPathsSet);
+					TagBranch res = tbr.checkForMavenTag(logEntry, changedPathsSet);
 					if (res == null) {
 						res = tbr.checkForSubverisonTag(logEntry, changedPathsSet);
 						if (res != null) {

@@ -43,7 +43,7 @@ import org.tmatesoft.svn.core.SVNProperties;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.recognition.TagBranchRecognition;
-import com.soebes.supose.recognition.TagType;
+import com.soebes.supose.recognition.TagBranch;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.search.NumberUtils;
 import com.soebes.supose.utility.FileName;
@@ -154,10 +154,10 @@ public class ScanRepository {
 
 			//Check to see if we have a Tag....
 			if (changedPathsSet.size() == 1) {
-				TagType res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
+				TagBranch res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
 				if (res != null) {
 					//Yes we have found branch/tag
-					if (res.getType().equals(TagType.Type.BRANCH)) {
+					if (res.getType().equals(TagBranch.Type.BRANCH)) {
 						//This is a branch
 						addUnTokenizedField(doc, FieldNames.BRANCH, res.getName());
 					} else {
@@ -166,7 +166,7 @@ public class ScanRepository {
 					}
 				}
 			} else {
-				TagType res = tbr.checkForMavenTag(logEntry, changedPathsSet);
+				TagBranch res = tbr.checkForMavenTag(logEntry, changedPathsSet);
 				if (res == null) {
 					res = tbr.checkForSubverisonTag(logEntry, changedPathsSet);
 					if (res!= null) {
