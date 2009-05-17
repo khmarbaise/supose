@@ -19,6 +19,9 @@
 			<action dev="Karl Heinz Marbaise" type="add">
 				Refactored out the query code from the unit tests to be used by the command line interface as well.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="195">
+				Fixed typo in link
+			</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="163">
 				File encoding set for copying via maven resources plugin
 			</action>
