@@ -243,7 +243,7 @@ public class TagBranchRecognition {
 		}
 		return result;
 	}
-	
+
 	public Repository getRepository() {
 		return repository;
 	}

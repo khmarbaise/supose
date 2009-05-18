@@ -141,6 +141,17 @@ public class ScanRepository {
 
 		TagBranchRecognition tbr = new TagBranchRecognition();
 		tbr.setRepository(repository);
+		
+		TagBranch res = null;
+		//Check if we have a Tag, Branch, Maven Tag or Subversion Tag.
+		if (changedPathsSet.size() == 1) {
+			res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
+		} else {
+			res = tbr.checkForMavenTag(logEntry, changedPathsSet);
+			if (res == null) {
+				res = tbr.checkForSubverisonTag(logEntry, changedPathsSet);
+			}
+		}
 
 		int count = 0;
 		LOGGER.info("Number of files for revision: " + changedPathsSet.size());
@@ -148,39 +159,33 @@ public class ScanRepository {
 			count ++;
 
 			Document doc = new Document();
+			if (res != null) {
+				switch (res.getType()) {
+					case BRANCH:
+						addUnTokenizedField(doc, FieldNames.BRANCH, res.getName());
+						break;
+					case TAG:
+						addUnTokenizedField(doc, FieldNames.TAG, res.getName());
+						switch(res.getTagType()) {
+							case NONE:
+								break;
+							case TAG: //We already have it marked as Tag.
+								break;
+							case MAVENTAG:
+								addUnTokenizedField(doc, FieldNames.MAVENTAG, res.getName());
+								break;
+							case SUBVERSIONTAG:
+								addUnTokenizedField(doc, FieldNames.SUBVERSIONTAG, res.getName());
+								break;
+						}
+						break;
+					default:
+						break;
+				}
+			}
 
 			//It is needed to check it in every entry 
 			//This will result in making entries for every record of the ChangeSet.
-
-			//Check to see if we have a Tag....
-			if (changedPathsSet.size() == 1) {
-				TagBranch res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
-				if (res != null) {
-					//Yes we have found branch/tag
-					if (res.getType().equals(TagBranch.Type.BRANCH)) {
-						//This is a branch
-						addUnTokenizedField(doc, FieldNames.BRANCH, res.getName());
-					} else {
-						//This is a tag...
-						addUnTokenizedField(doc, FieldNames.TAG, res.getName());
-					}
-				}
-			} else {
-				TagBranch res = tbr.checkForMavenTag(logEntry, changedPathsSet);
-				if (res == null) {
-					res = tbr.checkForSubverisonTag(logEntry, changedPathsSet);
-					if (res!= null) {
-						addUnTokenizedField(doc, FieldNames.TAG, res.getName());
-						addUnTokenizedField(doc, FieldNames.SUBVERSIONTAG, res.getName());
-					}
-				} else {
-					//Yes there is a Maven Tag.
-					//So we will find the Maven Tag as a TAG as well as a Maven Tag.
-					addUnTokenizedField(doc, FieldNames.TAG, res.getName());
-					addUnTokenizedField(doc, FieldNames.MAVENTAG, res.getName());
-				}
-			}
-			
 			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 			LOGGER.debug("SVNEntry: "
 		            + entryPath.getType()
