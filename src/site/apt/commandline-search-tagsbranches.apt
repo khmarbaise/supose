@@ -40,13 +40,13 @@
   known by the command line.
 
   The following query will find all tags which are existing
-  pattern in all revisions within the repository.
+  in all revisions within the repository.
 
 +--
 +tag:*
 +--
 
-  The result list will contain all existing tags incl. 
+  The result list will contain all existing tags incl.
   Maven Tags which have a particular pattern.
 
   If you like to see only the list of tags without the
@@ -54,6 +54,14 @@
 
 +--
 +tag:* -maventag:*
++--
+
+  If you like to search for Subversion Tags (particular type
+  used by the Subversion Team) you can use a search query as 
+  follows:
+
++--
++subversiontag:*
 +--
 
 
