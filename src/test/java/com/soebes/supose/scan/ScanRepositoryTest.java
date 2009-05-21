@@ -144,6 +144,32 @@ public class ScanRepositoryTest extends TestBase {
 	}
 	
 	@Test
+	public void testQueryOpenOfficeODP() {
+		//Das ist ein Test mit OpenOffice 3.0 auf Windows XP
+		TopDocs result = searchRepository.getQueryResult("+contents:\"OpenOffice 3.0 auf Windows XP\"");
+	    assertEquals(result.totalHits, 1);
+	}
+
+	@Test
+	public void testQueryOpenOfficeODS() {
+		//Test Mit OpenOffice
+		//3.0
+		//Windows XP
+		TopDocs result = searchRepository.getQueryResult("+contents:\"Test Mit OpenOffice 3.0 Windows XP\"");
+	    assertEquals(result.totalHits, 1);
+	}
+
+	@Test
+	public void testQueryOpenOfficeODT() {
+		//This is a Test
+		//In OpenOffice
+		//3.0
+		//Windows XP
+		TopDocs result = searchRepository.getQueryResult("+contents:\"This is a Test In OpenOffice 3.0 Windows XP\"");
+	    assertEquals(result.totalHits, 1);
+	}
+	
+	@Test
 	public void testQueryForTagsOfAllKind() {
 		TopDocs result = searchRepository.getQueryResult("+tag:*");
 		//This will be 4 entries which are coming from the tag entry

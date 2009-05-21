@@ -88,6 +88,15 @@ svn ci -m"- Added PPT files."
 svn up
 cd $POS
 #
+cp $POS/test-documents/testOpenOffice2.odt $WC1/testOpenOffice2.odt
+cp $POS/test-documents/testOpenOffice3.odt $WC1/testOpenOffice3.odt
+cp $POS/test-documents/testOpenOffice3.odp $WC1/testOpenOffice3.odp
+cp $POS/test-documents/testOpenOffice3.ods $WC1/testOpenOffice3.ods
+cd $WC1
+svn add testOpenOffice*
+svn ci -m"- Added OpenOffice files."
+svn up
+cd $POS
 #
 cp $POS/test-documents/testWORD.doc $WC1/testWORD.doc
 cp $POS/test-documents/testWORD.docx $WC1/testWORD.docx

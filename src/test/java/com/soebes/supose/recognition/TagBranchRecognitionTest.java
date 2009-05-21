@@ -93,7 +93,7 @@ public class TagBranchRecognitionTest extends TestBase {
 	    assertEquals(result.get(3).getType(), TagBranch.Type.TAG);
 	    assertEquals(result.get(3).getName(), "/project1/tags/RELEASE-0.0.2");
 	    assertEquals(result.get(3).getCopyFromRevision(), 16);
-	    assertEquals(result.get(3).getRevision(), 19);
+	    assertEquals(result.get(3).getRevision(), 20);
 	    assertEquals(result.get(3).getTagType(), TagType.SUBVERSIONTAG);
 	}
 
