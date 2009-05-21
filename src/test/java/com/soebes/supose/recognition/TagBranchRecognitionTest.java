@@ -63,8 +63,7 @@ public class TagBranchRecognitionTest extends TestBase {
 		String repositoryDir = getRepositoryDirectory();
 		SVNURL url = SVNURL.fromFile(new File(repositoryDir));
 		repository = new Repository("file://" + url.getURIEncodedPath(), authManager);
-		tbr = new TagBranchRecognition();
-		tbr.setRepository(repository);
+		tbr = new TagBranchRecognition(repository);
 	}
 	
 	@Test

@@ -139,8 +139,8 @@ public class ScanRepository {
 	private void workOnChangeSet(IndexWriter indexWriter, Repository repository, SVNLogEntry logEntry) {
 		Set changedPathsSet = logEntry.getChangedPaths().keySet();
 
-		TagBranchRecognition tbr = new TagBranchRecognition();
-		tbr.setRepository(repository);
+		TagBranchRecognition tbr = new TagBranchRecognition(repository);
+//		tbr.setRepository(repository);
 		
 		TagBranch res = null;
 		//Check if we have a Tag, Branch, Maven Tag or Subversion Tag.
@@ -196,7 +196,7 @@ public class ScanRepository {
 		                    + entryPath.getCopyRevision() + ")" : ""));
 
 			//We would like to know something about the entry.
-			SVNDirEntry dirEntry = RepositoryInformation.getInformationAboutEntry(repository, logEntry.getRevision(), entryPath.getPath());
+			SVNDirEntry dirEntry = tbr.getEntryCache().getEntry(logEntry.getRevision(), entryPath.getPath());
 		    
 			try {
 				indexFile(doc, indexWriter, dirEntry, repository, logEntry, entryPath);

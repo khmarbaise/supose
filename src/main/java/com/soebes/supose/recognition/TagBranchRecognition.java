@@ -35,7 +35,6 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 
 import com.soebes.supose.recognition.TagBranch.TagType;
 import com.soebes.supose.repository.Repository;
-import com.soebes.supose.scan.RepositoryInformation;
 
 /**
  * This class is intended to analyze if a tag or branch is on hand.
@@ -50,6 +49,13 @@ public class TagBranchRecognition {
 	public static final String MAVEN_TAG_PREFIX = "[maven-release-plugin]  copy for tag ";
 
 	private Repository repository = null;
+
+	private EntryCache entryCache = null;
+
+	public TagBranchRecognition(Repository repository) {
+		setRepository(repository);
+		setEntryCache(new EntryCache(repository));
+	}
 
 	/**
 	 * A <a href="http://maven.apache.org">Maven</a> tag is currently 
@@ -77,16 +83,8 @@ public class TagBranchRecognition {
 
 			if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
 				if (entryPath.getCopyPath() != null) {
-					SVNDirEntry destEntry = RepositoryInformation.getInformationAboutEntry(
-						getRepository(), 
-						logEntry.getRevision(), 
-						entryPath.getPath()
-					);
-					SVNDirEntry sourceEntry = RepositoryInformation.getInformationAboutEntry(
-						getRepository(), 
-						logEntry.getRevision(), 
-						entryPath.getCopyPath()
-					);
+					SVNDirEntry destEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getPath());
+					SVNDirEntry sourceEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getCopyPath());
 					
 					TagBranch bt = new TagBranch();
 					bt.setName(entryPath.getPath());
@@ -132,16 +130,8 @@ public class TagBranchRecognition {
 
 		//a copy-to has happened so we can have a branch or a tag?
 		if (entryPath.getCopyPath() != null) {
-			SVNDirEntry destEntry = RepositoryInformation.getInformationAboutEntry(
-				getRepository(), 
-				logEntry.getRevision(), 
-				entryPath.getPath()
-			);
-			SVNDirEntry sourceEntry = RepositoryInformation.getInformationAboutEntry(
-				getRepository(), 
-				entryPath.getCopyRevision(), 
-				entryPath.getCopyPath()
-			);
+			SVNDirEntry destEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getPath());
+			SVNDirEntry sourceEntry = getEntryCache().getEntry (entryPath.getCopyRevision(), entryPath.getCopyPath());
 			
 			//Source and destination of the copy operation must be a directories
 			if (	destEntry.getKind() == SVNNodeKind.DIR
@@ -192,11 +182,7 @@ public class TagBranchRecognition {
 			if (entryPath.getType() == SVNLogEntryPath.TYPE_MODIFIED) {
 				//No copy operation has taken place.
 				if (entryPath.getCopyPath() == null) {
-					SVNDirEntry destEntry = RepositoryInformation.getInformationAboutEntry(
-						getRepository(), 
-						logEntry.getRevision(), 
-						entryPath.getPath()
-					);
+					SVNDirEntry destEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getPath());
 					if (destEntry.getKind() == SVNNodeKind.FILE) {
 						//That might be a candidate...
 						if (result != null) {
@@ -212,16 +198,8 @@ public class TagBranchRecognition {
 			} else if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
 				//The usual Tag part... /tags/RELEASE-1.0.0 (from: /trunk:23)				
 				if (entryPath.getCopyPath() != null) {
-					SVNDirEntry destEntry = RepositoryInformation.getInformationAboutEntry(
-						getRepository(), 
-						logEntry.getRevision(), 
-						entryPath.getPath()
-					);
-					SVNDirEntry sourceEntry = RepositoryInformation.getInformationAboutEntry(
-						getRepository(), 
-						entryPath.getCopyRevision(), 
-						entryPath.getCopyPath()
-					);
+					SVNDirEntry destEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getPath());
+					SVNDirEntry sourceEntry = getEntryCache().getEntry (entryPath.getCopyRevision(), entryPath.getCopyPath());
 					TagBranch bt = new TagBranch();
 					bt.setName(entryPath.getPath());
 					bt.setRevision(logEntry.getRevision());
@@ -250,6 +228,14 @@ public class TagBranchRecognition {
 
 	public void setRepository(Repository repository) {
 		this.repository = repository;
+	}
+
+	public EntryCache getEntryCache() {
+		return entryCache;
+	}
+
+	public void setEntryCache(EntryCache entryCache) {
+		this.entryCache = entryCache;
 	}
 
 }
