@@ -94,4 +94,14 @@ public class TestBase {
 	public String getIndexDirectory() {
 		return getTargetDir() + File.separatorChar + "index.Test";
 	}
+	
+	public String getSrcDirectory () {
+		return getMavenBaseDir() + File.separator + "src" ;
+	}
+	public String getTestDirectory () {
+		return getSrcDirectory() + File.separator + "test";
+	}
+	public String getTestResourcesDirectory() {
+		return getTestDirectory() + File.separator + "resources";
+	}
 }
