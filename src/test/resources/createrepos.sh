@@ -92,8 +92,11 @@ cp $POS/test-documents/testOpenOffice2.odt $WC1/testOpenOffice2.odt
 cp $POS/test-documents/testOpenOffice3.odt $WC1/testOpenOffice3.odt
 cp $POS/test-documents/testOpenOffice3.odp $WC1/testOpenOffice3.odp
 cp $POS/test-documents/testOpenOffice3.ods $WC1/testOpenOffice3.ods
+cp $POS/test-documents/TextArchive.tar.gz $WC1/TextArchive.tar.gz
+cp $POS/test-documents/TextArchive.zip $WC1/TextArchive.zip
 cd $WC1
 svn add testOpenOffice*
+svn add TextArchive*
 svn ci -m"- Added OpenOffice files."
 svn up
 cd $POS

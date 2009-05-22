@@ -168,7 +168,19 @@ public class ScanRepositoryTest extends TestBase {
 		TopDocs result = searchRepository.getQueryResult("+contents:\"This is a Test In OpenOffice 3.0 Windows XP\"");
 	    assertEquals(result.totalHits, 1);
 	}
-	
+
+	@Test
+	public void testQueryArchiveContentsTAR() {
+		TopDocs result = searchRepository.getQueryResult("+contents:\"This file is contined in a archive\"");
+	    assertEquals(result.totalHits, 1);
+	}
+
+	@Test
+	public void testQueryArchiveContentsZIP() {
+		TopDocs result = searchRepository.getQueryResult("+contents:\"This file is contents of a zip archive\"");
+	    assertEquals(result.totalHits, 1);
+	}
+
 	@Test
 	public void testQueryForTagsOfAllKind() {
 		TopDocs result = searchRepository.getQueryResult("+tag:*");
