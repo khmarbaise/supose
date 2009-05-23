@@ -134,6 +134,12 @@ public class SuposeCLI {
 		);
 		Repository repository = new Repository(url, authManager);
 
+		CLIInterceptor interceptor = new CLIInterceptor();
+		scanRepository.registerScanInterceptor(interceptor);
+		
+		CLILogEntryInterceptor logEntryInterceptor = new CLILogEntryInterceptor();
+		scanRepository.registerLogEntryInterceptor(logEntryInterceptor);
+
 		scanRepository.setRepository(repository);
 
 		//We start with the revision which is given on the command line.

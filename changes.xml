@@ -16,6 +16,9 @@
 			<action dev="Karl Heinz Marbaise" type="fix">
 				Removed deprected calls to IndexWriter constructors.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="165">
+				During the command line scan we log information on the console.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="121">
 				Now we parse archives like zip, tar.gz
 			</action>

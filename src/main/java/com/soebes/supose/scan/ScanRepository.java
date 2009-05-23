@@ -25,6 +25,7 @@
 package com.soebes.supose.scan;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -34,6 +35,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
+import org.tmatesoft.svn.core.ISVNLogEntryHandler;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
@@ -42,8 +44,8 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNProperties;
 
 import com.soebes.supose.FieldNames;
-import com.soebes.supose.recognition.TagBranchRecognition;
 import com.soebes.supose.recognition.TagBranch;
+import com.soebes.supose.recognition.TagBranchRecognition;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.search.NumberUtils;
 import com.soebes.supose.utility.FileName;
@@ -52,13 +54,15 @@ import com.soebes.supose.utility.FileName;
  * @author Karl Heinz Marbaise
  *
  */
-public class ScanRepository {
+public class ScanRepository extends ScanRepositoryBase {
 	private static Logger LOGGER = Logger.getLogger(ScanRepository.class);
 
 	private boolean abbort;
 
 	private String name;
 	
+	private ArrayList<SVNLogEntry> logEntries = null;
+
 	/**
 	 * This defines the revision from where we start to scan the given repository.
 	 */
@@ -67,15 +71,17 @@ public class ScanRepository {
 	 * This defines the revision to which we will scan the given repository. 
 	 */
 	private long endRevision;
-	
+
 	private Repository repository = null;
 
 	public ScanRepository() {
+		super();
 		setStartRevision(0);
 		setEndRevision(0);
 		setRepository(null);
 		setName("");
 		setAbbort(false);
+		logEntries = new ArrayList<SVNLogEntry>();
 	}
 
 	/**
@@ -88,10 +94,16 @@ public class ScanRepository {
 	@SuppressWarnings("unchecked")
 	public void scan(IndexWriter writer) {
 
-       LOGGER.debug("Repositories latest Revision: " + endRevision);
-        Collection<SVNLogEntry> logEntries = null;
+		LOGGER.debug("Repositories latest Revision: " + endRevision);
         try {
-            logEntries = repository.getRepository().log(new String[] {""}, null, startRevision, endRevision, true, true);
+        	LogEntryStart();
+            repository.getRepository().log(new String[] {""}, startRevision, endRevision, true, true, new ISVNLogEntryHandler() {
+                public void handleLogEntry(SVNLogEntry logEntry) {
+                	logEntries.add(logEntry);
+                	LogEntry(logEntry);
+                }
+            });
+            LogEntryStop();
         } catch (SVNException svne) {
             LOGGER.error("error while collecting log information for '"
                     + repository.getUrl() + "': " + svne);
@@ -99,6 +111,7 @@ public class ScanRepository {
         }
 
         LOGGER.debug("We have " + logEntries.size() + " change sets to scan.");
+        scanStart(logEntries.size());
         for (Iterator entries = logEntries.iterator(); entries.hasNext();) {
             SVNLogEntry logEntry = (SVNLogEntry) entries.next();
 
@@ -114,7 +127,9 @@ public class ScanRepository {
             	
             	LOGGER.debug("changed paths:");
 				try {
+					scanBeginRevision(logEntry.getRevision(), logEntry.getChangedPaths().size());
 					workOnChangeSet(writer, repository, logEntry);
+					scanEndRevision(logEntry.getRevision(), logEntry.getChangedPaths().size());
 				} catch (Exception e) {
 	            	LOGGER.error("Error during workOnChangeSet() " + e);
 				}                
@@ -126,6 +141,7 @@ public class ScanRepository {
             	break;
             }
         }
+        scanStop();
 		repository.close();
 	}
 
@@ -154,7 +170,7 @@ public class ScanRepository {
 		}
 
 		int count = 0;
-		LOGGER.info("Number of files for revision: " + changedPathsSet.size());
+		LOGGER.debug("Number of files for revision: " + changedPathsSet.size());
 		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 			count ++;
 
@@ -197,7 +213,7 @@ public class ScanRepository {
 
 			//We would like to know something about the entry.
 			SVNDirEntry dirEntry = tbr.getEntryCache().getEntry(logEntry.getRevision(), entryPath.getPath());
-		    
+
 			try {
 				indexFile(doc, indexWriter, dirEntry, repository, logEntry, entryPath);
 			} catch (IOException e) {

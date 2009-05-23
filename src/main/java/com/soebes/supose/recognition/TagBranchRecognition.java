@@ -99,6 +99,7 @@ public class TagBranchRecognition {
 						if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
 							bt.setType(TagBranch.Type.TAG);
 							bt.setTagType(TagBranch.TagType.MAVENTAG);
+							//Interception Point: MavenTagRecognized()
 							result = bt;
 						}
 					}
@@ -142,11 +143,13 @@ public class TagBranchRecognition {
 				bt.setCopyFromRevision(entryPath.getCopyRevision());
 //FIXME: the hard coded value "/tags/" must be made configurably.				
 				if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
+					//Interception Point: tagRecognized()
 					bt.setType(TagBranch.Type.TAG);
 					bt.setTagType(TagType.TAG);
 				} else {
 					bt.setType(TagBranch.Type.BRANCH);
 					bt.setTagType(TagType.NONE);
+					//Interception Point: branchRecognized()
 				}
 				result = bt;
 			}
@@ -188,6 +191,7 @@ public class TagBranchRecognition {
 						if (result != null) {
 							if (entryPath.getPath().startsWith(result.getName())) {
 								//If the modification is done in the Tags path...
+								//Interception Point: subversionTagRecognized()
 								result.setTagType(TagType.SUBVERSIONTAG);
 							} else {
 								result = null;
