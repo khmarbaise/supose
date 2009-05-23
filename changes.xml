@@ -13,6 +13,10 @@
 				<fixes issue="129"/>
 				<fixes issue="190"/>
 			</action>
+			<action dev="Karl Heinz Marbaise" type="add">
+				Added .c, .h, .m4, .texi, .po file extensions. They will handled
+				as usual text files.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="fix">
 				Removed deprected calls to IndexWriter constructors.
 			</action>
