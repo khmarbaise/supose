@@ -45,7 +45,7 @@ public class ScanJavaDocument extends AScanDocument {
 
 	@Override
 	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.info("Scanning Java file");
+		LOGGER.debug("Scanning Java file");
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			//This means we get the contents of the file only. No properties.
@@ -58,7 +58,7 @@ public class ScanJavaDocument extends AScanDocument {
 		} catch (Exception e) {
 			LOGGER.error("Something has gone wrong with JavaDocuments " + e);
 		}
-		LOGGER.info("Scanning of Java file done.");
+		LOGGER.debug("Scanning of Java file done.");
 	}
 
 	

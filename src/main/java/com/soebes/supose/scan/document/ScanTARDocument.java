@@ -53,7 +53,7 @@ public class ScanTARDocument extends AScanDocument {
 
 	@Override
 	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.info("Scanning TAR document");
+		LOGGER.debug("Scanning TAR document");
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			//This means we get the contents of the file only. No properties.

@@ -51,7 +51,7 @@ public class ScanDefaultDocument extends AScanDocument {
 
 	@Override
 	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.info("Scanning document");
+		LOGGER.debug("Scanning document");
 		
 		try {
 			if (isBinary()) {

@@ -50,7 +50,7 @@ public class ScanWordDocument extends AScanDocument {
 
 	@Override
 	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.info("Scanning word document");
+		LOGGER.debug("Scanning word document");
 		
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
