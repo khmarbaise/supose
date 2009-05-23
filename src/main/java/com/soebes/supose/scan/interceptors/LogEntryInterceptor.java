@@ -1,4 +1,4 @@
-package com.soebes.supose.scan;
+package com.soebes.supose.scan.interceptors;
 
 import org.tmatesoft.svn.core.SVNLogEntry;
 

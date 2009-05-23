@@ -60,9 +60,9 @@ public class ScanWordDocument extends AScanDocument {
 
 			scan(str, path);
 		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: " + e);
+			LOGGER.error("Exception by SVN: ", e);
 		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with WordDocuments " + e);
+			LOGGER.error("Something has gone wrong with WordDocuments ", e);
 		}
 	}
 
@@ -79,12 +79,12 @@ public class ScanWordDocument extends AScanDocument {
 			//like AUTHOR, KEYWORDS etc.
 			addTokenizedField(FieldNames.CONTENTS, handler.toString());
 		} catch (Exception e) {
-			LOGGER.error("We had an exception: " + e);
+			LOGGER.error("We had an exception: ", e);
 		} finally {
 			try {
 				in.close();
 			} catch (Exception e) {
-				LOGGER.error("We had an exception during closing: " + e);
+				LOGGER.error("We had an exception during closing: ", e);
 			}
 		}
 	}

@@ -59,9 +59,9 @@ public class IniTest extends TestBase {
 				}
 			}
 		} catch (InvalidFileFormatException e) {
-			LOGGER.error("Error: " + e);
+			LOGGER.error("Error: ", e);
 		} catch (IOException e) {
-			LOGGER.error("Error: " + e);
+			LOGGER.error("Error: ", e);
 		}
 	}
 	

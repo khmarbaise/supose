@@ -113,9 +113,9 @@ public class RepositoryScanJob implements InterruptableJob, StatefulJob {
 				indexWriter.optimize();
 				indexWriter.close();
 			} catch (CorruptIndexException e) {
-				LOGGER.error("Corrupted index: " + e);
+				LOGGER.error("Corrupted index: ", e);
 			} catch (IOException e) {
-				LOGGER.error("IOException during closing of index: " + e);
+				LOGGER.error("IOException during closing of index: ", e);
 			}
 
 			//Merge the created index into the target index...
@@ -139,7 +139,7 @@ public class RepositoryScanJob implements InterruptableJob, StatefulJob {
 		try {
 			subexecute(context);
 		} catch (Exception e) {
-			LOGGER.error("We had an unexpected Exception: " + e);
+			LOGGER.error("We had an unexpected Exception: ", e);
 		}
 	}
 

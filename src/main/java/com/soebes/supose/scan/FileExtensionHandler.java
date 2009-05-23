@@ -60,16 +60,16 @@ public class FileExtensionHandler {
 					dh.setDocument(doc);
 					dh.indexDocument(repository, dirEntry, path, revision);
 				} catch (ClassNotFoundException e) {
-					LOGGER.error("Cannot create instance of : " + className + " " + e);
+					LOGGER.error("Cannot create instance of : " + className, e);
 				} catch (InstantiationException e) {
-					LOGGER.error("Cannot create an instance of : " + className + " " + e);
+					LOGGER.error("Cannot create an instance of : " + className, e);
 				} catch (IllegalAccessException e) {
-					LOGGER.error("Illegal Access of instance of : " + className + " " + e);
+					LOGGER.error("Illegal Access of instance of : " + className, e);
 				}
 			} catch (Exception e) {
 				//There is no entry for the extension so we use the default
 				//scanner for all other document types.
-				LOGGER.error("There is no property entry defined for the file extension '" + fn.getExt() + "'");
+				LOGGER.error("There is no property entry defined for the file extension '" + fn.getExt() + "'", e);
 				indexDefaultDoc(repository, dirEntry, path, revision);
 			}
 		} else {

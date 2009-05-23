@@ -83,11 +83,11 @@ public class Index {
 			writer.setMaxBufferedDocs(getMaxBufferedDocs());
 //			writer.setInfoStream(System.out);
 		} catch (CorruptIndexException e) {
-			LOGGER.error("CorruptIndex: " + e);
+			LOGGER.error("CorruptIndex: ", e);
 		} catch (LockObtainFailedException e) {
-			LOGGER.error("LockObtain: " + e);
+			LOGGER.error("LockObtain: ", e);
 		} catch (IOException e) {
-			LOGGER.error("IOException: " + e);
+			LOGGER.error("IOException: ", e);
 		}
 		return writer;
 	}

@@ -26,6 +26,8 @@ package com.soebes.supose.scan;
 
 import java.util.ArrayList;
 
+import com.soebes.supose.scan.interceptors.ScanInterceptor;
+
 /**
  * This base class will handle the whole interceptor calling and their
  * maintenance.
@@ -38,6 +40,7 @@ public class ScanRepositoryBase extends ScanRepositoryBaseLogEntry implements Sc
 	private ArrayList<ScanInterceptor> interceptors;
 
 	public ScanRepositoryBase() {
+		super();
 		setInterceptors(new ArrayList<ScanInterceptor>());
 	}
 

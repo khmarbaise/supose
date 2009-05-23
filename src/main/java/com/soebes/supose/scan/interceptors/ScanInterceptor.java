@@ -22,7 +22,7 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.scan;
+package com.soebes.supose.scan.interceptors;
 
 public interface ScanInterceptor {
 

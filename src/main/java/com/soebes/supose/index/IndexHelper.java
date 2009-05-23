@@ -77,7 +77,7 @@ public class IndexHelper {
 			indexWriter.close();
 			LOGGER.info("Merging of indexes succesfull.");
 		} catch (Exception e) {
-			LOGGER.error("Something wrong during merge of index: " + e);
+			LOGGER.error("Something wrong during merge of index: ", e);
 		}
 	}
 

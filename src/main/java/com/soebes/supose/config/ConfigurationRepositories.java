@@ -47,9 +47,9 @@ public class ConfigurationRepositories {
 		try {
 			iniFile = new Ini(new FileInputStream(configFile));
 		} catch (InvalidFileFormatException e) {
-			LOGGER.error("The format of the given INI is not correct. " + e);
+			LOGGER.error("The format of the given INI is not correct. ", e);
 		} catch (IOException e) {
-			LOGGER.error("Some problems happen with the INI File " + e);
+			LOGGER.error("Some problems happen with the INI File ", e);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package com.soebes.supose.cli;
 
-import com.soebes.supose.scan.ScanInterceptor;
+import com.soebes.supose.scan.interceptors.ScanInterceptor;
 
 public class CLIInterceptor implements ScanInterceptor{
 	private Integer numberOfRevisions;
@@ -15,11 +15,12 @@ public class CLIInterceptor implements ScanInterceptor{
 	}
 	public void scanBeginRevision(Long revision, Integer changeSetSize) {
 		Long div = revision *100 / numberOfRevisions;
-		System.out.printf("%3d %% of %7d (Changeset size: %3d) (Rev:%7d)    \r", div, numberOfRevisions, changeSetSize, revision);
+		System.out.printf("%3d %% of %7d (Revision:%7d) Changeset: %4d ", div, numberOfRevisions, revision, changeSetSize);
 	}
 	
 	public void scanEndRevision(Long revision, Integer changeSetSize) {
 		//We will do nothing.
+		System.out.print("\r");
 	}
 
 }

@@ -140,6 +140,9 @@ public class SuposeCLI {
 		CLILogEntryInterceptor logEntryInterceptor = new CLILogEntryInterceptor();
 		scanRepository.registerLogEntryInterceptor(logEntryInterceptor);
 
+		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
+		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
+		
 		scanRepository.setRepository(repository);
 
 		//We start with the revision which is given on the command line.
@@ -326,15 +329,15 @@ public class SuposeCLI {
 				System.out.println("");
 			}
 		} catch (CorruptIndexException e) {
-			LOGGER.error("Currupted Index exception happened. " + e.getLocalizedMessage());
+			LOGGER.error("Currupted Index exception happened. ", e);
 		} catch (IOException e) {
-			LOGGER.error("IOException had happen:" + e.getLocalizedMessage());
+			LOGGER.error("IOException had happen:", e);
 		} finally {
 			IndexReader reader = searchRepository.getReader();
 			try {
 				reader.close();
 			} catch (IOException e) {
-				LOGGER.error("Error during closing of the index happened: " + e.getLocalizedMessage());
+				LOGGER.error("Error during closing of the index happened: ", e);
 			}
 		}
 	}

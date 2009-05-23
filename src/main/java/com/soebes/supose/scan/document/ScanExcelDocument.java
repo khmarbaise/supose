@@ -63,9 +63,9 @@ public class ScanExcelDocument extends AScanDocument {
 			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 			scan(str, path);
 		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: " + e);
+			LOGGER.error("Exception by SVN: ", e);
 		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with ExcelDocuments " + e);
+			LOGGER.error("Something has gone wrong with ExcelDocuments ", e);
 		}
 	}
 
@@ -81,12 +81,12 @@ public class ScanExcelDocument extends AScanDocument {
 			addTokenizedField(FieldNames.CONTENTS, handler.toString());
 			
 		} catch (Exception e) {
-			LOGGER.error("We had an exception: " + e);
+			LOGGER.error("We had an exception: ", e);
 		} finally {
 			try {
 				in.close();
 			} catch (Exception e) {
-				LOGGER.error("We had an exception during closing: " + e);
+				LOGGER.error("We had an exception during closing: ", e);
 			}
 		}
 	}

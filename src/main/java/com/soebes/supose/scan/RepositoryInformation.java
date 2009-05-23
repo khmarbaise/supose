@@ -40,7 +40,7 @@ public class RepositoryInformation {
 			LOGGER.debug("getInformationAboutEntry() name:" + path + " rev:" + revision);
 			dirEntry = repository.getRepository().info(path, revision);
 		} catch (SVNException e) {
-			LOGGER.error("Unexpected Exception: " + e);
+			LOGGER.error("Unexpected Exception: ", e);
 		}
 		return dirEntry;
 	}

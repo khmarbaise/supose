@@ -65,10 +65,10 @@ public class RepositoryJobConfiguration {
 				iniFile = new Ini(fin);
 				configData = iniFile.get(REPOSITORY_CONFIG_SECTION).as(IReposConfig.class);
 			} catch (InvalidFileFormatException e) {
-				LOGGER.error("The format of the given INI is not correct. " + e);
+				LOGGER.error("The format of the given INI is not correct. ", e);
 				throw e;
 			} catch (IOException e) {
-				LOGGER.error("Some problems happen with the INI File " + e);
+				LOGGER.error("Some problems happen with the INI File ", e);
 				throw e;
 			}
 		} else {
@@ -87,7 +87,7 @@ public class RepositoryJobConfiguration {
 					out.close();
 				}
 			} catch (Exception e) {
-				LOGGER.error("We had a problem to write the new configuration file " + e);
+				LOGGER.error("We had a problem to write the new configuration file ", e);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ public class RepositoryJobConfiguration {
 			out.close();
 			LOGGER.debug("Writing of new configuration file '" + getConfigFile() + "'sucessful.");
 		} catch (Exception e) {
-			LOGGER.error("Unexpected exception: " + e);
+			LOGGER.error("Unexpected exception: ", e);
 		}
 	}
 

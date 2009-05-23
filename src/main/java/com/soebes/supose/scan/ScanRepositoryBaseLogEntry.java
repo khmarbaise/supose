@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import org.tmatesoft.svn.core.SVNLogEntry;
 
-public class ScanRepositoryBaseLogEntry implements LogEntryInterceptor {
+import com.soebes.supose.scan.interceptors.LogEntryInterceptor;
+
+public class ScanRepositoryBaseLogEntry extends ScanRepositoryBaseChangeSet implements LogEntryInterceptor {
 	private ArrayList<LogEntryInterceptor> logEntryInterceptors;
 
 	public ScanRepositoryBaseLogEntry() {
+		super();
 		setLogEntryInterceptors(new ArrayList<LogEntryInterceptor>());
 	}
 

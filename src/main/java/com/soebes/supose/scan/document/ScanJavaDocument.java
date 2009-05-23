@@ -54,9 +54,9 @@ public class ScanJavaDocument extends AScanDocument {
 
 			scanJavaFile(str);
 		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: " + e);
+			LOGGER.error("Exception by SVN: ", e);
 		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with JavaDocuments " + e);
+			LOGGER.error("Something has gone wrong with JavaDocuments ", e);
 		}
 		LOGGER.debug("Scanning of Java file done.");
 	}
@@ -87,7 +87,7 @@ public class ScanJavaDocument extends AScanDocument {
 				addTokenizedField(FieldNames.COMMENTS, item);
 			}
 		} catch (Exception e) {
-			LOGGER.error("We had an error during the parsing process." + e);
+			LOGGER.error("We had an error during the parsing process.", e);
 		}		
 	}
 }

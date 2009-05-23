@@ -92,7 +92,7 @@ public class Repository {
 			repository.testConnection();
 			setUuid(repository.getRepositoryUUID(false));
 		} catch (SVNException e) {
-			LOGGER.error("Connection to the repository has failed. URL or username/password is not correct. " + e.getMessage());
+			LOGGER.error("Connection to the repository has failed. URL or username/password is not correct. ", e);
 			return false;
 		}
 		LOGGER.info("Successfull connection made to the repository.");
@@ -116,7 +116,7 @@ public class Repository {
         } catch (SVNException svne) {
         	//This can only happen if we use a protocol which is not registered.
         	//Missing initialization of the library.
-        	LOGGER.error("Error while creationg SVNRepository for location '" + getUrl() + "' " + svne);
+        	LOGGER.error("Error while creationg SVNRepository for location '" + getUrl() + "' ", svne);
         }
 	}
 

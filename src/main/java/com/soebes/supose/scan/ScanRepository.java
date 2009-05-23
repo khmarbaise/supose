@@ -106,7 +106,7 @@ public class ScanRepository extends ScanRepositoryBase {
             LogEntryStop();
         } catch (SVNException svne) {
             LOGGER.error("error while collecting log information for '"
-                    + repository.getUrl() + "': " + svne);
+                    + repository.getUrl() + "'", svne);
             return;
         }
 
@@ -131,7 +131,7 @@ public class ScanRepository extends ScanRepositoryBase {
 					workOnChangeSet(writer, repository, logEntry);
 					scanEndRevision(logEntry.getRevision(), logEntry.getChangedPaths().size());
 				} catch (Exception e) {
-	            	LOGGER.error("Error during workOnChangeSet() " + e);
+	            	LOGGER.error("Error during workOnChangeSet() ", e);
 				}                
             } else {
             	LOGGER.debug("No changed paths found!");
@@ -171,6 +171,7 @@ public class ScanRepository extends ScanRepositoryBase {
 
 		int count = 0;
 		LOGGER.debug("Number of files for revision: " + changedPathsSet.size());
+		startIndexChangeSet();
 		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 			count ++;
 
@@ -215,15 +216,18 @@ public class ScanRepository extends ScanRepositoryBase {
 			SVNDirEntry dirEntry = tbr.getEntryCache().getEntry(logEntry.getRevision(), entryPath.getPath());
 
 			try {
+				beginIndexChangeSetItem(dirEntry);
 				indexFile(doc, indexWriter, dirEntry, repository, logEntry, entryPath);
+				endIndexChangeSetItem(dirEntry);
 			} catch (IOException e) {
-				LOGGER.error("IOExcepiton: " + e);
+				LOGGER.error("IOExcepiton: ", e);
 			} catch (SVNException e) {
-				LOGGER.error("SVNExcepiton: " + e);
+				LOGGER.error("SVNExcepiton: ", e);
 			} catch (Exception e) {
-				LOGGER.error("something wrong: " + e);
+				LOGGER.error("something wrong: ", e);
 			}
 		}
+		stopIndexChangeSet();
 	}
 
 	protected void addTokenizedField(Document doc, String fieldName, String value) {

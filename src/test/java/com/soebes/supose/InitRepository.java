@@ -133,9 +133,9 @@ public class InitRepository extends TestBase {
 			indexWriter.optimize();
 			indexWriter.close();
 		} catch (CorruptIndexException e) {
-			LOGGER.error("CorruptIndexException: Error during optimization of index: " + e);
+			LOGGER.error("CorruptIndexException: Error during optimization of index: ", e);
 		} catch (IOException e) {
-			LOGGER.error("IOException: Error during optimization of index: " + e);
+			LOGGER.error("IOException: Error during optimization of index: ", e);
 		}
 	}
 	

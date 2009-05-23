@@ -92,11 +92,11 @@ public class SearchRepository {
 	        TopDocs tmp = searcher.search(query, null, 20, sort);
 		    result = searcher.search(query, null, tmp.totalHits, sort);
 	    } catch (CorruptIndexException e) {
-			LOGGER.error("Error: The index is corrupted: " + e);
+			LOGGER.error("Error: The index is corrupted: ", e);
 	    } catch (IOException e) {
-			LOGGER.error("Error: IOException: " + e);
+			LOGGER.error("Error: IOException: ", e);
 		} catch (Exception e) {
-			LOGGER.error("Error: Something has gone wrong: " + e);
+			LOGGER.error("Error: Something has gone wrong: ", e);
 		}
 		return result;
 	}
