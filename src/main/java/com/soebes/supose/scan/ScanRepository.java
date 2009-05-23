@@ -103,11 +103,12 @@ public class ScanRepository extends ScanRepositoryBase {
                 	LogEntry(logEntry);
                 }
             });
-            LogEntryStop();
         } catch (SVNException svne) {
             LOGGER.error("error while collecting log information for '"
                     + repository.getUrl() + "'", svne);
             return;
+        } finally {
+        	LogEntryStop();
         }
 
         LOGGER.debug("We have " + logEntries.size() + " change sets to scan.");
@@ -129,10 +130,11 @@ public class ScanRepository extends ScanRepositoryBase {
 				try {
 					scanBeginRevision(logEntry.getRevision(), logEntry.getChangedPaths().size());
 					workOnChangeSet(writer, repository, logEntry);
-					scanEndRevision(logEntry.getRevision(), logEntry.getChangedPaths().size());
 				} catch (Exception e) {
 	            	LOGGER.error("Error during workOnChangeSet() ", e);
-				}                
+				} finally {
+					scanEndRevision(logEntry.getRevision(), logEntry.getChangedPaths().size());
+				}
             } else {
             	LOGGER.debug("No changed paths found!");
             }
@@ -218,13 +220,14 @@ public class ScanRepository extends ScanRepositoryBase {
 			try {
 				beginIndexChangeSetItem(dirEntry);
 				indexFile(doc, indexWriter, dirEntry, repository, logEntry, entryPath);
-				endIndexChangeSetItem(dirEntry);
 			} catch (IOException e) {
 				LOGGER.error("IOExcepiton: ", e);
 			} catch (SVNException e) {
 				LOGGER.error("SVNExcepiton: ", e);
 			} catch (Exception e) {
 				LOGGER.error("something wrong: ", e);
+			} finally {
+				endIndexChangeSetItem(dirEntry);
 			}
 		}
 		stopIndexChangeSet();
