@@ -269,9 +269,13 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>org.antlr</groupId>
 				<artifactId>antlr3-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>3.1.3-1</version>
+				<configuration>
+					<sourceDirectory>src/main/antlr/grammars</sourceDirectory>
+					<outputDirectory>target/generated-sources/antlr/grammars</outputDirectory>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -595,8 +599,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
-			<artifactId>antlr</artifactId>
-			<version>3.0</version>
+			<artifactId>antlr-runtime</artifactId>
+			<version>3.1.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tika</groupId>
