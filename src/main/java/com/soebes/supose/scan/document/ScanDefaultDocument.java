@@ -73,7 +73,7 @@ public class ScanDefaultDocument extends AScanDocument {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with WordDocuments ", e);
+			LOGGER.error("Something has gone wrong with DefaultDocuments", e);
 		}
 	}
 	
