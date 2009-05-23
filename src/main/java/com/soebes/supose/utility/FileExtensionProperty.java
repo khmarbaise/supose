@@ -55,6 +55,7 @@ public class FileExtensionProperty {
 	public String getProperty(String propName) {
 		String s = properties.getProperty(propName);
 		if (s == null || s.length() == 0) {
+//FIXME: Create our own Exception class for this. Must be fixed in FileExtensionHandler as well			
 			throw new RuntimeException("The Property " + propName + " does not exist.");
 		}
 		return s;
