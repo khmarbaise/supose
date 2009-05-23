@@ -14,12 +14,12 @@ public class CLIInterceptor implements ScanInterceptor{
 		//Nothing will be done at the end.
 	}
 	public void scanBeginRevision(Long revision, Integer changeSetSize) {
-		//We will do nothing.
+		Long div = revision *100 / numberOfRevisions;
+		System.out.printf("%3d %% of %7d (Changeset size: %3d) (Rev:%7d)    \r", div, numberOfRevisions, changeSetSize, revision);
 	}
 	
 	public void scanEndRevision(Long revision, Integer changeSetSize) {
-		Long div = revision *100 / numberOfRevisions;
-		System.out.printf("%3d %% of %7d (Changeset size: %3d) (Rev:%7d)    \r", div, numberOfRevisions, changeSetSize, revision);
+		//We will do nothing.
 	}
 
 }
