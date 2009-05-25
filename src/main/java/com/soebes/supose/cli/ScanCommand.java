@@ -54,6 +54,7 @@ public class ScanCommand extends CLIBase {
     	optionURL = obuilder
     		.withShortName("U")
     		.withLongName("url")
+    		.withRequired(true)
     		.withArgument(
     			abuilder
     			.withName("url")

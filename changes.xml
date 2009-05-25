@@ -20,6 +20,9 @@
 			<action dev="Karl Heinz Marbaise" type="fix">
 				Removed deprected calls to IndexWriter constructors.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="150">
+				The scan command is not possible without an --url option.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="165">
 				During the command line scan we log information on the console.
 			</action>
