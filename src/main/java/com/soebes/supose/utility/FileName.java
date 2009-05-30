@@ -62,13 +62,16 @@ public class FileName {
     	}
 
     	File f = new File(fileName);
-    	if (!isDir) {
-    		setBaseName(f.getName());
-    	} else {
+    	if (isDir) {
+    		if (!fileName.endsWith("/")) {
+    			fileName += "/";
+    		}
     		setPath(fileName);
+    	} else {
+    		setBaseName(f.getName());
     	}
 
-    	if (getBaseName().lastIndexOf('.') > 0) {
+    	if (getBaseName().lastIndexOf('.') >= 0) {
     		setExt(getBaseName().substring(getBaseName().lastIndexOf('.') + 1));
     		setPath(fileName.substring(0, fileName.length() - getBaseName().length()));
     	}

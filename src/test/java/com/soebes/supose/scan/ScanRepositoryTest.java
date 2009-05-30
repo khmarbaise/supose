@@ -212,7 +212,7 @@ public class ScanRepositoryTest extends TestBase {
 	@Test
 	public void testQueryForBranchPath() {
 		TopDocs result = searchRepository.getQueryResult("+path:*/branches/*");
-		assertEquals(result.totalHits, 6);
+		assertEquals(result.totalHits, 7);
 	}
 
 	@Test
@@ -261,7 +261,7 @@ public class ScanRepositoryTest extends TestBase {
 
 		Field pathField  = searchForField(hit, FieldNames.PATH);
 		assertNotNull(pathField, "We have expected to find the " + FieldNames.PATH + " field.");
-		assertEquals(pathField.stringValue(), "/project1/tags/release-0.0.1", "We have expected to get an particular path value");
+		assertEquals(pathField.stringValue(), "/project1/tags/release-0.0.1/", "We have expected to get an particular path value");
 	}
 	
 }
