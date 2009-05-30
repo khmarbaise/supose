@@ -18,7 +18,7 @@
 				as usual text files.
 			</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="202">
-				Problem to identify .project/.classpath as file has been fixed.
+				Problem to identify .project/.classpath as file extensions has now been fixed.
 			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="203">
 				Now we have different packages for Unix and Windows
