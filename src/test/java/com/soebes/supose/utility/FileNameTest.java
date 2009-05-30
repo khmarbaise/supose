@@ -26,6 +26,8 @@ package com.soebes.supose.utility;
 
 import static org.testng.Assert.assertEquals;
 
+import java.io.File;
+
 import org.testng.annotations.Test;
 
 /**
@@ -115,4 +117,14 @@ public class FileNameTest {
 		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
 		assertEquals(fn.getPath(), "/tags/1.5.o-beta1", "The path is not as expected.");
 	}
+	
+	public void testF90() {
+		String fileName = "/branches/B_0.4.0/.project";
+		FileName fn = new FileName(fileName, false);
+		assertEquals(fn.getExt(), ".project", "The extension is not as expected.");
+		assertEquals(fn.getBaseName(), "", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/branches/B_0.4.0", "The path is not as expected.");
+	}
+	
 }

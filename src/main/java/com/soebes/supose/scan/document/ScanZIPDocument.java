@@ -77,7 +77,7 @@ public class ScanZIPDocument extends AScanDocument {
 			addTokenizedField(FieldNames.CONTENTS, handler.toString());
 
 		} catch (Exception e) {
-			LOGGER.error("We had an exception: ", e);
+			LOGGER.error("We had an exception(" + path + "): ", e);
 		} finally {
 			try {
 				in.close();

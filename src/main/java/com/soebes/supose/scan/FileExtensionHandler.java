@@ -65,6 +65,8 @@ public class FileExtensionHandler {
 					LOGGER.error("Cannot create an instance of : " + className, e);
 				} catch (IllegalAccessException e) {
 					LOGGER.error("Illegal Access of instance of : " + className, e);
+				} catch (Exception e) {
+					LOGGER.error("Exception happened during scanning of " + dirEntry.getName() + " for class " + className, e);
 				}
 			} catch (Exception e) {
 				//There is no entry for the extension so we use the default
