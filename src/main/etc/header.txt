@@ -1,4 +1,4 @@
-The (S)ubversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
+The (Su)bversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
 
 Copyright (c) ${year} by SoftwareEntwicklung Beratung Schulung (SoEBeS)
 Copyright (c) ${year} by Karl Heinz Marbaise
