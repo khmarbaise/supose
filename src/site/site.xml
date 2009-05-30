@@ -59,6 +59,8 @@
 				<item name="Files" href="/commandline-search-files.html"/>
 				<item name="Paths" href="/commandline-search-path.html"/>
 				<item name="Tags/Branches" href="/commandline-search-tagsbranches.html"/>
+				<item name="Contents" href="/commandline-search-contents.html"/>
+				<item name="Revisions" href="/commandline-search-revisions.html"/>
 			</item>
 			<item name="Scheduling" href="/commandline-schedule.html"/>
 			<item name="Merging" href="/commandline-merge.html"/>

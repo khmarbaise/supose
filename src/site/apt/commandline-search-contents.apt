@@ -23,28 +23,31 @@
 ~~ just write an email to license@soebes.de
 ~~
 
-Features of SupoSE
+{Searching for Content}
 
-* Scanning
+  If you like to search for contents of files you can use the <<<contents>>>
+  field which contains the content of the files.
 
-  * Scanning of a single Repository.
+  By using the <<<contents>>> field within the search query you 
+  now define the pattern you would like search for. The pattern
+  can contain wildcard as you might expect they to work e.g.
+  known by the command line.
 
-  * Scanning of multiple Repositories.
+  The following query will find all entries which contain the word
+  <<<Company>>> in the contents field of all revisions in all paths.
 
-  * Scanning on a scheduled base.
++--
++contents:Company
++--
 
-* Searching
+  If you like to search multiple words you can simply use the following: 
 
-  * Searching in one or multiple repositories.
++--
++contents:Word +contents:Word2
++--
 
-  * Search for {{{./commandline-search-files.html}filenames}}.
+  If you need to search for a particular phrase you can use this:
 
-  * Search for {{{./commandline-search-path.html}paths}}.
-
-  * Search for {{{./commandline-search-contents.html}contents of files}}.
-
-  * You can search for {{{./commandline-search-revisions.html}particular revisions or revision ranges}}.
-
-  * You can search for property names and for their contents.
-
-  * You can search if items have been added,modified,deleted or replaced.
++--
++contents:"This is the Phrase"
++--

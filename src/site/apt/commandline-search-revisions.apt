@@ -23,28 +23,32 @@
 ~~ just write an email to license@soebes.de
 ~~
 
-Features of SupoSE
+{Searching in Revisions}
 
-* Scanning
+  If you like to search for particular revisions in the repository 
+  you can use the <<<revision>>> field which contains the revision 
+  number of the repository.
 
-  * Scanning of a single Repository.
+  The following query will find all entries which are related to
+  revision 20 in the repository. This is more or less equivalent to
+  <<<svn log -r 20 URL -v>>>.
 
-  * Scanning of multiple Repositories.
++--
++revision:20
++--
 
-  * Scanning on a scheduled base.
+  If you like to use multiple revisions you can simply use:
 
-* Searching
++--
++revision:20 +revision:30
++--
 
-  * Searching in one or multiple repositories.
 
-  * Search for {{{./commandline-search-files.html}filenames}}.
+  If you like to use a revision range you can use the following which
+  is more or less equivalent to <<<svn log -r1:200 -v URL>>>.
 
-  * Search for {{{./commandline-search-path.html}paths}}.
++--
++revision:[1 TO 200]
++--
 
-  * Search for {{{./commandline-search-contents.html}contents of files}}.
-
-  * You can search for {{{./commandline-search-revisions.html}particular revisions or revision ranges}}.
-
-  * You can search for property names and for their contents.
-
-  * You can search if items have been added,modified,deleted or replaced.
+  This will search in the revisions from 1 till 200.
