@@ -24,22 +24,38 @@
     just write an email to license@soebes.de
 
 -->
-<assembly>
-	<id>bin</id>
-	<formats>
-		<format>zip</format>
-	</formats>
-	<componentDescriptors>
-		<componentDescriptor>src/main/assembly/bin-component.xml</componentDescriptor>
-	</componentDescriptors>
+<component>
+	<baseDirectory>${artifactId}-${version}</baseDirectory>
+	<includeSiteDirectory>false</includeSiteDirectory>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>	
 	<fileSets>
 		<fileSet>
-			<directory>${project.build.directory}/appassembler/bin</directory>
-			<outputDirectory>bin</outputDirectory>
+			<directory>src/main/resources</directory>
+			<outputDirectory>etc</outputDirectory>
 			<includes>
-				<include>supose.bat</include>
+				<include>log4j.properties</include>
+				<include>fileextension.properties</include>
 			</includes>
 		</fileSet>
+		<fileSet>
+			<includes>
+				<include>search-examples.txt</include>
+			</includes>
+			<excludes>
+				<exclude>*.log</exclude>
+				<exclude>bin/**</exclude>
+				<exclude>build/**</exclude>
+				<exclude>dist/**</exclude>
+				<exclude>test-output/**</exclude>
+				<exclude>**/target/**</exclude>
+			</excludes>
+		</fileSet>
 	</fileSets>
-</assembly>
+</component>
 

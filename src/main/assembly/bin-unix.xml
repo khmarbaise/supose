@@ -25,9 +25,9 @@
 
 -->
 <assembly>
-	<id>bin</id>
+	<id>bin-unix</id>
 	<formats>
-		<format>zip</format>
+		<format>tar.gz</format>
 	</formats>
 	<componentDescriptors>
 		<componentDescriptor>src/main/assembly/bin-component.xml</componentDescriptor>
@@ -36,8 +36,9 @@
 		<fileSet>
 			<directory>${project.build.directory}/appassembler/bin</directory>
 			<outputDirectory>bin</outputDirectory>
+			<fileMode>0755</fileMode>
 			<includes>
-				<include>supose.bat</include>
+				<include>supose</include>
 			</includes>
 		</fileSet>
 	</fileSets>
