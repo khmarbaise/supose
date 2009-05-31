@@ -28,14 +28,19 @@ import com.soebes.supose.scan.interceptors.ScanInterceptor;
 
 public class CLIInterceptor implements ScanInterceptor{
 	private Integer numberOfRevisions;
+	private Long startTime;
+	private Long stopTime;
 
 	public void scanStart(Integer revision) {
+		startTime = System.currentTimeMillis();
 		numberOfRevisions = revision;
-		System.out.println("We will scan " + revision);
+		System.out.println("We will scan " + revision + " revisions.");
 	}
 	
 	public void scanStop() {
 		//Nothing will be done at the end.
+		stopTime = System.currentTimeMillis();
+		System.out.println("We have taken " + (stopTime-startTime) + " ms for " + numberOfRevisions + " revisions.");
 	}
 	public void scanBeginRevision(Long revision, Integer changeSetSize) {
 		Long div = revision *100 / numberOfRevisions;
