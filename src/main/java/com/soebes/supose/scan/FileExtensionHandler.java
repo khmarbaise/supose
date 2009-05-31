@@ -75,7 +75,7 @@ public class FileExtensionHandler {
 				indexDefaultDoc(repository, dirEntry, path, revision);
 			}
 		} else {
-			LOGGER.warn("We have no file extension found for the file '" + path + "'");
+			LOGGER.warn("We have no file extension found for the file '" + path + "' (r" + dirEntry.getRevision() + ")");
 			indexDefaultDoc(repository, dirEntry, path, revision);
 		}
 	}
