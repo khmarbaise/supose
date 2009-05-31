@@ -30,6 +30,10 @@ import java.io.ByteArrayOutputStream;
 import org.apache.log4j.Logger;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.CompositeParser;
+import org.apache.tika.parser.EmptyParser;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.pkg.PackageParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
@@ -39,21 +43,21 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
 
 /**
- * This class will scan an ODT document.
- * 
- * This is usually an OpenOffice file (Table).
+ * This class will scan an archive only with the file names
+ * in the archive. But it will not scan the contents of the archived
+ * files their self.
  * 
  * @author Karl Heinz Marbaise
  */
-public class ScanTARDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanTARDocument.class);
+public class ScanArchiveDocument extends AScanDocument {
+	private static Logger LOGGER = Logger.getLogger(ScanArchiveDocument.class);
 
-	public ScanTARDocument() {
+	public ScanArchiveDocument() {
 	}
 
 	@Override
 	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning TAR document");
+		LOGGER.debug("Scanning archive document");
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			//This means we get the contents of the file only. No properties.
@@ -71,9 +75,14 @@ public class ScanTARDocument extends AScanDocument {
 		try {
 			Metadata metadata = new Metadata();
 			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
-			AutoDetectParser parser = new AutoDetectParser();
+			CompositeParser composite = new AutoDetectParser();
+		    for (Parser parser : composite.getParsers().values()) {
+		        if (parser instanceof PackageParser) {
+		            ((PackageParser) parser).setParser(new EmptyParser());
+		        }
+		    }
 			DefaultHandler handler = new BodyContentHandler();
-			parser.parse(in, handler, metadata);
+			composite.parse(in, handler, metadata);
 			addTokenizedField(FieldNames.CONTENTS, handler.toString());
 
 		} catch (Exception e) {

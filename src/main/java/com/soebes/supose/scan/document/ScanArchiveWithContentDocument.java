@@ -39,21 +39,23 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
 
 /**
- * This class will scan an ODT document.
+ * This class will scan an archive with its contents.
+ * This will increase the scanning time of a repository dramatically.
  * 
- * This is usually an OpenOffice file (Table).
+ * This means the contents of files which are inside an archive (e.g. tar.gz etc.)
+ * will be extracted and the contents will be indexed into the contents field.
  * 
  * @author Karl Heinz Marbaise
  */
-public class ScanZIPDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanZIPDocument.class);
+public class ScanArchiveWithContentDocument extends AScanDocument {
+	private static Logger LOGGER = Logger.getLogger(ScanArchiveWithContentDocument.class);
 
-	public ScanZIPDocument() {
+	public ScanArchiveWithContentDocument() {
 	}
 
 	@Override
 	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning ZIP document");
+		LOGGER.debug("Scanning archive with content");
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			//This means we get the contents of the file only. No properties.
@@ -63,7 +65,7 @@ public class ScanZIPDocument extends AScanDocument {
 		} catch (SVNException e) {
 			LOGGER.error("Exception by SVN: ", e);
 		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with ZIP File " + path + " (r" + dirEntry.getRevision() + ")", e);
+			LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
 		}
 	}
 

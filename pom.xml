@@ -7,7 +7,7 @@
 
 	<name>Subversion Repository Search Engine</name>
 	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
-		into an Lucene Index to do search queris on it later.</description>
+		into an Lucene Index to do search queries on it later.</description>
 	<url>http://www.supose.org</url>
 	<licenses>
 		<license>
@@ -216,6 +216,7 @@
 						<descriptor>src/main/assembly/bin-unix.xml</descriptor>
 						<descriptor>src/main/assembly/src.xml</descriptor>
 					</descriptors>
+					<tarLongFileMode>gnu</tarLongFileMode>
 				</configuration>
 				<executions>
 					<execution>

@@ -14,6 +14,10 @@
 				<fixes issue="190"/>
 			</action>
 			<action dev="Karl Heinz Marbaise" type="add">
+				Now you can decide to scan the contents of archive files or not by
+				changing the fileextension.properties files to appropiate values.
+			</action>
+			<action dev="Karl Heinz Marbaise" type="add">
 				Added .c, .h, .m4, .texi, .po file extensions. They will handled
 				as usual text files.
 			</action>
