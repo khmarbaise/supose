@@ -58,7 +58,7 @@ public class ScanWordDocument extends AScanDocument {
 			repository.getRepository().getFile(path, revision, null, baos);
 			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
 
-			scan(str, path);
+			scan(str, path, dirEntry);
 		} catch (SVNException e) {
 			LOGGER.error("Exception by SVN: ", e);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class ScanWordDocument extends AScanDocument {
 	}
 
 	
-	private void scan(ByteArrayInputStream in, String path) {
+	private void scan(ByteArrayInputStream in, String path, SVNDirEntry dirEntry) {
 		try {
 			Metadata metadata = new Metadata();
 			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
@@ -79,7 +79,7 @@ public class ScanWordDocument extends AScanDocument {
 			//like AUTHOR, KEYWORDS etc.
 			addTokenizedField(FieldNames.CONTENTS, handler.toString());
 		} catch (Exception e) {
-			LOGGER.error("We had an exception: ", e);
+			LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
 		} finally {
 			try {
 				in.close();

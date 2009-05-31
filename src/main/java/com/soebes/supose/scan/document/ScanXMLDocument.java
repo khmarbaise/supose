@@ -57,15 +57,15 @@ public class ScanXMLDocument extends AScanDocument {
 			//This means we get the contents of the file only. No properties.
 			repository.getRepository().getFile(path, revision, null, baos);
 			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
-			scan(str, path);
+			scan(str, path, dirEntry);
 		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: ", e);
+			LOGGER.error("Exception by SVN " + path + " (r" + dirEntry.getRevision() + ")", e);
 		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with ExcelDocuments ", e);
+			LOGGER.error("Other Exception with the XML document " + path + " (r" + dirEntry.getRevision() + ")", e);
 		}
 	}
 
-	private void scan(ByteArrayInputStream in, String path) {
+	private void scan(ByteArrayInputStream in, String path, SVNDirEntry dirEntry) {
 		try {
 			Metadata metadata = new Metadata();
 			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
@@ -74,7 +74,7 @@ public class ScanXMLDocument extends AScanDocument {
 			parser.parse(in, handler, metadata);
 			addTokenizedField(FieldNames.CONTENTS, handler.toString());
 		} catch (Exception e) {
-			LOGGER.error("We had an exception: ", e);
+			LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
 		} finally {
 			try {
 				in.close();
