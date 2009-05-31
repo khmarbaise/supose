@@ -75,6 +75,8 @@ public class ScanArchiveDocument extends AScanDocument {
 		try {
 			Metadata metadata = new Metadata();
 			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+			//The following code part is from an proposal of the Authors of Tika:
+			//https://issues.apache.org/jira/browse/TIKA-232
 			CompositeParser composite = new AutoDetectParser();
 		    for (Parser parser : composite.getParsers().values()) {
 		        if (parser instanceof PackageParser) {
