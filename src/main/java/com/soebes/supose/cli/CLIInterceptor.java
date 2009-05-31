@@ -40,6 +40,7 @@ public class CLIInterceptor implements ScanInterceptor{
 	public void scanStop() {
 		//Nothing will be done at the end.
 		stopTime = System.currentTimeMillis();
+		System.out.println("");
 		System.out.println("We have taken " + (stopTime-startTime) + " ms for " + numberOfRevisions + " revisions.");
 	}
 	public void scanBeginRevision(Long revision, Integer changeSetSize) {

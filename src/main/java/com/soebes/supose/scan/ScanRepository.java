@@ -178,30 +178,7 @@ public class ScanRepository extends ScanRepositoryBase {
 			count ++;
 
 			Document doc = new Document();
-			if (res != null) {
-				switch (res.getType()) {
-					case BRANCH:
-						addUnTokenizedField(doc, FieldNames.BRANCH, res.getName());
-						break;
-					case TAG:
-						addUnTokenizedField(doc, FieldNames.TAG, res.getName());
-						switch(res.getTagType()) {
-							case NONE:
-								break;
-							case TAG: //We already have it marked as Tag.
-								break;
-							case MAVENTAG:
-								addUnTokenizedField(doc, FieldNames.MAVENTAG, res.getName());
-								break;
-							case SUBVERSIONTAG:
-								addUnTokenizedField(doc, FieldNames.SUBVERSIONTAG, res.getName());
-								break;
-						}
-						break;
-					default:
-						break;
-				}
-			}
+			addTagBranchToDoc(res, doc);
 
 			//It is needed to check it in every entry 
 			//This will result in making entries for every record of the ChangeSet.
@@ -231,6 +208,33 @@ public class ScanRepository extends ScanRepositoryBase {
 			}
 		}
 		stopIndexChangeSet();
+	}
+
+	private void addTagBranchToDoc(TagBranch res, Document doc) {
+		if (res != null) {
+			switch (res.getType()) {
+				case BRANCH:
+					addUnTokenizedField(doc, FieldNames.BRANCH, res.getName());
+					break;
+				case TAG:
+					addUnTokenizedField(doc, FieldNames.TAG, res.getName());
+					switch(res.getTagType()) {
+						case NONE:
+							break;
+						case TAG: //We already have it marked as Tag.
+							break;
+						case MAVENTAG:
+							addUnTokenizedField(doc, FieldNames.MAVENTAG, res.getName());
+							break;
+						case SUBVERSIONTAG:
+							addUnTokenizedField(doc, FieldNames.SUBVERSIONTAG, res.getName());
+							break;
+					}
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	protected void addTokenizedField(Document doc, String fieldName, String value) {
