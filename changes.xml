@@ -17,6 +17,9 @@
 				Added .c, .h, .m4, .texi, .po file extensions. They will handled
 				as usual text files.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="update">
+				Updated the dependency for commons-cli2 with an classifier.	
+			</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="202">
 				Problem to identify .project/.classpath as file extensions has now been fixed.
 			</action>

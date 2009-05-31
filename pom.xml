@@ -544,11 +544,18 @@
 		</site>
 	</distributionManagement>
 
-    <dependencies>
+	<dependencies>
+		<!-- This dependency must be installed in you local repository or in you
+			 repository manager, cause it's not officially made public!
+			 http://commons.apache.org/sandbox/cli2/index.html
+			 Description how to use it can be found here:
+			 http://www.supose.org/wiki/supose/Requirement
+		-->
         <dependency>
             <groupId>org.apache.commons</groupId>
-            <artifactId>commons-cli</artifactId>
-			<version>2.0-DEV</version>
+			<artifactId>commons-cli2</artifactId>
+			<version>2.0</version>
+			<classifier>dev</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
