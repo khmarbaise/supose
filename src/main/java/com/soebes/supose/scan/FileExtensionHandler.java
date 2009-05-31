@@ -71,7 +71,7 @@ public class FileExtensionHandler {
 			} catch (Exception e) {
 				//There is no entry for the extension so we use the default
 				//scanner for all other document types.
-				LOGGER.warn("There is no property entry defined for the file extension '" + fn.getExt() + "'");
+				LOGGER.warn("There is no property entry defined for the file extension '" + fn.getExt() + "' (" + dirEntry.getRevision() + ")", e);
 				indexDefaultDoc(repository, dirEntry, path, revision);
 			}
 		} else {
