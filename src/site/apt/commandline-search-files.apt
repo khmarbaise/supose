@@ -70,12 +70,11 @@
 +filename:*.doc
 +--
 
-    or if yu are litte more up-to-day you might use 2007 office files (.docx)
+    or if you are a little bit more up-to-day you might use 2007 office files (.docx)
 
 +--
 +filename:*.docx
 +--
-
 
     If you know only parts of your filename you are searching for just
     simply define those parts in the query. The following query
