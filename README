@@ -1,17 +1,7 @@
 Building SupoSE
 
-Currently the commons-cli-2.0 is not released officially.
-I have take a checkout from ASF and build a jar file myself.
-Currently there is no SNAPSHOT Release nor an beta release
-in any Maven 2 Repository available.
-So you have to install it in your local repository before
-you can build SupoSE via Maven.
+If you like to build SupoSE from source you have to
+be aware of the following site:
 
-The next things you have to download the SVNKit Release from www.svnkit.com
-and deploy the given files into your locale repository or may be in your
-repository manager.
-
-It's needed to extract the svnkit.jar from the org.tmatesoft.svn_1.2.2.maven.zip 
-file which is distributed by TMate Software as a download. 
-http://www.svnkit.com/download.php
+http://www.supose.org/wiki/supose/Requirement
 
