@@ -26,11 +26,13 @@ package com.soebes.supose.scan;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.tmatesoft.svn.core.SVNDirEntry;
 
 import com.soebes.supose.scan.interceptors.ChangeSetInterceptor;
 
 public class ScanRepositoryBaseChangeSet implements ChangeSetInterceptor {
+	private static Logger LOGGER = Logger.getLogger(ScanRepositoryBaseChangeSet.class);
 	private ArrayList<ChangeSetInterceptor> changeSetInterceptors;
 
 	public ScanRepositoryBaseChangeSet() {
@@ -38,24 +40,28 @@ public class ScanRepositoryBaseChangeSet implements ChangeSetInterceptor {
 	}
 
 	public void beginIndexChangeSetItem(SVNDirEntry dirEntry) {
+		LOGGER.info("beginIndexChangeSetItem()");
 		for (ChangeSetInterceptor item : getChangeSetInterceptors()) {
 			item.beginIndexChangeSetItem(dirEntry);
 		}
 	}
 
 	public void endIndexChangeSetItem(SVNDirEntry dirEntry) {
+		LOGGER.info("endIndexChangeSetItem()");
 		for (ChangeSetInterceptor item : getChangeSetInterceptors()) {
 			item.endIndexChangeSetItem(dirEntry);
 		}
 	}
 
 	public void startIndexChangeSet() {
+		LOGGER.info("startIndexChangeSet()");
 		for (ChangeSetInterceptor item : getChangeSetInterceptors()) {
 			item.startIndexChangeSet();
 		}
 	}
 
 	public void stopIndexChangeSet() {
+		LOGGER.info("stopIndexChangeSet()");
 		for (ChangeSetInterceptor item : getChangeSetInterceptors()) {
 			item.stopIndexChangeSet();
 		}

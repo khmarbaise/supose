@@ -39,7 +39,9 @@ public class CLIChangeSetInterceptor implements ChangeSetInterceptor {
 	}
 
 	public void endIndexChangeSetItem(SVNDirEntry dirEntry) {
-		System.out.printf("\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010");
+		if (dirEntry != null) {
+			System.out.printf("\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010");
+		}
 		counter++;
 	}
 

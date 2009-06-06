@@ -26,11 +26,13 @@ package com.soebes.supose.scan;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.tmatesoft.svn.core.SVNLogEntry;
 
 import com.soebes.supose.scan.interceptors.LogEntryInterceptor;
 
 public class ScanRepositoryBaseLogEntry extends ScanRepositoryBaseChangeSet implements LogEntryInterceptor {
+	private static Logger LOGGER = Logger.getLogger(ScanRepositoryBaseLogEntry.class);
 	private ArrayList<LogEntryInterceptor> logEntryInterceptors;
 
 	public ScanRepositoryBaseLogEntry() {
@@ -39,18 +41,21 @@ public class ScanRepositoryBaseLogEntry extends ScanRepositoryBaseChangeSet impl
 	}
 
 	public void LogEntryStart() {
+		LOGGER.info("LogEntryStart()");
 		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
 			item.LogEntryStart();
 		}
 	}
 
 	public void LogEntry(SVNLogEntry logEntry) {
+		LOGGER.info("LogEntry()");
 		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
 			item.LogEntry(logEntry);
 		}
 	}
 
 	public void LogEntryStop() {
+		LOGGER.info("LogEntryStop()");
 		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
 			item.LogEntryStop();
 		}

@@ -113,6 +113,7 @@ public class ScanRepository extends ScanRepositoryBase {
 
         LOGGER.debug("We have " + logEntries.size() + " change sets to scan.");
         scanStart(logEntries.size());
+        long count = 1;
         for (Iterator entries = logEntries.iterator(); entries.hasNext();) {
             SVNLogEntry logEntry = (SVNLogEntry) entries.next();
 
@@ -128,12 +129,13 @@ public class ScanRepository extends ScanRepositoryBase {
             	
             	LOGGER.debug("changed paths:");
 				try {
-					scanBeginRevision(logEntry.getRevision(), logEntry.getChangedPaths().size());
+					scanBeginRevision(count, logEntry.getRevision(), logEntry.getChangedPaths().size());
 					workOnChangeSet(writer, repository, logEntry);
 				} catch (Exception e) {
 	            	LOGGER.error("Error during workOnChangeSet() ", e);
 				} finally {
-					scanEndRevision(logEntry.getRevision(), logEntry.getChangedPaths().size());
+					scanEndRevision(count, logEntry.getRevision(), logEntry.getChangedPaths().size());
+					count++;
 				}
             } else {
             	LOGGER.debug("No changed paths found!");

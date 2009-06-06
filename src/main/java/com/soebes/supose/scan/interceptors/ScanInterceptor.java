@@ -33,6 +33,6 @@ public interface ScanInterceptor {
 	 */
 	void scanStart(Integer revision);
 	void scanStop();
-	void scanBeginRevision(Long revision, Integer changeSetSize);
-	void scanEndRevision(Long revision, Integer changeSetSize);
+	void scanBeginRevision(Long count, Long revision, Integer changeSetSize);
+	void scanEndRevision(Long count, Long revision, Integer changeSetSize);
 }

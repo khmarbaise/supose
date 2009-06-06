@@ -5,6 +5,11 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.6.0.1 Bebhionn" date="2009-XX-XX" description="Bug Fix Release">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="206">
+				Fixed Bug in interceptors calculation of percentage rate.
+			</action>
+		</release>
 		<release version="0.6.0 Bebhionn" date="2009-06-01" description="Enhancement Release">
 			<action dev="Karl Heinz Marbaise" type="add">
 				We now can recognize Tags/Branches and Maven Tags and the information is stored

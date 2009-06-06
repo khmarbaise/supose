@@ -26,6 +26,8 @@ package com.soebes.supose.scan;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.soebes.supose.scan.interceptors.ScanInterceptor;
 
 /**
@@ -36,6 +38,7 @@ import com.soebes.supose.scan.interceptors.ScanInterceptor;
  *
  */
 public class ScanRepositoryBase extends ScanRepositoryBaseLogEntry implements ScanInterceptor {
+	private static Logger LOGGER = Logger.getLogger(ScanRepositoryBase.class);
 
 	private ArrayList<ScanInterceptor> interceptors;
 
@@ -44,26 +47,30 @@ public class ScanRepositoryBase extends ScanRepositoryBaseLogEntry implements Sc
 		setInterceptors(new ArrayList<ScanInterceptor>());
 	}
 
-	public void scanEndRevision(Long revision, Integer changeSetSize) {
+	public void scanEndRevision(Long count, Long revision, Integer changeSetSize) {
+		LOGGER.info("scanEndRevision()");
 		for (ScanInterceptor item : getInterceptors()) {
-			item.scanEndRevision(revision, changeSetSize);
+			item.scanEndRevision(count, revision, changeSetSize);
 		}
 	}
 
 	public void scanStart(Integer revision) {
+		LOGGER.info("scanStart()");
 		for (ScanInterceptor item : getInterceptors()) {
 			item.scanStart(revision);
 		}
 	}
 	public void scanStop() {
+		LOGGER.info("scanStop()");
 		for (ScanInterceptor item : getInterceptors()) {
 			item.scanStop();
 		}
 	}
 
-	public void scanBeginRevision(Long revision, Integer changeSetSize) {
+	public void scanBeginRevision(Long count, Long revision, Integer changeSetSize) {
+		LOGGER.info("scanBeginRevision()");
 		for (ScanInterceptor item : getInterceptors()) {
-			item.scanBeginRevision(revision, changeSetSize);
+			item.scanBeginRevision(count, revision, changeSetSize);
 		}
 	}
 
