@@ -5,7 +5,7 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
-		<release version="0.6.0 Bebhionn" date="2009-06-XX" description="Enhancement Release">
+		<release version="0.6.0 Bebhionn" date="2009-06-01" description="Enhancement Release">
 			<action dev="Karl Heinz Marbaise" type="add">
 				We now can recognize Tags/Branches and Maven Tags and the information is stored
 				into the index and can be queried.
