@@ -6,7 +6,10 @@
 	</properties>
 	<body>
 		<release version="0.6.0.1 Bebhionn" date="2009-XX-XX" description="Bug Fix Release">
-			<action dev="Karl Heinz Marbaise" type="fix" issue="208" due-to="Christian Dehning">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="209">
+				The PDFSUBJECT field has not been filled correctly. The PDFTITLE field was used instead.
+			</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="208">
 				Now the size information about a file will be stored into the index (FieldNames.SIZE).
 			</action>
 			<action dev="Karl Heinz Marbaise" type="add" issue="204" due-to="Christian Dehning">
