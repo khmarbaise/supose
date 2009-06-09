@@ -338,7 +338,8 @@ public class ScanRepository extends ScanRepositoryBase {
 				//The given entry is a file.
 				//This means we will get every file from the repository....
 				//Get only the properties of the file
-				
+
+				addTokenizedField(doc, FieldNames.SIZE, Long.toString(dirEntry.getSize()));
 				repository.getRepository().getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, null);
 				indexProperties(fileProperties, doc);
 
