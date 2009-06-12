@@ -105,7 +105,8 @@ public class SearchRepository {
 //							+ " Method:" + method.getName());
 						method.invoke(re, field.stringValue());
 					} else {
-						LOGGER.fatal("Method: " + field.name() + " NOT FOUND!");
+						//We assume we have found an field with an property.
+						re.addProperty(field.name(), field.stringValue());
 					}
 				}
 				resultList.add(re);

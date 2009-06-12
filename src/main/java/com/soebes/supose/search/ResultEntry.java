@@ -3,7 +3,8 @@ package com.soebes.supose.search;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResultEntry {
 
@@ -45,7 +46,11 @@ public class ResultEntry {
 
 	//What about properties ?
 	
-	private List<String> properties; //Things like svn:externals, svn:ignore etc.
+	private Map<String,String> properties; //Things like svn:externals, svn:ignore etc.
+
+	public ResultEntry() {
+		properties = new HashMap<String, String>();
+	}
 
 	public String getRepository() {
 		return repository;
@@ -239,12 +244,16 @@ public class ResultEntry {
 		this.comments = comments;
 	}
 
-	public List<String> getProperties() {
+	public Map<String, String> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<String> properties) {
+	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
+	}
+
+	public void addProperty(String name, String value) {
+		this.properties.put(name, value);
 	}
 
 	public void setPath(String path) {
