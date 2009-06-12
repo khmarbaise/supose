@@ -25,6 +25,7 @@
 package com.soebes.supose.scan;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -249,7 +250,8 @@ public class ScanRepository extends ScanRepositoryBase {
 		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 	private void addUnTokenizedField(Document doc, String fieldName, Date value) {
-		doc.add(new Field(fieldName,  value.toGMTString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss.SSS");
+		doc.add(new Field(fieldName,  sdf.format(value), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 	private void addUnTokenizedField(Document doc, String fieldName, Character value) {
 		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));

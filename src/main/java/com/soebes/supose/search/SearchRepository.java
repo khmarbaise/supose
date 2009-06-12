@@ -26,10 +26,16 @@
 package com.soebes.supose.search;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.QueryParser;
@@ -61,6 +67,61 @@ public class SearchRepository {
 		setIndexDirectory(indexDirectory);
 		setAnalyzer(new StandardAnalyzer());
 		setReader(null);
+	}
+
+	public Method getSetterByName(Class z, String name) {
+		Method[] methods = z.getMethods();
+		Method result = null;
+		for (Method method : methods) {
+			if (method.getName().toLowerCase().startsWith("set")) {
+				String m = method.getName().toLowerCase();
+				if (m.equals("set" + name.toLowerCase())) {
+//					System.out.println("MS:" + name);
+					result = method;
+				}
+			}
+		}
+		return result;
+	}
+	
+	
+	public List<ResultEntry> getResult(String queryLine) {
+		TopDocs result = getQueryResult(queryLine);
+		ArrayList<ResultEntry> resultList = new ArrayList<ResultEntry>();
+		
+		try {
+			for (int i = 0; i < result.scoreDocs.length; i++) {
+		    	Document hit = getSearcher().doc(result.scoreDocs[i].doc);
+				List<Field> fieldList = hit.getFields();
+				ResultEntry re = new ResultEntry();
+				for(int k=0; k<fieldList.size();k++) {
+					Field field = (Field) fieldList.get(k);
+					Method method = getSetterByName(re.getClass(), field.name());
+					if (method != null) {
+//						System.out.println(
+//							"-> Name:" + field.name() 
+//							+ " " + field.stringValue()
+//							+ " [" + field.getBinaryLength() + "] "
+//							+ " Method:" + method.getName());
+						method.invoke(re, field.stringValue());
+					} else {
+						LOGGER.fatal("Method: " + field.name() + " NOT FOUND!");
+					}
+				}
+				resultList.add(re);
+			}
+		} catch (CorruptIndexException e) {
+			LOGGER.fatal("CorrupIndexException", e);
+		} catch (IOException e) {
+			LOGGER.fatal("IOException", e);
+		} catch (IllegalArgumentException e) {
+			LOGGER.fatal("IllegalArgumentException", e);
+		} catch (IllegalAccessException e) {
+			LOGGER.fatal("IllegalAccessException", e);
+		} catch (InvocationTargetException e) {
+			LOGGER.fatal("InvocationTargetException", e);
+		}
+		return resultList;
 	}
 
 	public TopDocs getQueryResult(String queryLine) {
