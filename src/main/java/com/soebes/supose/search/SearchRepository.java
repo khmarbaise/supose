@@ -137,12 +137,12 @@ public class SearchRepository {
 	    	Searcher searcher = new IndexSearcher(reader);
 	    	setSearcher(searcher);
 	    	SortField[] sf = {
-	    		new SortField(FieldNames.REVISION),
-	    		new SortField(FieldNames.DFILENAME), //We use for sorting the display Filename
+	    		new SortField(FieldNames.REVISION.toString()),
+	    		new SortField(FieldNames.DFILENAME.toString()), //We use for sorting the display Filename
 	    	};
 	    	Sort sort = new Sort(sf);
 	    	//Here we define the default field for searching.
-	        QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, getAnalyzer());
+	        QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS.toString(), getAnalyzer());
 	        //We will allow using a wildcard at the beginning of the expression.
 	        parser.setAllowLeadingWildcard(true);
 	        //The search term will not be expanded to lowercase.

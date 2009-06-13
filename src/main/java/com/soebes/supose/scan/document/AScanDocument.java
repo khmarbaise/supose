@@ -33,6 +33,7 @@ import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNProperty;
 
+import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
 
 /**
@@ -76,11 +77,17 @@ public abstract class AScanDocument {
 		return doc;
 	}
 	
+	protected void addTokenizedField(FieldNames field, String value) {
+		doc.add(new Field(field.getValue(), value, Field.Store.YES, Field.Index.ANALYZED));
+	}
 	protected void addTokenizedField(String fieldName, String value) {
 		doc.add(new Field(fieldName, value, Field.Store.YES, Field.Index.ANALYZED));
 	}
 	protected void addTokenizedField(String fieldName, byte[] value) {
 		doc.add(new Field(fieldName, value, Field.Store.YES));
+	}
+	protected void addUnTokenizedField(FieldNames fieldName, String value) {
+		doc.add(new Field(fieldName.getValue(),  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 	protected void addUnTokenizedField(String fieldName, String value) {
 		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.NOT_ANALYZED));

@@ -240,21 +240,24 @@ public class ScanRepository extends ScanRepositoryBase {
 		}
 	}
 
+	protected void addTokenizedField(Document doc, FieldNames fieldName, String value) {
+		doc.add(new Field(fieldName.getValue(),  value, Field.Store.YES, Field.Index.ANALYZED));
+	}
 	protected void addTokenizedField(Document doc, String fieldName, String value) {
 		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.ANALYZED));
+	}
+	private void addUnTokenizedField(Document doc, FieldNames fieldName, String value) {
+		doc.add(new Field(fieldName.getValue(),  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 	private void addUnTokenizedField(Document doc, String fieldName, String value) {
 		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
-	private void addUnTokenizedField(Document doc, String fieldName, Long value) {
-		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+	private void addUnTokenizedField(Document doc, FieldNames fieldName, Long value) {
+		doc.add(new Field(fieldName.getValue(),  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
-	private void addUnTokenizedField(Document doc, String fieldName, Date value) {
+	private void addUnTokenizedField(Document doc, FieldNames fieldName, Date value) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss.SSS");
-		doc.add(new Field(fieldName,  sdf.format(value), Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	private void addUnTokenizedField(Document doc, String fieldName, Character value) {
-		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+		doc.add(new Field(fieldName.getValue(),  sdf.format(value), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 
 	private void indexFile(Document doc, IndexWriter indexWriter, SVNDirEntry dirEntry, Repository repository, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 

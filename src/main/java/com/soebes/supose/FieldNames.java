@@ -25,6 +25,7 @@
 package com.soebes.supose;
 
 
+
 /**
  * This class defines all available field names.
  * Only the fields which will be automatically created.
@@ -34,48 +35,55 @@ package com.soebes.supose;
  * @author Karl Heinz Marbaise
  *
  */
-public final class FieldNames {
-
-	public final static String CONTENTS = "contents";
-	public final static String REVISION = "revision";
-	public final static String KIND = "kind";
-	public final static String NODE = "node";
-	public final static String PATH = "path"; //Used for searching.
-	public final static String DPATH = "dpath"; //Display Path
-	public final static String FILENAME = "filename";
-	public final static String DFILENAME = "dfilename"; //The filename which is used for displaying.
-	public final static String AUTHOR = "author";
-	public final static String MESSAGE = "message";
-	public final static String DATE = "date";
-	public final static String FROM = "from";
-	public final static String FROMREV = "fromrev";
-	public final static String REPOSITORY = "repository";
-	public final static String REPOSITORYUUID = "repositoryuuid";
-	public final static String SIZE = "size";
+public enum FieldNames {
+	CONTENTS("contents"),
+	REVISION("revision"),
+	KIND("kind"),
+	NODE("node"),
+	PATH("path"),
+	DPATH("dpath"),
+	FILENAME("filename"),
+	DFILENAME("dfilename"),
+	AUTHOR("author"),
+	MESSAGE("message"),
+	DATE("date"),
+	FROM("from"),
+	FROMREV("fromrev"),
+	REPOSITORY("repository"),
+	REPOSITORYUUID("repositoryuuid"),
+	SIZE("size"),
+	TAG("tag"),
+	MAVENTAG("maventag"),
+	SUBVERSIONTAG("subversiontag"),
+	BRANCH("branch"),
+	XLSSHEET("xlssheet"),
+	XLSSHEETNAME("xlssheetname"),
+	XLSCOMMENT("xlscomment"),
+	XLSCOMMENTAUTHOR("xlscommentauthor"),
+	XLSAUTHOR("xlsauthor"),
+	PDFAUTHOR("pdfauthor"),
+	PDFCREATIONDATE("pdfcreationdate"),
+	PDFCREATOR("pdfcreator"),
+	PDFKEYWORDS("pdfkeywords"),
+	PDFMODIFICATIONDATE("pdfmodificationdate"),
+	PDFPRODUCER("pdfproducer"),
+	PDFSUBJECT("pdfsubject"),
+	PDFTITLE("pdftitle"),
+	PDFTRAPPED("pdftrapped"),
+	METHODS("methods"),
+	COMMENTS("comments");
 	
-	public final static String TAG = "tag";
-	public final static String MAVENTAG = "maventag";
-	public final static String SUBVERSIONTAG = "subversiontag";
-	public final static String BRANCH = "branch";
+	private String value;
 
-	public final static String XLSSHEETS = "xlssheets";
-	public final static String XLSSHEETNAME = "xlssheetname";
-	public final static String XLSCOMMENT = "xlscomment";
-	public final static String XLSCOMMENTAUTHOR = "xlscommentauthor";
-	public final static String XLSAUTHOR = "xlsauthor";
+	public String getValue() {
+		return this.value;
+	}
 
-	public final static String PDFAUTHOR = "pdfauthor";
-	public final static String PDFCREATIONDATE = "pdfcreationdate";
-	public final static String PDFCREATOR = "pdfcreator";
-	public final static String PDFKEYWORDS = "pdfkeywords";
-	public final static String PDFMODIFICATIONDATE = "pdfmodificationdate";
-	public final static String PDFPRODUCER = "pdfproducer";
-	public final static String PDFSUBJECT = "pdfsubject";
-	public final static String PDFTITLE = "pdftitle";
-	public final static String PDFTRAPPED = "pdftrapped";
+	private FieldNames(String value) {
+		this.value = value;
+	}
 	
-	//For all kinds of programming languages (first test).
-	public final static String METHODS = "methods";
-	public final static String COMMENTS = "comments"; //Any kind of comment in programming languages.
-	
+	public String toString() {
+		return this.value;
+	}
 }

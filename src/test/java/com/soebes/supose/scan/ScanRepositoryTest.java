@@ -255,11 +255,11 @@ public class ScanRepositoryTest extends TestBase {
 		List<Field> fieldList = hit.getFields();
 
 		//This entry is not allowed to have a filename entry!!!
-		Field fileNameField  = searchForField(hit, FieldNames.FILENAME);
+		Field fileNameField  = searchForField(hit, FieldNames.FILENAME.getValue());
 		assertNotNull(fileNameField, "We have expected to find the " + FieldNames.FILENAME + " field.");
 		assertEquals(fileNameField.stringValue().length(), 0, "We have expected to get an empty filename field for a tag which is a directory.");
 
-		Field pathField  = searchForField(hit, FieldNames.PATH);
+		Field pathField  = searchForField(hit, FieldNames.PATH.getValue());
 		assertNotNull(pathField, "We have expected to find the " + FieldNames.PATH + " field.");
 		assertEquals(pathField.stringValue(), "/project1/tags/release-0.0.1/", "We have expected to get an particular path value");
 	}

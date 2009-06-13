@@ -77,30 +77,30 @@ public class LuceneTest {
 
 	    Document doc = new Document();
 	    String text = "This is the text to be indexed.";
-		addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(1));
-	    addTokenizedField(doc, FieldNames.CONTENTS, text);
-	    addUnTokenizedField(doc, FieldNames.FILENAME, "/trunk/doc/testXML.doc");
+		addUnTokenizedField(doc, FieldNames.REVISION.getValue(), NumberUtils.pad(1));
+	    addTokenizedField(doc, FieldNames.CONTENTS.getValue(), text);
+	    addUnTokenizedField(doc, FieldNames.FILENAME.getValue(), "/trunk/doc/testXML.doc");
 	    iwriter.addDocument(doc);
 	    
 	    doc = new Document();
 	    text = "This is different text.";
-		addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(2));
-	    addTokenizedField(doc, FieldNames.CONTENTS, text);
-	    addUnTokenizedField(doc, FieldNames.FILENAME, "/tags/docs/XYZabc.java");
+		addUnTokenizedField(doc, FieldNames.REVISION.getValue(), NumberUtils.pad(2));
+	    addTokenizedField(doc, FieldNames.CONTENTS.getValue(), text);
+	    addUnTokenizedField(doc, FieldNames.FILENAME.getValue(), "/tags/docs/XYZabc.java");
 	    iwriter.addDocument(doc);
 	    
 	    doc = new Document();
 	    text = "This is more different text.";
-		addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(3));
-	    addTokenizedField(doc, FieldNames.CONTENTS, text);
-	    addUnTokenizedField(doc, FieldNames.FILENAME, "/tags/docs/SCMPlan.doc");
+		addUnTokenizedField(doc, FieldNames.REVISION.getValue(), NumberUtils.pad(3));
+	    addTokenizedField(doc, FieldNames.CONTENTS.getValue(), text);
+	    addUnTokenizedField(doc, FieldNames.FILENAME.getValue(), "/tags/docs/SCMPlan.doc");
 	    iwriter.addDocument(doc);
 
 	    doc = new Document();
 	    text = "This is the third text.";
-		addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(4));
-	    addTokenizedField(doc, FieldNames.CONTENTS, text);
-	    addUnTokenizedField(doc, FieldNames.FILENAME, "/trunk/subdir/elviraXML.doc");
+		addUnTokenizedField(doc, FieldNames.REVISION.getValue(), NumberUtils.pad(4));
+	    addTokenizedField(doc, FieldNames.CONTENTS.getValue(), text);
+	    addUnTokenizedField(doc, FieldNames.FILENAME.getValue(), "/trunk/subdir/elviraXML.doc");
 	    iwriter.addDocument(doc);
 	    
 	    iwriter.optimize();

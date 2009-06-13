@@ -39,6 +39,9 @@ import com.soebes.supose.FieldNames;
  *
  */
 public class CustomQueryParser extends QueryParser {
+	public CustomQueryParser(FieldNames field, Analyzer analyzer) {
+		super(field.getValue(), analyzer);
+	}
 	public CustomQueryParser(String field, Analyzer analyzer) {
 		super(field, analyzer);
 	}
@@ -56,7 +59,7 @@ public class CustomQueryParser extends QueryParser {
 	protected Query getFieldQuery(String field, String term) throws ParseException {
 		//This will handle the situation:
 		// +revision:1
-		if (FieldNames.REVISION.equals(field)) {
+		if (FieldNames.REVISION.getValue().equals(field)) {
 			int revision = Integer.parseInt(term);
 			term = NumberUtils.pad(revision);
 		}
@@ -70,7 +73,7 @@ public class CustomQueryParser extends QueryParser {
 	@Override
 	protected Query getRangeQuery(String field, String part1, String part2,
 		boolean inclusive) throws ParseException {
-		if (FieldNames.REVISION.equals(field)) {
+		if (FieldNames.REVISION.getValue().equals(field)) {
 			try {
 				int num1 = Integer.parseInt(part1);
 				int num2 = Integer.parseInt(part2);

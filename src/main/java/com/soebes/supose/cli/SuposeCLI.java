@@ -61,6 +61,7 @@ import com.soebes.supose.jobs.JobSchedulerListener;
 import com.soebes.supose.jobs.RepositoryScanJob;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
+import com.soebes.supose.search.ResultEntry;
 import com.soebes.supose.search.SearchRepository;
 
 /**
@@ -278,68 +279,70 @@ public class SuposeCLI {
 		}
 		
 		//Here we translate the search fields into the display fieldnames.
-		List<String> cliDFields = new ArrayList<String>();
-		for (String fieldName : cliFields) {
-			if (fieldName.equals(FieldNames.FILENAME)) {
-				cliDFields.add(FieldNames.DFILENAME);
-			}
-			if (fieldName.equals(FieldNames.PATH)) {
-				cliDFields.add(FieldNames.DPATH);
-			}
-		}
+//		List<String> cliDFields = new ArrayList<String>();
+//		for (String fieldName : cliFields) {
+//			if (fieldName.equals(FieldNames.FILENAME)) {
+//				cliDFields.add(FieldNames.DFILENAME);
+//			}
+//			if (fieldName.equals(FieldNames.PATH)) {
+//				cliDFields.add(FieldNames.DPATH);
+//			}
+//		}
 		
 		System.out.println("");
 		
 		SearchRepository searchRepository = new SearchRepository(indexDirectory);
 		
-		TopDocs result = searchRepository.getQueryResult(queryLine);
-
+		List<ResultEntry> result = searchRepository.getResult(queryLine);
+		
 		if (result == null) {
 			System.out.println("Somethings has gone wrong. Check the Logging output!");
 			return;
 		}
-//		System.out.println("Query analyzer:" + query.toString());
-		System.out.println("Total Hits: " + result.totalHits);
-		try {
-		    for (int i = 0; i < result.scoreDocs.length; i++) {
-		    	Document hit;
-					hit = searchRepository.getSearcher().doc(result.scoreDocs[i].doc);
-				List<Field> fieldList = hit.getFields();
-				System.out.print((i+1) + ". ");
-				for(int k=0; k<fieldList.size();k++) {
-					Field field = (Field) fieldList.get(k);
-					if ((cliDFields.size() > 0) && cliDFields.contains(field.name())) {
-						System.out.print(field.name() + ": " + field.stringValue() + " ");
-					} else {
-						if (FieldNames.DPATH.equals(field.name())) {
-							System.out.print("P:" + field.stringValue() + " ");
-						}
-						if (FieldNames.DFILENAME.equals(field.name())) {
-							System.out.print("F:" + field.stringValue() + " ");
-						}
-						if (FieldNames.REVISION.equals(field.name())) {
-							long rev = Long.parseLong(field.stringValue());
-							System.out.print("R:" + rev + " ");
-						}
-						if (FieldNames.KIND.equals(field.name())) {
-							System.out.print("K:" + field.stringValue() + " ");
-						}
-					}
-				}
-				System.out.println("");
+		System.out.println("Total Hits: " + result.size());
+//		try {
+			for (ResultEntry item : result) {
+				System.out.print("R:" + item.getRevision());
 			}
-		} catch (CorruptIndexException e) {
-			LOGGER.error("Currupted Index exception happened. ", e);
-		} catch (IOException e) {
-			LOGGER.error("IOException had happen:", e);
-		} finally {
+//		    for (int i = 0; i < result.scoreDocs.length; i++) {
+//		    	Document hit;
+//					hit = searchRepository.getSearcher().doc(result.scoreDocs[i].doc);
+//				List<Field> fieldList = hit.getFields();
+//				System.out.print((i+1) + ". ");
+//				for(int k=0; k<fieldList.size();k++) {
+//					Field field = (Field) fieldList.get(k);
+//					if ((cliDFields.size() > 0) && cliDFields.contains(field.name())) {
+//						System.out.print(field.name() + ": " + field.stringValue() + " ");
+//					} else {
+//						if (FieldNames.DPATH.equals(field.name())) {
+//							System.out.print("P:" + field.stringValue() + " ");
+//						}
+//						if (FieldNames.DFILENAME.equals(field.name())) {
+//							System.out.print("F:" + field.stringValue() + " ");
+//						}
+//						if (FieldNames.REVISION.equals(field.name())) {
+//							long rev = Long.parseLong(field.stringValue());
+//							System.out.print("R:" + rev + " ");
+//						}
+//						if (FieldNames.KIND.equals(field.name())) {
+//							System.out.print("K:" + field.stringValue() + " ");
+//						}
+//					}
+//				}
+//				System.out.println("");
+//			}
+//		} catch (CorruptIndexException e) {
+//			LOGGER.error("Currupted Index exception happened. ", e);
+//		} catch (IOException e) {
+//			LOGGER.error("IOException had happen:", e);
+//		} finally {
 			IndexReader reader = searchRepository.getReader();
 			try {
 				reader.close();
 			} catch (IOException e) {
 				LOGGER.error("Error during closing of the index happened: ", e);
 			}
-		}
+//		}
 	}
 
 }
