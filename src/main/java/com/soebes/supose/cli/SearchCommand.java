@@ -25,11 +25,16 @@
 package com.soebes.supose.cli;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.cli2.CommandLine;
 import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.Option;
 import org.apache.commons.cli2.option.Command;
+import org.apache.commons.cli2.validation.EnumValidator;
+
+import com.soebes.supose.FieldNames;
 
 /**
  * @author Karl Heinz Marbaise
@@ -64,14 +69,26 @@ public class SearchCommand extends CLIBase {
 			.withArgument(abuilder.withName("query").create())
 			.withDescription("Define the query which will be executed.")
 			.create();
+
+
+		Set<String> enumSetFields = new TreeSet<String>();
+		for (FieldNames item : FieldNames.values()) {
+			enumSetFields.add(item.getValue());
+		}
+    	EnumValidator fieldValidator = new EnumValidator(enumSetFields);
     	optionFields = obuilder
 	    	.withShortName("F")
 	    	.withLongName("fields")
-	    	.withArgument(abuilder.withName("fields").create())
+	    	.withArgument(
+	    		abuilder
+	    		.withName("fields")
+	    		.withValidator(fieldValidator)
+	    		.create()
+	    	)
 	    	.withDescription("Define the fields which will be shown on the result set.")
 	    	.create();
     	
-    	Group optionUpdate = gbuilder
+    	Group optionSearch = gbuilder
     		.withOption(optionIndex)
     		.withOption(optionQuery)
     		.withOption(optionFields)
@@ -81,7 +98,7 @@ public class SearchCommand extends CLIBase {
 	    	.withName("search")
 	    	.withName("se")
 	    	.withDescription("Search within index with particular query.")
-	    	.withChildren(optionUpdate)
+	    	.withChildren(optionSearch)
 	    	.create();
 	}
 

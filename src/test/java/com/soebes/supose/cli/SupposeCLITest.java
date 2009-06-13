@@ -270,6 +270,40 @@ public class SupposeCLITest {
 		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
 	}
 
+	@Test(expectedExceptions = OptionException.class)
+	public void testCommandSearchFieldsWrong() throws Exception {
+		final String[] args = new String[] { "search", "--fields", "test"};
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option set.");
+		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
+	}
+
+	public void testCommandSearchFields() throws Exception {
+		final String[] args = new String[] { "search", "--fields", "author", "revision", "date"};
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option set.");
+		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
+	}
+	
+	public void testCommandSearchFieldsResult() throws Exception {
+		final String[] args = new String[] { "search", "--fields", "author", "revision", "date"};
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option set.");
+		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
+
+		SearchCommand searchCommand = suposecli.getScliSearchCommand();
+		List<String> cliFields = searchCommand.getFields(cl);
+		assertEquals(cliFields.get(0), "author");
+		assertEquals(cliFields.get(1), "revision");
+		assertEquals(cliFields.get(2), "date");
+		
+	}
+	
+
+
 	public void testOptionHCommandSearch() throws Exception {
 		final String[] args = new String[] { "search", "-H" };
 		CommandLine cl = suposecli.doParseArgs(args);

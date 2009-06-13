@@ -29,6 +29,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.cli2.CommandLine;
 import org.apache.commons.cli2.OptionException;
@@ -36,12 +37,9 @@ import org.apache.commons.cli2.util.HelpFormatter;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.search.TopDocs;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -267,32 +265,48 @@ public class SuposeCLI {
 		IndexHelper.mergeIndex(destination, indexList);
 	}
 
+	private static List<FieldNames> getDisplayFields(List<String> cliFields) {
+		//Here we translate the search fields into the fields which are displayed.
+		List<FieldNames> cliDisplayFields = new ArrayList<FieldNames>();
+		for (String fieldName : cliFields) {
+			if (fieldName.equals(FieldNames.FILENAME.getValue())) {
+				cliDisplayFields.add(FieldNames.DFILENAME);
+			} else if (fieldName.equals(FieldNames.PATH.getValue())) {
+				cliDisplayFields.add(FieldNames.DPATH);
+			} else {
+				FieldNames fn = FieldNames.valueOf(fieldName.toUpperCase());
+				cliDisplayFields.add(fn);
+			}
+		}
+		return cliDisplayFields;
+	}
+
 	private static void runSearch(SearchCommand searchCommand) {
 		LOGGER.info("Searching started...");
 		String indexDirectory = searchCommand.getIndexDir(commandLine);
 		String queryLine = searchCommand.getQuery(commandLine);
 		List<String> cliFields = searchCommand.getFields(commandLine);
-
+		
 		System.out.println("Query: '" + queryLine + "'");
-		for(int i=0; i<cliFields.size(); i++) {
-			System.out.print("Field[" + i + "]=" + cliFields.get(i) + " ");
+		
+		if (cliFields.size() > 0) {
+			for(int i=0; i<cliFields.size(); i++) {
+				System.out.print("Field[" + i + "]=" + cliFields.get(i) + " ");
+			}
+		} else {
+			cliFields = new ArrayList<String>();
+			//If nothings is given on command line we have to define 
+			//default fields which will be printed
+			cliFields.add(FieldNames.DFILENAME.getValue());
+			cliFields.add(FieldNames.PATH.getValue());
+			cliFields.add(FieldNames.KIND.getValue());
+			cliFields.add(FieldNames.REVISION.getValue());
 		}
-		
-		//Here we translate the search fields into the display fieldnames.
-//		List<String> cliDFields = new ArrayList<String>();
-//		for (String fieldName : cliFields) {
-//			if (fieldName.equals(FieldNames.FILENAME)) {
-//				cliDFields.add(FieldNames.DFILENAME);
-//			}
-//			if (fieldName.equals(FieldNames.PATH)) {
-//				cliDFields.add(FieldNames.DPATH);
-//			}
-//		}
-		
-		System.out.println("");
-		
+
+		List<FieldNames> cliDisplayFields = getDisplayFields(cliFields);
+
 		SearchRepository searchRepository = new SearchRepository(indexDirectory);
-		
+
 		List<ResultEntry> result = searchRepository.getResult(queryLine);
 		
 		if (result == null) {
@@ -300,49 +314,39 @@ public class SuposeCLI {
 			return;
 		}
 		System.out.println("Total Hits: " + result.size());
-//		try {
-			for (ResultEntry item : result) {
-				System.out.print("R:" + item.getRevision());
+
+		long count = 1;
+		for (ResultEntry item : result) {
+			System.out.printf("%6d: ", count);
+			for (FieldNames fn : cliDisplayFields) {
+				switch (fn) {
+					case REVISION:
+						Long l = Long.parseLong(item.getField(fn));
+						System.out.print(fn.name() + ":" + l);
+						break;
+					case PROPERTIES:
+						//Properties will be put into separate lines
+						System.out.println("");
+						Map<String, String> properties = item.getProperties();
+						for (Map.Entry<String, String> prop : properties.entrySet()) {
+							System.out.println(" --> K:" + prop.getKey() + " V:" + prop.getValue());
+						}
+						break;
+					default:
+						System.out.print(fn.name() + ": " + item.getField(fn) + " ");
+						break;
+				}
 			}
-//		    for (int i = 0; i < result.scoreDocs.length; i++) {
-//		    	Document hit;
-//					hit = searchRepository.getSearcher().doc(result.scoreDocs[i].doc);
-//				List<Field> fieldList = hit.getFields();
-//				System.out.print((i+1) + ". ");
-//				for(int k=0; k<fieldList.size();k++) {
-//					Field field = (Field) fieldList.get(k);
-//					if ((cliDFields.size() > 0) && cliDFields.contains(field.name())) {
-//						System.out.print(field.name() + ": " + field.stringValue() + " ");
-//					} else {
-//						if (FieldNames.DPATH.equals(field.name())) {
-//							System.out.print("P:" + field.stringValue() + " ");
-//						}
-//						if (FieldNames.DFILENAME.equals(field.name())) {
-//							System.out.print("F:" + field.stringValue() + " ");
-//						}
-//						if (FieldNames.REVISION.equals(field.name())) {
-//							long rev = Long.parseLong(field.stringValue());
-//							System.out.print("R:" + rev + " ");
-//						}
-//						if (FieldNames.KIND.equals(field.name())) {
-//							System.out.print("K:" + field.stringValue() + " ");
-//						}
-//					}
-//				}
-//				System.out.println("");
-//			}
-//		} catch (CorruptIndexException e) {
-//			LOGGER.error("Currupted Index exception happened. ", e);
-//		} catch (IOException e) {
-//			LOGGER.error("IOException had happen:", e);
-//		} finally {
-			IndexReader reader = searchRepository.getReader();
-			try {
-				reader.close();
-			} catch (IOException e) {
-				LOGGER.error("Error during closing of the index happened: ", e);
-			}
-//		}
+			System.out.println("");
+			count++;
+		}
+
+		IndexReader reader = searchRepository.getReader();
+		try {
+			reader.close();
+		} catch (IOException e) {
+			LOGGER.error("Error during closing of the index happened: ", e);
+		}
 	}
 
 }

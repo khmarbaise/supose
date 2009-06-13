@@ -71,8 +71,10 @@ public enum FieldNames {
 	PDFTITLE("pdftitle"),
 	PDFTRAPPED("pdftrapped"),
 	METHODS("methods"),
-	COMMENTS("comments");
-	
+	COMMENTS("comments"),
+
+	PROPERTIES("properties"); //This is not a real entry only used for displaying on command line?
+
 	private String value;
 
 	public String getValue() {

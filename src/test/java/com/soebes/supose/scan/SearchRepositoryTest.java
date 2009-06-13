@@ -241,10 +241,10 @@ public class SearchRepositoryTest extends TestBase {
 		List<ResultEntry> result = searchRepository.getResult("+path:*/tags/* +kind:d");
 		assertEquals(result.size(), 1);
 
-		assertEquals(result.get(0).getFilename().length(), 0, "We have expected to get an empty filename field for a tag which is a directory.");
+		assertEquals(result.get(0).getField(FieldNames.FILENAME).length(), 0, "We have expected to get an empty filename field for a tag which is a directory.");
 
-		assertNotNull(result.get(0).getPath(), "We have expected to find the " + FieldNames.PATH + " field.");
-		assertEquals(result.get(0).getPath(), "/project1/tags/release-0.0.1/", "We have expected to get an particular path value");
+		assertNotNull(result.get(0).getField(FieldNames.PATH), "We have expected to find the " + FieldNames.PATH + " field.");
+		assertEquals(result.get(0).getField(FieldNames.PATH), "/project1/tags/release-0.0.1/", "We have expected to get an particular path value");
 	}
 	
 }
