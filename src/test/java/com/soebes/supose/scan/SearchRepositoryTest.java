@@ -249,12 +249,33 @@ public class SearchRepositoryTest extends TestBase {
 	}
 
 	@Test
+	public void testQueryForSVNProperty() {
+		List<ResultEntry> result = searchRepository.getResult("+svn\\:mergeinfo:*");
+		assertEquals(result.size(), 3);
+	}
+
+	@Test
+	public void testQueryForSVNPropertyContent() {
+		List<ResultEntry> result = searchRepository.getResult("+svn\\:mergeinfo:*/branches/*");
+		assertEquals(result.size(), 3);
+	}
+	@Test
+	public void testQueryForSVNPropertyContentFile() {
+		List<ResultEntry> result = searchRepository.getResult("+svn\\:mergeinfo:*/f3.txt\\:*");
+		assertEquals(result.size(), 1);
+	}
+	@Test
+	public void testQueryForSVNPropertyContentPath() {
+		List<ResultEntry> result = searchRepository.getResult("+svn\\:mergeinfo:*/B_0.0.2/*");
+		assertEquals(result.size(), 1);
+	}
+
+	@Test
 	public void testCallGetterByName() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		ResultEntry re = new ResultEntry();
 		re.setAuthor("TestAuthor");
 		re.setRevision("123123123");
-		System.out.println("RE:" + re);
 		Object result = searchRepository.callGetterByName(re, "revision");
-		System.out.println("Result:" + result);
+		assertEquals(result, re.getRevision());
 	}
 }

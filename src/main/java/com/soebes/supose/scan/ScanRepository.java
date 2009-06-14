@@ -56,6 +56,8 @@ import com.soebes.supose.utility.FileName;
  *
  */
 public class ScanRepository extends ScanRepositoryBase {
+	public static final String DISPLAY_PROPERTIES_PREFIX = "d";
+
 	private static Logger LOGGER = Logger.getLogger(ScanRepository.class);
 
 	private boolean abbort;
@@ -371,7 +373,8 @@ public class ScanRepository extends ScanRepositoryBase {
 		for (Iterator<String> iterator = list.nameSet().iterator(); iterator.hasNext();) {
 			String propname = (String) iterator.next();
 			LOGGER.debug("Indexing property: " + propname); 
-			addUnTokenizedField(doc, propname, list.getStringValue(propname));
+			addUnTokenizedField(doc, propname, list.getStringValue(propname).toLowerCase());
+			addUnTokenizedField(doc, DISPLAY_PROPERTIES_PREFIX + propname, list.getStringValue(propname));
 		}
 	}
 

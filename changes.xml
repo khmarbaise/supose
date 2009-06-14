@@ -9,6 +9,9 @@
 			<action dev="Karl Heinz Marbaise" type="add" issue="178">
 				Now you can use the --xml option at the search command to produce an xml file as result output.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="212">
+				Now you can search for propery values as well Take a look at the issue for further explanations.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="209">
 				The PDFSUBJECT field has not been filled correctly. The PDFTITLE field was used instead.
 			</action>
