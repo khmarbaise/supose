@@ -301,9 +301,19 @@ public class SupposeCLITest {
 		assertEquals(cliFields.get(2), "date");
 		
 	}
+
+	public void testCommandSearchXML() throws Exception {
+		final String[] args = new String[] { "search", "--xml"};
+		CommandLine cl = suposecli.doParseArgs(args);
+		assertNotNull(cl, "The return value of the parse is null!");
+		assertFalse(cl.hasOption(suposecli.getGlobalOptionH()), "Globle Help option set.");
+		assertTrue(cl.hasOption(suposecli.getSearchCommand()));
+		SearchCommand searchCommand = suposecli.getScliSearchCommand();
+		
+		boolean xml = cl.hasOption(searchCommand.getOptionXML());
+		assertTrue(xml, "We had expected to get an activated XML flag.");
+	}
 	
-
-
 	public void testOptionHCommandSearch() throws Exception {
 		final String[] args = new String[] { "search", "-H" };
 		CommandLine cl = suposecli.doParseArgs(args);

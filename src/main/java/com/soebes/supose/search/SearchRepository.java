@@ -26,6 +26,8 @@
 package com.soebes.supose.search;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +69,58 @@ public class SearchRepository {
 		setReader(null);
 	}
 
+	public Method getGetterByName(Class z, String name) {
+		Method[] methods = z.getMethods();
+		Method result = null;
+		for (Method method : methods) {
+			if (method.getName().toLowerCase().startsWith("get")) {
+				String m = method.getName().toLowerCase();
+				if (m.equals("get" + name.toLowerCase())) {
+//					System.out.println("MS:" + name);
+					result = method;
+				}
+			}
+		}
+		return result;
+	}
+	
+	
+	public Method getSetterByName(Class z, String name) {
+		Method[] methods = z.getMethods();
+		Method result = null;
+		for (Method method : methods) {
+			if (method.getName().toLowerCase().startsWith("set")) {
+				String m = method.getName().toLowerCase();
+				if (m.equals("set" + name.toLowerCase())) {
+//					System.out.println("MS:" + name);
+					result = method;
+				}
+			}
+		}
+		return result;
+	}
+	
+	
+	public Object callGetterByName(ResultEntry z, String name) {
+		Method m = getGetterByName(z.getClass(), name);
+		Object attribute = null;
+		if (m == null) {
+			LOGGER.fatal("Method get" + name + " not found!");
+			return attribute; 
+		}
+		try {
+			attribute = m.invoke(z);
+		} catch (IllegalArgumentException e) {
+			LOGGER.fatal("IllegalArgumentException", e);
+		} catch (IllegalAccessException e) {
+			LOGGER.fatal("IllegalAccessException", e);
+		} catch (InvocationTargetException e) {
+			LOGGER.fatal("InvocationTargetException", e);
+		}
+		return attribute;
+	}
+	
+	
 	public List<ResultEntry> getResult(String queryLine) {
 		TopDocs result = getQueryResult(queryLine);
 		ArrayList<ResultEntry> resultList = new ArrayList<ResultEntry>();
@@ -78,12 +132,24 @@ public class SearchRepository {
 				ResultEntry re = new ResultEntry();
 				for(int k=0; k<fieldList.size();k++) {
 					Field field = (Field) fieldList.get(k);
-					FieldNames fn = null;
-					try {
-						fn = FieldNames.valueOf(field.name().toUpperCase());
-						re.addField(fn, field.stringValue());
-					} catch (IllegalArgumentException e) {
-						//We assume that we have found an property like svn:mime-type etc.
+					Method method = getSetterByName(re.getClass(), field.name());
+					if (method != null) {
+//						System.out.println(
+//							"-> Name:" + field.name() 
+//							+ " " + field.stringValue()
+//							+ " [" + field.getBinaryLength() + "] "
+//							+ " Method:" + method.getName());
+						try {
+							method.invoke(re, field.stringValue());
+						} catch (IllegalArgumentException e) {
+							LOGGER.fatal("IllegalArgumentException", e);
+						} catch (IllegalAccessException e) {
+							LOGGER.fatal("IllegalAccessException", e);
+						} catch (InvocationTargetException e) {
+							LOGGER.fatal("InvocationTargetException", e);
+						}
+					} else {
+						//We assume we have found an field with an property.
 						re.addProperty(field.name(), field.stringValue());
 					}
 				}

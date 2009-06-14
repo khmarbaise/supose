@@ -45,6 +45,7 @@ public class SearchCommand extends CLIBase {
     private Option optionIndex = null;
     private Option optionQuery = null;
     private Option optionFields = null;
+    private Option optionXML = null;
 
 	public SearchCommand() {
 		setCommand(createCommand());
@@ -70,6 +71,11 @@ public class SearchCommand extends CLIBase {
 			.withDescription("Define the query which will be executed.")
 			.create();
 
+    	optionXML = obuilder
+			.withShortName("x")
+			.withLongName("xml")
+			.withDescription("Output in XML")
+			.create();
 
 		Set<String> enumSetFields = new TreeSet<String>();
 		for (FieldNames item : FieldNames.values()) {
@@ -92,6 +98,7 @@ public class SearchCommand extends CLIBase {
     		.withOption(optionIndex)
     		.withOption(optionQuery)
     		.withOption(optionFields)
+    		.withOption(optionXML)
     		.create();
     	
     	return cbuilder
@@ -110,6 +117,9 @@ public class SearchCommand extends CLIBase {
 	}
 	public Option getOptionFields() {
 		return optionFields;
+	}
+	public Option getOptionXML() {
+		return optionXML;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -136,6 +146,10 @@ public class SearchCommand extends CLIBase {
 		return result;
 	}
 	
+	public boolean getXML(CommandLine cline) {
+		return cline.hasOption((getOptionXML()));
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<String> getFields(CommandLine cline) {
 		return cline.getValues(getOptionFields());

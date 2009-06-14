@@ -27,6 +27,7 @@ package com.soebes.supose.cli;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,7 @@ import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
 import com.soebes.supose.search.ResultEntry;
 import com.soebes.supose.search.SearchRepository;
+import com.thoughtworks.xstream.XStream;
 
 /**
  * This will define the Command Line Version of SupoSE.
@@ -285,60 +287,60 @@ public class SuposeCLI {
 		LOGGER.info("Searching started...");
 		String indexDirectory = searchCommand.getIndexDir(commandLine);
 		String queryLine = searchCommand.getQuery(commandLine);
+		boolean xml = searchCommand.getXML(commandLine);
 		List<String> cliFields = searchCommand.getFields(commandLine);
 		
-		System.out.println("Query: '" + queryLine + "'");
-		
-		if (cliFields.size() > 0) {
-			for(int i=0; i<cliFields.size(); i++) {
-				System.out.print("Field[" + i + "]=" + cliFields.get(i) + " ");
-			}
-		} else {
-			cliFields = new ArrayList<String>();
-			//If nothings is given on command line we have to define 
-			//default fields which will be printed
-			cliFields.add(FieldNames.DFILENAME.getValue());
-			cliFields.add(FieldNames.PATH.getValue());
-			cliFields.add(FieldNames.KIND.getValue());
-			cliFields.add(FieldNames.REVISION.getValue());
-		}
-
-		List<FieldNames> cliDisplayFields = getDisplayFields(cliFields);
-
 		SearchRepository searchRepository = new SearchRepository(indexDirectory);
 
 		List<ResultEntry> result = searchRepository.getResult(queryLine);
 		
-		if (result == null) {
-			System.out.println("Somethings has gone wrong. Check the Logging output!");
-			return;
-		}
-		System.out.println("Total Hits: " + result.size());
+		if (xml) {
+			XStream xstream = new XStream();
+			xstream.alias("entry", ResultEntry.class);
+			System.out.println(xstream.toXML(result));
+		} else {
+			System.out.println("Query: '" + queryLine + "'");
+			
+			if (cliFields.size() > 0) {
+				for(int i=0; i<cliFields.size(); i++) {
+					System.out.print("Field[" + i + "]=" + cliFields.get(i) + " ");
+				}
+			} else {
+				cliFields = new ArrayList<String>();
+				//If nothings is given on command line we have to define 
+				//default fields which will be printed
+				cliFields.add(FieldNames.REVISION.getValue());
+				cliFields.add(FieldNames.DFILENAME.getValue());
+				cliFields.add(FieldNames.PATH.getValue());
+				cliFields.add(FieldNames.KIND.getValue());
+			}
+			List<FieldNames> cliDisplayFields = getDisplayFields(cliFields);
 
-		long count = 1;
-		for (ResultEntry item : result) {
-			System.out.printf("%6d: ", count);
-			for (FieldNames fn : cliDisplayFields) {
-				switch (fn) {
-					case REVISION:
-						Long l = Long.parseLong(item.getField(fn));
-						System.out.print(fn.name() + ":" + l);
-						break;
-					case PROPERTIES:
+			if (result == null) {
+				System.out.println("Somethings has gone wrong. Check the log file output!");
+				return;
+			}
+			System.out.println("Total Hits: " + result.size());
+			
+			long count = 1;
+			for (ResultEntry item : result) {
+				System.out.printf("%6d: ", count);
+				for (FieldNames fn : cliDisplayFields) {
+					if (fn.equals(FieldNames.PROPERTIES)) {
 						//Properties will be put into separate lines
 						System.out.println("");
 						Map<String, String> properties = item.getProperties();
 						for (Map.Entry<String, String> prop : properties.entrySet()) {
 							System.out.println(" --> K:" + prop.getKey() + " V:" + prop.getValue());
 						}
-						break;
-					default:
-						System.out.print(fn.name() + ": " + item.getField(fn) + " ");
-						break;
+					} else {
+						Object attribute = searchRepository.callGetterByName(item, fn.getValue());
+						System.out.print(fn.name() + ":" + attribute + " ");
+					}
 				}
+				System.out.println("");
+				count++;
 			}
-			System.out.println("");
-			count++;
 		}
 
 		IndexReader reader = searchRepository.getReader();
