@@ -27,7 +27,6 @@ package com.soebes.supose.cli;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -198,6 +197,7 @@ public class SuposeCLI {
             		//Do not make a job from a non connectable repository.
             		continue;
             	}
+
             	LOGGER.info("The repository " + repositoryName + " is ready for scanning.");
             	JobDetail jobDetail = new JobDetail(repositoryName, null, RepositoryScanJob.class);
             	

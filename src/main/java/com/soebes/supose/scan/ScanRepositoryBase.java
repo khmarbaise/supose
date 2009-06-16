@@ -48,27 +48,27 @@ public class ScanRepositoryBase extends ScanRepositoryBaseLogEntry implements Sc
 	}
 
 	public void scanEndRevision(Long count, Long revision, Integer changeSetSize) {
-		LOGGER.info("scanEndRevision()");
+		LOGGER.trace("scanEndRevision()");
 		for (ScanInterceptor item : getInterceptors()) {
 			item.scanEndRevision(count, revision, changeSetSize);
 		}
 	}
 
 	public void scanStart(Integer revision) {
-		LOGGER.info("scanStart()");
+		LOGGER.trace("scanStart()");
 		for (ScanInterceptor item : getInterceptors()) {
 			item.scanStart(revision);
 		}
 	}
 	public void scanStop() {
-		LOGGER.info("scanStop()");
+		LOGGER.trace("scanStop()");
 		for (ScanInterceptor item : getInterceptors()) {
 			item.scanStop();
 		}
 	}
 
 	public void scanBeginRevision(Long count, Long revision, Integer changeSetSize) {
-		LOGGER.info("scanBeginRevision()");
+		LOGGER.trace("scanBeginRevision()");
 		for (ScanInterceptor item : getInterceptors()) {
 			item.scanBeginRevision(count, revision, changeSetSize);
 		}

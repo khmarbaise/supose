@@ -22,55 +22,25 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.scan;
-
-import java.util.ArrayList;
+package com.soebes.supose.cli;
 
 import org.apache.log4j.Logger;
 import org.tmatesoft.svn.core.SVNLogEntry;
 
 import com.soebes.supose.scan.interceptors.LogEntryInterceptor;
 
-public class ScanRepositoryBaseLogEntry extends ScanRepositoryBaseChangeSet implements LogEntryInterceptor {
-	private static Logger LOGGER = Logger.getLogger(ScanRepositoryBaseLogEntry.class);
-	private ArrayList<LogEntryInterceptor> logEntryInterceptors;
-
-	public ScanRepositoryBaseLogEntry() {
-		super();
-		setLogEntryInterceptors(new ArrayList<LogEntryInterceptor>());
-	}
+public class SchedulerLogEntryInterceptor implements LogEntryInterceptor {
+	private static Logger LOGGER = Logger.getLogger(SchedulerLogEntryInterceptor.class);
 
 	public void LogEntryStart() {
-		LOGGER.trace("LogEntryStart()");
-		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
-			item.LogEntryStart();
-		}
+		LOGGER.info("Started scanning of the Log entries.");
 	}
-
+	
 	public void LogEntry(SVNLogEntry logEntry) {
-		LOGGER.trace("LogEntry()");
-		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
-			item.LogEntry(logEntry);
-		}
 	}
 
 	public void LogEntryStop() {
-		LOGGER.trace("LogEntryStop()");
-		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
-			item.LogEntryStop();
-		}
-	}
-	
-	public void registerLogEntryInterceptor(LogEntryInterceptor interceptor) {
-		getLogEntryInterceptors().add(interceptor);
-	}
-
-	public void setLogEntryInterceptors(ArrayList<LogEntryInterceptor> logEntryInterceptors) {
-		this.logEntryInterceptors = logEntryInterceptors;
-	}
-
-	public ArrayList<LogEntryInterceptor> getLogEntryInterceptors() {
-		return logEntryInterceptors;
+		LOGGER.info("Scanning of the Log entries done.");
 	}
 
 }

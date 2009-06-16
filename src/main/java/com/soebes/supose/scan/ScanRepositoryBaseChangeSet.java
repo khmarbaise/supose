@@ -40,28 +40,28 @@ public class ScanRepositoryBaseChangeSet implements ChangeSetInterceptor {
 	}
 
 	public void beginIndexChangeSetItem(SVNDirEntry dirEntry) {
-		LOGGER.info("beginIndexChangeSetItem()");
+		LOGGER.trace("beginIndexChangeSetItem()");
 		for (ChangeSetInterceptor item : getChangeSetInterceptors()) {
 			item.beginIndexChangeSetItem(dirEntry);
 		}
 	}
 
 	public void endIndexChangeSetItem(SVNDirEntry dirEntry) {
-		LOGGER.info("endIndexChangeSetItem()");
+		LOGGER.trace("endIndexChangeSetItem()");
 		for (ChangeSetInterceptor item : getChangeSetInterceptors()) {
 			item.endIndexChangeSetItem(dirEntry);
 		}
 	}
 
 	public void startIndexChangeSet() {
-		LOGGER.info("startIndexChangeSet()");
+		LOGGER.trace("startIndexChangeSet()");
 		for (ChangeSetInterceptor item : getChangeSetInterceptors()) {
 			item.startIndexChangeSet();
 		}
 	}
 
 	public void stopIndexChangeSet() {
-		LOGGER.info("stopIndexChangeSet()");
+		LOGGER.trace("stopIndexChangeSet()");
 		for (ChangeSetInterceptor item : getChangeSetInterceptors()) {
 			item.stopIndexChangeSet();
 		}
