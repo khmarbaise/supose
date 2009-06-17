@@ -93,13 +93,15 @@ public class RepositoryScanJob implements InterruptableJob, StatefulJob {
 				startRev = jobConfig.getReposConfig().getFromRev();
 			} else {
 				LOGGER.info("This is n'th time we scan the repository.");
-				startRev += jobConfig.getReposConfig().getFromRev();
+				startRev = fromRev+1;
 			}
 			long endRev = repos.getRepository().getLatestRevision();
 			scanRepos.setRepository(repos);
 			scanRepos.setStartRevision(startRev);
 			scanRepos.setEndRevision(endRev);
 			scanRepos.setName(reposConfig.getRepositoryName());
+
+			LOGGER.info("Scanning: startRev:" + startRev + " endRev:" + endRev);
 
     		ScheduleInterceptor interceptor = new ScheduleInterceptor();
     		scanRepos.registerScanInterceptor(interceptor);
@@ -110,8 +112,6 @@ public class RepositoryScanJob implements InterruptableJob, StatefulJob {
 //    		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
 //    		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
         	
-			
-
 			Index index = new Index ();
 			//We will allways create a new index.
 			index.setCreate(true);
