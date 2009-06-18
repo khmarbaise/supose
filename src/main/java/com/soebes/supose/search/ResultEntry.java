@@ -41,8 +41,8 @@ public class ResultEntry {
 	private Date date;
 	private String path;
 	private String filename;
-	private String dPath;
-	private String dFileName;
+	private String dpath;
+	private String dfilename;
 	private String author;
 	private String message;
 
@@ -142,20 +142,20 @@ public class ResultEntry {
 		this.date = sdf.parse(date);
 	}
 
-	public String getDPath() {
-		return dPath;
+	public String getDpath() {
+		return dpath;
 	}
 
-	public void setDPath(String path) {
-		dPath = path;
+	public void setDpath(String path) {
+		dpath = path;
 	}
 
-	public String getDFileName() {
-		return dFileName;
+	public String getDfilename() {
+		return dfilename;
 	}
 
-	public void setDFileName(String fileName) {
-		dFileName = fileName;
+	public void setDfilename(String fileName) {
+		dfilename = fileName;
 	}
 
 	public String getAuthor() {
