@@ -267,6 +267,18 @@ public class SearchRepositoryTest extends TestBase {
 		assertEquals(result.size(), 1);
 	}
 
+	/**
+	 * This test is based on issue Bug #215
+	 */
+	@Test
+	public void testQueryForREADMEFileIssue215() {
+		List<ResultEntry> result = searchRepository.getResult("+filename:README");
+		assertEquals(result.size(), 1);
+		assertEquals(result.get(0).getDfilename(), "README");
+		assertEquals(result.get(0).getFilename(), "readme");
+		assertEquals(result.get(0).getDpath(), "/project1/trunk/");
+	}
+
 	@Test
 	public void testCallGetterByName() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		ResultEntry re = new ResultEntry();

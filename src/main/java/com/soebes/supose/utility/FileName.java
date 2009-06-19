@@ -24,7 +24,6 @@
  */
 package com.soebes.supose.utility;
 
-import java.io.File;
 
 /**
  * @author Karl Heinz Marbaise
@@ -61,35 +60,27 @@ public class FileName {
     		}
     	}
 
-    	File f = new File(fileName);
     	if (isDir) {
     		if (!fileName.endsWith("/")) {
     			fileName += "/";
     		}
     		setPath(fileName);
     	} else {
-    		setBaseName(f.getName());
-    	}
-
-    	if (getBaseName().lastIndexOf('.') >= 0) {
-    		setExt(getBaseName().substring(getBaseName().lastIndexOf('.') + 1));
-    		setPath(fileName.substring(0, fileName.length() - getBaseName().length()));
-    	}
-
-    	if (getExt().length() > 0) {
-    		nameWithoutExtension = getBaseName().substring(0, getBaseName().length() - getExt().length() - 1);
-    	}
-
-    	//Now we check if we have things like ".tar.gz", ".tar.bz2" etc.
-    	if (getNameWithoutExtension().lastIndexOf('.') > 0) {
-    		String tar = getNameWithoutExtension().substring(getNameWithoutExtension().lastIndexOf('.') + 1);
-
-    		//We only allow double extension in relationship with ".tar".
-    		//If we don't reduce this, we would get things like ".i586.rpm" 
-    		//or ".1.zip" etc. which we don't like to get. 
-    		if (tar.equals("tar")) {
-    			setExt(tar + "." + getExt());
-    			nameWithoutExtension = getBaseName().substring(0, getBaseName().length() - getExt().length()  -1);
+    		int pos = fileName.lastIndexOf("/");
+    		if (pos >= 0) {
+    			setBaseName(fileName.substring(pos+1));
+    			setPath(fileName.substring(0, pos+1));
+    		} else {
+    			setBaseName(fileName);
+    		}
+    		pos = getBaseName().indexOf('.');
+    		if (pos >= 0) {
+    			setNameWithoutExtension(getBaseName().substring(0, pos));
+    			setName(getNameWithoutExtension());
+    			setExt(getBaseName().substring(pos+1));
+    		} else {
+    			setNameWithoutExtension(getBaseName());
+    			setName(getBaseName());
     		}
     	}
 	}

@@ -26,8 +26,6 @@ package com.soebes.supose.utility;
 
 import static org.testng.Assert.assertEquals;
 
-import java.io.File;
-
 import org.testng.annotations.Test;
 
 /**
@@ -87,8 +85,8 @@ public class FileNameTest {
 		FileName fn = new FileName(fileName);
 		assertEquals(fn.getExt(), "", "The extension is not as expected.");
 		assertEquals(fn.getBaseName(), "branches", "The basename is not as expected.");
-		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
-		assertEquals(fn.getPath(), "", "The path is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "branches", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/", "The path is not as expected.");
 	}
 
 	public void testF61() {
@@ -124,6 +122,19 @@ public class FileNameTest {
 		assertEquals(fn.getExt(), "project", "The extension is not as expected.");
 		assertEquals(fn.getBaseName(), ".project", "The basename is not as expected.");
 		assertEquals(fn.getNameWithoutExtension(), "", "The name without extension is not as expected.");
+		assertEquals(fn.getPath(), "/branches/B_0.4.0/", "The path is not as expected.");
+	}
+	
+	/**
+	 * This test is based on issue #215
+	 * as well as the test in SearchRepositoryTest#testQueryForREADMEFileIssue215
+	 */
+	public void testF100() {
+		String fileName = "/branches/B_0.4.0/README";
+		FileName fn = new FileName(fileName, false);
+		assertEquals(fn.getExt(), "", "The extension is not as expected.");
+		assertEquals(fn.getBaseName(), "README", "The basename is not as expected.");
+		assertEquals(fn.getNameWithoutExtension(), "README", "The name without extension is not as expected.");
 		assertEquals(fn.getPath(), "/branches/B_0.4.0/", "The path is not as expected.");
 	}
 	

@@ -1,6 +1,6 @@
 SVN-fs-dump-format-version: 2
 
-UUID: 213228e2-7e6a-0410-a83c-d104be1d328b
+UUID: b166988a-b76c-0410-bea7-c92c15cf4455
 
 Revision-number: 0
 Prop-content-length: 56
@@ -9,7 +9,7 @@ Content-length: 56
 K 8
 svn:date
 V 27
-2009-05-22T11:51:39.554656Z
+2009-06-19T18:17:46.904433Z
 PROPS-END
 
 Revision-number: 1
@@ -27,7 +27,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:39.586366Z
+2009-06-19T18:17:46.932417Z
 PROPS-END
 
 Node-path: project1
@@ -81,7 +81,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:40.155344Z
+2009-06-19T18:17:47.152400Z
 PROPS-END
 
 Node-path: project1/trunk/f1.txt
@@ -123,7 +123,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:41.131298Z
+2009-06-19T18:17:48.128352Z
 PROPS-END
 
 Node-path: project1/tags/RELEASE-0.0.1
@@ -148,7 +148,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:41.187354Z
+2009-06-19T18:17:48.181290Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -221,7 +221,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:53.678151Z
+2009-06-19T18:18:00.638352Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -291,7 +291,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:54.159186Z
+2009-06-19T18:18:01.164358Z
 PROPS-END
 
 Node-path: project1/tags/supose-0.0.2
@@ -340,7 +340,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:55.184065Z
+2009-06-19T18:18:02.183120Z
 PROPS-END
 
 Node-path: project1/trunk/pom.xml
@@ -410,7 +410,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:56.224979Z
+2009-06-19T18:18:03.262896Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2
@@ -435,7 +435,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:51:57.160710Z
+2009-06-19T18:18:04.159773Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2/module
@@ -543,7 +543,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:00.140192Z
+2009-06-19T18:18:07.140389Z
 PROPS-END
 
 Node-path: project1/trunk
@@ -638,7 +638,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:02.131881Z
+2009-06-19T18:18:09.131013Z
 PROPS-END
 
 Node-path: project1/trunk/f3.txt
@@ -668,7 +668,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:04.178543Z
+2009-06-19T18:18:11.175586Z
 PROPS-END
 
 Node-path: project1/trunk/testPPT.ppt
@@ -930,7 +930,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:06.227240Z
+2009-06-19T18:18:13.227383Z
 PROPS-END
 
 Node-path: project1/trunk/TextArchive.tar.gz
@@ -1275,7 +1275,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:08.165891Z
+2009-06-19T18:18:15.163953Z
 PROPS-END
 
 Node-path: project1/trunk/testWORD.doc
@@ -1365,7 +1365,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:10.189735Z
+2009-06-19T18:18:17.188728Z
 PROPS-END
 
 Node-path: project1/trunk/testEXCEL-formats.xls
@@ -1658,7 +1658,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:12.134354Z
+2009-06-19T18:18:19.133445Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2/f3.txt
@@ -1692,7 +1692,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:13.139184Z
+2009-06-19T18:18:20.135290Z
 PROPS-END
 
 Node-path: project1/trunk
@@ -1723,7 +1723,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:15.128863Z
+2009-06-19T18:18:22.126938Z
 PROPS-END
 
 Node-path: project1/branches/B_0.0.2
@@ -1745,7 +1745,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:15.163863Z
+2009-06-19T18:18:22.159933Z
 PROPS-END
 
 Node-path: project1/tags/RELEASE-0.0.1
@@ -1767,7 +1767,7 @@ kama
 K 8
 svn:date
 V 27
-2009-05-22T11:52:16.133750Z
+2009-06-19T18:18:23.133761Z
 PROPS-END
 
 Node-path: project1/tags/RELEASE-0.0.2
@@ -1786,5 +1786,35 @@ Content-length: 23
 
 Content1
 Release 0.0.2
+
+
+Revision-number: 21
+Prop-content-length: 114
+Content-length: 114
+
+K 7
+svn:log
+V 15
+- README added.
+K 10
+svn:author
+V 4
+kama
+K 8
+svn:date
+V 27
+2009-06-19T18:18:25.147499Z
+PROPS-END
+
+Node-path: project1/trunk/README
+Node-kind: file
+Node-action: add
+Prop-content-length: 10
+Text-content-length: 41
+Text-content-md5: 5beb9a41a78c3bfe9e3367114e3d3c7c
+Content-length: 51
+
+PROPS-END
+This is a README file without extension.
 
 

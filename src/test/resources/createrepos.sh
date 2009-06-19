@@ -139,6 +139,14 @@ echo "Release 0.0.2" >>f1.txt
 svn cp . $URL/project1/tags/RELEASE-0.0.2 -m"- Release 0.0.2"
 cd $POS
 #
+rm -fr $WC1
+svn co $URL/project1/trunk $WC1
+cd $WC1
+echo "This is a README file without extension." >README
+svn add README
+svn ci -m"- README added."
+cd $POS
+#
 #
 svnadmin dump $POS/$REPOS >$REPOS.dump
 #

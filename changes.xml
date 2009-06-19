@@ -5,6 +5,12 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.6.2 Calypso" date="2009-XX-XX" description="Bug Fix Release">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="215">
+				There had a problemw with recognizing of README files or files without extensions. This
+				was based on wrong implementation in the FileName class. Complete reimplemented the class.
+			</action>
+		</release>
 		<release version="0.6.1 Bestla" date="2009-06-17" description="Bug Fix and Minor Enhancement Release">
 			<action dev="Karl Heinz Marbaise" type="fix" issue="213" due-to="Christian Dehning">
 				There had been a problem with scheduled scanning of a repository, cause after a change 
