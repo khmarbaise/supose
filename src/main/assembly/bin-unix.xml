@@ -27,6 +27,7 @@
 <assembly>
 	<id>bin-unix</id>
 	<formats>
+		<format>tar.bz2</format>
 		<format>tar.gz</format>
 	</formats>
 	<componentDescriptors>
