@@ -375,9 +375,15 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.4</version>
-					<configuration>
-						<doctitle>${project.name} ${project.version}-${project.buildNumber} API</doctitle>
-					</configuration>
+				<configuration>
+					<quiet/>
+					<doctitle>${project.name} ${project.version}-${project.buildNumber} API</doctitle>
+					<links>
+						<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+						<link>http://lucene.apache.org/java/2_4_0/api</link>
+						<link>http://www.opensymphony.com/quartz/api/</link>
+					</links>
+				</configuration>
 			</plugin>
 
 			<plugin>
