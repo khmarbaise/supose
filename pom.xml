@@ -296,23 +296,15 @@
 					<failIfMissing>false</failIfMissing>
 					<includes>
 						<include>src/**</include>
-						<include>**/test/**</include>
 					</includes>
 					<excludes>
 						<exclude>src/main/antlr/**</exclude>
-						<exclude>src/main/java-generated/**</exclude>
-						<exclude>target/**</exclude>
-						<exclude>build/**</exclude>
-						<exclude>src/test/resources/**</exclude>
 						<exclude>src/main/resources/**</exclude>
+						<exclude>src/test/resources/**</exclude>
 					</excludes>
-					<useDefaultExcludes>true</useDefaultExcludes>
 					<mapping>
-						<jwc>xml</jwc>
-						<application>xml</application>
-						<myFileExtension>java</myFileExtension>
+						<apt>DOUBLETILDE_STYLE</apt>
 					</mapping>
-					<useDefaultMapping>true</useDefaultMapping>
 					<properties>
 						<year>2007, 2008, 2009</year>
 						<email>supose@soebes.org</email>
