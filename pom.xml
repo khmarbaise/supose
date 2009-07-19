@@ -285,7 +285,9 @@
 			
 			<plugin>
 				<!--
-					Configuration of the plugin: http://code.google.com/p/maven-license-plugin/wiki/Configuration
+				    Configuration of the plugin: http://code.google.com/p/maven-license-plugin/wiki/Configuration
+					The current Release 1.4.0 has a bug for .apt files which results in not removing 
+					the license header (http://code.google.com/p/maven-license-plugin/issues/detail?id=43). 
 				-->
 				<groupId>com.google.code.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
