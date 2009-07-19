@@ -22,7 +22,6 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-// SupoSE
 package com.soebes.supose.cli;
 
 import static org.testng.Assert.assertEquals;
