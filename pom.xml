@@ -67,6 +67,13 @@
 				<role>tester</role>
 			</roles>
 		</contributor>
+		<contributor>
+			<name>Michael Krkoska</name>
+			<roles>
+				<role>reporter</role>
+				<role>tester</role>
+			</roles>
+		</contributor>
 	</contributors>
 
 	<issueManagement>

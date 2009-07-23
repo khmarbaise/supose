@@ -46,12 +46,6 @@ public class CustomQueryParser extends QueryParser {
 		super(field, analyzer);
 	}
 
-	@Override
-	protected Query getFuzzyQuery(String field, String term, float minSimilarity)
-		throws ParseException {
-		throw new ParseException("Fuzzy queries not allowed");
-	}
-
 	/* (non-Javadoc)
 	 * @see org.apache.lucene.queryParser.QueryParser#getFieldQuery(java.lang.String, java.lang.String)
 	 */
