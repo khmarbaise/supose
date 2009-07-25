@@ -39,6 +39,7 @@
 			<directory>src/main/resources</directory>
 			<outputDirectory>etc</outputDirectory>
 			<includes>
+				<include>quartz.properties</include>
 				<include>log4j.properties</include>
 				<include>fileextension.properties</include>
 			</includes>

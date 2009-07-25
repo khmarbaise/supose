@@ -238,7 +238,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.2</version>
 				<configuration>
+					<excludes>
+						<exclude>**/*.properties</exclude>
+					</excludes>
 					<archive>
 						<manifest>
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
