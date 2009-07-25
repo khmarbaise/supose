@@ -25,15 +25,18 @@
 package com.soebes.supose.cli;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.cli2.CommandLine;
+import org.apache.commons.cli2.Group;
+import org.apache.commons.cli2.HelpLine;
 import org.apache.commons.cli2.OptionException;
 import org.apache.commons.cli2.util.HelpFormatter;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -71,6 +74,8 @@ import com.thoughtworks.xstream.XStream;
  */
 public class SuposeCLI {
 	private static Logger LOGGER = Logger.getLogger(SuposeCLI.class);
+	
+	private static final int HELP_OPTION_DESCRIPTION_INDENT = 30;
 
 	private static SuposeCommandLine suposecli = new SuposeCommandLine();
 	private static ScanRepository scanRepository = new ScanRepository();
@@ -85,12 +90,7 @@ public class SuposeCLI {
 		}
 
 		if (commandLine.hasOption(suposecli.getGlobalOptionH())) {
-	        final StringWriter out = new StringWriter();
-	        final HelpFormatter hf = new HelpFormatter();
-	        hf.setGroup(suposecli.getSuposeOptions());
-	        hf.setPrintWriter(new PrintWriter(out));
-	        hf.printHelp();
-	        System.out.println(out);
+			printHelp();
 	        System.exit(0);
 		} else if (commandLine.hasOption(suposecli.getScanCommand())) {
 			runScan(suposecli.getScliScanCommand());
@@ -104,6 +104,26 @@ public class SuposeCLI {
 			System.err.println("Error: You should define either scan, search, merge or schedule as command or use -H option to get further detailed information.");
 			System.exit(1);
 		}
+	}
+	
+	private static void printHelp() {
+		StringBuffer help = new StringBuffer();
+		Group suposeOptions = suposecli.getSuposeOptions();
+		List helpLines = suposeOptions.helpLines(0, HelpFormatter.DEFAULT_DISPLAY_USAGE_SETTINGS, null);
+		String descriptionPad = StringUtils.repeat(" ", HELP_OPTION_DESCRIPTION_INDENT);
+		int descriptionIndent = HelpFormatter.DEFAULT_FULL_WIDTH - HELP_OPTION_DESCRIPTION_INDENT;
+		for (Iterator i = helpLines.iterator(); i.hasNext();) {
+			HelpLine helpLine = (HelpLine) i.next();
+			String usage = helpLine.usage(HelpFormatter.DEFAULT_LINE_USAGE_SETTINGS, null);
+			String usageWrapped = WordUtils.wrap(usage, HelpFormatter.DEFAULT_FULL_WIDTH);
+			help.append(usageWrapped).append("\n");
+			String description = helpLine.getDescription();
+			if (description != null) {
+				String descriptionWrapped = WordUtils.wrap(description, descriptionIndent, "\n" + descriptionPad, true);
+				help.append(descriptionPad).append(descriptionWrapped).append("\n");
+			}
+		}
+		System.out.println(help);
 	}
 
 	/**

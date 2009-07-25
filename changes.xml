@@ -10,6 +10,9 @@
 				Moved the quartz.properties file into the etc folder of the distribution instead
 				of hiding it within the jar file. Simplifies configuration for the user.
 			</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="36" due-to="Michael Krkoska">
+				Improved the output of --help option with the provided path.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="199" due-to="Michael Krkoska">
 				Removed overwritten getFuzzyQuery from CustomQueryParser class.
 			</action>
