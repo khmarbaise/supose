@@ -37,6 +37,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
+import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
@@ -93,9 +94,10 @@ public class ScanRepository extends ScanRepositoryBase {
 	 * scanning every change set.
 	 * @param writer The index where the result of the scanning
 	 *   will be written to.
+	 * @throws SVNException 
 	 */
 	@SuppressWarnings("unchecked")
-	public void scan(IndexWriter writer) {
+	public void scan(IndexWriter writer) throws SVNException {
 
 		LOGGER.debug("Repositories latest Revision: " + endRevision);
         try {
@@ -106,10 +108,13 @@ public class ScanRepository extends ScanRepositoryBase {
                 	LogEntry(logEntry);
                 }
             });
+        } catch (SVNAuthenticationException svnae) {
+            LOGGER.error("Authentication has failed. '" + repository.getUrl() + "'", svnae);
+            throw svnae;
         } catch (SVNException svne) {
             LOGGER.error("error while collecting log information for '"
                     + repository.getUrl() + "'", svne);
-            return;
+            throw svne;
         } finally {
         	LogEntryStop();
         }

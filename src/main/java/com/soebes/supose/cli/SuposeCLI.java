@@ -48,6 +48,7 @@ import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
+import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
@@ -171,17 +172,22 @@ public class SuposeCLI {
 		//We will scan the repository to the current HEAD of the repository.
 		scanRepository.setEndRevision(toRev);
 
-		LOGGER.info("Scanning started.");
-		scanRepository.scan(indexWriter);
-		LOGGER.info("Scanning ready.");
-
 		try {
-			indexWriter.optimize();
-			indexWriter.close();
-		} catch (CorruptIndexException e) {
-			System.err.println("CorruptIndexException: Error during optimization of index: " + e);
-		} catch (IOException e) {
-			System.err.println("IOException: Error during optimization of index: " + e);
+			LOGGER.info("Scanning started.");
+			scanRepository.scan(indexWriter);
+			LOGGER.info("Scanning ready.");
+			try {
+				indexWriter.optimize();
+				indexWriter.close();
+			} catch (CorruptIndexException e) {
+				System.err.println("CorruptIndexException: Error during optimization of index: " + e);
+			} catch (IOException e) {
+				System.err.println("IOException: Error during optimization of index: " + e);
+			}
+		} catch (SVNAuthenticationException svnae) {
+			System.err.println("Authentication has failed. " + svnae.getMessage());
+		} catch (Exception e) {
+			System.err.println("Something unexpected went wrong: " + e.getMessage());
 		}
 
 	}
