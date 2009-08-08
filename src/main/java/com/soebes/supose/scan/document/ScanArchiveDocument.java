@@ -28,12 +28,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.log4j.Logger;
+import org.apache.tika.config.TikaConfig;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.parser.CompositeParser;
-import org.apache.tika.parser.EmptyParser;
 import org.apache.tika.parser.Parser;
-import org.apache.tika.parser.pkg.PackageParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
@@ -75,16 +73,13 @@ public class ScanArchiveDocument extends AScanDocument {
 		try {
 			Metadata metadata = new Metadata();
 			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+			
 			//The following code part is from an proposal of the Authors of Tika:
 			//https://issues.apache.org/jira/browse/TIKA-232
-			CompositeParser composite = new AutoDetectParser();
-		    for (Parser parser : composite.getParsers().values()) {
-		        if (parser instanceof PackageParser) {
-		            ((PackageParser) parser).setParser(new EmptyParser());
-		        }
-		    }
+			TikaConfig config = TikaConfig.getDefaultConfig(); // without a delegate parser 
+		    Parser parser = new AutoDetectParser(config); 
 			DefaultHandler handler = new BodyContentHandler();
-			composite.parse(in, handler, metadata);
+			parser.parse(in, handler, metadata);
 			addTokenizedField(FieldNames.CONTENTS, handler.toString());
 
 		} catch (Exception e) {
