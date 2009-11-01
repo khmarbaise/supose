@@ -47,7 +47,7 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<system.scm.connection>scm:svn:http://svn.serverix/supose/</system.scm.connection>
+				<system.scm.connection>scm:svn:http://svn.supose.org/supose/</system.scm.connection>
 				<system.scm.dev>${system.scm.connection}</system.scm.dev>
 				<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
 				<issuemanagement.url>http://www.supose.org</issuemanagement.url>
