@@ -146,7 +146,7 @@ public class ScanRepository extends ScanRepositoryBase {
 					count++;
 				}
             } else {
-            	LOGGER.debug("No changed paths found!");
+            	LOGGER.warn("Empty ChangeSet found in revision: " + logEntry.getRevision());
             }
             if (isAbbort()) {
             	LOGGER.warn("We have received an abort signal!");
