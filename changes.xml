@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release version="0.6.2 Calypso" date="2009-XX-XX" description="Bug Fix Release">
+			<action dev="Karl Heinz Marbaise" type="update">
+				Moved log file for unit tests into target folder.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="update" issue="219">
 				Updated to Tika 0.4
 			</action>
