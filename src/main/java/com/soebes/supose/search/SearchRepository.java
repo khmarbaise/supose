@@ -177,7 +177,7 @@ public class SearchRepository {
 	    	setSearcher(searcher);
 	    	SortField[] sf = {
 	    		new SortField(FieldNames.REVISION.toString()),
-	    		new SortField(FieldNames.DFILENAME.toString()), //We use for sorting the display Filename
+	    		new SortField(FieldNames.FILENAME.toString()), //We use for sorting the filename
 	    	};
 	    	Sort sort = new Sort(sf);
 	    	//Here we define the default field for searching.

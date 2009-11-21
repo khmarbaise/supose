@@ -297,14 +297,8 @@ public class SuposeCLI {
 		//Here we translate the search fields into the fields which are displayed.
 		List<FieldNames> cliDisplayFields = new ArrayList<FieldNames>();
 		for (String fieldName : cliFields) {
-			if (fieldName.equals(FieldNames.FILENAME.getValue())) {
-				cliDisplayFields.add(FieldNames.DFILENAME);
-			} else if (fieldName.equals(FieldNames.PATH.getValue())) {
-				cliDisplayFields.add(FieldNames.DPATH);
-			} else {
-				FieldNames fn = FieldNames.valueOf(fieldName.toUpperCase());
-				cliDisplayFields.add(fn);
-			}
+			FieldNames fn = FieldNames.valueOf(fieldName.toUpperCase());
+			cliDisplayFields.add(fn);
 		}
 		return cliDisplayFields;
 	}
@@ -336,7 +330,7 @@ public class SuposeCLI {
 				//If nothings is given on command line we have to define 
 				//default fields which will be printed
 				cliFields.add(FieldNames.REVISION.getValue());
-				cliFields.add(FieldNames.DFILENAME.getValue());
+				cliFields.add(FieldNames.FILENAME.getValue());
 				cliFields.add(FieldNames.PATH.getValue());
 				cliFields.add(FieldNames.KIND.getValue());
 			}

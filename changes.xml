@@ -6,6 +6,11 @@
 	</properties>
 	<body>
 		<release version="0.6.2 Calypso" date="2009-XX-XX" description="Bug Fix Release">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="241">
+				Removed the usage of dfilename and dpath to use filename and path instead. 
+				In the index the lower case variant will be put into whereas the original
+				variant will be stored.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="update">
 				Updated to Java 1.6 and Updated to SVNKit 1.3.1
 				<fixes issue="218"/>

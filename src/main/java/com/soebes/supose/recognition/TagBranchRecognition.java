@@ -45,7 +45,13 @@ import com.soebes.supose.repository.Repository;
 public class TagBranchRecognition {
 	private static Logger LOGGER = Logger.getLogger(TagBranchRecognition.class);
 
+	/**
+	 * @FIXME: Move this constants to a configuration file. 
+	 */
 	public static final String TAGS = "/tags/";
+	/**
+	 * @FIXME: Move this constants to a configuration file. 
+	 */
 	public static final String MAVEN_TAG_PREFIX = "[maven-release-plugin]  copy for tag ";
 
 	private Repository repository = null;
@@ -72,7 +78,6 @@ public class TagBranchRecognition {
 		) {
 		TagBranch result = null;
 		//The log message is the first indication for a maven tag...
-//FIXME: The hard coded value for the message of Maven must be made configurable...		
 		if (!logEntry.getMessage().startsWith(MAVEN_TAG_PREFIX)) {
 			return result;
 		}
@@ -141,7 +146,6 @@ public class TagBranchRecognition {
 				bt.setName(entryPath.getPath());
 				bt.setRevision(logEntry.getRevision());
 				bt.setCopyFromRevision(entryPath.getCopyRevision());
-//FIXME: the hard coded value "/tags/" must be made configurably.				
 				if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
 					//Interception Point: tagRecognized()
 					bt.setType(TagBranch.Type.TAG);
