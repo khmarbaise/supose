@@ -24,7 +24,7 @@
 		<quartz.version>1.6.4</quartz.version>
 		<ini4j.version>0.5.1</ini4j.version>
 		<lucene.version>2.4.0</lucene.version>
-		<tika.version>0.4</tika.version>
+		<tika.version>0.5</tika.version>
 	</properties>
 
 	<organization>
@@ -95,28 +95,6 @@
 	<build>
 		<finalName>${project.artifactId}-${project.version}-${buildNumber}</finalName>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.2</version>
-				<executions>
-					<execution>
-						<phase>clean</phase>
-						<configuration>
-							<tasks unless="maven.test.skip">
-								<echo>SCM URL: ${system.scm.url}</echo>
-								<echo>SCM DEV: ${system.scm.dev}</echo>
-								<echo>SCM CON: ${system.scm.connection}</echo>
-								<echo> DI URL: ${system.site.deployment}</echo>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<configuration>
