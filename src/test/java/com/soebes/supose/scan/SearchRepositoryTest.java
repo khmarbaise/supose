@@ -58,12 +58,39 @@ public class SearchRepositoryTest extends TestBase {
 		reader.close();
 	}
 
+	
+	
+	
 	@Test
 	public void testQueryForFilenameOnly() {
 		List<ResultEntry> result = searchRepository.getResult("+filename:f1.txt");
 	    assertEquals(result.size(), 4);
 	}
 
+	@Test
+	public void testBug246QueryForFilenameWithHyphenAsterik() {
+		List<ResultEntry> result = searchRepository.getResult("+filename:testEXCEL*.xls");
+	    assertEquals(result.size(), 2);
+	}
+
+	@Test
+	public void testBug246QueryForFilenameWithHyphenAndDot() {
+		List<ResultEntry> result = searchRepository.getResult("+filename:\"testEXCEL\\-formats.xls\"");
+	    assertEquals(result.size(), 1);
+	}
+
+	@Test
+	public void testBug246QueryForFilenameWithHyphenNotQuoted() {
+		List<ResultEntry> result = searchRepository.getResult("+filename:testEXCEL\\-formats\\.xls");
+	    assertEquals(result.size(), 1);
+	}
+
+	@Test
+	public void testBug246QueryForFilenameWithDotReplacedByQuestionMark() {
+		List<ResultEntry> result = searchRepository.getResult("+filename:testEXCEL-formats?xls");
+	    assertEquals(result.size(), 1);
+	}
+	
 	@Test
 	public void testQueryForFilenameOnlyUppercase() {
 		List<ResultEntry> result = searchRepository.getResult("+filename:F1.txt");

@@ -24,12 +24,16 @@
  */
 package com.soebes.supose.search;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RangeQuery;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.BooleanClause.Occur;
 
 import com.soebes.supose.FieldNames;
 
@@ -39,6 +43,7 @@ import com.soebes.supose.FieldNames;
  *
  */
 public class CustomQueryParser extends QueryParser {
+	private static Logger LOGGER = Logger.getLogger(CustomQueryParser.class);
 	public CustomQueryParser(FieldNames field, Analyzer analyzer) {
 		super(field.getValue(), analyzer);
 	}
@@ -51,11 +56,20 @@ public class CustomQueryParser extends QueryParser {
 	 */
 	@Override
 	protected Query getFieldQuery(String field, String term) throws ParseException {
+		LOGGER.debug("getFieldQuery(): field:" + field + " Term: " + term);
 		//This will handle the situation:
 		// +revision:1
 		if (FieldNames.REVISION.getValue().equals(field)) {
 			int revision = Integer.parseInt(term);
 			term = NumberUtils.pad(revision);
+		}
+		
+		if (FieldNames.FILENAME.getValue().equals(field)) {
+			Term t = new Term(FieldNames.FILENAME.getValue(), term.toLowerCase());
+			TermQuery tq = new TermQuery (t);
+			BooleanQuery bq = new BooleanQuery ();
+			bq.add(tq, Occur.MUST);
+			return bq;
 		}
 		return super.getFieldQuery(field, term);
 	}
