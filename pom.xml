@@ -24,7 +24,7 @@
 		<quartz.version>1.6.4</quartz.version>
 		<ini4j.version>0.5.1</ini4j.version>
 		<lucene.version>2.4.0</lucene.version>
-		<tika.version>0.4</tika.version>
+		<tika.version>0.5</tika.version>
 	</properties>
 
 	<organization>
