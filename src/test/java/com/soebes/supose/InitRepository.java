@@ -88,10 +88,7 @@ public class InitRepository extends TestBase {
 		LOGGER.info("Start loading the dump file into the repository.");
 		//Create the path to the repos.dump file which is located 
 		//in the src/test/resources directory.
-		String dumpFile = getMavenBaseDir() 
-			+ File.separatorChar + "src" 
-			+ File.separatorChar + "test" 
-			+ File.separatorChar + "resources"
+		String dumpFile = getTestResourcesDirectory() 
 			+ File.separatorChar + "repos.dump";
 		SVNAdminClient admin = new SVNAdminClient((ISVNAuthenticationManager)null, null);
 		admin.doLoad(new File(getRepositoryDirectory()), new FileInputStream(dumpFile));
