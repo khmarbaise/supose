@@ -96,28 +96,6 @@
 		<finalName>${project.artifactId}-${project.version}-${buildNumber}</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.2</version>
-				<executions>
-					<execution>
-						<phase>clean</phase>
-						<configuration>
-							<tasks unless="maven.test.skip">
-								<echo>SCM URL: ${system.scm.url}</echo>
-								<echo>SCM DEV: ${system.scm.dev}</echo>
-								<echo>SCM CON: ${system.scm.connection}</echo>
-								<echo> DI URL: ${system.site.deployment}</echo>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<configuration>
 					<filesets>
@@ -259,7 +237,7 @@
 							<!-- This will overwrite the default Built-By entry... -->
 							<Built-By>Karl Heinz Marbaise</Built-By>
 							<mode>development</mode>
-							<url>${pom.url}</url>
+							<url>${project.url}</url>
 							<Implementation-Build>${buildNumber}</Implementation-Build>
 						</manifestEntries>
 					</archive>
@@ -268,7 +246,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.0-beta-3</version>
+				<version>1.0-beta-4</version>
 				<executions>
 					<execution>
 						<phase>validate</phase>
