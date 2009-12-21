@@ -85,6 +85,9 @@ public class TestBase {
 	public String getRepositoryDirectory() {
 		return getTargetDir() + File.separatorChar + "repos";
 	}
+	public String getRepositoryDirectory(String supplemental) {
+		return getTargetDir() + File.separatorChar + "repos-" + supplemental;
+	}
 	
 	/**
 	 * This will give you back the position of an index directory
@@ -94,6 +97,10 @@ public class TestBase {
 	public String getIndexDirectory() {
 		return getTargetDir() + File.separatorChar + "index.Test";
 	}
+	public String getIndexDirectory(String supplemental) {
+		return getTargetDir() + File.separatorChar + "index-" + supplemental + ".Test";
+	}
+	
 	
 	public String getSrcDirectory () {
 		return getMavenBaseDir() + File.separator + "src" ;

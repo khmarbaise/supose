@@ -57,9 +57,6 @@ public class SearchRepositoryTest extends TestBase {
 		IndexReader reader = searchRepository.getReader();
 		reader.close();
 	}
-
-	
-	
 	
 	@Test
 	public void testQueryForFilenameOnly() {
