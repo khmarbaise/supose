@@ -37,6 +37,7 @@ import com.soebes.supose.index.Index;
 
 import static org.testng.Assert.*;
 
+@Test
 public class IndexMergeTest {
 
 	static public boolean deleteDirectory(String fileName) {
@@ -73,7 +74,6 @@ public class IndexMergeTest {
 	//2. Create an other index with some contents
 	//3. merge the two indexes..
 
-	@Test()
 	public void testIndex1 () throws Exception {
 		Index index = new Index ();
 		IndexWriter indexWriter = index.createIndexWriter("index1");
@@ -84,7 +84,6 @@ public class IndexMergeTest {
 		indexWriter.close();
 	}
 	
-	@Test()
 	public void testIndex2 () throws Exception {
 		Index index = new Index ();
 		IndexWriter indexWriter = index.createIndexWriter("index2");
