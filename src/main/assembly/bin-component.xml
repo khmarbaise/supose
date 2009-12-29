@@ -25,8 +25,6 @@
 
 -->
 <component>
-	<baseDirectory>${artifactId}-${version}</baseDirectory>
-	<includeSiteDirectory>false</includeSiteDirectory>
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>lib</outputDirectory>
@@ -45,6 +43,7 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>${basedir}</directory>
 			<includes>
 				<include>search-examples.txt</include>
 			</includes>
