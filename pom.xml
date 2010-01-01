@@ -86,6 +86,7 @@
 		<url>${cimanagement.url}</url>
 	</ciManagement>
 
+
 	<scm>
 		<connection>${system.scm.connection}</connection>
 		<developerConnection>${system.scm.dev}/trunk</developerConnection>
@@ -569,4 +570,57 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<!--
+				This profile is used to define the URL's etc. if we are
+				on the traveler laptop.
+			-->
+			<id>homeoffice</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<system.scm.connection>scm:svn:http://svn.serverix/supose/</system.scm.connection>
+				<system.scm.dev>${system.scm.connection}</system.scm.dev>
+				<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+				<issuemanagement.url>http://www.supose.org</issuemanagement.url>
+				<cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
+			</properties>
+		</profile>
+		<profile>
+			<!--
+				This profile is used to define the URL's etc. if we are
+				on the internet server (h5593.serverkompetenz.net).
+			-->
+			<id>online</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<system.scm.connection>scm:svn:http://svn.supose.org/supose/</system.scm.connection>
+				<system.scm.dev>${system.scm.connection}</system.scm.dev>
+				<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+				<issuemanagement.url>http://www.supose.org</issuemanagement.url>
+				<cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
+			</properties>
+		</profile>
+		<profile>
+			<!--
+				This profile is used to define the URL's etc. if we are
+				on the traveler laptop.
+			-->
+			<id>homeoffice-mac</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<system.scm.connection>scm:svn:http://svn.supose.org/supose/</system.scm.connection>
+				<system.scm.dev>${system.scm.connection}</system.scm.dev>
+				<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+				<issuemanagement.url>http://www.supose.org</issuemanagement.url>
+				<cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
+			</properties>
+		</profile>
+	</profiles>
 </project>
