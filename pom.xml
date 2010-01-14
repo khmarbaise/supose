@@ -569,6 +569,20 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.1</version>
 		</dependency>
+		<!--
+			The following two dependency has to be given explicit, caused by a problem on the PDFBox
+			See http://www.supose.org/issues/show/250 for details.	
+			-->
+		<dependency>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcmail-jdk14</artifactId>
+			<version>136</version>
+		</dependency>
+		<dependency>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcprov-jdk14</artifactId>
+			<version>136</version>
+		</dependency> 
 	</dependencies>
 
 	<profiles>
