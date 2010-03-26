@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="0.6.2 Calypso" date="2009-XX-XX" description="Bug Fix Release">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="300">
+				Fixed NoSuchElementException during execution of the maven-changelog-plugin.
+			</action>
 			<action dev="Karl Heinz Marbaise" type="update" issue="298">
 				Updated to ANTLR 3.2 plugin
 			</action>
