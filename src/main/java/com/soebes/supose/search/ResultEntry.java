@@ -41,8 +41,6 @@ public class ResultEntry {
 	private Date date;
 	private String path;
 	private String filename;
-	private String dpath;
-	private String dfilename;
 	private String author;
 	private String message;
 
@@ -140,22 +138,6 @@ public class ResultEntry {
 	public void setDate(String date) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss.SSS");
 		this.date = sdf.parse(date);
-	}
-
-	public String getDpath() {
-		return dpath;
-	}
-
-	public void setDpath(String path) {
-		dpath = path;
-	}
-
-	public String getDfilename() {
-		return dfilename;
-	}
-
-	public void setDfilename(String fileName) {
-		dfilename = fileName;
 	}
 
 	public String getAuthor() {
