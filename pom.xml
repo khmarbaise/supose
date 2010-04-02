@@ -21,7 +21,7 @@
 
 	<properties>
 		<maven-license-plugin.version>1.5.0</maven-license-plugin.version>
-		<quartz.version>1.6.4</quartz.version>
+		<quartz.version>1.7.3</quartz.version>
 		<ini4j.version>0.5.1</ini4j.version>
 		<lucene.version>2.4.0</lucene.version>
 		<tika.version>0.6</tika.version>
@@ -521,7 +521,7 @@
 			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>opensymphony</groupId>
+			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>${quartz.version}</version>
 		</dependency>
