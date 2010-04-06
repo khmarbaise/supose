@@ -24,7 +24,7 @@
 		<quartz.version>1.7.3</quartz.version>
 		<ini4j.version>0.5.1</ini4j.version>
 		<lucene.version>2.4.0</lucene.version>
-		<tika.version>0.6</tika.version>
+		<tika.version>0.7</tika.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -565,10 +565,9 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.1</version>
 		</dependency>
-		<!--
+<!--
 			The following two dependency has to be given explicit, caused by a problem on the PDFBox
 			See http://www.supose.org/issues/show/250 for details.	
-			-->
 		<dependency>
 			<groupId>bouncycastle</groupId>
 			<artifactId>bcmail-jdk14</artifactId>
@@ -579,6 +578,7 @@
 			<artifactId>bcprov-jdk14</artifactId>
 			<version>136</version>
 		</dependency> 
+-->
 	</dependencies>
 
 	<profiles>
