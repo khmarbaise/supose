@@ -1,0 +1,59 @@
+- We should make an change to commit partial parts 
+  to the lucene index and not only at the end of the
+  index process.
+  - e.g. every 100,1000 revisions etc. (command line option?)
+  - What about performance ?
+
+- May be should thinks about an option to scan only trunk, branch, tags
+  or particular branch, tag or folders of the repository instead of 
+  all revisions ?
+
+- Scheduler - Testings
+- Scheduler
+  - If we have large repository or just by configuration
+    that the start of the scheduler can be configured to
+    scan only parts of the repository with each step and
+    not all in one.
+
+- Let make maven tags entries in the tags only
+  to be able to search for the real tags only
+- Make tag entries searchable
+  currently this does not work cause we don't store the tag name in lowercase
+  That's the reason why searching for tag:*/TAGNAME does not work.
+  --query "+tag:*TAGNAME-1.0.0"
+
+
+- The following Problem occured if you use the +kind: option for tags.
+  It is expected not to get the entries with "KIND:r" if you use 
+  "+kind:a" in the query, but this does not work currently correct
+
+	mac:testvc km$ supose-0.6.2-SNAPSHOT-415/bin/supose search --index index.TEST --query "+maventag:* +revision:1127"
+	Query: ' +maventag:* +revision:1127'
+	Total Hits: 17
+		 1: REVISION:1127 DFILENAME: DPATH:/.../tags/............../ KIND:a 
+		 2: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/............../......../ KIND:r 
+		 3: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/package/ KIND:r 
+		 4: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/it/ KIND:r 
+		 5: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/abc/abc-war/ KIND:r 
+		 6: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/ KIND:r 
+		 7: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/xyz/xyz-wsdl/ KIND:r 
+		 8: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/abc/abc-dao/ KIND:r 
+		 9: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/xyz/xyz-sui/ KIND:r 
+		10: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/xyz/ KIND:r 
+		11: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/xyz/xyz-war/ KIND:r 
+		12: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/xyz/anemone/ KIND:r 
+		13: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/docs/ KIND:r 
+		14: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/xyz-tomcat/ KIND:r 
+		15: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/abc/abc-wsdl/ KIND:r 
+		16: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/config/ KIND:r 
+		17: REVISION:1127 DFILENAME:pom.xml DPATH:/.../tags/...-1.0.2.1/xyz/xyz-dao/ KIND:r 
+
+
+- I have to check if the entries made in the index can be made different for the KIND entries.
+
+- The problem with Tags and the kind entry is simple, cause a deleted entry can not be recognized
+  as a tag/branch etc. This might be changed in the way to ask the already created
+  index based on the information we have till that point.
+
+- We should check if we can recognzed if a tag is deleted. 
+  That can be recognized if we check the repositoy. (Can slow down the scan process).
