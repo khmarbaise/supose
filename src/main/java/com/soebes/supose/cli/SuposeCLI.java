@@ -50,6 +50,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 import org.tmatesoft.svn.core.SVNAuthenticationException;
+import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
@@ -80,10 +81,9 @@ public class SuposeCLI {
 	private static final int HELP_OPTION_DESCRIPTION_INDENT = 30;
 
 	private static SuposeCommandLine suposecli = new SuposeCommandLine();
-	private static ScanRepository scanRepository = new ScanRepository();
 	private static CommandLine commandLine = null;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SVNException {
 		try {
 			commandLine = suposecli.doParseArgs(args);
 		} catch (OptionException e) {
@@ -132,8 +132,9 @@ public class SuposeCLI {
 	 * This will do the command argument extraction and give the parameter to
 	 * the scanRepository class which will do the real repository scan.
 	 * @param scanCommand The command line.
+	 * @throws SVNException 
 	 */
-	private static void runScan(ScanCommand scanCommand) {
+	private static void runScan(ScanCommand scanCommand) throws SVNException {
 		String url = scanCommand.getURL(commandLine);
 		long fromRev = scanCommand.getFromRev(commandLine);
 		long toRev = scanCommand.getToRev(commandLine);
@@ -142,36 +143,80 @@ public class SuposeCLI {
 		String username = scanCommand.getUsername(commandLine);
 		String password = scanCommand.getPassword(commandLine);
 
+		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
+			username, 
+			password
+		);
+
+		Repository repository = new Repository(url, authManager);
+
+
+		boolean firstTime = true;
+
+		// Assuming we have fromRev: 1
+		// toRev: HEAD (-1)
+		long latestRevision = repository.getRepository().getLatestRevision();
+
+		//Define number per round
+		long deltaRevisions = 1000;
+
+		for (long revisions = fromRev; revisions <latestRevision; revisions += deltaRevisions) {
+			long startRevision = revisions;
+			long endRevision = revisions + deltaRevisions - 1;
+			if (endRevision > latestRevision) {
+				endRevision = latestRevision;
+			}
+
+			//BLOCK BEGIN
+			if (create) {
+				if (firstTime) {
+					firstTime = false;
+				} else {
+					create = false;
+				}
+			}
+			ScanRepository scanRepository = new ScanRepository();
+	
+			CLIInterceptor interceptor = new CLIInterceptor();
+			scanRepository.registerScanInterceptor(interceptor);
+			
+			CLILogEntryInterceptor logEntryInterceptor = new CLILogEntryInterceptor();
+			scanRepository.registerLogEntryInterceptor(logEntryInterceptor);
+	
+			CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
+			scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
+	
+			scanRepository.setRepository(repository);
+	
+			//We start with the revision which is given on the command line.
+			//If it is not given we will start with revision 1.
+			scanRepository.setStartRevision(startRevision); 
+			//We will scan the repository to the current HEAD of the repository.
+			scanRepository.setEndRevision(endRevision);
+	
+			scanReposSingle(scanRepository, indexDirectory, create);
+			//BLOCK END
+		}
+	}
+
+	/**
+	 * @param fromRev
+	 * @param toRev
+	 * @param indexDirectory
+	 * @param create
+	 * @param repository
+	 */
+	private static void scanReposSingle(ScanRepository scanRepository, String indexDirectory, boolean create) {
+		// BLOCK ANFANG
+
 		Index index = new Index ();
 		//We will create a new one if --create is given on command line
 		//otherwise we will append to the existing index.
 		Analyzer analyzer = new StandardAnalyzer();		
 		index.setAnalyzer(analyzer);
+
 		index.setCreate(create);
 		IndexWriter indexWriter = index.createIndexWriter(indexDirectory);
-
-		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
-			username, 
-			password
-		);
-		Repository repository = new Repository(url, authManager);
-
-		CLIInterceptor interceptor = new CLIInterceptor();
-		scanRepository.registerScanInterceptor(interceptor);
-		
-		CLILogEntryInterceptor logEntryInterceptor = new CLILogEntryInterceptor();
-		scanRepository.registerLogEntryInterceptor(logEntryInterceptor);
-
-		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
-		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
-		
-		scanRepository.setRepository(repository);
-
-		//We start with the revision which is given on the command line.
-		//If it is not given we will start with revision 1.
-		scanRepository.setStartRevision(fromRev); 
-		//We will scan the repository to the current HEAD of the repository.
-		scanRepository.setEndRevision(toRev);
 
 		try {
 			LOGGER.info("Scanning started.");
@@ -190,7 +235,6 @@ public class SuposeCLI {
 		} catch (Exception e) {
 			System.err.println("Something unexpected went wrong: " + e.getMessage());
 		}
-
 	}
 
 
