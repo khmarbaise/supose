@@ -9,7 +9,7 @@
 	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
 		into an Lucene Index to do search queries on it later.</description>
 	<url>http://www.supose.org</url>
-	<inceptionYear>2007, 2008, 2009</inceptionYear>
+	<inceptionYear>2007, 2008, 2009, 2010</inceptionYear>
 	<licenses>
 		<license>
 			<name>The GNU General Public License Version 2</name>
@@ -304,7 +304,7 @@
 						<apt>DOUBLETILDE_STYLE</apt>
 					</mapping>
 					<properties>
-						<year>2007, 2008, 2009</year>
+						<year>2007, 2008, 2009, 2010</year>
 						<email>supose@soebes.org</email>
 					</properties>
 				</configuration>

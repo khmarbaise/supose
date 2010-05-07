@@ -1,8 +1,8 @@
 /**
  * The (Su)bversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
  *
- * Copyright (c) 2007, 2008, 2009 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
- * Copyright (c) 2007, 2008, 2009 by Karl Heinz Marbaise
+ * Copyright (c) 2007, 2008, 2009, 2010 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007, 2008, 2009, 2010 by Karl Heinz Marbaise
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
+
 package com.soebes.supose.scan.document;
 
 import java.io.ByteArrayOutputStream;
