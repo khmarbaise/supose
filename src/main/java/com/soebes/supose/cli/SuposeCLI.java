@@ -158,7 +158,7 @@ public class SuposeCLI {
 		long latestRevision = repository.getRepository().getLatestRevision();
 
 		//Define number per round
-		long deltaRevisions = 1000;
+		long deltaRevisions = 10000;
 
 		for (long revisions = fromRev; revisions <latestRevision; revisions += deltaRevisions) {
 			long startRevision = revisions;
