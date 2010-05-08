@@ -48,7 +48,6 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 
 import com.soebes.supose.FieldNames;
-import com.soebes.supose.scan.ScanRepository;
 
 public class SearchRepository {
 	private static Logger LOGGER = Logger.getLogger(SearchRepository.class);
@@ -148,12 +147,6 @@ public class SearchRepository {
 							LOGGER.fatal("IllegalAccessException", e);
 						} catch (InvocationTargetException e) {
 							LOGGER.fatal("InvocationTargetException", e);
-						}
-					} else {
-						if (field.name().startsWith(ScanRepository.DISPLAY_PROPERTIES_PREFIX)) {
-							//Only properties which starts with "D" are those which should be displayed.
-							//We assume we have found an field with an property.
-							re.addProperty(field.name().substring(ScanRepository.DISPLAY_PROPERTIES_PREFIX.length()), field.stringValue());
 						}
 					}
 				}
