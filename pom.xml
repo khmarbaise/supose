@@ -20,7 +20,7 @@
 	</licenses>
 
 	<properties>
-		<maven-license-plugin.version>1.5.0</maven-license-plugin.version>
+		<maven-license-plugin.version>1.6.1</maven-license-plugin.version>
 		<quartz.version>1.7.3</quartz.version>
 		<ini4j.version>0.5.1</ini4j.version>
 		<lucene.version>2.4.0</lucene.version>
