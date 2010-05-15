@@ -159,6 +159,7 @@ public class SuposeCLI {
 
 		//Define number per round
 		long deltaRevisions = 10000;
+		long blockNumber = 0;
 
 		for (long revisions = fromRev; revisions <latestRevision; revisions += deltaRevisions) {
 			long startRevision = revisions;
@@ -166,6 +167,8 @@ public class SuposeCLI {
 			if (endRevision > latestRevision) {
 				endRevision = latestRevision;
 			}
+
+			blockNumber = revisions / deltaRevisions;
 
 			//BLOCK BEGIN
 			if (create) {
@@ -194,9 +197,27 @@ public class SuposeCLI {
 			//We will scan the repository to the current HEAD of the repository.
 			scanRepository.setEndRevision(endRevision);
 	
-			scanReposSingle(scanRepository, indexDirectory, create);
+			scanReposSingle(scanRepository, indexDirectory + blockNumber, create);
 			//BLOCK END
 		}
+
+		LOGGER.info("Scanning of revisions done");
+
+		LOGGER.info("Merding indexes togehter..");
+
+		ArrayList<String> indexList = new ArrayList<String>();
+		//Create the list of indexes
+		for (long blockCount = 0; blockCount <= blockNumber; blockCount++) {
+			indexList.add(indexDirectory + blockCount);
+		}
+		long startTime = System.currentTimeMillis();
+		IndexHelper.mergeIndex(indexDirectory, indexList);
+		long stopTime = System.currentTimeMillis();
+		long ms = (stopTime-startTime);
+		long seconds = ms / 1000;
+		LOGGER.info("Merding indexes togehter done.");
+		System.out.println("This has taken " + seconds + " seconds.");
+		LOGGER.info("Merding the indexes has taken " + seconds + " seconds.");
 	}
 
 	/**
@@ -223,8 +244,15 @@ public class SuposeCLI {
 			scanRepository.scan(indexWriter);
 			LOGGER.info("Scanning ready.");
 			try {
+				long startTime = System.currentTimeMillis();
+				LOGGER.info("Index optimizing started.");
 				indexWriter.optimize();
 				indexWriter.close();
+				long stopTime = System.currentTimeMillis();
+				LOGGER.info("Index optimizing done.");
+				long ms = (stopTime-startTime);
+				long seconds = ms / 1000;
+				LOGGER.info("The Index optimizing has taken " + seconds + " seconds.");
 			} catch (CorruptIndexException e) {
 				System.err.println("CorruptIndexException: Error during optimization of index: " + e);
 			} catch (IOException e) {
@@ -335,7 +363,12 @@ public class SuposeCLI {
 		System.out.println("");
 		System.out.println("Destination: " + destination);
 
+		long startTime = System.currentTimeMillis();
 		IndexHelper.mergeIndex(destination, indexList);
+		long stopTime = System.currentTimeMillis();
+		long ms = (stopTime-startTime);
+		long seconds = ms / 1000;
+		System.out.println("This has taken " + seconds + " seconds.");
 	}
 
 	private static List<FieldNames> getDisplayFields(List<String> cliFields) {
