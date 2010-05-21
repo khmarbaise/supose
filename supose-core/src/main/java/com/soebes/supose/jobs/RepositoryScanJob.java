@@ -38,8 +38,6 @@ import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
 import org.quartz.UnableToInterruptJobException;
 
-import com.soebes.supose.cli.ScheduleInterceptor;
-import com.soebes.supose.cli.SchedulerLogEntryInterceptor;
 import com.soebes.supose.config.RepositoryConfiguration;
 import com.soebes.supose.config.RepositoryJobConfiguration;
 import com.soebes.supose.index.Index;
@@ -104,11 +102,11 @@ public class RepositoryScanJob implements InterruptableJob, StatefulJob {
 
 			LOGGER.info("Scanning: startRev:" + startRev + " endRev:" + endRev);
 
-    		ScheduleInterceptor interceptor = new ScheduleInterceptor();
-    		scanRepos.registerScanInterceptor(interceptor);
+//    		ScheduleInterceptor interceptor = new ScheduleInterceptor();
+//    		scanRepos.registerScanInterceptor(interceptor);
     		
-    		SchedulerLogEntryInterceptor logEntryInterceptor = new SchedulerLogEntryInterceptor();
-    		scanRepos.registerLogEntryInterceptor(logEntryInterceptor);
+//    		SchedulerLogEntryInterceptor logEntryInterceptor = new SchedulerLogEntryInterceptor();
+//    		scanRepos.registerLogEntryInterceptor(logEntryInterceptor);
 
 //    		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
 //    		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
