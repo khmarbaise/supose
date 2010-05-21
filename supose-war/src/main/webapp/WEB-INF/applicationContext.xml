@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+		  "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="RepositoryBean" class="com.soebes.supose.release.web.RepositoryBean">
+    	<property name="index" value="/usr/local/asf/index.asf-479"/>
+    	<property name="url" value="http://svn.apache.org/repos/asf"/>
+    	
+<!--    	http://www.supose.org/repositories/entry/supose/branches/B_0.7.1/supose-cli/pom.xml?rev=487-->
+<!--
+
+rev=468&?pathrev=468 
+ -->
+    	<property name="urlviewvc" value="http://svn.apache.org/viewvc/"/>
+	</bean>
+</beans>

@@ -1,0 +1,49 @@
+@CHARSET "ISO-8859-1";
+
+/*******************Common rules***********************/
+body {
+    font-family: "Lucida Grande", Geneva, Arial;
+    font-size: 14px;
+}
+
+/* Horizontal rules (line) */
+hr {
+    background-color: #bec3c3;
+    height: 1px;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: gray;
+}
+
+a:active, a:hover {
+	color: #69c;
+	text-decoration: underline;	
+}
+
+.error {
+    color: red;
+    font-size: small;
+}
+
+div.action {
+	font-size: small;
+	margin-top: 120px; 
+	margin-right: 20px; 
+	float: left;	
+}
+
+div.actionFlag {
+	margin-left: 10px;
+	margin-top: 120px; 
+	/*margin-right: 10px;*/
+	float: left;
+}
+
+img {
+	border: none;
+}

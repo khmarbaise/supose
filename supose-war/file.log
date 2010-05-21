@@ -1,0 +1,137 @@
+2010-05-21 18:58:17,872|INFO|main|web.context.ContextLoader||Root WebApplicationContext: initialization started
+2010-05-21 18:58:17,904|INFO|main|context.support.XmlWebApplicationContext||Refreshing org.springframework.web.context.support.XmlWebApplicationContext@b68e0e: display name [Root WebApplicationContext]; startup date [Fri May 21 18:58:17 CEST 2010]; root of context hierarchy
+2010-05-21 18:58:17,951|INFO|main|factory.xml.XmlBeanDefinitionReader||Loading XML bean definitions from ServletContext resource [/WEB-INF/applicationContext.xml]
+2010-05-21 18:58:17,997|INFO|main|context.support.XmlWebApplicationContext||Bean factory for application context [org.springframework.web.context.support.XmlWebApplicationContext@b68e0e]: org.springframework.beans.factory.support.DefaultListableBeanFactory@17d03c5
+2010-05-21 18:58:18,013|INFO|main|factory.support.DefaultListableBeanFactory||Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@17d03c5: defining beans [RepositoryBean]; root of factory hierarchy
+2010-05-21 18:58:18,044|INFO|main|web.context.ContextLoader||Root WebApplicationContext: initialization completed in 172 ms
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||No context init parameter 'org.apache.myfaces.PRETTY_HTML' found, using default value true
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||No context init parameter 'org.apache.myfaces.ALLOW_JAVASCRIPT' found, using default value true
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||No context init parameter 'org.apache.myfaces.READONLY_AS_DISABLED_FOR_SELECTS' found, using default value true
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||No context init parameter 'org.apache.myfaces.DETECT_JAVASCRIPT' found, using default value false
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||No context init parameter 'org.apache.myfaces.AUTO_SCROLL' found, using default value false
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||No context init parameter 'org.apache.myfaces.ADD_RESOURCE_CLASS' found, using default value org.apache.myfaces.renderkit.html.util.DefaultAddResource
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||No context init parameter 'org.apache.myfaces.RESOURCE_VIRTUAL_PATH' found, using default value /faces/myFacesExtensionResource
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||No context init parameter 'org.apache.myfaces.CHECK_EXTENSIONS_FILTER' found, using default value true
+2010-05-21 18:58:24,951|INFO|btpool0-2|shared_tomahawk.config.MyfacesConfig||Starting up Tomahawk on the RI-JSF-Implementation.
+2010-05-21 18:58:28,607|INFO|btpool0-2|release.web.TestSession||query() we start
+2010-05-21 18:58:28,607|INFO|btpool0-2|release.web.TestSession||The query:+filename:pom.xml
+2010-05-21 18:58:28,654|INFO|btpool0-2|release.web.TestSession||getResult(+filename:pom.xml)
+2010-05-21 18:58:28,732|INFO|btpool0-2|supose.search.SearchRepository||Query: +(+filename:pom.xml)
+2010-05-21 18:59:47,857|INFO|btpool0-3|release.web.TestSession||query() we start
+2010-05-21 18:59:47,857|INFO|btpool0-3|release.web.TestSession||The query:+filename:pom.xml
+2010-05-21 18:59:47,872|INFO|btpool0-3|release.web.TestSession||getResult(+filename:pom.xml)
+2010-05-21 18:59:47,872|INFO|btpool0-3|supose.search.SearchRepository||Query: +(+filename:pom.xml)
+2010-05-21 19:00:23,576|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:00:23,576|INFO|btpool0-4|release.web.TestSession||The query:+message:fixed +message:304
+2010-05-21 19:00:23,576|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +message:304)
+2010-05-21 19:00:23,591|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +message:304
+2010-05-21 19:00:48,013|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +message:304)
+2010-05-21 19:00:48,013|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +message:304
+2010-05-21 19:00:48,013|INFO|btpool0-4|release.web.TestSession||searchFilename() called.
+2010-05-21 19:00:48,013|INFO|btpool0-4|release.web.TestSession||searchFilename() filename:changes.xml
+2010-05-21 19:00:54,935|INFO|btpool0-4|release.web.TestSession||getResult(+filename:changes.xml)
+2010-05-21 19:00:54,935|INFO|btpool0-4|supose.search.SearchRepository||Query: +(+filename:changes.xml)
+2010-05-21 19:00:55,060|INFO|btpool0-4|release.web.TestSession||searchRevision() called.
+2010-05-21 19:00:55,060|INFO|btpool0-4|release.web.TestSession||searchRevision() rev:30
+2010-05-21 19:00:56,872|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:00:56,872|INFO|btpool0-4|release.web.TestSession||The query:+revision:30
+2010-05-21 19:00:56,888|INFO|btpool0-4|release.web.TestSession||getResult(+revision:30)
+2010-05-21 19:00:56,888|INFO|btpool0-4|supose.search.SearchRepository||Query: +revision:0000000000000000030
+2010-05-21 19:01:04,607|INFO|btpool0-4|release.web.TestSession||getResult(+revision:30)
+2010-05-21 19:01:04,622|INFO|btpool0-4|supose.search.SearchRepository||Query: +revision:0000000000000000030
+2010-05-21 19:01:04,622|INFO|btpool0-4|release.web.TestSession||searchFilename() called.
+2010-05-21 19:01:04,622|INFO|btpool0-4|release.web.TestSession||searchFilename() filename:SupposeCLITest.java
+2010-05-21 19:01:06,122|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:01:06,122|INFO|btpool0-4|release.web.TestSession||The query:+filename:SupposeCLITest.java
+2010-05-21 19:01:06,122|INFO|btpool0-4|release.web.TestSession||getResult(+filename:SupposeCLITest.java)
+2010-05-21 19:01:06,122|INFO|btpool0-4|supose.search.SearchRepository||Query: +(+filename:supposeclitest.java)
+2010-05-21 19:01:33,497|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:01:33,497|INFO|btpool0-4|release.web.TestSession||The query:+filename:SupposeCLITest.java
+2010-05-21 19:01:33,513|INFO|btpool0-4|release.web.TestSession||getResult(+filename:SupposeCLITest.java)
+2010-05-21 19:01:33,513|INFO|btpool0-4|supose.search.SearchRepository||Query: +(+filename:supposeclitest.java)
+2010-05-21 19:02:07,951|INFO|btpool0-4|release.web.TestSession||getResult(+filename:SupposeCLITest.java)
+2010-05-21 19:02:07,966|INFO|btpool0-4|supose.search.SearchRepository||Query: +(+filename:supposeclitest.java)
+2010-05-21 19:02:08,013|INFO|btpool0-4|release.web.TestSession||searchFilename() called.
+2010-05-21 19:02:08,013|INFO|btpool0-4|release.web.TestSession||searchFilename() filename:SupposeCLITest.java
+2010-05-21 19:02:10,529|INFO|btpool0-4|release.web.TestSession||getResult(+filename:SupposeCLITest.java)
+2010-05-21 19:02:10,529|INFO|btpool0-4|supose.search.SearchRepository||Query: +(+filename:supposeclitest.java)
+2010-05-21 19:02:10,576|INFO|btpool0-4|release.web.TestSession||searchRevision() called.
+2010-05-21 19:02:10,576|INFO|btpool0-4|release.web.TestSession||searchRevision() rev:27
+2010-05-21 19:02:11,982|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:02:11,982|INFO|btpool0-4|release.web.TestSession||The query:+revision:27
+2010-05-21 19:02:11,982|INFO|btpool0-4|release.web.TestSession||getResult(+revision:27)
+2010-05-21 19:02:11,997|INFO|btpool0-4|supose.search.SearchRepository||Query: +revision:0000000000000000027
+2010-05-21 19:02:36,826|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:02:36,826|INFO|btpool0-4|release.web.TestSession||The query:+message:fixed +message:304
+2010-05-21 19:02:36,826|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +message:304)
+2010-05-21 19:02:36,841|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +message:304
+2010-05-21 19:03:00,388|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:03:00,388|INFO|btpool0-4|release.web.TestSession||The query:+message:fixed +message:304
+2010-05-21 19:03:00,388|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +message:304)
+2010-05-21 19:03:00,388|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +message:304
+2010-05-21 19:03:07,326|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +message:304)
+2010-05-21 19:03:07,326|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +message:304
+2010-05-21 19:03:07,326|INFO|btpool0-4|release.web.TestSession||searchFilename() called.
+2010-05-21 19:03:07,326|INFO|btpool0-4|release.web.TestSession||searchFilename() filename:changes.xml
+2010-05-21 19:03:08,341|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:03:08,341|INFO|btpool0-4|release.web.TestSession||The query:+filename:changes.xml
+2010-05-21 19:03:08,357|INFO|btpool0-4|release.web.TestSession||getResult(+filename:changes.xml)
+2010-05-21 19:03:08,357|INFO|btpool0-4|supose.search.SearchRepository||Query: +(+filename:changes.xml)
+2010-05-21 19:03:31,404|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:03:31,404|INFO|btpool0-4|release.web.TestSession||The query:+message:fixed +message:304 +mesage:296
+2010-05-21 19:03:31,404|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +message:304 +mesage:296)
+2010-05-21 19:03:31,419|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +message:304 +mesage:296
+2010-05-21 19:03:42,060|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:03:42,060|INFO|btpool0-4|release.web.TestSession||The query:+message:fixed +(message:304 mesage:296)
+2010-05-21 19:03:42,076|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +(message:304 mesage:296))
+2010-05-21 19:03:42,076|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +(message:304 mesage:296)
+2010-05-21 19:03:54,372|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:03:54,372|INFO|btpool0-4|release.web.TestSession||The query:+message:fixed +(message:304 mesage:296)
+2010-05-21 19:03:54,372|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +(message:304 mesage:296))
+2010-05-21 19:03:54,388|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +(message:304 mesage:296)
+2010-05-21 19:03:55,794|INFO|btpool0-4|release.web.TestSession||getResult(+message:fixed +(message:304 mesage:296))
+2010-05-21 19:03:55,794|INFO|btpool0-4|supose.search.SearchRepository||Query: +message:fixed +(message:304 mesage:296)
+2010-05-21 19:03:55,810|INFO|btpool0-4|release.web.TestSession||searchRevision() called.
+2010-05-21 19:03:55,810|INFO|btpool0-4|release.web.TestSession||searchRevision() rev:461
+2010-05-21 19:03:57,247|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:03:57,263|INFO|btpool0-4|release.web.TestSession||The query:+revision:461
+2010-05-21 19:03:57,263|INFO|btpool0-4|release.web.TestSession||getResult(+revision:461)
+2010-05-21 19:03:57,263|INFO|btpool0-4|supose.search.SearchRepository||Query: +revision:0000000000000000461
+2010-05-21 19:03:59,669|INFO|btpool0-4|release.web.TestSession||getResult(+revision:461)
+2010-05-21 19:03:59,669|INFO|btpool0-4|supose.search.SearchRepository||Query: +revision:0000000000000000461
+2010-05-21 19:03:59,685|INFO|btpool0-4|release.web.TestSession||searchFilename() called.
+2010-05-21 19:03:59,685|INFO|btpool0-4|release.web.TestSession||searchFilename() filename:changes.xml
+2010-05-21 19:04:46,683|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:04:46,683|INFO|btpool0-4|release.web.TestSession||The query:+filename:*.pdf
+2010-05-21 19:04:46,683|INFO|btpool0-4|release.web.TestSession||getResult(+filename:*.pdf)
+2010-05-21 19:04:46,683|INFO|btpool0-4|supose.search.SearchRepository||Query: +filename:*.pdf
+2010-05-21 19:05:06,574|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:05:06,574|INFO|btpool0-4|release.web.TestSession||The query:+filename:*.pdf +contents:word
+2010-05-21 19:05:06,574|INFO|btpool0-4|release.web.TestSession||getResult(+filename:*.pdf +contents:word)
+2010-05-21 19:05:06,589|INFO|btpool0-4|supose.search.SearchRepository||Query: +filename:*.pdf +contents:word
+2010-05-21 19:05:12,152|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:05:12,152|INFO|btpool0-4|release.web.TestSession||The query:+filename:*.pdf +contents:this
+2010-05-21 19:05:12,152|INFO|btpool0-4|release.web.TestSession||getResult(+filename:*.pdf +contents:this)
+2010-05-21 19:05:12,167|INFO|btpool0-4|supose.search.SearchRepository||Query: +filename:*.pdf
+2010-05-21 19:05:15,777|INFO|btpool0-4|release.web.TestSession||getResult(+filename:*.pdf +contents:this)
+2010-05-21 19:05:15,792|INFO|btpool0-4|supose.search.SearchRepository||Query: +filename:*.pdf
+2010-05-21 19:05:15,792|INFO|btpool0-4|release.web.TestSession||searchFilename() called.
+2010-05-21 19:05:15,792|INFO|btpool0-4|release.web.TestSession||searchFilename() filename:testPDF.pdf
+2010-05-21 19:05:17,230|INFO|btpool0-4|release.web.TestSession||query() we start
+2010-05-21 19:05:17,230|INFO|btpool0-4|release.web.TestSession||The query:+filename:testPDF.pdf
+2010-05-21 19:05:17,230|INFO|btpool0-4|release.web.TestSession||getResult(+filename:testPDF.pdf)
+2010-05-21 19:05:17,230|INFO|btpool0-4|supose.search.SearchRepository||Query: +(+filename:testpdf.pdf)
+2010-05-21 19:23:59,923|INFO|btpool0-5|release.web.TestSession||query() we start
+2010-05-21 19:23:59,938|INFO|btpool0-5|release.web.TestSession||The query:contents:maven-site-plugin
+2010-05-21 19:23:59,938|INFO|btpool0-5|release.web.TestSession||getResult(contents:maven-site-plugin)
+2010-05-21 19:23:59,938|INFO|btpool0-5|supose.search.SearchRepository||Query: contents:"maven site plugin"
+2010-05-21 19:24:09,673|INFO|btpool0-5|release.web.TestSession||getResult(contents:maven-site-plugin)
+2010-05-21 19:24:09,673|INFO|btpool0-5|supose.search.SearchRepository||Query: contents:"maven site plugin"
+2010-05-21 19:24:09,829|INFO|btpool0-5|release.web.TestSession||searchFilename() called.
+2010-05-21 19:24:09,829|INFO|btpool0-5|release.web.TestSession||searchFilename() filename:changes.xml
+2010-05-21 19:24:11,641|INFO|btpool0-5|release.web.TestSession||query() we start
+2010-05-21 19:24:11,641|INFO|btpool0-5|release.web.TestSession||The query:+filename:changes.xml
+2010-05-21 19:24:11,657|INFO|btpool0-5|release.web.TestSession||getResult(+filename:changes.xml)
+2010-05-21 19:24:11,657|INFO|btpool0-5|supose.search.SearchRepository||Query: +(+filename:changes.xml)
+2010-05-21 19:40:22,227|INFO|Thread-4|context.support.XmlWebApplicationContext||Closing org.springframework.web.context.support.XmlWebApplicationContext@b68e0e: display name [Root WebApplicationContext]; startup date [Fri May 21 18:58:17 CEST 2010]; root of context hierarchy
+2010-05-21 19:40:22,227|INFO|Thread-4|factory.support.DefaultListableBeanFactory||Destroying singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@17d03c5: defining beans [RepositoryBean]; root of factory hierarchy

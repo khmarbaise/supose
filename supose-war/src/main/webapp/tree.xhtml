@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+<ui:composition template="/WEB-INF/jsf/template.xhtml">
+  <ui:define name="body">
+  
+    <t:div styleClass="actionFlag">
+<!--      <h:commandButton value="OK" action="#{TreeHandler.ok}" immediate="true"/> -->
+      <h:commandButton value="#{msg.ok}" action="#{TreeHandler.ok}" />
+      <h:commandButton value="#{msg.selectAll}" action="#{TreeHandler.selectAll}" />
+      <h:commandButton value="#{msg.expandAll}" action="#{TreeHandler.expandAll}" />      
+    </t:div>
+
+	<t:div style="margin-right: auto; margin-top: 20px;">
+	  <t:tree2 id="serverTree" value="#{TreeHandler.root}"
+			var="node" varNodeToggler="t" clientSideToggle="true" showNav="true" showRootNode="false">
+  
+		<f:facet name="folder">
+		  <h:panelGroup>				
+			<!-- <h:commandLink immediate="true" action="#{t.toggleExpanded}" rendered="#{!node.leaf}"> -->
+			  <t:graphicImage value="/img/blue-folder-open.gif" rendered="#{t.nodeExpanded}" border="0" />
+			  <t:graphicImage value="/img/blue-folder-closed.png" rendered="#{!t.nodeExpanded}" border="0" />
+			<!-- </h:commandLink> -->
+			<t:graphicImage value="/img/blue-folder-closed.png" rendered="#{!t.nodeExpanded &amp;&amp; node.leaf}" border="0" />
+			<h:outputText value="*" rendered="#{t.nodeSelected}"/>
+			<h:outputText value="#{node.description}"/>
+            <!-- <h:commandLink action="nodeClicked" actionListener="#{TreeHandler.processAction}" value="#{node.description}" immediate="true">
+			</h:commandLink> -->
+		  </h:panelGroup>
+		</f:facet>
+
+		<f:facet name="leaf">
+          <h:panelGroup>
+              <t:selectBooleanCheckbox value="#{node.checked}"/>
+           	  <!--  <h:commandLink immediate="true" styleClass="#{t.nodeSelected ? 'documentSelected':'document'}" actionListener="#{t.setNodeSelected}"> -->
+              <t:graphicImage value="/img/document.png" border="0"/>
+              <h:outputText value="#{node.description}"/>
+              <f:param name="docNum" value="#{node.identifier}"/>
+            <!-- </h:commandLink> -->
+          </h:panelGroup>
+        </f:facet>            
+	  </t:tree2>
+	</t:div>
+    <t:messages infoStyle="font-weight:bold;color:red"/>
+  
+  </ui:define>
+</ui:composition>
+</html>

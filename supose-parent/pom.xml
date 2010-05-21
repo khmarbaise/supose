@@ -30,6 +30,7 @@
 		<ini4j.version>0.5.1</ini4j.version>
 		<lucene.version>2.4.0</lucene.version>
 		<tika.version>0.7</tika.version>
+		<spring.version>2.5.6</spring.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -103,6 +104,16 @@
 			<url>scp://h5593.serverkompetenz.net:/usr/local/vhosts/mvn.supose.soebes.de</url>
 		</site>
 	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>5.8</version>
+			<scope>test</scope>
+			<classifier>jdk15</classifier>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<pluginManagement>

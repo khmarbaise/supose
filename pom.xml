@@ -25,6 +25,7 @@
 	<modules>
 		<module>supose-core</module>
 		<module>supose-cli</module>
+		<module>supose-war</module>
 	</modules>
 	<!--
 	<build>
