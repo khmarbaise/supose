@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.soebes</groupId>
 	<artifactId>supose</artifactId>
-	<version>0.6.2-SNAPSHOT</version>
+	<version>0.7.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Subversion Repository Search Engine</name>

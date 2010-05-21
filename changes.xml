@@ -6,6 +6,11 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
+		<release version="0.7.1 Dione" date="2010-XX-XX" description="Release">
+			<action dev="Karl Heinz Marbaise" type="update" issue="315">
+				Updated the release number from 0.6.2 to 0.7.1
+			</action>
+		</release>
 		<release version="0.6.2 Calypso" date="2009-XX-XX" description="Bug Fix Release">
 			<action dev="Karl Heinz Marbaise" type="fix" issue="314">
 				Enhanced the max. size for number if items in a changeset to 99999.
