@@ -35,13 +35,13 @@ public class CLIChangeSetInterceptor implements ChangeSetInterceptor {
 
 	public void beginIndexChangeSetItem(SVNDirEntry dirEntry) {
 		if (dirEntry != null) {
-			System.out.printf("[%4d item size: %10d]", counter, dirEntry.getSize());
+			System.out.printf("[%5d item size: %10d]", counter, dirEntry.getSize());
 		}
 	}
 
 	public void endIndexChangeSetItem(SVNDirEntry dirEntry) {
 		if (dirEntry != null) {
-			System.out.printf("\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010");
+			System.out.printf("\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010");
 		}
 		counter++;
 	}

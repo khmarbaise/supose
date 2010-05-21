@@ -51,7 +51,7 @@ public class CLIInterceptor implements ScanInterceptor {
 	}
 	public void scanBeginRevision(Long count, Long revision, Integer changeSetSize) {
 		double divd = (double)count * 100.0 / (double)numberOfRevisions;
-		System.out.printf("%6.2f %% of %7d (Revisions:%7d Revision:%7d) Changeset: %4d ", divd, numberOfRevisions, count, revision, changeSetSize);
+		System.out.printf("%6.2f %% of %7d (Revisions:%7d Revision:%7d) Changeset: %5d ", divd, numberOfRevisions, count, revision, changeSetSize);
 	}
 	
 	public void scanEndRevision(Long count, Long revision, Integer changeSetSize) {
