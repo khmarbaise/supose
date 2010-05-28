@@ -28,6 +28,7 @@
 		<module>supose-core</module>
 		<module>supose-cli</module>
 		<module>supose-war</module>
+		<module>supose-it</module>
 	</modules>
 
 	<profiles>
