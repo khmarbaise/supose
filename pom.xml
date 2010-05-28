@@ -14,6 +14,7 @@
 	
 	<artifactId>supose</artifactId>
 	<packaging>pom</packaging>
+
 	<name>Subversion Repository Search Engine</name>
 
 	<scm>
@@ -23,6 +24,7 @@
 	</scm>
 
 	<modules>
+		<module>supose-parent</module>
 		<module>supose-core</module>
 		<module>supose-cli</module>
 		<module>supose-war</module>

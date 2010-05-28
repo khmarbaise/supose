@@ -9,7 +9,7 @@
 	<artifactId>supose-parent</artifactId>
 	<version>0.7.1-SNAPSHOT</version>
 
-
+	<name>SupoSE :: Parent</name>
 	<packaging>pom</packaging>
 
 	<description>SupoSE is an approache to scan a whole Subversion Repository an put all needed information 
