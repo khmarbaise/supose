@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="0.7.1 Dione" date="2010-XX-XX" description="Release">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="317">
+				Incombatibility fixed with Maven 3-beta-1
+			</action>
 			<action dev="Karl Heinz Marbaise" type="update" issue="315">
 				Updated the release number from 0.6.2 to 0.7.1
 			</action>
