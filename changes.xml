@@ -34,6 +34,9 @@
 			<action dev="Karl Heinz Marbaise" type="update" issue="298">
 				Updated to ANTLR 3.2 plugin
 			</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="200">
+				Added License file for the GNU GPL 2.0
+			</action>
 		</release>
 		<release version="0.6.2 Calypso RC1" date="2009-03-01" description="Bug Fix Release">
 			<action dev="Karl Heinz Marbaise" type="update" issue="266">
