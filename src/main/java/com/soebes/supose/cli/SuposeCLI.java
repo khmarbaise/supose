@@ -25,6 +25,7 @@
 
 package com.soebes.supose.cli;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,6 +37,7 @@ import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.HelpLine;
 import org.apache.commons.cli2.OptionException;
 import org.apache.commons.cli2.util.HelpFormatter;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
@@ -50,6 +52,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 import org.tmatesoft.svn.core.SVNAuthenticationException;
+import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
@@ -80,10 +83,9 @@ public class SuposeCLI {
 	private static final int HELP_OPTION_DESCRIPTION_INDENT = 30;
 
 	private static SuposeCommandLine suposecli = new SuposeCommandLine();
-	private static ScanRepository scanRepository = new ScanRepository();
 	private static CommandLine commandLine = null;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SVNException {
 		try {
 			commandLine = suposecli.doParseArgs(args);
 		} catch (OptionException e) {
@@ -132,8 +134,9 @@ public class SuposeCLI {
 	 * This will do the command argument extraction and give the parameter to
 	 * the scanRepository class which will do the real repository scan.
 	 * @param scanCommand The command line.
+	 * @throws SVNException 
 	 */
-	private static void runScan(ScanCommand scanCommand) {
+	private static void runScan(ScanCommand scanCommand) throws SVNException {
 		String url = scanCommand.getURL(commandLine);
 		long fromRev = scanCommand.getFromRev(commandLine);
 		long toRev = scanCommand.getToRev(commandLine);
@@ -142,44 +145,131 @@ public class SuposeCLI {
 		String username = scanCommand.getUsername(commandLine);
 		String password = scanCommand.getPassword(commandLine);
 
+		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
+			username, 
+			password
+		);
+
+		Repository repository = new Repository(url, authManager);
+
+
+		boolean firstTime = true;
+
+		// Assuming we have fromRev: 1
+		// toRev: HEAD (-1)
+		long latestRevision = repository.getRepository().getLatestRevision();
+
+		//Define number per round
+		long deltaRevisions = 10000;
+		long blockNumber = 0;
+
+		for (long revisions = fromRev; revisions <latestRevision; revisions += deltaRevisions) {
+			long startRevision = revisions;
+			long endRevision = revisions + deltaRevisions - 1;
+			if (endRevision > latestRevision) {
+				endRevision = latestRevision;
+			}
+
+			blockNumber = revisions / deltaRevisions;
+
+			//BLOCK BEGIN
+			if (create) {
+				if (firstTime) {
+					firstTime = false;
+				} else {
+					create = false;
+				}
+			}
+			ScanRepository scanRepository = new ScanRepository();
+	
+			CLIInterceptor interceptor = new CLIInterceptor();
+			scanRepository.registerScanInterceptor(interceptor);
+			
+			CLILogEntryInterceptor logEntryInterceptor = new CLILogEntryInterceptor();
+			scanRepository.registerLogEntryInterceptor(logEntryInterceptor);
+	
+			CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
+			scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
+	
+			scanRepository.setRepository(repository);
+	
+			//We start with the revision which is given on the command line.
+			//If it is not given we will start with revision 1.
+			scanRepository.setStartRevision(startRevision); 
+			//We will scan the repository to the current HEAD of the repository.
+			scanRepository.setEndRevision(endRevision);
+	
+			scanReposSingle(scanRepository, indexDirectory + blockNumber, create);
+			//BLOCK END
+		}
+
+		LOGGER.info("Scanning of revisions done");
+
+		LOGGER.info("Merding indexes togehter..");
+
+		ArrayList<String> indexList = new ArrayList<String>();
+		//Create the list of indexes
+		for (long blockCount = 0; blockCount <= blockNumber; blockCount++) {
+			indexList.add(indexDirectory + blockCount);
+		}
+		long startTime = System.currentTimeMillis();
+		IndexHelper.mergeIndex(indexDirectory, indexList);
+		long stopTime = System.currentTimeMillis();
+		long ms = (stopTime-startTime);
+		long seconds = ms / 1000;
+		LOGGER.info("Merding indexes togehter done.");
+		System.out.println("This has taken " + seconds + " seconds.");
+		LOGGER.info("Merding the indexes has taken " + seconds + " seconds.");
+		
+		startTime = System.currentTimeMillis();
+		//Delete all the created folder after the merging
+		for (String directory : indexList) {
+			File dir = new File(directory);
+			try {
+				LOGGER.info("Deleting " + directory);
+				FileUtils.deleteDirectory(dir);
+				LOGGER.info("Deleting " + directory + " done.");
+			} catch (IOException e) {
+				LOGGER.error("IOException during deletion of " + directory, e);
+			}
+		}
+		stopTime = System.currentTimeMillis();
+		LOGGER.info("The folder deleting has taken " + ((stopTime-startTime)/1000) + " seconds");
+	}
+
+	/**
+	 * @param fromRev
+	 * @param toRev
+	 * @param indexDirectory
+	 * @param create
+	 * @param repository
+	 */
+	private static void scanReposSingle(ScanRepository scanRepository, String indexDirectory, boolean create) {
+		// BLOCK ANFANG
+
 		Index index = new Index ();
 		//We will create a new one if --create is given on command line
 		//otherwise we will append to the existing index.
 		Analyzer analyzer = new StandardAnalyzer();		
 		index.setAnalyzer(analyzer);
+
 		index.setCreate(create);
 		IndexWriter indexWriter = index.createIndexWriter(indexDirectory);
-
-		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
-			username, 
-			password
-		);
-		Repository repository = new Repository(url, authManager);
-
-		CLIInterceptor interceptor = new CLIInterceptor();
-		scanRepository.registerScanInterceptor(interceptor);
-		
-		CLILogEntryInterceptor logEntryInterceptor = new CLILogEntryInterceptor();
-		scanRepository.registerLogEntryInterceptor(logEntryInterceptor);
-
-		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
-		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
-		
-		scanRepository.setRepository(repository);
-
-		//We start with the revision which is given on the command line.
-		//If it is not given we will start with revision 1.
-		scanRepository.setStartRevision(fromRev); 
-		//We will scan the repository to the current HEAD of the repository.
-		scanRepository.setEndRevision(toRev);
 
 		try {
 			LOGGER.info("Scanning started.");
 			scanRepository.scan(indexWriter);
 			LOGGER.info("Scanning ready.");
 			try {
+				long startTime = System.currentTimeMillis();
+				LOGGER.info("Index optimizing started.");
 				indexWriter.optimize();
 				indexWriter.close();
+				long stopTime = System.currentTimeMillis();
+				LOGGER.info("Index optimizing done.");
+				long ms = (stopTime-startTime);
+				long seconds = ms / 1000;
+				LOGGER.info("The Index optimizing has taken " + seconds + " seconds.");
 			} catch (CorruptIndexException e) {
 				System.err.println("CorruptIndexException: Error during optimization of index: " + e);
 			} catch (IOException e) {
@@ -190,7 +280,6 @@ public class SuposeCLI {
 		} catch (Exception e) {
 			System.err.println("Something unexpected went wrong: " + e.getMessage());
 		}
-
 	}
 
 
@@ -291,7 +380,12 @@ public class SuposeCLI {
 		System.out.println("");
 		System.out.println("Destination: " + destination);
 
+		long startTime = System.currentTimeMillis();
 		IndexHelper.mergeIndex(destination, indexList);
+		long stopTime = System.currentTimeMillis();
+		long ms = (stopTime-startTime);
+		long seconds = ms / 1000;
+		System.out.println("This has taken " + seconds + " seconds.");
 	}
 
 	private static List<FieldNames> getDisplayFields(List<String> cliFields) {
