@@ -503,6 +503,11 @@
 			<version>2.0</version>
 			<classifier>dev</classifier>
 		</dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>

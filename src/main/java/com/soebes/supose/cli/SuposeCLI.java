@@ -25,6 +25,7 @@
 
 package com.soebes.supose.cli;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,6 +37,7 @@ import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.HelpLine;
 import org.apache.commons.cli2.OptionException;
 import org.apache.commons.cli2.util.HelpFormatter;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
@@ -218,6 +220,21 @@ public class SuposeCLI {
 		LOGGER.info("Merding indexes togehter done.");
 		System.out.println("This has taken " + seconds + " seconds.");
 		LOGGER.info("Merding the indexes has taken " + seconds + " seconds.");
+		
+		startTime = System.currentTimeMillis();
+		//Delete all the created folder after the merging
+		for (String directory : indexList) {
+			File dir = new File(directory);
+			try {
+				LOGGER.info("Deleting " + directory);
+				FileUtils.deleteDirectory(dir);
+				LOGGER.info("Deleting " + directory + " done.");
+			} catch (IOException e) {
+				LOGGER.error("IOException during deletion of " + directory, e);
+			}
+		}
+		stopTime = System.currentTimeMillis();
+		LOGGER.info("The folder deleting has taken " + ((stopTime-startTime)/1000) + " seconds");
 	}
 
 	/**
