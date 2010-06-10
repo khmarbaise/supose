@@ -25,7 +25,6 @@
 
 package com.soebes.supose.cli;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,21 +36,15 @@ import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.HelpLine;
 import org.apache.commons.cli2.OptionException;
 import org.apache.commons.cli2.util.HelpFormatter;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
-import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
@@ -60,13 +53,12 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.config.ConfigurationRepositories;
 import com.soebes.supose.config.RepositoryConfiguration;
 import com.soebes.supose.config.RepositoryFactory;
-import com.soebes.supose.index.Index;
 import com.soebes.supose.index.IndexHelper;
 import com.soebes.supose.jobs.JobDataNames;
 import com.soebes.supose.jobs.JobSchedulerListener;
 import com.soebes.supose.jobs.RepositoryScanJob;
 import com.soebes.supose.repository.Repository;
-import com.soebes.supose.scan.ScanRepository;
+import com.soebes.supose.scan.ScanSingleRepository;
 import com.soebes.supose.search.ResultEntry;
 import com.soebes.supose.search.SearchRepository;
 import com.thoughtworks.xstream.XStream;
@@ -150,137 +142,15 @@ public class SuposeCLI {
 			password
 		);
 
-		Repository repository = new Repository(url, authManager);
+		LOGGER.info("Start with scanning of revisions.");
 
-
-		boolean firstTime = true;
-
-		// Assuming we have fromRev: 1
-		// toRev: HEAD (-1)
-		long latestRevision = repository.getRepository().getLatestRevision();
-
-		//Define number per round
-		long deltaRevisions = 10000;
-		long blockNumber = 0;
-
-		for (long revisions = fromRev; revisions <latestRevision; revisions += deltaRevisions) {
-			long startRevision = revisions;
-			long endRevision = revisions + deltaRevisions - 1;
-			if (endRevision > latestRevision) {
-				endRevision = latestRevision;
-			}
-
-			blockNumber = revisions / deltaRevisions;
-
-			//BLOCK BEGIN
-			if (create) {
-				if (firstTime) {
-					firstTime = false;
-				} else {
-					create = false;
-				}
-			}
-			ScanRepository scanRepository = new ScanRepository();
-	
-			CLIInterceptor interceptor = new CLIInterceptor();
-			scanRepository.registerScanInterceptor(interceptor);
-			
-			CLILogEntryInterceptor logEntryInterceptor = new CLILogEntryInterceptor();
-			scanRepository.registerLogEntryInterceptor(logEntryInterceptor);
-	
-			CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
-			scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
-	
-			scanRepository.setRepository(repository);
-	
-			//We start with the revision which is given on the command line.
-			//If it is not given we will start with revision 1.
-			scanRepository.setStartRevision(startRevision); 
-			//We will scan the repository to the current HEAD of the repository.
-			scanRepository.setEndRevision(endRevision);
-	
-			scanReposSingle(scanRepository, indexDirectory + blockNumber, create);
-			//BLOCK END
-		}
+		long blockNumber = ScanSingleRepository.scanFullRepository(url, fromRev, indexDirectory, create, authManager);
 
 		LOGGER.info("Scanning of revisions done");
 
-		LOGGER.info("Merding indexes togehter..");
-
-		ArrayList<String> indexList = new ArrayList<String>();
-		//Create the list of indexes
-		for (long blockCount = 0; blockCount <= blockNumber; blockCount++) {
-			indexList.add(indexDirectory + blockCount);
-		}
-		long startTime = System.currentTimeMillis();
-		IndexHelper.mergeIndex(indexDirectory, indexList);
-		long stopTime = System.currentTimeMillis();
-		long ms = (stopTime-startTime);
-		long seconds = ms / 1000;
-		LOGGER.info("Merding indexes togehter done.");
-		System.out.println("This has taken " + seconds + " seconds.");
-		LOGGER.info("Merding the indexes has taken " + seconds + " seconds.");
-		
-		startTime = System.currentTimeMillis();
-		//Delete all the created folder after the merging
-		for (String directory : indexList) {
-			File dir = new File(directory);
-			try {
-				LOGGER.info("Deleting " + directory);
-				FileUtils.deleteDirectory(dir);
-				LOGGER.info("Deleting " + directory + " done.");
-			} catch (IOException e) {
-				LOGGER.error("IOException during deletion of " + directory, e);
-			}
-		}
-		stopTime = System.currentTimeMillis();
-		LOGGER.info("The folder deleting has taken " + ((stopTime-startTime)/1000) + " seconds");
+		ScanSingleRepository.mergeIndexesAndCleanUp(indexDirectory, blockNumber);
 	}
 
-	/**
-	 * @param fromRev
-	 * @param toRev
-	 * @param indexDirectory
-	 * @param create
-	 * @param repository
-	 */
-	private static void scanReposSingle(ScanRepository scanRepository, String indexDirectory, boolean create) {
-		// BLOCK ANFANG
-
-		Index index = new Index ();
-		//We will create a new one if --create is given on command line
-		//otherwise we will append to the existing index.
-		Analyzer analyzer = new StandardAnalyzer();		
-		index.setAnalyzer(analyzer);
-
-		index.setCreate(create);
-		IndexWriter indexWriter = index.createIndexWriter(indexDirectory);
-
-		try {
-			LOGGER.info("Scanning started.");
-			scanRepository.scan(indexWriter);
-			LOGGER.info("Scanning ready.");
-			try {
-				long startTime = System.currentTimeMillis();
-				LOGGER.info("Index optimizing started.");
-				indexWriter.optimize();
-				indexWriter.close();
-				long stopTime = System.currentTimeMillis();
-				LOGGER.info("Index optimizing done.");
-				long ms = (stopTime-startTime);
-				long seconds = ms / 1000;
-				LOGGER.info("The Index optimizing has taken " + seconds + " seconds.");
-			} catch (CorruptIndexException e) {
-				System.err.println("CorruptIndexException: Error during optimization of index: " + e);
-			} catch (IOException e) {
-				System.err.println("IOException: Error during optimization of index: " + e);
-			}
-		} catch (SVNAuthenticationException svnae) {
-			System.err.println("Authentication has failed. " + svnae.getMessage());
-		} catch (Exception e) {
-			System.err.println("Something unexpected went wrong: " + e.getMessage());
-		}
-	}
 
 
 	private static void runSchedule(ScheduleCommand scheduleCommand) {

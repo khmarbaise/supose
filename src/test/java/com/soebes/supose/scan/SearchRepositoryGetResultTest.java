@@ -45,8 +45,8 @@ import com.soebes.supose.search.ResultEntry;
 import com.soebes.supose.search.SearchRepository;
 
 @Test
-public class SearchRepositoryTest extends TestBase {
-	private static Logger LOGGER = Logger.getLogger(SearchRepositoryTest.class);
+public class SearchRepositoryGetResultTest extends TestBase {
+	private static Logger LOGGER = Logger.getLogger(SearchRepositoryGetResultTest.class);
 
 	private static SearchRepository searchRepository = new SearchRepository();
 	

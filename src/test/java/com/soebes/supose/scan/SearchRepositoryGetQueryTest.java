@@ -46,8 +46,8 @@ import com.soebes.supose.TestBase;
 import com.soebes.supose.search.SearchRepository;
 
 @Test
-public class ScanRepositoryTest extends TestBase {
-	private static Logger LOGGER = Logger.getLogger(ScanRepositoryTest.class);
+public class SearchRepositoryGetQueryTest extends TestBase {
+	private static Logger LOGGER = Logger.getLogger(SearchRepositoryGetQueryTest.class);
 
 	private static SearchRepository searchRepository = new SearchRepository();
 	
