@@ -32,8 +32,6 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.KeywordAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
@@ -53,6 +51,7 @@ import org.testng.annotations.Test;
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.search.CustomQueryParser;
 import com.soebes.supose.search.NumberUtils;
+import com.soebes.supose.utility.AnalyzerFactory;
 
 public class LuceneTest {
     // Store the index in memory:
@@ -69,7 +68,7 @@ public class LuceneTest {
 
 	@BeforeClass
 	public void beforeClass() throws CorruptIndexException, LockObtainFailedException, IOException {
-		 Analyzer analyzer = new StandardAnalyzer();
+		 Analyzer analyzer = AnalyzerFactory.createInstance();
 
 	    // To store an index on disk, use this instead:
 	    //Directory directory = FSDirectory.getDirectory("/tmp/testindex");
@@ -132,7 +131,7 @@ public class LuceneTest {
 
 	@Test
 	public void testSingleAsterik() throws ParseException, IOException {
-		 Analyzer analyzer = new StandardAnalyzer();
+		 Analyzer analyzer = AnalyzerFactory.createInstance();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/*.doc");
@@ -144,7 +143,7 @@ public class LuceneTest {
 	
 	@Test
 	public void testSingleAsterikWithPrefix() throws ParseException, IOException {
-		 Analyzer analyzer = new StandardAnalyzer();
+		 Analyzer analyzer = AnalyzerFactory.createInstance();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/trunk/*.doc");
@@ -156,7 +155,7 @@ public class LuceneTest {
 
 	@Test
 	public void testMultipleAsterik() throws ParseException, IOException {
-		 Analyzer analyzer = new StandardAnalyzer();
+		 Analyzer analyzer = AnalyzerFactory.createInstance();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    Query query = parser.parse("+filename:/*te*.doc");
@@ -167,7 +166,7 @@ public class LuceneTest {
 
 	@Test
 	public void testMultipleAsterikUppercase() throws ParseException, IOException {
-		 Analyzer analyzer = new StandardAnalyzer();
+		 Analyzer analyzer = AnalyzerFactory.createInstance();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    parser.setLowercaseExpandedTerms(false);
@@ -179,7 +178,7 @@ public class LuceneTest {
 
 	@Test(enabled = false)
 	public void testMultipleAsterikLowerCase() throws ParseException, IOException {
-		 Analyzer analyzer = new KeywordAnalyzer();
+		 Analyzer analyzer = AnalyzerFactory.createInstance();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    parser.setLowercaseExpandedTerms(false);
@@ -191,7 +190,7 @@ public class LuceneTest {
 
 	@Test
 	public void testSingleAsterikRestrictionToRevisionRange() throws ParseException, IOException {
-		Analyzer analyzer = new StandardAnalyzer();
+		Analyzer analyzer = AnalyzerFactory.createInstance();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    parser.setLowercaseExpandedTerms(true);
@@ -202,7 +201,7 @@ public class LuceneTest {
 	}
 	@Test
 	public void testSingleAsterikRestrictionToDifferentRevisionRange() throws ParseException, IOException {
-		Analyzer analyzer = new StandardAnalyzer();
+		Analyzer analyzer = AnalyzerFactory.createInstance();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    parser.setLowercaseExpandedTerms(true);
@@ -214,7 +213,7 @@ public class LuceneTest {
 	
 	@Test
 	public void testSingleRevision() throws ParseException, IOException {
-		Analyzer analyzer = new StandardAnalyzer();
+		Analyzer analyzer = AnalyzerFactory.createInstance();
 	    // Parse a simple query that searches for "text":
 	    QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS, analyzer);
 	    parser.setLowercaseExpandedTerms(true);

@@ -229,7 +229,17 @@ public class SearchRepositoryGetResultTest extends TestBase {
 		//We have only a single entry here
 		assertEquals(result.size(), 12);
 	}
-	
+
+
+//	public void testQueryForCreatedFolder() {
+//		List<ResultEntry> result = searchRepository.getResult("+path:/project1/ +kind:a +node:dir");
+//		//We have only a single entry here
+//		for (ResultEntry resultEntry : result) {
+//			System.out.println("entry: " + resultEntry.getPath() + " " + resultEntry.getRevision());
+//		}
+//		assertEquals(result.size(), 3);
+//	}
+
 	public void testQueryForDeletedTag() throws CorruptIndexException, IOException {
 		List<ResultEntry> result = searchRepository.getResult("+path:*/tags/* +kind:d");
 		assertEquals(result.size(), 1);

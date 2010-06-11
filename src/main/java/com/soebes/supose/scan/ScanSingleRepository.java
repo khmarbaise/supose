@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.tmatesoft.svn.core.SVNAuthenticationException;
@@ -44,6 +43,7 @@ import com.soebes.supose.cli.CLILogEntryInterceptor;
 import com.soebes.supose.index.Index;
 import com.soebes.supose.index.IndexHelper;
 import com.soebes.supose.repository.Repository;
+import com.soebes.supose.utility.AnalyzerFactory;
 
 public class ScanSingleRepository {
 	private static Logger LOGGER = Logger.getLogger(ScanSingleRepository.class);
@@ -123,7 +123,7 @@ public class ScanSingleRepository {
 		Index index = new Index ();
 		//We will create a new one if --create is given on command line
 		//otherwise we will append to the existing index.
-		Analyzer analyzer = new StandardAnalyzer();		
+		Analyzer analyzer = AnalyzerFactory.createInstance();		
 		index.setAnalyzer(analyzer);
 
 		index.setCreate(create);
