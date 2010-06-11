@@ -102,7 +102,9 @@ public class IndexMergeTest {
 		IndexWriter indexWriter = index.createIndexWriter("result");
 
 		FSDirectory fsDirs[] = { FSDirectory.getDirectory("index1"), FSDirectory.getDirectory("index2") };
-		indexWriter.addIndexes(fsDirs);
+		
+		indexWriter.addIndexesNoOptimize(fsDirs);
+		indexWriter.optimize();
 		indexWriter.close();
 	}
 
