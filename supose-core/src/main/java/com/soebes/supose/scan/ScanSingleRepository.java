@@ -35,6 +35,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 
 import com.soebes.supose.index.Index;
@@ -84,6 +85,7 @@ public class ScanSingleRepository {
 				}
 			}
 
+			scanRepository.setLogEntries(new ArrayList<SVNLogEntry>());
 			scanRepository.setRepository(repository);
 	
 			//We start with the revision which is given on the command line.

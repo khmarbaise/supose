@@ -71,6 +71,10 @@ public class ScanRepository extends ScanRepositoryBase {
 	
 	private ArrayList<SVNLogEntry> logEntries = null;
 
+	public void setLogEntries(ArrayList<SVNLogEntry> logEntries) {
+		this.logEntries = logEntries;
+	}
+
 	/**
 	 * This defines the revision from where we start to scan the given repository.
 	 */
