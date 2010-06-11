@@ -30,11 +30,12 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriter.MaxFieldLength;
 import org.apache.lucene.store.LockObtainFailedException;
+
+import com.soebes.supose.utility.AnalyzerFactory;
 
 /**
  * @author Karl Heinz Marbaise
@@ -54,7 +55,7 @@ public class Index {
 	
 	public Index () {
 		setIndexDirectory(null);
-		setAnalyzer(new StandardAnalyzer());
+		setAnalyzer(AnalyzerFactory.createInstance());
 		setMergeFactor(1000);
 		setMaxBufferedDocs(1000);
 		setUseCompoundFile(false);

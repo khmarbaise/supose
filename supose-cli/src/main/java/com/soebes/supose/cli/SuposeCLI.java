@@ -39,17 +39,13 @@ import org.apache.commons.cli2.util.HelpFormatter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
-import org.tmatesoft.svn.core.SVNAuthenticationException;
+import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
@@ -57,13 +53,13 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.config.ConfigurationRepositories;
 import com.soebes.supose.config.RepositoryConfiguration;
 import com.soebes.supose.config.RepositoryFactory;
-import com.soebes.supose.index.Index;
 import com.soebes.supose.index.IndexHelper;
 import com.soebes.supose.jobs.JobDataNames;
 import com.soebes.supose.jobs.JobSchedulerListener;
 import com.soebes.supose.jobs.RepositoryScanJob;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
+import com.soebes.supose.scan.ScanSingleRepository;
 import com.soebes.supose.search.ResultEntry;
 import com.soebes.supose.search.SearchRepository;
 import com.thoughtworks.xstream.XStream;
@@ -80,10 +76,9 @@ public class SuposeCLI {
 	private static final int HELP_OPTION_DESCRIPTION_INDENT = 30;
 
 	private static SuposeCommandLine suposecli = new SuposeCommandLine();
-	private static ScanRepository scanRepository = new ScanRepository();
 	private static CommandLine commandLine = null;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SVNException {
 		try {
 			commandLine = suposecli.doParseArgs(args);
 		} catch (OptionException e) {
@@ -132,8 +127,9 @@ public class SuposeCLI {
 	 * This will do the command argument extraction and give the parameter to
 	 * the scanRepository class which will do the real repository scan.
 	 * @param scanCommand The command line.
+	 * @throws SVNException 
 	 */
-	private static void runScan(ScanCommand scanCommand) {
+	private static void runScan(ScanCommand scanCommand) throws SVNException {
 		String url = scanCommand.getURL(commandLine);
 		long fromRev = scanCommand.getFromRev(commandLine);
 		long toRev = scanCommand.getToRev(commandLine);
@@ -142,19 +138,15 @@ public class SuposeCLI {
 		String username = scanCommand.getUsername(commandLine);
 		String password = scanCommand.getPassword(commandLine);
 
-		Index index = new Index ();
-		//We will create a new one if --create is given on command line
-		//otherwise we will append to the existing index.
-		Analyzer analyzer = new StandardAnalyzer();		
-		index.setAnalyzer(analyzer);
-		index.setCreate(create);
-		IndexWriter indexWriter = index.createIndexWriter(indexDirectory);
-
 		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
 			username, 
 			password
 		);
-		Repository repository = new Repository(url, authManager);
+
+		LOGGER.info("Start with scanning of revisions.");
+		
+		
+		ScanRepository scanRepository = new ScanRepository();
 
 		CLIInterceptor interceptor = new CLIInterceptor();
 		scanRepository.registerScanInterceptor(interceptor);
@@ -165,33 +157,13 @@ public class SuposeCLI {
 		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
 		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
 		
-		scanRepository.setRepository(repository);
+		long blockNumber = ScanSingleRepository.scanFullRepository(scanRepository, url, fromRev, indexDirectory, create, authManager);
 
-		//We start with the revision which is given on the command line.
-		//If it is not given we will start with revision 1.
-		scanRepository.setStartRevision(fromRev); 
-		//We will scan the repository to the current HEAD of the repository.
-		scanRepository.setEndRevision(toRev);
+		LOGGER.info("Scanning of revisions done");
 
-		try {
-			LOGGER.info("Scanning started.");
-			scanRepository.scan(indexWriter);
-			LOGGER.info("Scanning ready.");
-			try {
-				indexWriter.optimize();
-				indexWriter.close();
-			} catch (CorruptIndexException e) {
-				System.err.println("CorruptIndexException: Error during optimization of index: " + e);
-			} catch (IOException e) {
-				System.err.println("IOException: Error during optimization of index: " + e);
-			}
-		} catch (SVNAuthenticationException svnae) {
-			System.err.println("Authentication has failed. " + svnae.getMessage());
-		} catch (Exception e) {
-			System.err.println("Something unexpected went wrong: " + e.getMessage());
-		}
-
+		ScanSingleRepository.mergeIndexesAndCleanUp(indexDirectory, blockNumber);
 	}
+
 
 
 	private static void runSchedule(ScheduleCommand scheduleCommand) {
@@ -291,7 +263,12 @@ public class SuposeCLI {
 		System.out.println("");
 		System.out.println("Destination: " + destination);
 
+		long startTime = System.currentTimeMillis();
 		IndexHelper.mergeIndex(destination, indexList);
+		long stopTime = System.currentTimeMillis();
+		long ms = (stopTime-startTime);
+		long seconds = ms / 1000;
+		System.out.println("This has taken " + seconds + " seconds.");
 	}
 
 	private static List<FieldNames> getDisplayFields(List<String> cliFields) {

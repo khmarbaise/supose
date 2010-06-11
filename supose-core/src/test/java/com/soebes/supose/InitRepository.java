@@ -32,7 +32,6 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.testng.annotations.BeforeSuite;
@@ -46,6 +45,7 @@ import org.tmatesoft.svn.core.wc.admin.SVNAdminClient;
 import com.soebes.supose.index.Index;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
+import com.soebes.supose.utility.AnalyzerFactory;
 
 
 /**
@@ -101,7 +101,7 @@ public class InitRepository extends TestBase {
 		Index index = new Index ();
 		//We will create a new one if --create is given on command line
 		//otherwise we will append to the existing index.
-		Analyzer analyzer = new StandardAnalyzer();		
+		Analyzer analyzer = AnalyzerFactory.createInstance();		
 		index.setAnalyzer(analyzer);
 		//For the test we allways create the index.
 		index.setCreate(true);

@@ -23,7 +23,7 @@
  * just write an email to license@soebes.de
  */
 
-package com.soebes.supose.cli;
+package com.soebes.supose.jobs;
 
 import org.apache.log4j.Logger;
 

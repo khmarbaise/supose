@@ -33,7 +33,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
@@ -48,6 +47,7 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 
 import com.soebes.supose.FieldNames;
+import com.soebes.supose.utility.AnalyzerFactory;
 
 public class SearchRepository {
 	private static Logger LOGGER = Logger.getLogger(SearchRepository.class);
@@ -60,12 +60,12 @@ public class SearchRepository {
 	
 	public SearchRepository() {
 		setIndexDirectory(null);
-		setAnalyzer(new StandardAnalyzer());
+		setAnalyzer(AnalyzerFactory.createInstance());
 	}
 
 	public SearchRepository(String indexDirectory) {
 		setIndexDirectory(indexDirectory);
-		setAnalyzer(new StandardAnalyzer());
+		setAnalyzer(AnalyzerFactory.createInstance());
 		setReader(null);
 	}
 

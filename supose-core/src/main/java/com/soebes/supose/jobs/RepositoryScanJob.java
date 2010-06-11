@@ -102,11 +102,11 @@ public class RepositoryScanJob implements InterruptableJob, StatefulJob {
 
 			LOGGER.info("Scanning: startRev:" + startRev + " endRev:" + endRev);
 
-//    		ScheduleInterceptor interceptor = new ScheduleInterceptor();
-//    		scanRepos.registerScanInterceptor(interceptor);
+    		ScheduleInterceptor interceptor = new ScheduleInterceptor();
+    		scanRepos.registerScanInterceptor(interceptor);
     		
-//    		SchedulerLogEntryInterceptor logEntryInterceptor = new SchedulerLogEntryInterceptor();
-//    		scanRepos.registerLogEntryInterceptor(logEntryInterceptor);
+    		SchedulerLogEntryInterceptor logEntryInterceptor = new SchedulerLogEntryInterceptor();
+    		scanRepos.registerLogEntryInterceptor(logEntryInterceptor);
 
 //    		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
 //    		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
