@@ -35,7 +35,7 @@ import org.tmatesoft.svn.core.SVNProperty;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
-import com.soebes.supose.scan.IndexRevision;
+import com.soebes.supose.scan.RevisionDocument;
 
 /**
  * This abstract class defines the 
@@ -51,7 +51,7 @@ import com.soebes.supose.scan.IndexRevision;
  */
 public abstract class AScanDocument {
 
-	private IndexRevision doc;
+	private RevisionDocument doc;
 	private SVNProperties properties;
 
 
@@ -70,11 +70,11 @@ public abstract class AScanDocument {
 	 */
 	public abstract void indexDocument (Repository repository, SVNDirEntry dirEntry, String path, long revision);
 
-	public void setDocument(IndexRevision doc) {
+	public void setDocument(RevisionDocument doc) {
 		this.doc = doc;
 	}
 	
-	public IndexRevision getDocument() {
+	public RevisionDocument getDocument() {
 		return doc;
 	}
 	

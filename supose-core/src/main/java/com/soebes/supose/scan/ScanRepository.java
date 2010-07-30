@@ -206,7 +206,7 @@ public class ScanRepository extends ScanRepositoryBase {
 		startIndexChangeSet();
 		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 
-			IndexRevision indexRevision = new IndexRevision();
+			RevisionDocument indexRevision = new RevisionDocument();
 
 			addTagBranchToDoc(res, indexRevision);
 
@@ -242,7 +242,7 @@ public class ScanRepository extends ScanRepositoryBase {
 		stopIndexChangeSet();
 	}
 
-	private void addTagBranchToDoc(TagBranch res, IndexRevision indexRevision) {
+	private void addTagBranchToDoc(TagBranch res, RevisionDocument indexRevision) {
 		if (res != null) {
 			switch (res.getType()) {
 				case BRANCH:
@@ -283,7 +283,7 @@ public class ScanRepository extends ScanRepositoryBase {
 	 * @throws SVNException
 	 * @throws IOException
 	 */
-	private void indexFile(IndexRevision indexRevision, IndexWriter indexWriter, SVNDirEntry dirEntry, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
+	private void indexFile(RevisionDocument indexRevision, IndexWriter indexWriter, SVNDirEntry dirEntry, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
 		throws SVNException, IOException {
 			SVNProperties fileProperties = new SVNProperties();
 
@@ -390,7 +390,7 @@ public class ScanRepository extends ScanRepositoryBase {
 	 * @param fileProperties
 	 * @param doc
 	 */
-	private void indexProperties(SVNProperties fileProperties, IndexRevision indexRevision) {
+	private void indexProperties(SVNProperties fileProperties, RevisionDocument indexRevision) {
 		SVNProperties list = fileProperties.getRegularProperties();
 
 		for (Iterator<String> iterator = list.nameSet().iterator(); iterator.hasNext();) {

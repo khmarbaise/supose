@@ -8,11 +8,11 @@ import org.apache.lucene.document.Field;
 
 import com.soebes.supose.FieldNames;
 
-public class IndexRevision {
+public class RevisionDocument {
 
 	private Document doc;
 
-	public IndexRevision() {
+	public RevisionDocument() {
 		setDoc(new Document());
 	}
 

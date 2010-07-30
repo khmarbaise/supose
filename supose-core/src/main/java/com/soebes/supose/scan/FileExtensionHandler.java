@@ -40,7 +40,7 @@ import com.soebes.supose.utility.FileName;
  *
  */
 public class FileExtensionHandler {
-	private IndexRevision doc;
+	private RevisionDocument doc;
 
 	private SVNProperties fileProperties;
 
@@ -87,11 +87,11 @@ public class FileExtensionHandler {
 		 dh.indexDocument(repository, dirEntry, path, revision);
 	}
 
-	 public IndexRevision getDoc() {
+	 public RevisionDocument getDoc() {
 		return doc;
 	}
 
-	public void setDoc(IndexRevision doc) {
+	public void setDoc(RevisionDocument doc) {
 		this.doc = doc;
 	}
 
