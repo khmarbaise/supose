@@ -25,6 +25,7 @@
 
 package com.soebes.supose.scan.document;
 
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -73,19 +74,19 @@ public class ScanJavaDocument extends AScanDocument {
 			LOGGER.debug("Parsing Java file");
 			parser.compilationUnit();
 			LOGGER.debug("Parsing Java file done.");
-			HashMap methods = parser.getMethods();
-			for (Iterator iter = methods.keySet().iterator(); iter.hasNext(); ) {
+			HashMap<?, ?> methods = parser.getMethods();
+			for (Iterator<?> iter = methods.keySet().iterator(); iter.hasNext(); ) {
 				String key = (String) iter.next();
 				//The value will give the information what kind of method we had..
 				//Not working yet...
 //				String value = (String) methods.get(key);
- 				addTokenizedField(FieldNames.METHODS, key);
+				getDocument().addTokenizedField(FieldNames.METHODS, key);
 				LOGGER.debug("Method: " + key);
 			}
 
 			//Get all comments in file...
 			for (String item : lexer.getComments()) {
-				addTokenizedField(FieldNames.COMMENTS, item);
+				getDocument().addTokenizedField(FieldNames.COMMENTS, item);
 			}
 		} catch (Exception e) {
 			LOGGER.error("We had an error during the parsing process.", e);

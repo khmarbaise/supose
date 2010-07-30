@@ -35,6 +35,7 @@ import org.testng.annotations.Test;
 
 import com.soebes.supose.TestBase;
 
+
 @Test
 public class JavaParserTest extends TestBase {
 
@@ -47,7 +48,7 @@ public class JavaParserTest extends TestBase {
 		JavaParser parser = new JavaParser(tokens);
 		parser.compilationUnit();
 
-		HashMap methods = parser.getMethods();
+		HashMap<?, ?> methods = parser.getMethods();
 		assertTrue(methods.size() == 5, "We had expected to get five different methods");
 //		for (Iterator iter = methods.keySet().iterator(); iter.hasNext(); ) {
 //			String key = (String) iter.next();
