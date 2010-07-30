@@ -78,8 +78,8 @@ public class ScanExcelDocument extends AScanDocument {
 			DefaultHandler handler = new BodyContentHandler();
 			parser.parse(in, handler, metadata);
 			String excelAuthor = metadata.get(Metadata.AUTHOR);
-			addUnTokenizedField(FieldNames.XLSAUTHOR, excelAuthor == null ? "" : excelAuthor);
-			addTokenizedField(FieldNames.CONTENTS, handler.toString());
+			getDocument().addUnTokenizedField(FieldNames.XLSAUTHOR, excelAuthor == null ? "" : excelAuthor);
+			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
 			
 		} catch (Exception e) {
 			LOGGER.error("We had an exception: ", e);

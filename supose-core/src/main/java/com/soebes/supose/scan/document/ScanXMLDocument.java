@@ -73,7 +73,7 @@ public class ScanXMLDocument extends AScanDocument {
 			AutoDetectParser parser = new AutoDetectParser();
 			DefaultHandler handler = new BodyContentHandler();
 			parser.parse(in, handler, metadata);
-			addTokenizedField(FieldNames.CONTENTS, handler.toString());
+			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
 		} catch (Exception e) {
 			LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
 		} finally {

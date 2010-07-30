@@ -80,11 +80,11 @@ public class ScanPDFDocument extends AScanDocument {
 			String pdfSubject = metadata.get(Metadata.SUBJECT);
 
 			//TODO: Check if can get more information out of the PDF file.
-			addUnTokenizedField(FieldNames.PDFAUTHOR, pdfAuthor == null ? "" : pdfAuthor);
-			addUnTokenizedField(FieldNames.PDFKEYWORDS, pdfKeywords == null ? "" : pdfKeywords);
-			addUnTokenizedField(FieldNames.PDFTITLE, pdfTitle == null ? "" : pdfTitle);
-			addUnTokenizedField(FieldNames.PDFSUBJECT, pdfSubject == null ? "" : pdfSubject);
-			addTokenizedField(FieldNames.CONTENTS, handler.toString());
+			getDocument().addUnTokenizedField(FieldNames.PDFAUTHOR, pdfAuthor == null ? "" : pdfAuthor);
+			getDocument().addUnTokenizedField(FieldNames.PDFKEYWORDS, pdfKeywords == null ? "" : pdfKeywords);
+			getDocument().addUnTokenizedField(FieldNames.PDFTITLE, pdfTitle == null ? "" : pdfTitle);
+			getDocument().addUnTokenizedField(FieldNames.PDFSUBJECT, pdfSubject == null ? "" : pdfSubject);
+			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
 		} catch (Exception e) {
 			LOGGER.error("We had an exception: ", e);
 		} finally {

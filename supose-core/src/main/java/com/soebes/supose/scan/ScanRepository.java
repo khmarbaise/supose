@@ -206,8 +206,9 @@ public class ScanRepository extends ScanRepositoryBase {
 		startIndexChangeSet();
 		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 
-			Document doc = new Document();
-			addTagBranchToDoc(res, doc);
+			IndexRevision indexRevision = new IndexRevision();
+
+			addTagBranchToDoc(res, indexRevision);
 
 			//It is needed to check it in every entry 
 			//This will result in making entries for every record of the ChangeSet.
@@ -227,7 +228,7 @@ public class ScanRepository extends ScanRepositoryBase {
 
 			try {
 				beginIndexChangeSetItem(dirEntry);
-				indexFile(doc, indexWriter, dirEntry, logEntry, entryPath);
+				indexFile(indexRevision, indexWriter, dirEntry, logEntry, entryPath);
 			} catch (IOException e) {
 				LOGGER.error("IOExcepiton: ", e);
 			} catch (SVNException e) {
@@ -241,24 +242,24 @@ public class ScanRepository extends ScanRepositoryBase {
 		stopIndexChangeSet();
 	}
 
-	private void addTagBranchToDoc(TagBranch res, Document doc) {
+	private void addTagBranchToDoc(TagBranch res, IndexRevision indexRevision) {
 		if (res != null) {
 			switch (res.getType()) {
 				case BRANCH:
-					addUnTokenizedField(doc, FieldNames.BRANCH, res.getName());
+					indexRevision.addUnTokenizedField(FieldNames.BRANCH, res.getName());
 					break;
 				case TAG:
-					addUnTokenizedField(doc, FieldNames.TAG, res.getName());
+					indexRevision.addUnTokenizedField(FieldNames.TAG, res.getName());
 					switch(res.getTagType()) {
 						case NONE:
 							break;
 						case TAG: //We already have it marked as Tag.
 							break;
 						case MAVENTAG:
-							addUnTokenizedField(doc, FieldNames.MAVENTAG, res.getName());
+							indexRevision.addUnTokenizedField(FieldNames.MAVENTAG, res.getName());
 							break;
 						case SUBVERSIONTAG:
-							addUnTokenizedField(doc, FieldNames.SUBVERSIONTAG, res.getName());
+							indexRevision.addUnTokenizedField(FieldNames.SUBVERSIONTAG, res.getName());
 							break;
 					}
 					break;
@@ -266,32 +267,6 @@ public class ScanRepository extends ScanRepositoryBase {
 					break;
 			}
 		}
-	}
-
-	protected void addTokenizedField(Document doc, FieldNames fieldName, String value) {
-		doc.add(new Field(fieldName.getValue(),  value, Field.Store.YES, Field.Index.ANALYZED));
-	}
-	protected void addTokenizedField(Document doc, String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.ANALYZED));
-	}
-	private void addUnTokenizedField(Document doc, FieldNames fieldName, String value) {
-		doc.add(new Field(fieldName.getValue(),  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	private void addUnTokenizedFieldNoStore(Document doc, FieldNames fieldName, String value) {
-		doc.add(new Field(fieldName.getValue(),  value, Field.Store.NO, Field.Index.NOT_ANALYZED));
-	}
-	private void addUnTokenizedFieldNoStore(Document doc, String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.NO, Field.Index.NOT_ANALYZED));
-	}
-	private void addUnTokenizedField(Document doc, String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	private void addUnTokenizedField(Document doc, FieldNames fieldName, Long value) {
-		doc.add(new Field(fieldName.getValue(),  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	private void addUnTokenizedField(Document doc, FieldNames fieldName, Date value) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss.SSS");
-		doc.add(new Field(fieldName.getValue(),  sdf.format(value), Field.Store.YES, Field.Index.NOT_ANALYZED));
 	}
 
 	/**
@@ -308,7 +283,7 @@ public class ScanRepository extends ScanRepositoryBase {
 	 * @throws SVNException
 	 * @throws IOException
 	 */
-	private void indexFile(Document doc, IndexWriter indexWriter, SVNDirEntry dirEntry, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
+	private void indexFile(IndexRevision indexRevision, IndexWriter indexWriter, SVNDirEntry dirEntry, SVNLogEntry logEntry, SVNLogEntryPath entryPath) 
 		throws SVNException, IOException {
 			SVNProperties fileProperties = new SVNProperties();
 
@@ -319,22 +294,22 @@ public class ScanRepository extends ScanRepositoryBase {
 			nodeKind = repository.getRepository().checkPath(entryPath.getPath(), logEntry.getRevision());
 			LOGGER.debug("After checking...");
 
-			addUnTokenizedField(doc, FieldNames.REVISION, NumberUtils.pad(logEntry.getRevision()));
+			indexRevision.addUnTokenizedField(FieldNames.REVISION, NumberUtils.pad(logEntry.getRevision()));
 
 			boolean isDir = nodeKind == SVNNodeKind.DIR;
 			boolean isFile = nodeKind == SVNNodeKind.FILE;
 			FileName fileName = null;
 			if (isDir) {
 				LOGGER.debug("The " + entryPath.getPath() + " is a directory entry.");
-				addUnTokenizedField(doc, FieldNames.NODE, "dir");
+				indexRevision.addUnTokenizedField(FieldNames.NODE, "dir");
 				fileName = new FileName(entryPath.getPath(), true);
 			} else if (isFile) {
 				LOGGER.debug("The " + entryPath.getPath() + " is a file entry.");
-				addUnTokenizedField(doc, FieldNames.NODE, "file");
+				indexRevision.addUnTokenizedField(FieldNames.NODE, "file");
 				fileName = new FileName(entryPath.getPath(), false);
 			} else {
 				//This means a file/directory has been deleted.
-				addUnTokenizedField(doc, FieldNames.NODE, "unknown");
+				indexRevision.addUnTokenizedField(FieldNames.NODE, "unknown");
 				LOGGER.debug("The " + entryPath.getPath() + " is an unknown entry.");
 
 				//We would like to know what is has been?
@@ -351,32 +326,32 @@ public class ScanRepository extends ScanRepositoryBase {
 			}
 
 			//TODO: We have to check if we need to set localization
-			addUnTokenizedFieldNoStore(doc, FieldNames.PATH, fileName.getPath().toLowerCase());
-			addUnTokenizedField(doc, FieldNames.PATH, fileName.getPath());
+			indexRevision.addUnTokenizedFieldNoStore(FieldNames.PATH, fileName.getPath().toLowerCase());
+			indexRevision.addUnTokenizedField(FieldNames.PATH, fileName.getPath());
 
 			//Does a copy operation took place...
 			if (entryPath.getCopyPath() != null) {
-				addUnTokenizedField(doc, FieldNames.FROM, entryPath.getCopyPath());
-				addUnTokenizedField(doc, FieldNames.FROMREV, entryPath.getCopyRevision());
+				indexRevision.addUnTokenizedField(FieldNames.FROM, entryPath.getCopyPath());
+				indexRevision.addUnTokenizedField(FieldNames.FROMREV, entryPath.getCopyRevision());
 			}
 
 			//The field we use for searching is stored as lowercase.
 			//TODO: We have to check if we need to set localization
-			addUnTokenizedFieldNoStore(doc, FieldNames.FILENAME, fileName.getBaseName().toLowerCase());
-			addUnTokenizedField(doc, FieldNames.FILENAME, fileName.getBaseName());
+			indexRevision.addUnTokenizedFieldNoStore(FieldNames.FILENAME, fileName.getBaseName().toLowerCase());
+			indexRevision.addUnTokenizedField(FieldNames.FILENAME, fileName.getBaseName());
 
-			addUnTokenizedField(doc, FieldNames.AUTHOR, logEntry.getAuthor() == null ? "" : logEntry.getAuthor());
+			indexRevision.addUnTokenizedField(FieldNames.AUTHOR, logEntry.getAuthor() == null ? "" : logEntry.getAuthor());
 
 			//We will add the message as tokenized field to be able to search within the log messages.
-			addTokenizedField(doc, FieldNames.MESSAGE, logEntry.getMessage() == null ? "" : logEntry.getMessage());
-			addUnTokenizedField(doc, FieldNames.DATE, logEntry.getDate());
+			indexRevision.addTokenizedField(FieldNames.MESSAGE, logEntry.getMessage() == null ? "" : logEntry.getMessage());
+			indexRevision.addUnTokenizedField(FieldNames.DATE, logEntry.getDate());
 
-			addUnTokenizedField(doc, FieldNames.KIND, String.valueOf(entryPath.getType()).toLowerCase());
+			indexRevision.addUnTokenizedField(FieldNames.KIND, String.valueOf(entryPath.getType()).toLowerCase());
 
 //TODO: May be don't need this if we use repository name?
-			addUnTokenizedField(doc, FieldNames.REPOSITORYUUID, getRepository().getRepository().getRepositoryUUID(false));
+			indexRevision.addUnTokenizedField(FieldNames.REPOSITORYUUID, getRepository().getRepository().getRepositoryUUID(false));
 			
-			addUnTokenizedField(doc, FieldNames.REPOSITORY, getName());
+			indexRevision.addUnTokenizedField(FieldNames.REPOSITORY, getName());
 
 			if (nodeKind == SVNNodeKind.NONE) {
 				LOGGER.debug("The " + entryPath.getPath() + " is a NONE entry.");
@@ -386,7 +361,7 @@ public class ScanRepository extends ScanRepositoryBase {
 				//Here we need to call getDir to get directory properties.
 				Collection<SVNDirEntry> dirEntries = null;
 				getRepository().getRepository().getDir(entryPath.getPath(), logEntry.getRevision(), fileProperties, dirEntries);
-				indexProperties(fileProperties, doc);
+				indexProperties(fileProperties, indexRevision);
 
 			} else if (nodeKind == SVNNodeKind.FILE) {
 				
@@ -394,17 +369,17 @@ public class ScanRepository extends ScanRepositoryBase {
 				//This means we will get every file from the repository....
 				//Get only the properties of the file
 
-				addTokenizedField(doc, FieldNames.SIZE, Long.toString(dirEntry.getSize()));
+				indexRevision.addTokenizedField(FieldNames.SIZE, Long.toString(dirEntry.getSize()));
 				getRepository().getRepository().getFile(entryPath.getPath(), logEntry.getRevision(), fileProperties, null);
-				indexProperties(fileProperties, doc);
+				indexProperties(fileProperties, indexRevision);
 
 				FileExtensionHandler feh = new FileExtensionHandler();
 				feh.setFileProperties(fileProperties);
-				feh.setDoc(doc);
+				feh.setDoc(indexRevision);
 				feh.execute(getRepository(), dirEntry, entryPath.getPath(), logEntry.getRevision());
 			}
 
-			indexWriter.addDocument(doc);
+			indexWriter.addDocument(indexRevision.getDoc());
 			LOGGER.debug("File " + entryPath.getPath() + " indexed...");
 	}
 
@@ -415,14 +390,14 @@ public class ScanRepository extends ScanRepositoryBase {
 	 * @param fileProperties
 	 * @param doc
 	 */
-	private void indexProperties(SVNProperties fileProperties, Document doc) {
+	private void indexProperties(SVNProperties fileProperties, IndexRevision indexRevision) {
 		SVNProperties list = fileProperties.getRegularProperties();
 
 		for (Iterator<String> iterator = list.nameSet().iterator(); iterator.hasNext();) {
 			String propname = (String) iterator.next();
 			LOGGER.debug("Indexing property: " + propname);
-			addUnTokenizedFieldNoStore(doc, propname, list.getStringValue(propname).toLowerCase());
-			addUnTokenizedField(doc, propname, list.getStringValue(propname));
+			indexRevision.addUnTokenizedFieldNoStore(propname, list.getStringValue(propname).toLowerCase());
+			indexRevision.addUnTokenizedField(propname, list.getStringValue(propname));
 		}
 	}
 

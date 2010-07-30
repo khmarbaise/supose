@@ -106,10 +106,10 @@ public class SuposeCLI {
 	private static void printHelp() {
 		StringBuffer help = new StringBuffer();
 		Group suposeOptions = suposecli.getSuposeOptions();
-		List helpLines = suposeOptions.helpLines(0, HelpFormatter.DEFAULT_DISPLAY_USAGE_SETTINGS, null);
+		List<?> helpLines = suposeOptions.helpLines(0, HelpFormatter.DEFAULT_DISPLAY_USAGE_SETTINGS, null);
 		String descriptionPad = StringUtils.repeat(" ", HELP_OPTION_DESCRIPTION_INDENT);
 		int descriptionIndent = HelpFormatter.DEFAULT_FULL_WIDTH - HELP_OPTION_DESCRIPTION_INDENT;
-		for (Iterator i = helpLines.iterator(); i.hasNext();) {
+		for (Iterator<?> i = helpLines.iterator(); i.hasNext();) {
 			HelpLine helpLine = (HelpLine) i.next();
 			String usage = helpLine.usage(HelpFormatter.DEFAULT_LINE_USAGE_SETTINGS, null);
 			String usageWrapped = WordUtils.wrap(usage, HelpFormatter.DEFAULT_FULL_WIDTH);

@@ -60,7 +60,7 @@ public class ScanDefaultDocument extends AScanDocument {
 				//cause this is the default document scanner.
 //TODO: Check this if this is ok? Or should we simply do not make any entry?
 				LOGGER.debug("We don't scan the contents, cause it's binary.");
-				addTokenizedField(FieldNames.CONTENTS, "BINARY CONTENT");
+				getDocument().addTokenizedField(FieldNames.CONTENTS, "BINARY CONTENT");
 			} else {
 				LOGGER.debug("We scan the contents, cause it's text.");
 				if (dirEntry.getSize() > 10*1024*1024) {
@@ -70,7 +70,7 @@ public class ScanDefaultDocument extends AScanDocument {
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					//This means we get the contents of the file only. No properties.
 					repository.getRepository().getFile(path, revision, null, baos);
-					addTokenizedField(FieldNames.CONTENTS, baos.toString());
+					getDocument().addTokenizedField(FieldNames.CONTENTS, baos.toString());
 				}
 			}
 		} catch (Exception e) {

@@ -79,7 +79,7 @@ public class ScanPowerPointDocument extends AScanDocument {
 
 //TODO: Check if can get more information out of the PPT file.
 			//like AUTHOR, KEYWORDS etc.
-			addTokenizedField(FieldNames.CONTENTS, handler.toString());
+			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
 		} catch (Exception e) {
 			LOGGER.error("We had an exception: ", e);
 		} finally {

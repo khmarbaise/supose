@@ -28,7 +28,6 @@ package com.soebes.supose.scan.document;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNProperties;
@@ -36,6 +35,7 @@ import org.tmatesoft.svn.core.SVNProperty;
 
 import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
+import com.soebes.supose.scan.IndexRevision;
 
 /**
  * This abstract class defines the 
@@ -51,7 +51,7 @@ import com.soebes.supose.repository.Repository;
  */
 public abstract class AScanDocument {
 
-	private Document doc;
+	private IndexRevision doc;
 	private SVNProperties properties;
 
 
@@ -70,43 +70,14 @@ public abstract class AScanDocument {
 	 */
 	public abstract void indexDocument (Repository repository, SVNDirEntry dirEntry, String path, long revision);
 
-	public void setDocument(Document doc) {
+	public void setDocument(IndexRevision doc) {
 		this.doc = doc;
 	}
 	
-	public Document getDocument() {
+	public IndexRevision getDocument() {
 		return doc;
 	}
 	
-	protected void addTokenizedField(FieldNames field, String value) {
-		doc.add(new Field(field.getValue(), value, Field.Store.YES, Field.Index.ANALYZED));
-	}
-	protected void addTokenizedField(String fieldName, String value) {
-		doc.add(new Field(fieldName, value, Field.Store.YES, Field.Index.ANALYZED));
-	}
-	protected void addTokenizedField(String fieldName, byte[] value) {
-		doc.add(new Field(fieldName, value, Field.Store.YES));
-	}
-	protected void addUnTokenizedField(FieldNames fieldName, String value) {
-		doc.add(new Field(fieldName.getValue(),  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	protected void addUnTokenizedField(String fieldName, String value) {
-		doc.add(new Field(fieldName,  value, Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	protected void addUnTokenizedField(String fieldName, Long value) {
-		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	protected void addUnTokenizedField(String fieldName, Date value) {
-		doc.add(new Field(fieldName,  value.toGMTString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	protected void addUnTokenizedField(String fieldName, Calendar value) {
-		//TODO: May be we have to change the format information for the Calendar object.
-		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-	protected void addUnTokenizedField(String fieldName, Character value) {
-		doc.add(new Field(fieldName,  value.toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-	}
-
 	protected boolean isBinary () {
 		String mimeType = getProperties().getStringValue(SVNProperty.MIME_TYPE);
 		return SVNProperty.isBinaryMimeType(mimeType);
