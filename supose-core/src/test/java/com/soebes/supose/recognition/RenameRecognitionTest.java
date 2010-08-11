@@ -81,12 +81,12 @@ public class RenameRecognitionTest extends TestBase {
 	
 	private ArrayList<RenameType> analyzeLog(Repository repository) throws SVNException {
 		ArrayList<RenameType> result = new ArrayList<RenameType>();
-		Collection logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
-        for (Iterator iterator = logEntries.iterator(); iterator.hasNext();) {
+		Collection<?> logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
+        for (Iterator<?> iterator = logEntries.iterator(); iterator.hasNext();) {
 			SVNLogEntry logEntry = (SVNLogEntry) iterator.next();
 			//Only if the changeset contains more than one entry we could have a rename operation.
 			if (logEntry.getChangedPaths().size() > 1) {
-				Set changedPathsSet = logEntry.getChangedPaths().keySet();
+				Set<?> changedPathsSet = logEntry.getChangedPaths().keySet();
 				
 				ArrayList<RenameType> tmpResult = tbr.checkForRename(logEntry, changedPathsSet);
 				if (tmpResult.size() > 0) {

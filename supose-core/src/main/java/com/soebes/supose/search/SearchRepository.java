@@ -69,7 +69,7 @@ public class SearchRepository {
 		setReader(null);
 	}
 
-	public Method getGetterByName(Class z, String name) {
+	public Method getGetterByName(Class<?> z, String name) {
 		Method[] methods = z.getMethods();
 		Method result = null;
 		for (Method method : methods) {
@@ -85,7 +85,7 @@ public class SearchRepository {
 	}
 	
 	
-	public Method getSetterByName(Class z, String name) {
+	public Method getSetterByName(Class<?> z, String name) {
 		Method[] methods = z.getMethods();
 		Method result = null;
 		for (Method method : methods) {
@@ -128,7 +128,7 @@ public class SearchRepository {
 		try {
 			for (int i = 0; i < result.scoreDocs.length; i++) {
 		    	Document hit = getSearcher().doc(result.scoreDocs[i].doc);
-				List<Field> fieldList = hit.getFields();
+				List<?> fieldList = hit.getFields();
 				ResultEntry re = new ResultEntry();
 				for(int k=0; k<fieldList.size();k++) {
 					Field field = (Field) fieldList.get(k);

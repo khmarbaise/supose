@@ -26,16 +26,12 @@
 package com.soebes.supose.scan;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
 import org.tmatesoft.svn.core.SVNAuthenticationException;
@@ -104,7 +100,6 @@ public class ScanRepository extends ScanRepositoryBase {
 	 *   will be written to.
 	 * @throws SVNException 
 	 */
-	@SuppressWarnings("unchecked")
 	public void scan(IndexWriter writer) throws SVNException {
 
 		LOGGER.debug("Repositories latest Revision: " + endRevision);
@@ -113,7 +108,7 @@ public class ScanRepository extends ScanRepositoryBase {
         LOGGER.debug("We have " + logEntries.size() + " change sets to scan.");
         scanStart(logEntries.size());
         long count = 1;
-        for (Iterator entries = logEntries.iterator(); entries.hasNext();) {
+        for (Iterator<?> entries = logEntries.iterator(); entries.hasNext();) {
             SVNLogEntry logEntry = (SVNLogEntry) entries.next();
 
             if (LOGGER.isDebugEnabled()) {
@@ -184,7 +179,7 @@ public class ScanRepository extends ScanRepositoryBase {
 	 * @param logEntry
 	 */
 	private void workOnChangeSet(IndexWriter indexWriter, SVNLogEntry logEntry) {
-		Set changedPathsSet = logEntry.getChangedPaths().keySet();
+		Set<?> changedPathsSet = logEntry.getChangedPaths().keySet();
 
 		TagBranchRecognition tbr = new TagBranchRecognition(getRepository());
 		
@@ -204,7 +199,7 @@ public class ScanRepository extends ScanRepositoryBase {
 		}
 
 		startIndexChangeSet();
-		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
+		for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 
 			RevisionDocument indexRevision = new RevisionDocument();
 

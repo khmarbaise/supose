@@ -25,15 +25,10 @@
 
 package com.soebes.supose.scan.document;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import org.apache.lucene.document.Field;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNProperty;
 
-import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.RevisionDocument;
 

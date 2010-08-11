@@ -45,13 +45,13 @@ public class RenameRecognition {
 
 	public ArrayList<RenameType> checkForRename(
 			SVNLogEntry logEntry, 
-			Set changedPathsSet 
+			Set<?> changedPathsSet 
 		) {
 		HashMap<String, RenameType> possibleRenames = new HashMap<String, RenameType>();
 		ArrayList<RenameType> result = new ArrayList<RenameType>();
 		
 		//The first assumption the log message is correct...
-		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
+		for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 
 			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 

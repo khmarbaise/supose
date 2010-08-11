@@ -75,7 +75,7 @@ public class TagBranchRecognition {
 	 */
 	public TagBranch checkForMavenTag(
 			SVNLogEntry logEntry, 
-			Set changedPathsSet 
+			Set<?> changedPathsSet 
 		) {
 		TagBranch result = null;
 		//The log message is the first indication for a maven tag...
@@ -84,7 +84,7 @@ public class TagBranchRecognition {
 		}
 
 		//The first assumption the log message is correct...
-		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
+		for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 
 			if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
@@ -107,6 +107,7 @@ public class TagBranchRecognition {
 							bt.setTagType(TagBranch.TagType.MAVENTAG);
 							//Interception Point: MavenTagRecognized()
 							result = bt;
+							LOGGER.debug("Maven tag recognized");
 						}
 					}
 				}
@@ -128,11 +129,11 @@ public class TagBranchRecognition {
 	 */
 	public TagBranch checkForTagOrBranch(
 		SVNLogEntry logEntry, 
-		Set changedPathsSet
+		Set<?> changedPathsSet
 		) {
 
 		TagBranch result = null;
-		Iterator changedPaths = changedPathsSet.iterator();
+		Iterator<?> changedPaths = changedPathsSet.iterator();
 		SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 
 		//a copy-to has happened so we can have a branch or a tag?
@@ -179,11 +180,11 @@ public class TagBranchRecognition {
 	 * @param changedPathsSet
 	 * @return null otherwise the information about the complex tag.
 	 */
-	public TagBranch checkForSubverisonTag(SVNLogEntry logEntry, Set changedPathsSet) {
+	public TagBranch checkForSubverisonTag(SVNLogEntry logEntry, Set<?> changedPathsSet) {
 		TagBranch result = null;
 
 		//The first assumption the log message is correct...
-		for (Iterator changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
+		for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 
 			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 			

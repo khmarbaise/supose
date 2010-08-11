@@ -100,11 +100,11 @@ public class TagBranchRecognitionTest extends TestBase {
 
 	private ArrayList<TagBranch> analyzeLog(Repository repository) throws SVNException {
 		ArrayList<TagBranch> result = new ArrayList<TagBranch>();
-		Collection logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
-        for (Iterator iterator = logEntries.iterator(); iterator.hasNext();) {
+		Collection<?> logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
+        for (Iterator<?> iterator = logEntries.iterator(); iterator.hasNext();) {
 			SVNLogEntry logEntry = (SVNLogEntry) iterator.next();
 			if (logEntry.getChangedPaths().size() > 0) {
-				Set changedPathsSet = logEntry.getChangedPaths().keySet();
+				Set<?> changedPathsSet = logEntry.getChangedPaths().keySet();
 
 				if (changedPathsSet.size() == 1) {
 					//Here we change if we usual tags/branches
