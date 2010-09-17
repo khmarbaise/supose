@@ -37,6 +37,10 @@ import com.soebes.supose.config.filter.model.IncludeExcludeList;
 import com.soebes.supose.config.filter.model.Repositories;
 import com.soebes.supose.config.filter.model.Repository;
 
+/**
+ * @author Karl Heinz Marbaise
+ *
+ */
 public class FilterFileTest extends TestBase {
 
     @Test
@@ -169,4 +173,78 @@ public class FilterFileTest extends TestBase {
     	Assert.assertEquals(repository.getProperties().getExcludes().size(), 0);
     }
 
+
+    @Test
+    public void hasFilenamesTest() {
+        Repository repos = new Repository ();
+        repos.setId("ThisIsId");
+        
+        IncludeExcludeList il = new IncludeExcludeList();
+        il.addInclude("*");
+        il.addExclude("/tags/*");
+        
+        Assert.assertEquals(repos.hasFilenames(), false);
+        
+        repos.setFilenames(il);
+
+        Assert.assertEquals(repos.hasFilenames(), true);
+    }
+
+    @Test
+    public void hasPathsTest() {
+        Repository repos = new Repository ();
+        repos.setId("ThisIsId");
+        
+        IncludeExcludeList il = new IncludeExcludeList();
+        il.addInclude("*");
+        il.addExclude("/tags/*");
+        
+        Assert.assertEquals(repos.hasPaths(), false);
+        
+        repos.setPaths(il);
+
+        Assert.assertEquals(repos.hasPaths(), true);
+    }
+
+    @Test
+    public void hasPropertiesTest() {
+        Repository repos = new Repository ();
+        repos.setId("ThisIsId");
+        
+        IncludeExcludeList il = new IncludeExcludeList();
+        il.addInclude("*");
+        il.addExclude("/tags/*");
+        
+        Assert.assertEquals(repos.hasProperties(), false);
+        
+        repos.setProperties(il);
+
+        Assert.assertEquals(repos.hasProperties(), true);
+    }
+
+    @Test
+    public void hasMethodsTest() {
+        Repository repos = new Repository ();
+        
+        repos.setId("ThisIsId");
+        
+        IncludeExcludeList il = new IncludeExcludeList();
+        il.addInclude("*");
+        il.addExclude("/tags/*");
+        repos.setPaths(il);
+        
+        il = new IncludeExcludeList();
+        il.addInclude("*");
+        il.addExclude("svm:*");
+        repos.setProperties(il);
+
+        Repositories repositories = new Repositories();
+        repositories.addRepository(repos);
+        Filter filter = new Filter();
+        filter.setRepositories(repositories);
+
+        Assert.assertEquals(repos.hasFilenames(), false);
+        Assert.assertEquals(repos.hasPaths(), true);
+        Assert.assertEquals(repos.hasProperties(), true);
+    }
 }

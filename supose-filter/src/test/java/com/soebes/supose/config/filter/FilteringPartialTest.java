@@ -25,33 +25,45 @@
 package com.soebes.supose.config.filter;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
+import com.soebes.supose.TestBase;
 import com.soebes.supose.config.filter.model.Filter;
-import com.soebes.supose.config.filter.model.io.xpp3.FilterXpp3Reader;
-import com.soebes.supose.config.filter.model.io.xpp3.FilterXpp3Writer;
+import com.soebes.supose.config.filter.model.Repository;
 
 /**
  * @author Karl Heinz Marbaise
  *
  */
-public class FilterFile {
+public class FilteringPartialTest extends TestBase {
 
-	public static Filter getFilter(File filterFile) throws FileNotFoundException, IOException, XmlPullParserException {
-		FilterXpp3Reader read = new FilterXpp3Reader();
-		Filter filter = read.read(new FileInputStream(filterFile));
-		return filter;
+	public Filtering getFiltering() throws FileNotFoundException, IOException, XmlPullParserException {
+    	File filterFile = new File(getTestResourcesDirectory() + File.separatorChar + "filter-partial.xml");
+    	Filter filterConfiguration = FilterFile.getFilter(filterFile);
+		Filtering filtering = new Filtering(filterConfiguration);
+		return filtering;
 	}
 
-	public static String toString (Filter filter) throws IOException {
-		StringWriter stringWriter = new StringWriter();
-		FilterXpp3Writer xmlWriter = new FilterXpp3Writer();
-		xmlWriter.write(stringWriter, filter);
-		return stringWriter.toString();
+	@Test
+	public void hasExcludesIncludesTest() throws FileNotFoundException, IOException, XmlPullParserException {
+		Filtering filtering = getFiltering();
+
+		Repository repository = filtering.getRepository("default");
+
+		Assert.assertEquals(repository.hasFilenames(), false);
+
+		Assert.assertEquals(repository.hasPaths(), true);
+		Assert.assertEquals(repository.getPaths().hasExcludes(), false);
+		Assert.assertEquals(repository.getPaths().hasIncludes(), true);
+
+		Assert.assertEquals(repository.hasProperties(), true);
+		Assert.assertEquals(repository.getProperties().hasExcludes(), false);
+		Assert.assertEquals(repository.getProperties().hasIncludes(), true);
 	}
+
 }

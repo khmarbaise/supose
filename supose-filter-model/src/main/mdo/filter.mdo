@@ -78,6 +78,31 @@
 			    </association>
 			  </field>          
 			</fields>
+			<codeSegments>
+				<codeSegment>
+					<version>1.0.0</version>
+					<comment />
+					<code>
+						<![CDATA[
+	public boolean hasExcludes() {
+		if (getExcludes().size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean hasIncludes() {
+		if (getIncludes().size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+						]]>
+					</code>
+				</codeSegment>
+			</codeSegments>
 		</class>
 
 		<class>
@@ -119,6 +144,38 @@
 				    </association>
 				</field>
 			</fields>
+			<codeSegments>
+				<codeSegment>
+					<version>1.0.0</version>
+					<comment />
+					<code>
+						<![CDATA[
+	public boolean hasFilenames() {
+		if (this.filenames == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public boolean hasPaths() {
+		if (this.paths == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	public boolean hasProperties() {
+		if (this.properties == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+						]]>
+					</code>
+				</codeSegment>
+			</codeSegments>
 		</class>
 	</classes>
 </model>
