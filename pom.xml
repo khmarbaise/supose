@@ -7,10 +7,10 @@
 
     <parent>
         <groupId>com.soebes.supose</groupId>
-		<artifactId>supose-parent</artifactId>
+        <artifactId>supose-parent</artifactId>
         <version>0.7.1-SNAPSHOT</version>
-		<relativePath>supose-parent/pom.xml</relativePath>
-	</parent>
+        <relativePath>supose-parent/pom.xml</relativePath>
+    </parent>
 	
 	<artifactId>supose</artifactId>
 	<packaging>pom</packaging>
@@ -29,6 +29,7 @@
 		<module>supose-cli</module>
 		<module>supose-war</module>
 		<module>supose-it</module>
+		<module>supose-filter-config</module>
 	</modules>
 
 	<profiles>

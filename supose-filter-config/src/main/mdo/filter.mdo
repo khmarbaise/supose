@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+
+<model
+	xsd.namespace="http://modello.codehaus.org/xsd/modello-1.2.0.xsd"
+	xsd.targetNamespace="http://modello.codehaus.org/xsd/modello-1.2.0.xsd">
+
+	<id>filter</id>
+	<name>Filter</name>
+	<defaults>
+		<default>
+			<key>package</key>
+			<value>com.soebes.supose.config.filter.model</value>
+		</default>
+	</defaults>
+
+	<classes>
+		<class rootElement="true" xml.tagName="filter">
+			<name>Filter</name>
+			<version>1.0.0</version>
+			<fields>
+				<field xml.tagName="repositories">
+					<name>repositories</name>
+					<version>1.0.0</version>
+					<description>
+						<![CDATA[
+						]]>
+					</description>
+					<association xml.itemsStyle="wrapped"> 
+						<type>Repositories</type>
+						<multiplicity>1</multiplicity>
+					</association>
+				</field>
+			</fields>
+		</class>
+
+		<class xsd.compositor="sequence">
+			<id>repositories</id>
+			<name>Repositories</name>
+			<version>1.0.0</version>
+			<fields>
+				<field>
+					<name>repository</name>
+					<version>1.0.0</version>
+					<association xml.itemsStyle="flat">
+						<type>Repository</type>
+						<multiplicity>*</multiplicity>
+					</association>
+				</field>
+			</fields>
+		</class>
+
+		<class xsd.compositor="sequence">
+			<name>IncludeExcludeList</name>
+			<version>1.0.0</version>
+			<fields>
+			  <field>
+			    <name>includes</name>
+				<version>1.0.0</version>
+			    <description>
+			      <![CDATA[
+			      ]]>
+			    </description>
+			    <association>
+			      <type>String</type>
+			      <multiplicity>*</multiplicity>
+			    </association>
+			  </field>          
+			  <field>
+			    <name>excludes</name>
+				<version>1.0.0</version>
+			    <description>
+			      <![CDATA[
+			      ]]>
+			    </description>
+			    <association>
+			      <type>String</type>
+			      <multiplicity>*</multiplicity>
+			    </association>
+			  </field>          
+			</fields>
+		</class>
+
+		<class>
+			<id>repository</id>
+			<name>Repository</name>
+			<version>1.0.0</version>
+			<fields>
+				<field>
+					<version>1.0.0</version>
+					<required>true</required>
+					<name>id</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<required>true</required>
+					<name>filenames</name>
+				    <association>
+				      <type>IncludeExcludeList</type>
+				      <multiplicity>1</multiplicity>
+				    </association>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<required>true</required>
+					<name>paths</name>
+				    <association>
+				      <type>IncludeExcludeList</type>
+				      <multiplicity>1</multiplicity>
+				    </association>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<required>true</required>
+					<name>properties</name>
+				    <association>
+				      <type>IncludeExcludeList</type>
+				      <multiplicity>1</multiplicity>
+				    </association>
+				</field>
+			</fields>
+		</class>
+	</classes>
+</model>

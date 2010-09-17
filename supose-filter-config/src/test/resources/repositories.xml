@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repositoryConfiguration>
+
+    <baseDirectory>/home/index/test</baseDirectory>
+
+    <repositories>
+        <repository>
+            <id>SupoSE</id>
+            <name>This is the Name we use</name>
+            <url>http://svn.traveler/supose</url>
+            <username>kama</username>
+            <password>kama</password>
+            <fromRevision>1</fromRevision>
+            <toRevision>HEAD</toRevision>
+            <blockSize>10000</blockSize>
+            <indexer>
+                <tempIndex>result.SupoSETemp</tempIndex>
+                <resultIndex>result.SupoSE</resultIndex>
+            </indexer>
+        </repository>
+
+        <repository>
+            <id>JaGoSI</id>
+            <name>JaGoSI</name>
+            <url>http://svn.traveler/jagosi</url>
+            <username>kama</username>
+            <password>kama</password>
+            <fromRevision>1</fromRevision>
+            <toRevision>HEAD</toRevision>
+            <blockSize>10000</blockSize>
+            <indexer>
+                <tempIndex>result.JaGoSITemp</tempIndex>
+                <resultIndex>result.JaGoSI</resultIndex>
+            </indexer>
+        </repository>
+    </repositories>
+
+    <scheduler>
+        <scheduledRepository>
+            <repositoryId>SupoSE</repositoryId>
+            <schedulerTrigger>0 * * ? * *</schedulerTrigger>
+            <indexer>
+                <tempIndex>result.JaGoSITemp</tempIndex>
+                <resultIndex>result.JaGoSI</resultIndex>
+            </indexer>
+        </scheduledRepository>
+    </scheduler>
+
+</repositoryConfiguration>
