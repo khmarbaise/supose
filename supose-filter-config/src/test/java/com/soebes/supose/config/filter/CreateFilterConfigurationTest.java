@@ -25,20 +25,51 @@
 package com.soebes.supose.config.filter;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.soebes.supose.config.filter.model.Filter;
 import com.soebes.supose.config.filter.model.IncludeExcludeList;
 import com.soebes.supose.config.filter.model.Repositories;
 import com.soebes.supose.config.filter.model.Repository;
-import com.soebes.supose.config.filter.model.io.xpp3.FilterXpp3Writer;
 
 public class CreateFilterConfigurationTest {
 
     @Test
-    public void createTest() throws IOException {
+    public void createEnhancedFilterTest() throws IOException {
+    	String expectedXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    		+ "<filter>\n"
+    		+ "  <repositories>\n"
+    		+ "    <repository>\n"
+    		+ "      <id>ThisIsId</id>\n"
+    		+ "      <filenames>\n"
+    		+ "        <includes>\n"
+    		+ "          <include>*</include>\n"
+    		+ "        </includes>\n"
+    		+ "        <excludes>\n"
+    		+ "          <exclude>*.doc</exclude>\n"
+    		+ "        </excludes>\n"
+    		+ "      </filenames>\n"
+    		+ "      <paths>\n"
+    		+ "        <includes>\n"
+    		+ "          <include>*</include>\n"
+    		+ "        </includes>\n"
+    		+ "        <excludes>\n"
+    		+ "          <exclude>/tags/*</exclude>\n"
+    		+ "        </excludes>\n"
+    		+ "      </paths>\n"
+    		+ "      <properties>\n"
+    		+ "        <includes>\n"
+    		+ "          <include>*</include>\n"
+    		+ "        </includes>\n"
+    		+ "        <excludes>\n"
+    		+ "          <exclude>svm:*</exclude>\n"
+    		+ "        </excludes>\n"
+    		+ "      </properties>\n"
+    		+ "    </repository>\n"
+    		+ "  </repositories>\n"
+    		+ "</filter>\n";
         Repository repos = new Repository ();
         
         IncludeExcludeList includeList = new IncludeExcludeList();
@@ -62,15 +93,56 @@ public class CreateFilterConfigurationTest {
         repositories.addRepository(repos);
         Filter filter = new Filter();
         filter.setRepositories(repositories);
-        System.out.println(CreateFilterConfigurationTest.FiltertoString(filter));
+
+        Assert.assertEquals(FilterFile.toString(filter), expectedXML);
     }
 
-    public static String FiltertoString (Filter filter) throws IOException {
-      StringWriter stringWriter = new StringWriter();
-      FilterXpp3Writer xmlWriter = new FilterXpp3Writer();
-      xmlWriter.write(stringWriter, filter);
-      stringWriter.close();
-      return stringWriter.toString();
+    @Test
+    public void createDefaultFilterTest() throws IOException {
+    	String expectedXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    		+ "<filter>\n"
+    		+ "  <repositories>\n"
+    		+ "    <repository>\n"
+    		+ "      <id>default</id>\n"
+    		+ "      <filenames>\n"
+    		+ "        <includes>\n"
+    		+ "          <include>.*</include>\n"
+    		+ "        </includes>\n"
+    		+ "      </filenames>\n"
+    		+ "      <paths>\n"
+    		+ "        <includes>\n"
+    		+ "          <include>*</include>\n"
+    		+ "        </includes>\n"
+    		+ "      </paths>\n"
+    		+ "      <properties>\n"
+    		+ "        <includes>\n"
+    		+ "          <include>*</include>\n"
+    		+ "        </includes>\n"
+    		+ "      </properties>\n"
+    		+ "    </repository>\n"
+    		+ "  </repositories>\n"
+    		+ "</filter>\n";
+        Repository repos = new Repository ();
+        
+        IncludeExcludeList includeList = new IncludeExcludeList();
+        includeList.addInclude(".*");
+
+        repos.setId("default");
+        repos.setFilenames(includeList);
+
+        IncludeExcludeList il = new IncludeExcludeList();
+        il.addInclude("*");
+        repos.setPaths(il);
+        
+        il = new IncludeExcludeList();
+        il.addInclude("*");
+        repos.setProperties(il);
+
+        Repositories repositories = new Repositories();
+        repositories.addRepository(repos);
+        Filter filter = new Filter();
+        filter.setRepositories(repositories);
+        Assert.assertEquals(FilterFile.toString(filter), expectedXML);
     }
 
 }
