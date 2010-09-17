@@ -24,17 +24,20 @@
  */
 package com.soebes.supose.config.filter;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.soebes.supose.TestBase;
 import com.soebes.supose.config.filter.model.Filter;
 import com.soebes.supose.config.filter.model.IncludeExcludeList;
 import com.soebes.supose.config.filter.model.Repositories;
 import com.soebes.supose.config.filter.model.Repository;
 
-public class CreateFilterConfigurationTest {
+public class FilterFileTest extends TestBase {
 
     @Test
     public void createEnhancedFilterTest() throws IOException {
@@ -143,6 +146,27 @@ public class CreateFilterConfigurationTest {
         Filter filter = new Filter();
         filter.setRepositories(repositories);
         Assert.assertEquals(FilterFile.toString(filter), expectedXML);
+    }
+
+    @Test
+    public void readFilterTest() throws IOException, XmlPullParserException {
+    	File filterFile = new File(getTestResourcesDirectory() + File.separatorChar + "filter.xml");
+    	
+    	Filter filter = FilterFile.getFilter(filterFile);
+    	Repositories repositories = filter.getRepositories();
+    	Assert.assertEquals(repositories.getRepository().size(), 1);
+
+    	Repository repository = repositories.getRepository().get(0);
+    	Assert.assertEquals(repository.getId(), "default");
+    	
+    	Assert.assertEquals(repository.getFilenames().getIncludes().size(), 1);
+    	Assert.assertEquals(repository.getFilenames().getExcludes().size(), 0);
+
+    	Assert.assertEquals(repository.getPaths().getIncludes().size(), 1);
+    	Assert.assertEquals(repository.getPaths().getExcludes().size(), 0);
+
+    	Assert.assertEquals(repository.getProperties().getIncludes().size(), 1);
+    	Assert.assertEquals(repository.getProperties().getExcludes().size(), 0);
     }
 
 }

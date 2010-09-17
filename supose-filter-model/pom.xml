@@ -12,9 +12,9 @@
         <relativePath>../supose-parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>supose-filter-config</artifactId>
+    <artifactId>supose-filter-model</artifactId>
     <packaging>jar</packaging>
-    <name>SupoSE :: Filter Configuration</name>
+    <name>SupoSE :: Filter Model</name>
 
     <properties>
         <mdoVersion>1.0.0</mdoVersion>
