@@ -40,18 +40,17 @@ import com.soebes.supose.config.filter.model.Repository;
  * @author Karl Heinz Marbaise
  *
  */
-public class FilteringPartialTest extends TestBase {
+public class FilterPartialTest extends TestBase {
 
-	public Filtering getFiltering() throws FileNotFoundException, IOException, XmlPullParserException {
+	public Filter getFiltering() throws FileNotFoundException, IOException, XmlPullParserException {
     	File filterFile = new File(getTestResourcesDirectory() + File.separatorChar + "filter-partial.xml");
     	Filter filterConfiguration = FilterFile.getFilter(filterFile);
-		Filtering filtering = new Filtering(filterConfiguration);
-		return filtering;
+		return filterConfiguration;
 	}
 
 	@Test
 	public void hasExcludesIncludesTest() throws FileNotFoundException, IOException, XmlPullParserException {
-		Filtering filtering = getFiltering();
+		Filter filtering = getFiltering();
 
 		Repository repository = filtering.getRepository("default");
 

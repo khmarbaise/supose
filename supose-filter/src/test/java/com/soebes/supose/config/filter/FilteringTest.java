@@ -34,7 +34,6 @@ import org.testng.annotations.Test;
 
 import com.soebes.supose.TestBase;
 import com.soebes.supose.config.filter.model.Filter;
-import com.soebes.supose.config.filter.model.Repository;
 
 /**
  * @author Karl Heinz Marbaise
@@ -50,27 +49,17 @@ public class FilteringTest extends TestBase {
 	}
 
 	@Test
-	public void hasRepositoryTest() throws FileNotFoundException, IOException, XmlPullParserException {
-		Filtering filtering = getFiltering();
-
-		Assert.assertEquals(filtering.hasRepository("default"), true);
-		Assert.assertEquals(filtering.hasRepository("Default"), false);
+	public void filenamesIncludeTest() throws FileNotFoundException, IOException, XmlPullParserException {
+		String fileName = "test.pas";
+		Filtering filter = getFiltering();
+		Assert.assertEquals(filter.ignoreFilename(fileName), false);
 	}
-	
+
 	@Test
-	public void hasExcludesIncludesTest() throws FileNotFoundException, IOException, XmlPullParserException {
-		Filtering filtering = getFiltering();
+	public void pathIncludeTest() throws FileNotFoundException, IOException, XmlPullParserException {
+		String path = "/trunk";
+		Filtering filter = getFiltering();
 
-		Repository repository = filtering.getRepository("default");
-
-		Assert.assertEquals(repository.getFilenames().hasExcludes(), false);
-		Assert.assertEquals(repository.getFilenames().hasIncludes(), true);
-
-		Assert.assertEquals(repository.getPaths().hasExcludes(), false);
-		Assert.assertEquals(repository.getPaths().hasIncludes(), true);
-
-		Assert.assertEquals(repository.getProperties().hasExcludes(), false);
-		Assert.assertEquals(repository.getProperties().hasIncludes(), true);
+		Assert.assertEquals(filter.ignorePaths(path), false);
 	}
-
 }

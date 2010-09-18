@@ -10,12 +10,12 @@
       </filenames>
       <paths>
         <includes>
-          <include>*</include>
+          <include>.*</include>
         </includes>
       </paths>
       <properties>
         <includes>
-          <include>*</include>
+          <include>.*</include>
         </includes>
       </properties>
     </repository>

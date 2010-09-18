@@ -25,6 +25,7 @@
 package com.soebes.supose.config.filter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -247,4 +248,37 @@ public class FilterFileTest extends TestBase {
         Assert.assertEquals(repos.hasPaths(), true);
         Assert.assertEquals(repos.hasProperties(), true);
     }
+    
+    
+	public Filter getFiltering() throws FileNotFoundException, IOException, XmlPullParserException {
+    	File filterFile = new File(getTestResourcesDirectory() + File.separatorChar + "filter.xml");
+    	Filter filterConfiguration = FilterFile.getFilter(filterFile);
+		return filterConfiguration;
+	}
+
+	@Test
+	public void hasRepositoryTest() throws FileNotFoundException, IOException, XmlPullParserException {
+		Filter filtering = getFiltering();
+
+		Assert.assertEquals(filtering.hasRepository("default"), true);
+		Assert.assertEquals(filtering.hasRepository("Default"), false);
+	}
+	
+	@Test
+	public void hasExcludesIncludesTest() throws FileNotFoundException, IOException, XmlPullParserException {
+		Filter filtering = getFiltering();
+
+		Repository repository = filtering.getRepository("default");
+
+		Assert.assertEquals(repository.getFilenames().hasExcludes(), false);
+		Assert.assertEquals(repository.getFilenames().hasIncludes(), true);
+
+		Assert.assertEquals(repository.getPaths().hasExcludes(), false);
+		Assert.assertEquals(repository.getPaths().hasIncludes(), true);
+
+		Assert.assertEquals(repository.getProperties().hasExcludes(), false);
+		Assert.assertEquals(repository.getProperties().hasIncludes(), true);
+	}
+
+    
 }

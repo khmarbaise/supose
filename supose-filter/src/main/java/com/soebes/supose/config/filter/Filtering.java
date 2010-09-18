@@ -33,30 +33,27 @@ import com.soebes.supose.config.filter.model.Repository;
  */
 public class Filtering {
 
+	public final String DEFAULT_REPOSITORY = "default";
+
 	private Filter filter;
+	
+	private String repositoryId;
+
+	public Filtering() {
+		setRepositoryId(DEFAULT_REPOSITORY);
+	}
 
 	public Filtering(Filter filter) {
-		this.setFilter(filter);
-	}
-	
-	public boolean hasRepository(String repoId) {
-		boolean result = false;
-		for (Repository repository : getFilter().getRepositories().getRepository()) {
-			if (repository.getId().equals(repoId)) {
-				result = true;
-			}
-		}
-		return result;
+		setFilter(filter);
+		setRepositoryId(DEFAULT_REPOSITORY);
 	}
 
-	public Repository getRepository(String repoId) {
-		Repository result = null;
-		for (Repository repository : getFilter().getRepositories().getRepository()) {
-			if (repository.getId().equals(repoId)) {
-				result = repository;
-			}
-		}
-		return result;
+	public String getRepositoryId() {
+		return repositoryId;
+	}
+
+	public void setRepositoryId(String repositoryId) {
+		this.repositoryId = repositoryId;
 	}
 
 	public void setFilter(Filter filter) {
@@ -65,5 +62,52 @@ public class Filtering {
 
 	public Filter getFilter() {
 		return filter;
+	}
+
+	
+	private Repository getRepository() {
+		return getFilter().getRepository(getRepositoryId());
+	}
+
+	public boolean ignoreFilename(String fileName) {
+		boolean result = false;
+		if (getRepository().getFilenames().hasIncludes()) {
+			for(String regex : getRepository().getFilenames().getIncludes()) {
+				if (fileName.matches(regex)) {
+					result = false;
+				}
+			}
+		}
+
+		if (getRepository().getFilenames().hasExcludes()) {
+			for(String regex : getRepository().getFilenames().getExcludes()) {
+				if (fileName.matches(regex)) {
+					result = true;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	public boolean ignorePaths(String pathName) {
+		boolean result = false;
+		if (getRepository().getPaths().hasIncludes()) {
+			for(String regex : getRepository().getPaths().getIncludes()) {
+				if (pathName.matches(regex)) {
+					result = false;
+				}
+			}
+		}
+
+		if (getRepository().getPaths().hasExcludes()) {
+			for(String regex : getRepository().getPaths().getExcludes()) {
+				if (pathName.matches(regex)) {
+					result = true;
+				}
+			}
+		}
+
+		return result;
 	}
 }

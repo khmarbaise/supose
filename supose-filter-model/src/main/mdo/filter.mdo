@@ -31,6 +31,37 @@
 					</association>
 				</field>
 			</fields>
+			<codeSegments>
+				<codeSegment>
+					<version>1.0.0</version>
+					<comment />
+					<code>
+						<![CDATA[
+	public boolean hasRepository(String repoId) {
+		boolean result = false;
+		for (Repository repository : getRepositories().getRepository()) {
+			if (repository.getId().equals(repoId)) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	public Repository getRepository(String repoId) {
+		Repository result = null;
+		for (Repository repository : getRepositories().getRepository()) {
+			if (repository.getId().equals(repoId)) {
+				result = repository;
+			}
+		}
+		return result;
+	}
+
+						]]>
+					</code>
+				</codeSegment>
+			</codeSegments>
+			
 		</class>
 
 		<class xsd.compositor="sequence">
