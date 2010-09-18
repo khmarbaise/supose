@@ -25,7 +25,9 @@
 
 package com.soebes.supose.cli;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +42,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -53,6 +56,9 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.config.ConfigurationRepositories;
 import com.soebes.supose.config.RepositoryConfiguration;
 import com.soebes.supose.config.RepositoryFactory;
+import com.soebes.supose.config.filter.FilterFile;
+import com.soebes.supose.config.filter.Filtering;
+import com.soebes.supose.config.filter.model.Filter;
 import com.soebes.supose.index.IndexHelper;
 import com.soebes.supose.jobs.JobDataNames;
 import com.soebes.supose.jobs.JobSchedulerListener;
@@ -145,7 +151,7 @@ public class SuposeCLI {
 
 		LOGGER.info("Start with scanning of revisions.");
 		
-		
+
 		ScanRepository scanRepository = new ScanRepository();
 
 		CLIInterceptor interceptor = new CLIInterceptor();
@@ -156,8 +162,22 @@ public class SuposeCLI {
 
 		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
 		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
-		
-		long blockNumber = ScanSingleRepository.scanFullRepository(scanRepository, url, fromRev, indexDirectory, create, authManager);
+
+	
+		InputStream filter = SuposeCLI.class.getResourceAsStream("/filter.xml");		
+    	Filter filterConfiguration = null;
+		try {
+			filterConfiguration = FilterFile.getFilter(filter);
+		} catch (FileNotFoundException e) {
+			LOGGER.error("FileNotFoundException", e);
+		} catch (IOException e) {
+			LOGGER.error("IOException", e);
+		} catch (XmlPullParserException e) {
+			LOGGER.error("XmlPullParserException", e);
+		}
+
+		Filtering filtering = new Filtering(filterConfiguration);
+		long blockNumber = ScanSingleRepository.scanFullRepository(scanRepository, url, fromRev, indexDirectory, create, authManager, filtering);
 
 		LOGGER.info("Scanning of revisions done");
 

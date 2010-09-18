@@ -43,6 +43,7 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNProperties;
 
 import com.soebes.supose.FieldNames;
+import com.soebes.supose.config.filter.Filtering;
 import com.soebes.supose.recognition.TagBranch;
 import com.soebes.supose.recognition.TagBranchRecognition;
 import com.soebes.supose.repository.Repository;
@@ -66,6 +67,8 @@ public class ScanRepository extends ScanRepositoryBase {
 	private String name;
 	
 	private ArrayList<SVNLogEntry> logEntries = null;
+
+	private Filtering filtering = null;
 
 	public void setLogEntries(ArrayList<SVNLogEntry> logEntries) {
 		this.logEntries = logEntries;
@@ -218,6 +221,11 @@ public class ScanRepository extends ScanRepositoryBase {
 			                    + entryPath.getCopyRevision() + ")" : ""));
 			}
 
+			//If the given path should be ignored than just do it.
+			if (getFiltering().ignorePath(entryPath.getPath())) {
+				continue;
+			}
+
 			//We would like to know something about the entry.
 			SVNDirEntry dirEntry = tbr.getEntryCache().getEntry(logEntry.getRevision(), entryPath.getPath());
 
@@ -318,6 +326,12 @@ public class ScanRepository extends ScanRepositoryBase {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("FileNameCheck: entryPath   -> kind:" + nodeKind.toString() + " path:" + entryPath.getPath());
 				LOGGER.debug("FileNameCheck:                path:'" + fileName.getPath() + "' filename:'" + fileName.getBaseName() + "'");
+			}
+
+			if (getFiltering().ignorePath(fileName.getPath())) {
+				//Ignore the path...
+			} else if (getFiltering().ignoreFilename(fileName.getBaseName())) {
+				//Ignore filename
 			}
 
 			//TODO: We have to check if we need to set localization
@@ -434,6 +448,14 @@ public class ScanRepository extends ScanRepositoryBase {
 
 	public void setAbbort(boolean abbort) {
 		this.abbort = abbort;
+	}
+
+	public void setFiltering(Filtering filtering) {
+		this.filtering = filtering;
+	}
+
+	public Filtering getFiltering() {
+		return filtering;
 	}
 
 }

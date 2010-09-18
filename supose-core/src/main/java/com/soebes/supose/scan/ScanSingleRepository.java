@@ -38,6 +38,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 
+import com.soebes.supose.config.filter.Filtering;
 import com.soebes.supose.index.Index;
 import com.soebes.supose.index.IndexHelper;
 import com.soebes.supose.repository.Repository;
@@ -53,7 +54,8 @@ public class ScanSingleRepository {
 		long fromRev, 
 		String indexDirectory, 
 		boolean create, 
-		ISVNAuthenticationManager authManager
+		ISVNAuthenticationManager authManager,
+		Filtering filtering 
 	) throws SVNException {
 		Repository repository = new Repository(url, authManager);
 
@@ -93,6 +95,8 @@ public class ScanSingleRepository {
 			scanRepository.setStartRevision(startRevision); 
 			//We will scan the repository to the current HEAD of the repository.
 			scanRepository.setEndRevision(endRevision);
+			
+			scanRepository.setFiltering(filtering);
 	
 			ScanSingleRepository.scanSingleRepos(scanRepository, indexDirectory + blockNumber, create);
 			//BLOCK END

@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -45,6 +46,12 @@ public class FilterFile {
 	public static Filter getFilter(File filterFile) throws FileNotFoundException, IOException, XmlPullParserException {
 		FilterXpp3Reader read = new FilterXpp3Reader();
 		Filter filter = read.read(new FileInputStream(filterFile));
+		return filter;
+	}
+
+	public static Filter getFilter(InputStream filterFile) throws FileNotFoundException, IOException, XmlPullParserException {
+		FilterXpp3Reader read = new FilterXpp3Reader();
+		Filter filter = read.read(filterFile);
 		return filter;
 	}
 
