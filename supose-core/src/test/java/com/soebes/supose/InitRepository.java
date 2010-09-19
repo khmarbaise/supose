@@ -29,11 +29,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.testng.annotations.BeforeSuite;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
@@ -42,6 +44,9 @@ import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import org.tmatesoft.svn.core.wc.admin.SVNAdminClient;
 
+import com.soebes.supose.config.filter.FilterFile;
+import com.soebes.supose.config.filter.Filtering;
+import com.soebes.supose.config.filter.model.Filter;
 import com.soebes.supose.index.Index;
 import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
@@ -122,6 +127,21 @@ public class InitRepository extends TestBase {
 		scanRepository.setStartRevision(1); 
 		//We will scan the repository to the current HEAD of the repository.
 		scanRepository.setEndRevision(-1);
+
+		InputStream filter = InitRepository.class.getResourceAsStream("/filter.xml");		
+    	Filter filterConfiguration = null;
+		try {
+			filterConfiguration = FilterFile.getFilter(filter);
+		} catch (FileNotFoundException e) {
+			LOGGER.error("FileNotFoundException", e);
+		} catch (IOException e) {
+			LOGGER.error("IOException", e);
+		} catch (XmlPullParserException e) {
+			LOGGER.error("XmlPullParserException", e);
+		}
+
+		Filtering filtering = new Filtering(filterConfiguration);
+		scanRepository.setFiltering(filtering);
 
 		LOGGER.info("Scanning started.");
 		scanRepository.scan(indexWriter);

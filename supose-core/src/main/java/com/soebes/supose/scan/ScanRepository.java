@@ -223,6 +223,9 @@ public class ScanRepository extends ScanRepositoryBase {
 
 			//If the given path should be ignored than just do it.
 			if (getFiltering().ignorePath(entryPath.getPath())) {
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("The following " + entryPath.getPath() + " is beeing ignored based on fitlering.");
+				}
 				continue;
 			}
 
@@ -330,7 +333,14 @@ public class ScanRepository extends ScanRepositoryBase {
 
 			if (getFiltering().ignorePath(fileName.getPath())) {
 				//Ignore the path...
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("The following " + fileName.getPath() + " is beeing ignored based on filtering (ignorePath()).");
+				}
+				
 			} else if (getFiltering().ignoreFilename(fileName.getBaseName())) {
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("The following " + fileName.getBaseName() + " is beeing ignored based on filtering (ignoreFilename()).");
+				}
 				//Ignore filename
 			}
 
