@@ -204,13 +204,22 @@ public class ScanRepository extends ScanRepositoryBase {
 		startIndexChangeSet();
 		for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
 
+			//It is needed to check it in every entry 
+			//This will result in making entries for every record of the ChangeSet.
+			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
+
+			//If the given path should be ignored than just do it.
+			if (getFiltering().ignorePath(entryPath.getPath())) {
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("The following " + entryPath.getPath() + " is beeing ignored based on fitlering.");
+				}
+				continue;
+			}
+
 			RevisionDocument indexRevision = new RevisionDocument();
 
 			addTagBranchToDoc(res, indexRevision);
 
-			//It is needed to check it in every entry 
-			//This will result in making entries for every record of the ChangeSet.
-			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("SVNEntry: "
 			            + entryPath.getType()
@@ -219,14 +228,6 @@ public class ScanRepository extends ScanRepositoryBase {
 			            + ((entryPath.getCopyPath() != null) ? " (from "
 			                    + entryPath.getCopyPath() + " revision "
 			                    + entryPath.getCopyRevision() + ")" : ""));
-			}
-
-			//If the given path should be ignored than just do it.
-			if (getFiltering().ignorePath(entryPath.getPath())) {
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("The following " + entryPath.getPath() + " is beeing ignored based on fitlering.");
-				}
-				continue;
 			}
 
 			//We would like to know something about the entry.
@@ -309,10 +310,28 @@ public class ScanRepository extends ScanRepositoryBase {
 				LOGGER.debug("The " + entryPath.getPath() + " is a directory entry.");
 				indexRevision.addUnTokenizedField(FieldNames.NODE, "dir");
 				fileName = new FileName(entryPath.getPath(), true);
+
+				if (getFiltering().ignorePath(fileName.getPath())) {
+					//Ignore the path...
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("The following " + fileName.getPath() + " is beeing ignored based on filtering (ignorePath()).");
+					}
+					return;
+				}
+
 			} else if (isFile) {
 				LOGGER.debug("The " + entryPath.getPath() + " is a file entry.");
 				indexRevision.addUnTokenizedField(FieldNames.NODE, "file");
 				fileName = new FileName(entryPath.getPath(), false);
+
+				if (getFiltering().ignoreFilename(fileName.getBaseName())) {
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("The following " + fileName.getBaseName() + " is beeing ignored based on filtering (ignoreFilename()).");
+					}
+					//Ignore filename
+					return;
+				}
+
 			} else {
 				//This means a file/directory has been deleted.
 				indexRevision.addUnTokenizedField(FieldNames.NODE, "unknown");
@@ -329,19 +348,6 @@ public class ScanRepository extends ScanRepositoryBase {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("FileNameCheck: entryPath   -> kind:" + nodeKind.toString() + " path:" + entryPath.getPath());
 				LOGGER.debug("FileNameCheck:                path:'" + fileName.getPath() + "' filename:'" + fileName.getBaseName() + "'");
-			}
-
-			if (getFiltering().ignorePath(fileName.getPath())) {
-				//Ignore the path...
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("The following " + fileName.getPath() + " is beeing ignored based on filtering (ignorePath()).");
-				}
-				
-			} else if (getFiltering().ignoreFilename(fileName.getBaseName())) {
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("The following " + fileName.getBaseName() + " is beeing ignored based on filtering (ignoreFilename()).");
-				}
-				//Ignore filename
 			}
 
 			//TODO: We have to check if we need to set localization
@@ -414,6 +420,14 @@ public class ScanRepository extends ScanRepositoryBase {
 
 		for (Iterator<String> iterator = list.nameSet().iterator(); iterator.hasNext();) {
 			String propname = (String) iterator.next();
+			if (getFiltering().ignoreProperty(propname)) {
+				//Ignore the path...
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("The following property " + propname + " has been ignored based on filtering (ignoreProperty()).");
+				}
+				continue;
+			}
+
 			LOGGER.debug("Indexing property: " + propname);
 			indexRevision.addUnTokenizedFieldNoStore(propname, list.getStringValue(propname).toLowerCase());
 			indexRevision.addUnTokenizedField(propname, list.getStringValue(propname));

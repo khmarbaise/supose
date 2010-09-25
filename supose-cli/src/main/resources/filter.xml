@@ -4,16 +4,50 @@
     <repository>
       <id>default</id>
       <filenames>
+	      <!--
+				With the include you can define which kind of filenames are
+				indexed. This can be done by using a regular expression. 
+	       -->
         <includes>
           <include>.*</include>
         </includes>
+	        <!--
+	        	If you need you can also exclude particular kinds
+	        	of filenames. This is defined with regular expressions
+	        	as well. It is possible to have multiple <exclude> entries.
+	        	<excludes>
+	        		<exclude>.*\.doc</exclude>
+	        		<exclude>xyz\.test</exclude>
+	        	</excludes>
+	         -->
       </filenames>
       <paths>
+	      	<!--
+				Here you can define which paths can be included. 
+				This can be done by using a regular expression. 
+	      	 -->
         <includes>
           <include>.*</include>
         </includes>
+	        <!--
+				If you need you can also define an excludes sections for
+				particular kinds of paths which you like to exclude from indexing
+				process.
+				It is possible to have multiple exclude entries.
+				<excludes>
+					<exclude>/tags/.*</exclude>
+				</excludes> 
+	         -->
       </paths>
       <properties>
+      	<!--
+      		Here you can define which properties you would like to include
+      		or exclude from the indexing process.
+      		To exclude properties you can simply add an area like this.
+      		<excludes>
+      		  <exclude>bugtrag:.*</exclude>
+      		</excludes>
+      	 -->
         <includes>
           <include>.*</include>
         </includes>
