@@ -39,6 +39,9 @@ import com.soebes.supose.config.filter.model.Repository;
  */
 public class Filtering {
 
+	/**
+	 * The name of the default repository.
+	 */
 	public final String DEFAULT_REPOSITORY = "default";
 
 	private Filter filter;
@@ -137,6 +140,12 @@ public class Filtering {
 		return result;
 	}
 
+	/**
+	 * Check if a given property name will be ignored or not.
+	 * 
+	 * @param propertyName The name of the property.
+	 * @return true if the property should be ignored otherwise false.
+	 */
 	public boolean ignoreProperty(String propertyName) {
 		boolean result = false;
 		if (getRepository().getProperties().hasIncludes()) {
@@ -177,6 +186,13 @@ public class Filtering {
 		return result;
 	}
 
+	/**
+	 * Check the given pathname if it should be includes based 
+	 * on the configuration or not.
+	 * 
+	 * @param pathName The path name which will checked.
+	 * @return true if the path should be ignored false otherwise.
+	 */
 	public boolean includePath(String pathName) {
 		boolean result = false;
 		if (getRepository().getPaths().hasIncludes()) {
@@ -189,6 +205,12 @@ public class Filtering {
 		return result;
 	}
 
+	/**
+	 * Check if the given property should be included or not.
+	 * 
+	 * @param propertyName The name of the property.
+	 * @return true if the property should be includes false otherwise.
+	 */
 	public boolean includeProperty(String propertyName) {
 		boolean result = false;
 		if (getRepository().getProperties().hasIncludes()) {
@@ -201,6 +223,12 @@ public class Filtering {
 		return result;
 	}
 	
+	/**
+	 * Check if the given filename should be excluded or not.
+	 * 
+	 * @param fileName The filename which should be checked.
+	 * @return true if the filename should be excluded otherwise false.
+	 */
 	public boolean excludeFilename(String fileName) {
 		boolean result = false;
 		if (getRepository().getFilenames().hasExcludes()) {
@@ -212,6 +240,13 @@ public class Filtering {
 		}
 		return result;
 	}
+	
+	/**
+	 * Check the path if it should be execluded or not.
+	 * 
+	 * @param pathName The path name which should be checked.
+	 * @return true if the given path name should be excluded false otherwise.
+	 */
 	public boolean excludePath(String pathName) {
 		boolean result = false;
 		if (getRepository().getPaths().hasExcludes()) {
@@ -223,6 +258,12 @@ public class Filtering {
 		}
 		return result;
 	}
+
+	/**
+	 * Check if the given property name should be excluded or not.
+	 * @param propertyName The name of the property which will be checked.
+	 * @return true if the given property should be execluded false otherwise.
+	 */
 	public boolean excludeProperty(String propertyName) {
 		boolean result = false;
 		if (getRepository().getProperties().hasExcludes()) {
