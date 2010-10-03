@@ -48,7 +48,7 @@
 					<container>
 						<containerId>tomcat${tomcat.major}x</containerId>
 						<zipUrlInstaller>
-							<url>http://www.todaysforexnews.com/apache/tomcat/tomcat-${tomcat.major}/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.tar.gz</url>
+							<url>http://ftp-stud.hs-esslingen.de/pub/Mirrors/ftp.apache.org/dist/tomcat/tomcat-${tomcat.major}/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.tar.gz</url>
 							<installDir>${installDir}</installDir>
 						</zipUrlInstaller>
 						<output>${project.build.directory}/tomcat${tomcat.major}x.log</output>

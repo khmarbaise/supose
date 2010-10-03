@@ -30,6 +30,7 @@ import java.io.IOException;
 
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.soebes.supose.TestBase;
@@ -48,10 +49,55 @@ public class FilteringWithExcludeTest extends TestBase {
 		return filtering;
 	}
 
-	@Test
-	public void filenamesIncludeWithExcludeTest() throws FileNotFoundException, IOException, XmlPullParserException {
-		String fileName = "test.pas";
+	@DataProvider(name = "createFileNamesForIgnoreFileName")
+	public Object[][] createFileNamesForIgnoreFileName() {
+		return new Object[][] {
+			{ "test.pas",  false },
+			{ "test.doc",  true },
+			{ "Elvira.xls",  false },
+			{ "test.java",  false },
+			{ "test.tar.gz",  false },
+		};
+	}
+
+	@Test(dataProvider = "createFileNamesForIgnoreFileName")
+	public void ignoreFileNameTest(String fileName, boolean result) throws FileNotFoundException, IOException, XmlPullParserException {
 		Filtering filter = getFilteringWithExcludes();
-		Assert.assertEquals(filter.ignoreFilename(fileName), true);
+		Assert.assertEquals(filter.ignoreFilename(fileName), result);
+	}
+
+	
+	@DataProvider(name = "createFileNamesForIncludeFileName")
+	public Object[][] createFileNamesForIncludeFileName() {
+		return new Object[][] {
+			{ "test.pas",  true },
+			{ "test.doc",  true },
+			{ "Elvira.xls",  true },
+			{ "test.java",  true },
+			{ "test.tar.gz",  true },
+		};
+	}
+
+	@Test(dataProvider = "createFileNamesForIncludeFileName")
+	public void includeFileNameTest(String fileName, boolean result) throws FileNotFoundException, IOException, XmlPullParserException {
+		Filtering filter = getFilteringWithExcludes();
+		Assert.assertEquals(filter.includeFilename(fileName), result);
+	}
+
+	@DataProvider(name = "createFileNamesForExcludeFileName")
+	public Object[][] createFileNamesForExcludeFileName() {
+		return new Object[][] {
+			{ "test.pas",  false },
+			{ "test.doc",  true },
+			{ "Elvira.xls",  false },
+			{ "test.java",  false },
+			{ "test.tar.gz",  false },
+		};
+	}
+
+	@Test(dataProvider = "createFileNamesForExcludeFileName")
+	public void excludeFileNameTest(String fileName, boolean result) throws FileNotFoundException, IOException, XmlPullParserException {
+		Filtering filter = getFilteringWithExcludes();
+		Assert.assertEquals(filter.excludeFilename(fileName), result);
 	}
 }

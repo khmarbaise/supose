@@ -8,7 +8,7 @@
           <include>.*</include>
         </includes>
         <excludes>
-          <exclude>.*</exclude>
+          <exclude>^.*\.doc$</exclude>
         </excludes>
       </filenames>
       <paths>
