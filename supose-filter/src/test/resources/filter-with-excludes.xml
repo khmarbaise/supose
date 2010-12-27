@@ -22,5 +22,26 @@
         </includes>
       </properties>
     </repository>
+    <repository>
+      <id>repositoryId1</id>
+      <filenames>
+        <includes>
+          <include>.*</include>
+        </includes>
+        <excludes>
+          <exclude>^.*\.test$</exclude>
+        </excludes>
+      </filenames>
+      <paths>
+        <includes>
+          <include>.*</include>
+        </includes>
+      </paths>
+      <properties>
+        <includes>
+          <include>.*</include>
+        </includes>
+      </properties>
+    </repository>
   </repositories>
 </filter>

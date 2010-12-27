@@ -242,7 +242,7 @@ public class Filtering {
 	}
 	
 	/**
-	 * Check the path if it should be execluded or not.
+	 * Check the path if it should be excluded or not.
 	 * 
 	 * @param pathName The path name which should be checked.
 	 * @return true if the given path name should be excluded false otherwise.
@@ -262,7 +262,7 @@ public class Filtering {
 	/**
 	 * Check if the given property name should be excluded or not.
 	 * @param propertyName The name of the property which will be checked.
-	 * @return true if the given property should be execluded false otherwise.
+	 * @return true if the given property should be excluded false otherwise.
 	 */
 	public boolean excludeProperty(String propertyName) {
 		boolean result = false;
