@@ -6,7 +6,22 @@
 		<author email="supose@soebes.de">Karl Heinz Marbaise</author>
 	</properties>
 	<body>
-		<release version="0.6.2 Calypso" date="2009-XX-XX" description="Bug Fix Release">
+		<release version="0.7.1 Dione" date="2010-XX-XX" description="Release">
+			<action dev="Karl Heinz Marbaise" type="fix" issue="325">
+				Changed the usage of the Document of the Lucene framework and
+				moved the doc.add() things to a single class to make code cleaner.
+			</action>
+			<action dev="Karl Heinz Marbaise" type="fix" issue="317">
+				Incombatibility fixed with Maven 3-beta-1
+			</action>
+			<action dev="Karl Heinz Marbaise" type="add" issue="316">
+				Added Integration test module supose-it
+			</action>
+			<action dev="Karl Heinz Marbaise" type="update" issue="315">
+				New layout of the project to support enhancements.
+			</action>
+		</release>
+		<release version="0.6.2 Calypso" date="2010-06-11" description="Bug Fix Release">
 			<action dev="Karl Heinz Marbaise" type="fix" issue="309">
 				Performance Enhancements integrated from /branches/B_309
 			</action>
