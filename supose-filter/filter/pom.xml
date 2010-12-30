@@ -14,7 +14,7 @@
 
     <artifactId>filter</artifactId>
     <packaging>jar</packaging>
-    <name>SupoSE :: Filter</name>
+    <name>SupoSE :: Filter : Filter</name>
 
     <properties>
         <mdoVersion>1.0.0</mdoVersion>
