@@ -35,9 +35,9 @@
 	</build>
 
 	<dependencies>
-        <dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>supose-filter</artifactId>
+        	<dependency>
+			<groupId>com.soebes.supose.filter</groupId>
+			<artifactId>filter</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- This dependency must be installed in you local repository or in you

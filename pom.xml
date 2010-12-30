@@ -29,7 +29,6 @@
 		<module>supose-cli</module>
 		<module>supose-war</module>
 		<module>supose-it</module>
-		<module>supose-filter-model</module>
 		<module>supose-filter</module>
 	</modules>
 

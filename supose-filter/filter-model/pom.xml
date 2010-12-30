@@ -6,13 +6,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.soebes.supose</groupId>
-        <artifactId>supose-parent</artifactId>
+        <groupId>com.soebes.supose.filter</groupId>
+    	<artifactId>supose-filter</artifactId>
         <version>0.7.1-SNAPSHOT</version>
-        <relativePath>../supose-parent/pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>supose-filter-model</artifactId>
+    <artifactId>filter-model</artifactId>
     <packaging>jar</packaging>
     <name>SupoSE :: Filter Model</name>
 
