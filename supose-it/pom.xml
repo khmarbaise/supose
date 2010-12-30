@@ -42,13 +42,13 @@
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.0</version>
+				<version>1.0.5</version>
 				<configuration>
 					<wait>false</wait>
 					<container>
 						<containerId>tomcat${tomcat.major}x</containerId>
 						<zipUrlInstaller>
-							<url>http://www.todaysforexnews.com/apache/tomcat/tomcat-${tomcat.major}/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.tar.gz</url>
+							<url>http://www.apache.org/dist/tomcat/tomcat-${tomcat.major}/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.tar.gz</url>
 							<installDir>${installDir}</installDir>
 						</zipUrlInstaller>
 						<output>${project.build.directory}/tomcat${tomcat.major}x.log</output>
