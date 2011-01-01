@@ -14,7 +14,13 @@
             description="Release">
             <action
                 dev="Karl Heinz Marbaise"
-                type="fix"
+                type="add"
+                issue="334">
+		Added maven-resources-pugin and maven-release-plugin to the pluginManagement area.
+			</action>
+            <action
+                dev="Karl Heinz Marbaise"
+                type="add"
                 issue="333">
                 Added plugins to the pluginManagement area and dependencies to the
                 dependencyManagement area.
