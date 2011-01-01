@@ -40,6 +40,7 @@
                 <include>quartz.properties</include>
                 <include>log4j.properties</include>
                 <include>fileextension.properties</include>
+                <include>filter.xml</include>
             </includes>
         </fileSet>
         <fileSet>
