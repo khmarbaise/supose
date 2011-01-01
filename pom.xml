@@ -17,18 +17,13 @@
 
     <name>Subversion Repository Search Engine</name>
 
-    <scm>
-        <connection>${system.scm.connection}</connection>
-        <developerConnection>${system.scm.dev}/trunk</developerConnection>
-        <url>http://www.supose.org/repositories/show/supose</url>
-    </scm>
-
     <modules>
         <module>supose-parent</module>
         <module>supose-core</module>
         <module>supose-cli</module>
         <module>supose-war</module>
         <module>supose-it</module>
+        <module>supose-filter</module>
     </modules>
 
     <build>

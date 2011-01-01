@@ -10,71 +10,93 @@
     <body>
         <release
             version="0.7.1 Dione"
-            date="2010-XX-XX"
+            date="2011-XX-XX"
             description="Release">
+            <action
+                dev="Karl Heinz Marbaise">
+                Support for filtering of contents, filenames and paths etc. (#327),
+                scan without contents (#234), scan with filenames only (#156)
+                <fixes
+                    issue="327" />
+                <fixes
+                    issue="156" />
+                <fixes
+                    issue="234" />
+            </action>
+            <action
+                dev="Karl Heinz Marbaise">
+                Now generation of a site works with Maven 3.
+                <fixed
+                    issue="156" />
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="335">
-		Now generation of a site works with Maven 3.
-			</action>
+                Now generation of a site works with Maven 3.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="334">
-		Added maven-resources-pugin and maven-release-plugin to the pluginManagement area.
-			</action>
+                Added maven-resources-pugin and maven-release-plugin to the
+                pluginManagement area.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="333">
-                Added plugins to the pluginManagement area and dependencies to the
+                Added plugins to the pluginManagement area and
+                dependencies to the
                 dependencyManagement area.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="332">
-                Updated maven-assembly-plugin from 2.2-beta-5 to 2.2 and
+                Updated maven-assembly-plugin from 2.2-beta-5 to
+                2.2 and
                 put into pluginManagement.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="331">
                 Updated ANTLR from 3.2 to 3.3
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="330">
                 Updated Tika 0.7 to 0.8
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="325">
-                Changed the usage of the Document of the Lucene framework and
-                moved the doc.add() things to a single class to make code cleaner.
+                Changed the usage of the Document of the Lucene
+                framework and
+                moved the doc.add() things to a single
+                class to make code cleaner.
             </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="317">
                 Incombatibility fixed with Maven 3-beta-1
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="316">
                 Added Integration test module supose-it
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="315">
                 New layout of the project to support enhancements.
-			</action>
+            </action>
         </release>
         <release
             version="0.6.2 Calypso"
@@ -84,69 +106,72 @@
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="309">
-                Performance Enhancements integrated from /branches/B_309
-			</action>
+                Performance Enhancements integrated from
+                /branches/B_309
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="314">
-                Enhanced the max. size for number if items in a changeset to 99999.
-			</action>
+                Enhanced the max. size for number if items in a
+                changeset to 99999.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="310">
                 Removed property prefix.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="311">
                 Updated Maven License Plugin to 1.6.1
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="308">
                 Updated Copyright Year 2010.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="304">
                 Updated to Tika 0.7
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="303">
                 Updated to Quartz Scheduler 1.7.3
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="301">
                 Fixed problem in what-is-supose.apt file.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="300">
-                Fixed NoSuchElementException during execution of the
+                Fixed NoSuchElementException during execution of
+                the
                 maven-changelog-plugin.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="298">
                 Updated to ANTLR 3.2 plugin
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="200">
                 Added License file for the GNU GPL 2.0
-			</action>
+            </action>
         </release>
         <release
             version="0.6.2 Calypso RC1"
@@ -157,29 +182,34 @@
                 type="update"
                 issue="266">
                 Updated to Tika 0.6
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="250">
-                Added the dependency for bouncycastle libs temporarily
-			</action>
+                Added the dependency for bouncycastle libs
+                temporarily
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="246">
-                The searching with a term which contains a dot didn't work.
+                The searching with a term which contains a dot
+                didn't work.
                 Example: +filename:textexcel-formats.xls
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="241">
-                Removed the usage of dfilename and dpath to use filename and path instead.
-                In the index the lower case variant will be put into
+                Removed the usage of dfilename and dpath to use
+                filename and path instead.
+                In the index the lower case
+                variant will be put into
                 whereas the original
-                variant will be stored.
-			</action>
+                variant will
+                be stored.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update">
@@ -193,67 +223,76 @@
                 dev="Karl Heinz Marbaise"
                 type="update">
                 Moved log file for unit tests into target folder.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="219">
                 Updated to Tika 0.4
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="225">
-                Removed dependency to build213-svnkit-1.2-patch and added dependency to
+                Removed dependency to build213-svnkit-1.2-patch
+                and added dependency to
                 commons-lang 2.1
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update">
-                Updated version number to represent the current development line
+                Updated version number to represent the current
+                development line
                 (0.6.2-SNAPSHOT).
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="224"
                 due-to="Michael Krkoska">
-                Moved the quartz.properties file into the etc folder of the distribution
+                Moved the quartz.properties file into the etc
+                folder of the distribution
                 instead
-                of hiding it within the jar file. Simplifies configuration for the
+                of hiding it within the
+                jar file. Simplifies configuration for the
                 user.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="36"
                 due-to="Michael Krkoska">
-                Improved the output of --help option with the provided path.
-			</action>
+                Improved the output of --help option with the
+                provided path.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="222"
                 due-to="Michael Krkoska">
-                Enhanced the output in case of an authentication error or using an wrong
+                Enhanced the output in case of an authentication
+                error or using an wrong
                 URL.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="199"
                 due-to="Michael Krkoska">
-                Removed overwritten getFuzzyQuery from CustomQueryParser class.
-			</action>
+                Removed overwritten getFuzzyQuery from
+                CustomQueryParser class.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="215">
-                There had a problemw with recognizing of README files or files without
+                There had a problemw with recognizing of README
+                files or files without
                 extensions. This
-                was based on wrong implementation in the FileName class. Complete
+                was based on wrong
+                implementation in the FileName class. Complete
                 reimplemented the class.
-			</action>
+            </action>
         </release>
         <release
             version="0.6.1 Bestla"
@@ -264,54 +303,63 @@
                 type="fix"
                 issue="213"
                 due-to="Christian Dehning">
-                There had been a problem with scheduled scanning of a repository, cause
+                There had been a problem with scheduled scanning
+                of a repository, cause
                 after a change
-                there had be done a full scan of the repository instead of scanning the
-                new revisions only.
-			</action>
+                there had be done a
+                full scan of the repository instead of scanning the
+                new
+                revisions only.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="178"
                 due-to="Rob Hubbard">
-                Now you can use the --xml option at the search command to produce an
+                Now you can use the --xml option at the search
+                command to produce an
                 xml file as result output.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="212">
-                Now you can search for propery values as well Take a look at the issue
+                Now you can search for propery values as well Take
+                a look at the issue
                 for further explanations.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="209">
-                The PDFSUBJECT field has not been filled correctly. The PDFTITLE field
+                The PDFSUBJECT field has not been filled
+                correctly. The PDFTITLE field
                 was used instead.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="208">
-                Now the size information about a file will be stored into the index
+                Now the size information about a file will be
+                stored into the index
                 (FieldNames.SIZE).
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="204"
                 due-to="Christian Dehning">
-                Now you can use --fromrev HEAD to scan the HEAD revision only.
-			</action>
+                Now you can use --fromrev HEAD to scan the HEAD
+                revision only.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="206"
                 due-to="Christian Dehning">
-                Fixed Bug in interceptors calculation of percentage rate.
-			</action>
+                Fixed Bug in interceptors calculation of
+                percentage rate.
+            </action>
         </release>
         <release
             version="0.6.0 Bebhionn"
@@ -322,7 +370,8 @@
                 type="add">
                 We now can recognize Tags/Branches and Maven Tags and
                 the information is stored
-                into the index and can be queried.
+                into the index and can be
+                queried.
                 <fixes
                     issue="106" />
                 <fixes
@@ -333,168 +382,191 @@
             <action
                 dev="Karl Heinz Marbaise"
                 type="add">
-                Now you can decide to scan the contents of archive files or not by
-                changing the fileextension.properties files to
+                Now you can decide to scan the contents of archive
+                files or not by
+                changing the fileextension.properties
+                files to
                 appropiate values.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add">
-                Added .c, .h, .m4, .texi, .po file extensions. They will handled
+                Added .c, .h, .m4, .texi, .po file extensions. They
+                will handled
                 as usual text files.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update">
-                Updated the dependency for commons-cli2 with an classifier.	
-			</action>
+                Updated the dependency for commons-cli2 with an
+                classifier.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="202">
-                Problem to identify .project/.classpath as file extensions has now been
+                Problem to identify .project/.classpath as file
+                extensions has now been
                 fixed.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="203">
-                Now we have different packages for Unix and Windows
-			</action>
+                Now we have different packages for Unix and
+                Windows
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix">
-                Removed deprected calls to IndexWriter constructors.
-			</action>
+                Removed deprected calls to IndexWriter
+                constructors.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="150">
-                The scan command is not possible without an --url option.
-			</action>
+                The scan command is not possible without an --url
+                option.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="165">
-                During the command line scan we log information on the console.
-			</action>
+                During the command line scan we log information on
+                the console.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="121">
                 Now we parse archives like zip, tar.gz
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="21">
-                Now we can scan OpenOffice Files (ODS, ODP, ODT file types).
-			</action>
+                Now we can scan OpenOffice Files (ODS, ODP, ODT
+                file types).
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add">
-                Refactored out the query code from the unit tests to be used by the command
+                Refactored out the query code from the unit tests
+                to be used by the command
                 line interface as well.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="165">
-                Added etc directory to the delivery package and put the log4j.properties
-                file into it. You can control the behaviour now from
+                Added etc directory to the delivery package and
+                put the log4j.properties
+                file into it. You can control
+                the behaviour now from
                 outside the application
-                by just simply changing the contents of log4j.properties.
-			</action>
+                by just
+                simply changing the contents of log4j.properties.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="198">
                 Removed support for one-jar in build process.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="197">
-                We use now the appassembler-maven-plugin to produce the batch file
+                We use now the appassembler-maven-plugin to
+                produce the batch file
                 to call supose from command line.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="194">
-                Fixed problem with recognizing directories which have been deleled and
-                make correct entries for filename and path.
-			</action>
+                Fixed problem with recognizing directories which
+                have been deleled and
+                make correct entries for filename
+                and path.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="196">
-                We can recognize Subversion Tags as the Subversion team uses
-                for labeling of the Subversion Releases. They use complex tags.
+                We can recognize Subversion Tags as the Subversion
+                team uses
+                for labeling of the Subversion Releases. They
+                use complex tags.
             </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="195">
                 Fixed typo in link
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="163">
-                File encoding set for copying via maven resources plugin
-			</action>
+                File encoding set for copying via maven resources
+                plugin
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="188">
                 Wrong dependencies in supose.cmd file given.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="187">
                 Support of docx, xlsx and pptx file types.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="192">
                 Update doxia-maven-plugin from 1.0-alpha-10 to 1.1
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="193">
                 Finalized version of maven-site-plugin (2.0)
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="189">
                 Updated ini4j from 0.4.1 to 0.5.1
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="update"
                 issue="173">
                 Updated SVNKit from 1.2.2 to 1.2.3.
-			</action>
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="add"
                 issue="155">
-                Now we have the filename stored as the filename whereas
+                Now we have the filename stored as the filename
+                whereas
                 the path is stored separateley in path.
-                Searches will be done internally lowercase for filenames
-                as well as for paths.
-			</action>
+                Searches
+                will be done internally lowercase for filenames
+                as well
+                as for paths.
+            </action>
             <action
                 dev="Karl Heinz Marbaise"
                 type="fix"
                 issue="148">
                 Removed print outs to console from unit tests.
-			</action>
+            </action>
         </release>
         <release
             version="0.5.2 Bergelmir"
