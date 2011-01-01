@@ -21,7 +21,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>1.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -75,7 +74,7 @@
 	</build>
 
 	<dependencies>
-        <dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>supose-core</artifactId>
 			<version>${project.version}</version>
@@ -86,8 +85,8 @@
 			 Description how to use it can be found here:
 			 http://www.supose.org/wiki/supose/Requirement
 		-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-cli2</artifactId>
 			<version>2.0</version>
 			<classifier>dev</classifier>
