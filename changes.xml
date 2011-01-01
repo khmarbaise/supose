@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="0.7.1 Dione" date="2010-XX-XX" description="Release">
+			<action dev="Karl Heinz Marbaise" type="update" issue="330">
+				Updated Tika 0.7 to 0.8
+			</action>
 			<action dev="Karl Heinz Marbaise" type="fix" issue="325">
 				Changed the usage of the Document of the Lucene framework and
 				moved the doc.add() things to a single class to make code cleaner.
