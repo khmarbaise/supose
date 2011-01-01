@@ -31,9 +31,21 @@
         <module>supose-it</module>
     </modules>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip> <!-- No need to deploy the reactor -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
-            <!-- This profile is used to define the URL's etc. if we are 
+            <!-- This profile is used to define the URL's etc. if we are
                 on the traveler laptop. -->
             <id>homeoffice</id>
             <activation>
@@ -48,7 +60,7 @@
             </properties>
         </profile>
         <profile>
-            <!-- This profile is used to define the URL's etc. if we are 
+            <!-- This profile is used to define the URL's etc. if we are
                 on the internet server (h5593.serverkompetenz.net). -->
             <id>online</id>
             <activation>
@@ -63,7 +75,7 @@
             </properties>
         </profile>
         <profile>
-            <!-- This profile is used to define the URL's etc. if we are 
+            <!-- This profile is used to define the URL's etc. if we are
                 on the traveler laptop. -->
             <id>homeoffice-mac</id>
             <activation>
@@ -77,5 +89,137 @@
                 <cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
             </properties>
         </profile>
+
     </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <version>2.0-beta-2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <quiet />
+                    <aggregate>true</aggregate>
+                    <doctitle>${project.name}
+                        ${project.version}-${project.buildNumber}
+                        API</doctitle>
+                    <links>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+                        <link>http://lucene.apache.org/java/2_4_0/api</link>
+                        <link>http://www.quartz-scheduler.org/docs/api/</link>
+                    </links>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <linkXref>true</linkXref>
+                    <sourceEncoding>UTF-8</sourceEncoding>
+                    <targetJdk>1.5</targetJdk>
+                </configuration>
+
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <issueLinkTemplatePerSystem>
+                        <default>http://www.supose.org/issues/show/%ISSUE%</default>
+                    </issueLinkTemplatePerSystem>
+                    <xmlPath>${basedir}/changes.xml</xmlPath>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>changes-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <reportsDirectory>target/surefire-reports</reportsDirectory>
+                </configuration>
+            </plugin>
+            <!-- Mark all occurance of @todo in source code -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <tagListOptions>
+                        <tagClasses>
+                            <tagClass>
+                                <displayName>FIXME</displayName>
+                                <tags>
+                                    <tag>
+                                        <matchString>fixme</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>FIXME</matchString>
+                                        <matchType>exact</matchType>
+                                    </tag>
+                                </tags>
+                                <displayName>TODO</displayName>
+                                <tags>
+                                    <tag>
+                                        <matchString>todo</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>TODO</matchString>
+                                        <matchType>exact</matchType>
+                                    </tag>
+                                </tags>
+                            </tagClass>
+                            <tagClass>
+                                <displayName>HACK</displayName>
+                                <tags>
+                                    <tag>
+                                        <matchString>hack</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>hack</matchString>
+                                        <matchType>exact</matchType>
+                                    </tag>
+                                </tags>
+                            </tagClass>
+                        </tagClasses>
+                    </tagListOptions>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </reporting>
+
+
 </project>

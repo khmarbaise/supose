@@ -14,6 +14,12 @@
             description="Release">
             <action
                 dev="Karl Heinz Marbaise"
+                type="fix"
+                issue="335">
+		Now generation of a site works with Maven 3.
+			</action>
+            <action
+                dev="Karl Heinz Marbaise"
                 type="add"
                 issue="334">
 		Added maven-resources-pugin and maven-release-plugin to the pluginManagement area.
