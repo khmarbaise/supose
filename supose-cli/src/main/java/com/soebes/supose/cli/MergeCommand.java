@@ -34,68 +34,66 @@ import org.apache.commons.cli2.option.Command;
 
 /**
  * @author Karl Heinz Marbaise
- *
- *
- * supose merge --index anton berta egon --destination result
+ * 
+ * 
+ *         supose merge --index anton berta egon --destination result
  */
 public class MergeCommand extends CLIBase {
 
     private Option optionDestination = null;
     private Option optionIndex = null;
 
-	public MergeCommand() {
-		setCommand(createCommand());
-	}
+    public MergeCommand() {
+        setCommand(createCommand());
+    }
 
-	private Command createCommand() {
-    	optionDestination = obuilder
-	    	.withLongName("destination")
-	    	.withRequired(true)
-	    	.withArgument(abuilder.withName("destination").create())
-	    	.withDescription("Define the destination directory of the merged index.")
-	    	.create();
+    private Command createCommand() {
+        optionDestination = obuilder
+                .withLongName("destination")
+                .withRequired(true)
+                .withArgument(abuilder.withName("destination").create())
+                .withDescription(
+                        "Define the destination directory of the merged index.")
+                .create();
 
-    	optionIndex = obuilder
-			.withShortName("I")
-			.withLongName("index")
-			.withArgument(abuilder.withName("index").create())
-			.withDescription("Define the index directory where the created index will be stored.")
-			.create();
+        optionIndex = obuilder
+                .withShortName("I")
+                .withLongName("index")
+                .withArgument(abuilder.withName("index").create())
+                .withDescription(
+                        "Define the index directory where the created index will be stored.")
+                .create();
 
-    	Group scanOptionIndex = gbuilder
-    		.withOption(optionIndex)
-    		.withOption(optionDestination)
-    		.create();
-    	
-    	return cbuilder
-	    	.withName("merge")
-	    	.withName("mg")
-	    	.withDescription("Merge existing lucene index together.")
-	    	.withChildren(scanOptionIndex)
-	    	.create();
-	}
+        Group scanOptionIndex = gbuilder.withOption(optionIndex)
+                .withOption(optionDestination).create();
 
-	public Option getOptionIndex() {
-		return optionIndex;
-	}
-	public Option getOptionDestination() {
-		return optionDestination;
-	}
+        return cbuilder.withName("merge").withName("mg")
+                .withDescription("Merge existing lucene index together.")
+                .withChildren(scanOptionIndex).create();
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<String> getIndex (CommandLine cline) {
-		List<String> list = cline.getValues((getOptionIndex()));
-		return list;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public String getDestination (CommandLine cline) {
-		List<String> list = cline.getValues((getOptionDestination()));
-		if (list == null || list.size() == 0) {
-			return "destination.Dir";
-		} else {
-			return list.get(0);
-		}
-	}
+    public Option getOptionIndex() {
+        return optionIndex;
+    }
+
+    public Option getOptionDestination() {
+        return optionDestination;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getIndex(CommandLine cline) {
+        List<String> list = cline.getValues((getOptionIndex()));
+        return list;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getDestination(CommandLine cline) {
+        List<String> list = cline.getValues((getOptionDestination()));
+        if (list == null || list.size() == 0) {
+            return "destination.Dir";
+        } else {
+            return list.get(0);
+        }
+    }
 
 }

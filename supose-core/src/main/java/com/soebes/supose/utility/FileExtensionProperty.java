@@ -29,51 +29,56 @@ import java.util.Properties;
 
 /**
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class FileExtensionProperty {
 
-	private static final String RESOURCE_NAME = "/fileextension.properties";
+    private static final String RESOURCE_NAME = "/fileextension.properties";
 
-	private Properties properties = null;
+    private Properties properties = null;
 
-	/*
+    /*
 	 */
-	private static FileExtensionProperty instance = new FileExtensionProperty();
+    private static FileExtensionProperty instance = new FileExtensionProperty();
 
-	/**
-	 * Singleton access
-	 * @return Instance of ReleaseProperties
-	 */
-	public static FileExtensionProperty getInstance() {
-		return instance;
-	}
+    /**
+     * Singleton access
+     * 
+     * @return Instance of ReleaseProperties
+     */
+    public static FileExtensionProperty getInstance() {
+        return instance;
+    }
 
-	/**
-	 * Will return the value of the given property of null, 
-	 * if the particular property does not exist.
-	 */
-	public String getProperty(String propName) {
-		String s = properties.getProperty(propName);
-		if (s == null || s.length() == 0) {
-//FIXME: Create our own Exception class for this. Must be fixed in FileExtensionHandler as well			
-			throw new RuntimeException("The Property " + propName + " does not exist.");
-		}
-		return s;
-	}
+    /**
+     * Will return the value of the given property of null, if the particular
+     * property does not exist.
+     */
+    public String getProperty(String propName) {
+        String s = properties.getProperty(propName);
+        if (s == null || s.length() == 0) {
+            // FIXME: Create our own Exception class for this. Must be fixed in
+            // FileExtensionHandler as well
+            throw new RuntimeException("The Property " + propName
+                    + " does not exist.");
+        }
+        return s;
+    }
 
-	/**
-	 * Constructor
-	 */
-	private FileExtensionProperty() {
-		super();
+    /**
+     * Constructor
+     */
+    private FileExtensionProperty() {
+        super();
 
-		try {
-			properties = new Properties();
-			properties.load(FileExtensionProperty.class.getResourceAsStream(RESOURCE_NAME));
-		} catch (Exception e) {
-			throw new RuntimeException("The property file " + RESOURCE_NAME + " couldn't be read.");
-		}
-	}
+        try {
+            properties = new Properties();
+            properties.load(FileExtensionProperty.class
+                    .getResourceAsStream(RESOURCE_NAME));
+        } catch (Exception e) {
+            throw new RuntimeException("The property file " + RESOURCE_NAME
+                    + " couldn't be read.");
+        }
+    }
 
 }

@@ -29,7 +29,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 
 public class AnalyzerFactory {
 
-	public static Analyzer createInstance() {
-		return new StandardAnalyzer();
-	}
+    public static Analyzer createInstance() {
+        return new StandardAnalyzer();
+    }
 }

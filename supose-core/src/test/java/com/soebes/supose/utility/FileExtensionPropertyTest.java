@@ -31,9 +31,9 @@ import static org.testng.Assert.*;
 @Test
 public class FileExtensionPropertyTest {
 
-	public void testLoadProperty() {
-		FileExtensionProperty fep = FileExtensionProperty.getInstance();
-		assertNotNull(fep, "It is expected to get none Null!");
-	}
+    public void testLoadProperty() {
+        FileExtensionProperty fep = FileExtensionProperty.getInstance();
+        assertNotNull(fep, "It is expected to get none Null!");
+    }
 
 }

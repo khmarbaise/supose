@@ -25,66 +25,41 @@
 
 package com.soebes.supose;
 
-
-
 /**
- * This class defines all available field names.
- * Only the fields which will be automatically created.
- * For every property will be created an entry too, but
+ * This class defines all available field names. Only the fields which will be
+ * automatically created. For every property will be created an entry too, but
  * this can't be defined here.
  * 
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public enum FieldNames {
-	CONTENTS("contents"),
-	REVISION("revision"),
-	KIND("kind"),
-	NODE("node"),
-	PATH("path"),
-	FILENAME("filename"),
-	AUTHOR("author"),
-	MESSAGE("message"),
-	DATE("date"),
-	FROM("from"),
-	FROMREV("fromrev"),
-	REPOSITORY("repository"),
-	REPOSITORYUUID("repositoryuuid"),
-	SIZE("size"),
-	TAG("tag"),
-	MAVENTAG("maventag"),
-	SUBVERSIONTAG("subversiontag"),
-	BRANCH("branch"),
-	XLSSHEET("xlssheet"),
-	XLSSHEETNAME("xlssheetname"),
-	XLSCOMMENT("xlscomment"),
-	XLSCOMMENTAUTHOR("xlscommentauthor"),
-	XLSAUTHOR("xlsauthor"),
-	PDFAUTHOR("pdfauthor"),
-	PDFCREATIONDATE("pdfcreationdate"),
-	PDFCREATOR("pdfcreator"),
-	PDFKEYWORDS("pdfkeywords"),
-	PDFMODIFICATIONDATE("pdfmodificationdate"),
-	PDFPRODUCER("pdfproducer"),
-	PDFSUBJECT("pdfsubject"),
-	PDFTITLE("pdftitle"),
-	PDFTRAPPED("pdftrapped"),
-	METHODS("methods"),
-	COMMENTS("comments"),
+    CONTENTS("contents"), REVISION("revision"), KIND("kind"), NODE("node"), PATH(
+            "path"), FILENAME("filename"), AUTHOR("author"), MESSAGE("message"), DATE(
+            "date"), FROM("from"), FROMREV("fromrev"), REPOSITORY("repository"), REPOSITORYUUID(
+            "repositoryuuid"), SIZE("size"), TAG("tag"), MAVENTAG("maventag"), SUBVERSIONTAG(
+            "subversiontag"), BRANCH("branch"), XLSSHEET("xlssheet"), XLSSHEETNAME(
+            "xlssheetname"), XLSCOMMENT("xlscomment"), XLSCOMMENTAUTHOR(
+            "xlscommentauthor"), XLSAUTHOR("xlsauthor"), PDFAUTHOR("pdfauthor"), PDFCREATIONDATE(
+            "pdfcreationdate"), PDFCREATOR("pdfcreator"), PDFKEYWORDS(
+            "pdfkeywords"), PDFMODIFICATIONDATE("pdfmodificationdate"), PDFPRODUCER(
+            "pdfproducer"), PDFSUBJECT("pdfsubject"), PDFTITLE("pdftitle"), PDFTRAPPED(
+            "pdftrapped"), METHODS("methods"), COMMENTS("comments"),
 
-	PROPERTIES("properties"); //This is not a real entry only used for displaying on command line?
+    PROPERTIES("properties"); // This is not a real entry only used for
+                              // displaying on command line?
 
-	private String value;
+    private String value;
 
-	public String getValue() {
-		return this.value;
-	}
+    public String getValue() {
+        return this.value;
+    }
 
-	private FieldNames(String value) {
-		this.value = value;
-	}
-	
-	public String toString() {
-		return this.value;
-	}
+    private FieldNames(String value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return this.value;
+    }
 }

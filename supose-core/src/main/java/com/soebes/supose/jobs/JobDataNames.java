@@ -26,9 +26,9 @@
 package com.soebes.supose.jobs;
 
 public final class JobDataNames {
-	public final static String REPOSITORY = "repository";
-	public final static String REPOSITORYCONFIGURATION = "repositoryConfiguraion";
-	public final static String INDEX = "index";
-	// TODO: Change the name of BASEDIR or the value
-	public final static String BASEDIR = "configDir";
+    public final static String REPOSITORY = "repository";
+    public final static String REPOSITORYCONFIGURATION = "repositoryConfiguraion";
+    public final static String INDEX = "index";
+    // TODO: Change the name of BASEDIR or the value
+    public final static String BASEDIR = "configDir";
 }

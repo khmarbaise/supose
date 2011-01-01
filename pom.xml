@@ -33,7 +33,7 @@
 
     <profiles>
         <profile>
-            <!-- This profile is used to define the URL's etc. if we are
+            <!-- This profile is used to define the URL's etc. if we are 
                 on the traveler laptop. -->
             <id>homeoffice</id>
             <activation>
@@ -48,7 +48,7 @@
             </properties>
         </profile>
         <profile>
-            <!-- This profile is used to define the URL's etc. if we are
+            <!-- This profile is used to define the URL's etc. if we are 
                 on the internet server (h5593.serverkompetenz.net). -->
             <id>online</id>
             <activation>
@@ -63,7 +63,7 @@
             </properties>
         </profile>
         <profile>
-            <!-- This profile is used to define the URL's etc. if we are
+            <!-- This profile is used to define the URL's etc. if we are 
                 on the traveler laptop. -->
             <id>homeoffice-mac</id>
             <activation>

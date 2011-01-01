@@ -39,113 +39,116 @@ import com.soebes.supose.utility.AnalyzerFactory;
 
 /**
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class Index {
-	private static Logger LOGGER = Logger.getLogger(Index.class);
+    private static Logger LOGGER = Logger.getLogger(Index.class);
 
-	private String indexDirectory = null;
-	private IndexWriter indexWriter = null;
-	private Analyzer analyzer = null;
-	
-	private int mergeFactor = 10;
-	private int maxBufferedDocs = 10;
-	private boolean useCompoundFile = false;
-	private boolean create = false;
-	
-	public Index () {
-		setIndexDirectory(null);
-		setAnalyzer(AnalyzerFactory.createInstance());
-		setMergeFactor(1000);
-		setMaxBufferedDocs(1000);
-		setUseCompoundFile(false);
-	}
-	
-	public IndexWriter createIndexWriter (String indexDirectory) {
-		LOGGER.debug("createIndexWriter('" + indexDirectory + "')");
-		setIndexDirectory(indexDirectory);
-		File indexDir = new File(getIndexDirectory());
-		IndexWriter writer = null;
-		try {
-			LOGGER.debug("Trying to create a new Index");
-			if (isCreate()) {
-				LOGGER.debug("Trying to create a new index (overwrite an exsting)");
-				//This will create a new index. Independent if one existed before.
-				writer = new IndexWriter(indexDir, getAnalyzer(), true, MaxFieldLength.UNLIMITED);
-			} else {
-				LOGGER.debug("Trying to create a new index (using an exsting)");
-				//This will use an existing index or will create one if 
-				//no existed before.
-				writer = new IndexWriter(indexDir, getAnalyzer(), MaxFieldLength.UNLIMITED);
-			}
-			LOGGER.debug("Created new index.");
-			writer.setUseCompoundFile(isUseCompoundFile());
-			writer.setMergeFactor(getMergeFactor());
-			writer.setMaxBufferedDocs(getMaxBufferedDocs());
-//			writer.setInfoStream(System.out);
-		} catch (CorruptIndexException e) {
-			LOGGER.error("CorruptIndex: ", e);
-		} catch (LockObtainFailedException e) {
-			LOGGER.error("LockObtain: ", e);
-		} catch (IOException e) {
-			LOGGER.error("IOException: ", e);
-		}
-		return writer;
-	}
+    private String indexDirectory = null;
+    private IndexWriter indexWriter = null;
+    private Analyzer analyzer = null;
 
-	public IndexWriter getIndexWriter() {
-		return indexWriter;
-	}
+    private int mergeFactor = 10;
+    private int maxBufferedDocs = 10;
+    private boolean useCompoundFile = false;
+    private boolean create = false;
 
-	public void setIndexWriter(IndexWriter indexWriter) {
-		this.indexWriter = indexWriter;
-	}
+    public Index() {
+        setIndexDirectory(null);
+        setAnalyzer(AnalyzerFactory.createInstance());
+        setMergeFactor(1000);
+        setMaxBufferedDocs(1000);
+        setUseCompoundFile(false);
+    }
 
-	public String getIndexDirectory() {
-		return indexDirectory;
-	}
+    public IndexWriter createIndexWriter(String indexDirectory) {
+        LOGGER.debug("createIndexWriter('" + indexDirectory + "')");
+        setIndexDirectory(indexDirectory);
+        File indexDir = new File(getIndexDirectory());
+        IndexWriter writer = null;
+        try {
+            LOGGER.debug("Trying to create a new Index");
+            if (isCreate()) {
+                LOGGER.debug("Trying to create a new index (overwrite an exsting)");
+                // This will create a new index. Independent if one existed
+                // before.
+                writer = new IndexWriter(indexDir, getAnalyzer(), true,
+                        MaxFieldLength.UNLIMITED);
+            } else {
+                LOGGER.debug("Trying to create a new index (using an exsting)");
+                // This will use an existing index or will create one if
+                // no existed before.
+                writer = new IndexWriter(indexDir, getAnalyzer(),
+                        MaxFieldLength.UNLIMITED);
+            }
+            LOGGER.debug("Created new index.");
+            writer.setUseCompoundFile(isUseCompoundFile());
+            writer.setMergeFactor(getMergeFactor());
+            writer.setMaxBufferedDocs(getMaxBufferedDocs());
+            // writer.setInfoStream(System.out);
+        } catch (CorruptIndexException e) {
+            LOGGER.error("CorruptIndex: ", e);
+        } catch (LockObtainFailedException e) {
+            LOGGER.error("LockObtain: ", e);
+        } catch (IOException e) {
+            LOGGER.error("IOException: ", e);
+        }
+        return writer;
+    }
 
-	public void setIndexDirectory(String indexDirectory) {
-		this.indexDirectory = indexDirectory;
-	}
+    public IndexWriter getIndexWriter() {
+        return indexWriter;
+    }
 
-	public Analyzer getAnalyzer() {
-		return analyzer;
-	}
+    public void setIndexWriter(IndexWriter indexWriter) {
+        this.indexWriter = indexWriter;
+    }
 
-	public void setAnalyzer(Analyzer analyzer) {
-		this.analyzer = analyzer;
-	}
+    public String getIndexDirectory() {
+        return indexDirectory;
+    }
 
-	public int getMergeFactor() {
-		return mergeFactor;
-	}
+    public void setIndexDirectory(String indexDirectory) {
+        this.indexDirectory = indexDirectory;
+    }
 
-	public void setMergeFactor(int mergeFactor) {
-		this.mergeFactor = mergeFactor;
-	}
+    public Analyzer getAnalyzer() {
+        return analyzer;
+    }
 
-	public int getMaxBufferedDocs() {
-		return maxBufferedDocs;
-	}
+    public void setAnalyzer(Analyzer analyzer) {
+        this.analyzer = analyzer;
+    }
 
-	public void setMaxBufferedDocs(int maxBufferedDocs) {
-		this.maxBufferedDocs = maxBufferedDocs;
-	}
+    public int getMergeFactor() {
+        return mergeFactor;
+    }
 
-	public boolean isUseCompoundFile() {
-		return useCompoundFile;
-	}
+    public void setMergeFactor(int mergeFactor) {
+        this.mergeFactor = mergeFactor;
+    }
 
-	public void setUseCompoundFile(boolean useCompoundFile) {
-		this.useCompoundFile = useCompoundFile;
-	}
+    public int getMaxBufferedDocs() {
+        return maxBufferedDocs;
+    }
 
-	public boolean isCreate() {
-		return create;
-	}
+    public void setMaxBufferedDocs(int maxBufferedDocs) {
+        this.maxBufferedDocs = maxBufferedDocs;
+    }
 
-	public void setCreate(boolean create) {
-		this.create = create;
-	}
+    public boolean isUseCompoundFile() {
+        return useCompoundFile;
+    }
+
+    public void setUseCompoundFile(boolean useCompoundFile) {
+        this.useCompoundFile = useCompoundFile;
+    }
+
+    public boolean isCreate() {
+        return create;
+    }
+
+    public void setCreate(boolean create) {
+        this.create = create;
+    }
 }

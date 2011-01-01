@@ -40,54 +40,65 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
 
 /**
- * This class will scan an archive with its contents.
- * This will increase the scanning time of a repository dramatically.
- * 
- * This means the contents of files which are inside an archive (e.g. tar.gz etc.)
- * will be extracted and the contents will be indexed into the contents field.
- * 
+ * This class will scan an archive with its contents. This will increase the
+ * scanning time of a repository dramatically.
+ *
+ * This means the contents of files which are inside an archive (e.g. tar.gz
+ * etc.) will be extracted and the contents will be indexed into the contents
+ * field.
+ *
  * @author Karl Heinz Marbaise
  */
 public class ScanArchiveWithContentDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanArchiveWithContentDocument.class);
+    private static Logger LOGGER = Logger
+    .getLogger(ScanArchiveWithContentDocument.class);
 
-	public ScanArchiveWithContentDocument() {
-	}
+    public ScanArchiveWithContentDocument() {
+    }
 
-	@Override
-	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning archive with content");
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			//This means we get the contents of the file only. No properties.
-			repository.getRepository().getFile(path, revision, null, baos);
-			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
-			scan(str, path, dirEntry);
-		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: ", e);
-		} catch (Exception e) {
-			LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
-		}
-	}
+    @Override
+    public void indexDocument(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        LOGGER.debug("Scanning archive with content");
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // This means we get the contents of the file only. No properties.
+            repository.getRepository().getFile(path, revision, null, baos);
+            ByteArrayInputStream str = new ByteArrayInputStream(
+                    baos.toByteArray());
+            scan(str, path, dirEntry);
+        } catch (SVNException e) {
+            LOGGER.error("Exception by SVN: ", e);
+        } catch (Exception e) {
+            LOGGER.error(
+                    "We had an exception " + path + " (r"
+                    + dirEntry.getRevision() + ")", e);
+        }
+    }
 
-	private void scan(ByteArrayInputStream in, String path, SVNDirEntry dirEntry) {
-		try {
-			Metadata metadata = new Metadata();
-			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
-			AutoDetectParser parser = new AutoDetectParser();
-			DefaultHandler handler = new BodyContentHandler();
-			parser.parse(in, handler, metadata);
-			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
+    private void scan(ByteArrayInputStream in, String path, SVNDirEntry dirEntry) {
+        try {
+            Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+            AutoDetectParser parser = new AutoDetectParser();
+            DefaultHandler handler = new BodyContentHandler();
+            parser.parse(in, handler, metadata);
+            getDocument().addTokenizedField(FieldNames.CONTENTS,
+                    handler.toString());
 
-		} catch (Exception e) {
-			LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
-		} finally {
-			try {
-				in.close();
-			} catch (Exception e) {
-				LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
-			}
-		}
-	}
+        } catch (Exception e) {
+            LOGGER.error(
+                    "We had an exception " + path + " (r"
+                    + dirEntry.getRevision() + ")", e);
+        } finally {
+            try {
+                in.close();
+            } catch (Exception e) {
+                LOGGER.error(
+                        "We had an exception " + path + " (r"
+                        + dirEntry.getRevision() + ")", e);
+            }
+        }
+    }
 
 }

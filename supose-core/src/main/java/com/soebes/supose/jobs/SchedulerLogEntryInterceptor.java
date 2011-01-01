@@ -31,17 +31,18 @@ import org.tmatesoft.svn.core.SVNLogEntry;
 import com.soebes.supose.scan.interceptors.LogEntryInterceptor;
 
 public class SchedulerLogEntryInterceptor implements LogEntryInterceptor {
-	private static Logger LOGGER = Logger.getLogger(SchedulerLogEntryInterceptor.class);
+    private static Logger LOGGER = Logger
+            .getLogger(SchedulerLogEntryInterceptor.class);
 
-	public void LogEntryStart() {
-		LOGGER.info("Started scanning of the Log entries.");
-	}
-	
-	public void LogEntry(SVNLogEntry logEntry) {
-	}
+    public void LogEntryStart() {
+        LOGGER.info("Started scanning of the Log entries.");
+    }
 
-	public void LogEntryStop() {
-		LOGGER.info("Scanning of the Log entries done.");
-	}
+    public void LogEntry(SVNLogEntry logEntry) {
+    }
+
+    public void LogEntryStop() {
+        LOGGER.info("Scanning of the Log entries done.");
+    }
 
 }

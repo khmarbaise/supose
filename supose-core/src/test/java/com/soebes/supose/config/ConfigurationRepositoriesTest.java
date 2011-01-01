@@ -35,40 +35,52 @@ import com.soebes.supose.TestBase;
 
 /**
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 @Test
 public class ConfigurationRepositoriesTest extends TestBase {
-	private ConfigurationRepositories confRepos = null; 
-	
-	@BeforeClass
-	public void beforeClass() {
-		confRepos = new ConfigurationRepositories(getFileResource("/repositories-test.ini"));		
-		assertNotNull(confRepos, "We had expected to get an instance");
-	}
+    private ConfigurationRepositories confRepos = null;
 
-	public void testGetNames() {
-		assertNotNull(confRepos.getNames(), "We had expected to get an list of available repositories.");
-		assertEquals(confRepos.getNames().length, 1, "We had expected to get an array with one element");
-	}
+    @BeforeClass
+    public void beforeClass() {
+        confRepos = new ConfigurationRepositories(
+                getFileResource("/repositories-test.ini"));
+        assertNotNull(confRepos, "We had expected to get an instance");
+    }
 
-	@Test(dependsOnMethods={"testGetNames"})
-	public void testGetRepositoryConfiguration() {
-		String repositoryName = confRepos.getNames()[0];
-		RepositoryConfiguration rconfig = confRepos.getRepositoryConfiguration(repositoryName);
-		assertNotNull(rconfig, "We had expected to get an instance of RepositoryConfiguration");
-	}
+    public void testGetNames() {
+        assertNotNull(confRepos.getNames(),
+                "We had expected to get an list of available repositories.");
+        assertEquals(confRepos.getNames().length, 1,
+                "We had expected to get an array with one element");
+    }
 
-	@Test(dependsOnMethods={"testGetRepositoryConfiguration"})
-	public void testRepositoryConfiguration10() {
-		String repositoryName = confRepos.getNames()[0];
-		RepositoryConfiguration rconfig = confRepos.getRepositoryConfiguration(repositoryName);
-		assertEquals(rconfig.getUrl(), "http://svn.traveler/jagosi", "We had expected to get an URL");
-		assertEquals(rconfig.getIndexUsername(), "kama", "We had expected to get the username 'kama'");
-		assertEquals(rconfig.getIndexPassword(), "kama", "We had expected to get the username 'kama'");
-		assertEquals(rconfig.getFromRev(), 1, "We had expected to get the revision 1");
-		assertEquals(rconfig.getToRev(), "HEAD", "We had expected to get the revision HEAD");
-		assertEquals(rconfig.getCron(), "0 * * ? * *", "We had expected to get the cron expression '0 * * ? * *'");
-	}
+    @Test(dependsOnMethods = { "testGetNames" })
+    public void testGetRepositoryConfiguration() {
+        String repositoryName = confRepos.getNames()[0];
+        RepositoryConfiguration rconfig = confRepos
+                .getRepositoryConfiguration(repositoryName);
+        assertNotNull(rconfig,
+                "We had expected to get an instance of RepositoryConfiguration");
+    }
+
+    @Test(dependsOnMethods = { "testGetRepositoryConfiguration" })
+    public void testRepositoryConfiguration10() {
+        String repositoryName = confRepos.getNames()[0];
+        RepositoryConfiguration rconfig = confRepos
+                .getRepositoryConfiguration(repositoryName);
+        assertEquals(rconfig.getUrl(), "http://svn.traveler/jagosi",
+                "We had expected to get an URL");
+        assertEquals(rconfig.getIndexUsername(), "kama",
+                "We had expected to get the username 'kama'");
+        assertEquals(rconfig.getIndexPassword(), "kama",
+                "We had expected to get the username 'kama'");
+        assertEquals(rconfig.getFromRev(), 1,
+                "We had expected to get the revision 1");
+        assertEquals(rconfig.getToRev(), "HEAD",
+                "We had expected to get the revision HEAD");
+        assertEquals(rconfig.getCron(), "0 * * ? * *",
+                "We had expected to get the cron expression '0 * * ? * *'");
+    }
 
 }

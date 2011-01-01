@@ -27,13 +27,18 @@ package com.soebes.supose.scan.interceptors;
 
 public interface ScanInterceptor {
 
-	/**
-	 * This will be called before the changeset scan. The paremeter tells you
-	 * how many revisions have to be scanned.
-	 * @param revision The number of revisions.
-	 */
-	void scanStart(Integer revision);
-	void scanStop();
-	void scanBeginRevision(Long count, Long revision, Integer changeSetSize);
-	void scanEndRevision(Long count, Long revision, Integer changeSetSize);
+    /**
+     * This will be called before the changeset scan. The paremeter tells you
+     * how many revisions have to be scanned.
+     * 
+     * @param revision
+     *            The number of revisions.
+     */
+    void scanStart(Integer revision);
+
+    void scanStop();
+
+    void scanBeginRevision(Long count, Long revision, Integer changeSetSize);
+
+    void scanEndRevision(Long count, Long revision, Integer changeSetSize);
 }

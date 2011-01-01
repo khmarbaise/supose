@@ -44,50 +44,54 @@ import com.soebes.supose.repository.Repository;
  *
  */
 public class ScanWordDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanWordDocument.class);
+    private static Logger LOGGER = Logger.getLogger(ScanWordDocument.class);
 
-	public ScanWordDocument() {
-	}
+    public ScanWordDocument() {
+    }
 
-	@Override
-	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning word document");
-		
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			//This means we get the contents of the file only. No properties.
-			repository.getRepository().getFile(path, revision, null, baos);
-			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
+    @Override
+    public void indexDocument(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        LOGGER.debug("Scanning word document");
 
-			scan(str, path, dirEntry);
-		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: ", e);
-		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with WordDocuments ", e);
-		}
-	}
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // This means we get the contents of the file only. No properties.
+            repository.getRepository().getFile(path, revision, null, baos);
+            ByteArrayInputStream str = new ByteArrayInputStream(
+                    baos.toByteArray());
 
-	
-	private void scan(ByteArrayInputStream in, String path, SVNDirEntry dirEntry) {
-		try {
-			Metadata metadata = new Metadata();
-			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
-			AutoDetectParser parser = new AutoDetectParser();
-			DefaultHandler handler = new BodyContentHandler();
-			parser.parse(in, handler, metadata);
+            scan(str, path, dirEntry);
+        } catch (SVNException e) {
+            LOGGER.error("Exception by SVN: ", e);
+        } catch (Exception e) {
+            LOGGER.error("Something has gone wrong with WordDocuments ", e);
+        }
+    }
 
-//TODO: Check if can get more information out of the word file.
-			//like AUTHOR, KEYWORDS etc.
-			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
-		} catch (Exception e) {
-			LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
-		} finally {
-			try {
-				in.close();
-			} catch (Exception e) {
-				LOGGER.error("We had an exception during closing: ", e);
-			}
-		}
-	}
+    private void scan(ByteArrayInputStream in, String path, SVNDirEntry dirEntry) {
+        try {
+            Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+            AutoDetectParser parser = new AutoDetectParser();
+            DefaultHandler handler = new BodyContentHandler();
+            parser.parse(in, handler, metadata);
+
+            // TODO: Check if can get more information out of the word file.
+            // like AUTHOR, KEYWORDS etc.
+            getDocument().addTokenizedField(FieldNames.CONTENTS,
+                    handler.toString());
+        } catch (Exception e) {
+            LOGGER.error(
+                    "We had an exception " + path + " (r"
+                    + dirEntry.getRevision() + ")", e);
+        } finally {
+            try {
+                in.close();
+            } catch (Exception e) {
+                LOGGER.error("We had an exception during closing: ", e);
+            }
+        }
+    }
 
 }

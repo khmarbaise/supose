@@ -25,15 +25,14 @@
 
 package com.soebes.supose.utility;
 
-
 /**
  * @author Karl Heinz Marbaise
- *
- * This class will support you to extract the <code>extension</code> of a 
- * file, the <code>path</code> and the <code>filename incl. the extension</code>.
  * 
- * We define a extension as one of the following:
- * <li></li>
+ *         This class will support you to extract the <code>extension</code> of
+ *         a file, the <code>path</code> and the
+ *         <code>filename incl. the extension</code>.
+ * 
+ *         We define a extension as one of the following: <li></li>
  */
 public class FileName {
 
@@ -42,50 +41,52 @@ public class FileName {
     private String baseName;
     private String path;
     private String nameWithoutExtension;
-    
-    public FileName(String fileName, boolean isDir) {
-    	init(fileName, isDir);
-    }
-    public FileName(String fileName) {
-    	init(fileName, false);
-    }
-	private void init(String fileName, boolean isDir) {
-		setExt("");
-    	setName("");
-    	setBaseName("");
-    	setNameWithoutExtension("");
-    	setPath("");
-    	if (!isDir) {
-    		if (fileName.endsWith("/")) {
-    			isDir = true;
-    		}
-    	}
 
-    	if (isDir) {
-    		if (!fileName.endsWith("/")) {
-    			fileName += "/";
-    		}
-    		setPath(fileName);
-    	} else {
-    		int pos = fileName.lastIndexOf("/");
-    		if (pos >= 0) {
-    			setBaseName(fileName.substring(pos+1));
-    			setPath(fileName.substring(0, pos+1));
-    		} else {
-    			setBaseName(fileName);
-    		}
-    		pos = getBaseName().indexOf('.');
-    		if (pos >= 0) {
-    			setNameWithoutExtension(getBaseName().substring(0, pos));
-    			setName(getNameWithoutExtension());
-    			setExt(getBaseName().substring(pos+1));
-    		} else {
-    			setNameWithoutExtension(getBaseName());
-    			setName(getBaseName());
-    		}
-    	}
-	}
-    
+    public FileName(String fileName, boolean isDir) {
+        init(fileName, isDir);
+    }
+
+    public FileName(String fileName) {
+        init(fileName, false);
+    }
+
+    private void init(String fileName, boolean isDir) {
+        setExt("");
+        setName("");
+        setBaseName("");
+        setNameWithoutExtension("");
+        setPath("");
+        if (!isDir) {
+            if (fileName.endsWith("/")) {
+                isDir = true;
+            }
+        }
+
+        if (isDir) {
+            if (!fileName.endsWith("/")) {
+                fileName += "/";
+            }
+            setPath(fileName);
+        } else {
+            int pos = fileName.lastIndexOf("/");
+            if (pos >= 0) {
+                setBaseName(fileName.substring(pos + 1));
+                setPath(fileName.substring(0, pos + 1));
+            } else {
+                setBaseName(fileName);
+            }
+            pos = getBaseName().indexOf('.');
+            if (pos >= 0) {
+                setNameWithoutExtension(getBaseName().substring(0, pos));
+                setName(getNameWithoutExtension());
+                setExt(getBaseName().substring(pos + 1));
+            } else {
+                setNameWithoutExtension(getBaseName());
+                setName(getBaseName());
+            }
+        }
+    }
+
     /**
      * @return The extension of a filename.
      */
@@ -108,28 +109,28 @@ public class FileName {
         this.name = name;
     }
 
-	public String getBaseName() {
-		return baseName;
-	}
+    public String getBaseName() {
+        return baseName;
+    }
 
-	public void setBaseName(String baseName) {
-		this.baseName = baseName;
-	}
+    public void setBaseName(String baseName) {
+        this.baseName = baseName;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public String getNameWithoutExtension() {
-		return nameWithoutExtension;
-	}
+    public String getNameWithoutExtension() {
+        return nameWithoutExtension;
+    }
 
-	public void setNameWithoutExtension(String nameWithoutExtension) {
-		this.nameWithoutExtension = nameWithoutExtension;
-	}
-                                            
+    public void setNameWithoutExtension(String nameWithoutExtension) {
+        this.nameWithoutExtension = nameWithoutExtension;
+    }
+
 }

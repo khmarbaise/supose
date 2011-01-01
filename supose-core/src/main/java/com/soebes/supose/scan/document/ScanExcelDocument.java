@@ -40,56 +40,61 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.repository.Repository;
 
 /**
- * This class will scan an Excel document.
- * It will use the following fields:
+ * This class will scan an Excel document. It will use the following fields:
  *
  * <ul>
- * <li><i>xlsauthor</i> The author of Excel document stored in the Excel document.</li>
- * </ul> 
+ * <li><i>xlsauthor</i> The author of Excel document stored in the Excel
+ * document.</li>
+ * </ul>
+ *
  * @author Karl Heinz Marbaise
  */
 public class ScanExcelDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanExcelDocument.class);
+    private static Logger LOGGER = Logger.getLogger(ScanExcelDocument.class);
 
-	public ScanExcelDocument() {
-	}
+    public ScanExcelDocument() {
+    }
 
-	@Override
-	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning document");
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			//This means we get the contents of the file only. No properties.
-			repository.getRepository().getFile(path, revision, null, baos);
-			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
-			scan(str, path);
-		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: ", e);
-		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with ExcelDocuments ", e);
-		}
-	}
+    @Override
+    public void indexDocument(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        LOGGER.debug("Scanning document");
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // This means we get the contents of the file only. No properties.
+            repository.getRepository().getFile(path, revision, null, baos);
+            ByteArrayInputStream str = new ByteArrayInputStream(
+                    baos.toByteArray());
+            scan(str, path);
+        } catch (SVNException e) {
+            LOGGER.error("Exception by SVN: ", e);
+        } catch (Exception e) {
+            LOGGER.error("Something has gone wrong with ExcelDocuments ", e);
+        }
+    }
 
-	private void scan(ByteArrayInputStream in, String path) {
-		try {
-			Metadata metadata = new Metadata();
-			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
-			AutoDetectParser parser = new AutoDetectParser();
-			DefaultHandler handler = new BodyContentHandler();
-			parser.parse(in, handler, metadata);
-			String excelAuthor = metadata.get(Metadata.AUTHOR);
-			getDocument().addUnTokenizedField(FieldNames.XLSAUTHOR, excelAuthor == null ? "" : excelAuthor);
-			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
-			
-		} catch (Exception e) {
-			LOGGER.error("We had an exception: ", e);
-		} finally {
-			try {
-				in.close();
-			} catch (Exception e) {
-				LOGGER.error("We had an exception during closing: ", e);
-			}
-		}
-	}
+    private void scan(ByteArrayInputStream in, String path) {
+        try {
+            Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+            AutoDetectParser parser = new AutoDetectParser();
+            DefaultHandler handler = new BodyContentHandler();
+            parser.parse(in, handler, metadata);
+            String excelAuthor = metadata.get(Metadata.AUTHOR);
+            getDocument().addUnTokenizedField(FieldNames.XLSAUTHOR,
+                    excelAuthor == null ? "" : excelAuthor);
+            getDocument().addTokenizedField(FieldNames.CONTENTS,
+                    handler.toString());
+
+        } catch (Exception e) {
+            LOGGER.error("We had an exception: ", e);
+        } finally {
+            try {
+                in.close();
+            } catch (Exception e) {
+                LOGGER.error("We had an exception during closing: ", e);
+            }
+        }
+    }
 
 }

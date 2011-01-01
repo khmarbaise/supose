@@ -40,63 +40,69 @@ import com.soebes.supose.FieldNames;
 
 /**
  * The CustomQueryParser handles particular queries for revision ranges.
+ * 
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class CustomQueryParser extends QueryParser {
-	private static Logger LOGGER = Logger.getLogger(CustomQueryParser.class);
-	public CustomQueryParser(FieldNames field, Analyzer analyzer) {
-		super(field.getValue(), analyzer);
-	}
-	public CustomQueryParser(String field, Analyzer analyzer) {
-		super(field, analyzer);
-	}
+    private static Logger LOGGER = Logger.getLogger(CustomQueryParser.class);
 
-	/* (non-Javadoc)
-	 * @see org.apache.lucene.queryParser.QueryParser#getFieldQuery(java.lang.String, java.lang.String)
-	 */
-	@Override
-	protected Query getFieldQuery(String field, String term) throws ParseException {
-		LOGGER.debug("getFieldQuery(): field:" + field + " Term: " + term);
-		//This will handle the situation:
-		// +revision:1
-		if (FieldNames.REVISION.getValue().equals(field)) {
-			int revision = Integer.parseInt(term);
-			term = NumberUtils.pad(revision);
-		}
-		
-		if (FieldNames.FILENAME.getValue().equals(field)) {
-			Term t = new Term(FieldNames.FILENAME.getValue(), term.toLowerCase());
-			TermQuery tq = new TermQuery (t);
-			BooleanQuery bq = new BooleanQuery ();
-			bq.add(tq, Occur.MUST);
-			return bq;
-		}
-		return super.getFieldQuery(field, term);
-	}
-	
-	/**
-	 * Special handling for the "revision" field, pads each part to match how it was
-	 * indexed.
-	 */
-	@Override
-	protected Query getRangeQuery(String field, String part1, String part2,
-		boolean inclusive) throws ParseException {
-		if (FieldNames.REVISION.getValue().equals(field)) {
-			try {
-				int num1 = Integer.parseInt(part1);
-				int num2 = Integer.parseInt(part2);
-				return new RangeQuery(
-					new Term(field, NumberUtils.pad(num1)),
-					new Term(field, NumberUtils.pad(num2)), 
-					inclusive
-				);
-			} catch (NumberFormatException e) {
-				throw new ParseException(e.getMessage());
-			}
-		}
+    public CustomQueryParser(FieldNames field, Analyzer analyzer) {
+        super(field.getValue(), analyzer);
+    }
 
-		return super.getRangeQuery(field, part1, part2, inclusive);
-	}
+    public CustomQueryParser(String field, Analyzer analyzer) {
+        super(field, analyzer);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.apache.lucene.queryParser.QueryParser#getFieldQuery(java.lang.String,
+     * java.lang.String)
+     */
+    @Override
+    protected Query getFieldQuery(String field, String term)
+            throws ParseException {
+        LOGGER.debug("getFieldQuery(): field:" + field + " Term: " + term);
+        // This will handle the situation:
+        // +revision:1
+        if (FieldNames.REVISION.getValue().equals(field)) {
+            int revision = Integer.parseInt(term);
+            term = NumberUtils.pad(revision);
+        }
+
+        if (FieldNames.FILENAME.getValue().equals(field)) {
+            Term t = new Term(FieldNames.FILENAME.getValue(),
+                    term.toLowerCase());
+            TermQuery tq = new TermQuery(t);
+            BooleanQuery bq = new BooleanQuery();
+            bq.add(tq, Occur.MUST);
+            return bq;
+        }
+        return super.getFieldQuery(field, term);
+    }
+
+    /**
+     * Special handling for the "revision" field, pads each part to match how it
+     * was indexed.
+     */
+    @Override
+    protected Query getRangeQuery(String field, String part1, String part2,
+            boolean inclusive) throws ParseException {
+        if (FieldNames.REVISION.getValue().equals(field)) {
+            try {
+                int num1 = Integer.parseInt(part1);
+                int num2 = Integer.parseInt(part2);
+                return new RangeQuery(new Term(field, NumberUtils.pad(num1)),
+                        new Term(field, NumberUtils.pad(num2)), inclusive);
+            } catch (NumberFormatException e) {
+                throw new ParseException(e.getMessage());
+            }
+        }
+
+        return super.getRangeQuery(field, part1, part2, inclusive);
+    }
 
 }

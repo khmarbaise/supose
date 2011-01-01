@@ -35,47 +35,51 @@ import com.soebes.supose.repository.Repository;
 
 /**
  * This class will handle all files types which are not handled by particular
- * implementation of the <code>AScanDocument</code> class.
- * This will happen if we have files like:
- * *.mdb, *....
- * All other types of files (which will be defined by Subversion as Text) 
- * their contents will be indexed.
- * 
+ * implementation of the <code>AScanDocument</code> class. This will happen if
+ * we have files like: *.mdb, *.... All other types of files (which will be
+ * defined by Subversion as Text) their contents will be indexed.
+ *
  * @author Karl Heinz Marbaise
  *
  */
 public class ScanDefaultDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanDefaultDocument.class);
+    private static Logger LOGGER = Logger.getLogger(ScanDefaultDocument.class);
 
-	public ScanDefaultDocument() {
-	}
+    public ScanDefaultDocument() {
+    }
 
-	@Override
-	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning document");
-		
-		try {
-			if (isBinary()) {
-				//We can make a decision to ignore binary content completeley
-				//cause this is the default document scanner.
-//TODO: Check this if this is ok? Or should we simply do not make any entry?
-				LOGGER.debug("We don't scan the contents, cause it's binary.");
-				getDocument().addTokenizedField(FieldNames.CONTENTS, "BINARY CONTENT");
-			} else {
-				LOGGER.debug("We scan the contents, cause it's text.");
-				if (dirEntry.getSize() > 10*1024*1024) {
-					LOGGER.warn("Document size exceeds limit of 10 Mibi!");
-				} else {
-					//Contents will be scanned if it is less than 10 Mibi
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					//This means we get the contents of the file only. No properties.
-					repository.getRepository().getFile(path, revision, null, baos);
-					getDocument().addTokenizedField(FieldNames.CONTENTS, baos.toString());
-				}
-			}
-		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with DefaultDocuments", e);
-		}
-	}
-	
+    @Override
+    public void indexDocument(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        LOGGER.debug("Scanning document");
+
+        try {
+            if (isBinary()) {
+                // We can make a decision to ignore binary content completeley
+                // cause this is the default document scanner.
+                // TODO: Check this if this is ok? Or should we simply do not
+                // make any entry?
+                LOGGER.debug("We don't scan the contents, cause it's binary.");
+                getDocument().addTokenizedField(FieldNames.CONTENTS,
+                "BINARY CONTENT");
+            } else {
+                LOGGER.debug("We scan the contents, cause it's text.");
+                if (dirEntry.getSize() > 10 * 1024 * 1024) {
+                    LOGGER.warn("Document size exceeds limit of 10 Mibi!");
+                } else {
+                    // Contents will be scanned if it is less than 10 Mibi
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    // This means we get the contents of the file only. No
+                    // properties.
+                    repository.getRepository().getFile(path, revision, null,
+                            baos);
+                    getDocument().addTokenizedField(FieldNames.CONTENTS,
+                            baos.toString());
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("Something has gone wrong with DefaultDocuments", e);
+        }
+    }
+
 }

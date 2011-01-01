@@ -30,80 +30,84 @@ package com.soebes.supose.recognition;
  * 
  * If it is a branch the Type.BRANCH whereas the TagType.NONE.
  * 
- * If it is a Tag the Type.TAG whereas the TagType can be TAG, MAVENTAG
- * or SUBVERSIONTAG.
+ * If it is a Tag the Type.TAG whereas the TagType can be TAG, MAVENTAG or
+ * SUBVERSIONTAG.
  * 
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class TagBranch {
 
-	public enum Type {
-		BRANCH,
-		TAG
-	}
+    public enum Type {
+        BRANCH, TAG
+    }
 
-	public enum TagType {
-		NONE,
-		TAG,
-		MAVENTAG,
-		SUBVERSIONTAG
-	}
+    public enum TagType {
+        NONE, TAG, MAVENTAG, SUBVERSIONTAG
+    }
 
-	private Type type;
-	private TagType tagType;
-	private String name;
-	private long revision;
-	private long copyFromRevision;
+    private Type type;
+    private TagType tagType;
+    private String name;
+    private long revision;
+    private long copyFromRevision;
 
-	public TagBranch(String name, long revision, long copyFromRevision, Type type) {
-		super();
-		this.copyFromRevision = copyFromRevision;
-		this.name = name;
-		this.revision = revision;
-		this.type = type;
-		this.tagType = TagType.NONE;
-	}
+    public TagBranch(String name, long revision, long copyFromRevision,
+            Type type) {
+        super();
+        this.copyFromRevision = copyFromRevision;
+        this.name = name;
+        this.revision = revision;
+        this.type = type;
+        this.tagType = TagType.NONE;
+    }
 
-	public TagBranch() {
-		this.name = null;
-		this.type = null;
-		this.revision = -1;
-		this.copyFromRevision = -1;
-		this.tagType = TagType.NONE;
-	}
+    public TagBranch() {
+        this.name = null;
+        this.type = null;
+        this.revision = -1;
+        this.copyFromRevision = -1;
+        this.tagType = TagType.NONE;
+    }
 
-	public long getRevision() {
-		return revision;
-	}
-	public void setRevision(long revision) {
-		this.revision = revision;
-	}
-	public long getCopyFromRevision() {
-		return copyFromRevision;
-	}
-	public void setCopyFromRevision(long copyFromRevision) {
-		this.copyFromRevision = copyFromRevision;
-	}
-	public Type getType() {
-		return type;
-	}
-	public void setType(Type type) {
-		this.type = type;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+    public long getRevision() {
+        return revision;
+    }
 
-	public TagType getTagType() {
-		return tagType;
-	}
+    public void setRevision(long revision) {
+        this.revision = revision;
+    }
 
-	public void setTagType(TagType tagType) {
-		this.tagType = tagType;
-	}
+    public long getCopyFromRevision() {
+        return copyFromRevision;
+    }
+
+    public void setCopyFromRevision(long copyFromRevision) {
+        this.copyFromRevision = copyFromRevision;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public TagType getTagType() {
+        return tagType;
+    }
+
+    public void setTagType(TagType tagType) {
+        this.tagType = tagType;
+    }
 
 }

@@ -46,127 +46,136 @@ import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.ScanRepository;
 
 public class RepositoryScanJob implements InterruptableJob, StatefulJob {
-	private static Logger LOGGER = Logger.getLogger(RepositoryScanJob.class);
+    private static Logger LOGGER = Logger.getLogger(RepositoryScanJob.class);
 
-	private boolean shutdown = false;
+    private boolean shutdown = false;
 
-	private ScanRepository scanRepos = null;
-	private RepositoryJobConfiguration jobConfig = null;
+    private ScanRepository scanRepos = null;
+    private RepositoryJobConfiguration jobConfig = null;
 
-	public RepositoryScanJob () {
-		LOGGER.debug("RepositoryScanJob: ctor called.");
-		scanRepos = new ScanRepository();
-	}
+    public RepositoryScanJob() {
+        LOGGER.debug("RepositoryScanJob: ctor called.");
+        scanRepos = new ScanRepository();
+    }
 
-	private void subexecute (JobExecutionContext context) throws Exception {
-		LOGGER.info(
-				"["
-			+	context.getJobDetail().getName() + "/"
-			+	context.getJobDetail().getFullName()
-			+	"]"
-		);
-		//Ok we get the JobConfiguration information.
-		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
+    private void subexecute(JobExecutionContext context) throws Exception {
+        LOGGER.info("[" + context.getJobDetail().getName() + "/"
+                + context.getJobDetail().getFullName() + "]");
+        // Ok we get the JobConfiguration information.
+        JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 
-		//Get the Repository object which has been initialized in SuposeCLI (runSchedule)
-		Repository repos = (Repository) jobDataMap.get(JobDataNames.REPOSITORY);
-		RepositoryConfiguration reposConfig = (RepositoryConfiguration) jobDataMap.get(JobDataNames.REPOSITORYCONFIGURATION);
+        // Get the Repository object which has been initialized in SuposeCLI
+        // (runSchedule)
+        Repository repos = (Repository) jobDataMap.get(JobDataNames.REPOSITORY);
+        RepositoryConfiguration reposConfig = (RepositoryConfiguration) jobDataMap
+                .get(JobDataNames.REPOSITORYCONFIGURATION);
 
-		String baseDir = (String) jobDataMap.get(JobDataNames.BASEDIR);
+        String baseDir = (String) jobDataMap.get(JobDataNames.BASEDIR);
 
-		LOGGER.info("baseDir:" + baseDir + " URL: " + repos.getUrl() + " Name: " + reposConfig.getRepositoryName());
+        LOGGER.info("baseDir:" + baseDir + " URL: " + repos.getUrl()
+                + " Name: " + reposConfig.getRepositoryName());
 
-		//Read the job configuration, create it if it hasn't existed before...
-		jobConfig = new RepositoryJobConfiguration(baseDir + File.separator + reposConfig.getRepositoryName() + ".ini", reposConfig);
+        // Read the job configuration, create it if it hasn't existed before...
+        jobConfig = new RepositoryJobConfiguration(baseDir + File.separator
+                + reposConfig.getRepositoryName() + ".ini", reposConfig);
 
-		String jobIndexName = baseDir + File.separator + "index." + reposConfig.getRepositoryName();
-		String resultIndexName = baseDir + File.separator + reposConfig.getResultIndex();
+        String jobIndexName = baseDir + File.separator + "index."
+                + reposConfig.getRepositoryName();
+        String resultIndexName = baseDir + File.separator
+                + reposConfig.getResultIndex();
 
-		LOGGER.info("Repository Revision: " + repos.getRepository().getLatestRevision() + " Configuration File FromRev:" + jobConfig.getConfigData().getFromrev());
-		long fromRev = Long.parseLong(jobConfig.getConfigData().getFromrev());
-		if (repos.getRepository().getLatestRevision() > fromRev) {
+        LOGGER.info("Repository Revision: "
+                + repos.getRepository().getLatestRevision()
+                + " Configuration File FromRev:"
+                + jobConfig.getConfigData().getFromrev());
+        long fromRev = Long.parseLong(jobConfig.getConfigData().getFromrev());
+        if (repos.getRepository().getLatestRevision() > fromRev) {
 
-			long startRev = 0;
-			if (jobConfig.isNewCreated()) {
-				LOGGER.info("This is the first time we scan the repository.");
-				startRev = jobConfig.getReposConfig().getFromRev();
-			} else {
-				LOGGER.info("This is n'th time we scan the repository.");
-				startRev = fromRev+1;
-			}
-			long endRev = repos.getRepository().getLatestRevision();
-			scanRepos.setRepository(repos);
-			scanRepos.setStartRevision(startRev);
-			scanRepos.setEndRevision(endRev);
-			scanRepos.setName(reposConfig.getRepositoryName());
+            long startRev = 0;
+            if (jobConfig.isNewCreated()) {
+                LOGGER.info("This is the first time we scan the repository.");
+                startRev = jobConfig.getReposConfig().getFromRev();
+            } else {
+                LOGGER.info("This is n'th time we scan the repository.");
+                startRev = fromRev + 1;
+            }
+            long endRev = repos.getRepository().getLatestRevision();
+            scanRepos.setRepository(repos);
+            scanRepos.setStartRevision(startRev);
+            scanRepos.setEndRevision(endRev);
+            scanRepos.setName(reposConfig.getRepositoryName());
 
-			LOGGER.info("Scanning: startRev:" + startRev + " endRev:" + endRev);
+            LOGGER.info("Scanning: startRev:" + startRev + " endRev:" + endRev);
 
-    		ScheduleInterceptor interceptor = new ScheduleInterceptor();
-    		scanRepos.registerScanInterceptor(interceptor);
-    		
-    		SchedulerLogEntryInterceptor logEntryInterceptor = new SchedulerLogEntryInterceptor();
-    		scanRepos.registerLogEntryInterceptor(logEntryInterceptor);
+            ScheduleInterceptor interceptor = new ScheduleInterceptor();
+            scanRepos.registerScanInterceptor(interceptor);
 
-//    		CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
-//    		scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
-        	
-			Index index = new Index ();
-			//We will allways create a new index.
-			index.setCreate(true);
-			IndexWriter indexWriter = index.createIndexWriter(jobIndexName);
-			
-			//New revision exist 'till the last scanning...
-			//scan the content
-			scanRepos.scan(indexWriter);
+            SchedulerLogEntryInterceptor logEntryInterceptor = new SchedulerLogEntryInterceptor();
+            scanRepos.registerLogEntryInterceptor(logEntryInterceptor);
 
-			//The last step after scanning will be to optimize this index and close it.
-			try {
-				indexWriter.optimize();
-				indexWriter.close();
-			} catch (CorruptIndexException e) {
-				LOGGER.error("Corrupted index: ", e);
-			} catch (IOException e) {
-				LOGGER.error("IOException during closing of index: ", e);
-			}
+            // CLIChangeSetInterceptor changeSetInterceptor = new
+            // CLIChangeSetInterceptor();
+            // scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
 
-			//Merge the created index into the target index...
-			IndexHelper.mergeIndex(resultIndexName, jobIndexName);
+            Index index = new Index();
+            // We will allways create a new index.
+            index.setCreate(true);
+            IndexWriter indexWriter = index.createIndexWriter(jobIndexName);
 
-			//save the configuration file with the new revision numbers.
-			jobConfig.getConfigData().setFromrev(Long.toString(endRev));
-			//store the changed configuration items.
+            // New revision exist 'till the last scanning...
+            // scan the content
+            scanRepos.scan(indexWriter);
 
-			LOGGER.info("Revision: FromRev:" + jobConfig.getConfigData().getFromrev() + " ToRev:" + jobConfig.getConfigData().getTorev());
-			jobConfig.save();
-		} else {
-			LOGGER.info("Nothing to do, cause no changes had been made at the repository.");
-			//Nothing to do, cause no new revision are existing...
-		}
-		LOGGER.info("RepositoryScanJob: scanning repository done...");
-	}
+            // The last step after scanning will be to optimize this index and
+            // close it.
+            try {
+                indexWriter.optimize();
+                indexWriter.close();
+            } catch (CorruptIndexException e) {
+                LOGGER.error("Corrupted index: ", e);
+            } catch (IOException e) {
+                LOGGER.error("IOException during closing of index: ", e);
+            }
 
-	
-	public void execute(JobExecutionContext context) throws JobExecutionException {
-		try {
-			subexecute(context);
-		} catch (Exception e) {
-			LOGGER.error("We had an unexpected Exception: ", e);
-		}
-	}
+            // Merge the created index into the target index...
+            IndexHelper.mergeIndex(resultIndexName, jobIndexName);
 
-	public void interrupt() throws UnableToInterruptJobException {
-		LOGGER.info("Shutdown Signal received.");
-		setShutdown(true);
-		scanRepos.setAbbort(true);
-	}
+            // save the configuration file with the new revision numbers.
+            jobConfig.getConfigData().setFromrev(Long.toString(endRev));
+            // store the changed configuration items.
 
-	public void setShutdown(boolean shutdown) {
-		this.shutdown = shutdown;
-	}
+            LOGGER.info("Revision: FromRev:"
+                    + jobConfig.getConfigData().getFromrev() + " ToRev:"
+                    + jobConfig.getConfigData().getTorev());
+            jobConfig.save();
+        } else {
+            LOGGER.info("Nothing to do, cause no changes had been made at the repository.");
+            // Nothing to do, cause no new revision are existing...
+        }
+        LOGGER.info("RepositoryScanJob: scanning repository done...");
+    }
 
-	public boolean isShutdown() {
-		return shutdown;
-	}
-	
+    public void execute(JobExecutionContext context)
+            throws JobExecutionException {
+        try {
+            subexecute(context);
+        } catch (Exception e) {
+            LOGGER.error("We had an unexpected Exception: ", e);
+        }
+    }
+
+    public void interrupt() throws UnableToInterruptJobException {
+        LOGGER.info("Shutdown Signal received.");
+        setShutdown(true);
+        scanRepos.setAbbort(true);
+    }
+
+    public void setShutdown(boolean shutdown) {
+        this.shutdown = shutdown;
+    }
+
+    public boolean isShutdown() {
+        return shutdown;
+    }
+
 }

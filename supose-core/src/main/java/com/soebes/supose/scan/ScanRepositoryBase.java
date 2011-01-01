@@ -36,54 +36,57 @@ import com.soebes.supose.scan.interceptors.ScanInterceptor;
  * maintenance.
  * 
  * @author Karl Heinz Marbaise
- *
+ * 
  */
-public class ScanRepositoryBase extends ScanRepositoryBaseLogEntry implements ScanInterceptor {
-	private static Logger LOGGER = Logger.getLogger(ScanRepositoryBase.class);
+public class ScanRepositoryBase extends ScanRepositoryBaseLogEntry implements
+        ScanInterceptor {
+    private static Logger LOGGER = Logger.getLogger(ScanRepositoryBase.class);
 
-	private ArrayList<ScanInterceptor> interceptors;
+    private ArrayList<ScanInterceptor> interceptors;
 
-	public ScanRepositoryBase() {
-		super();
-		setInterceptors(new ArrayList<ScanInterceptor>());
-	}
+    public ScanRepositoryBase() {
+        super();
+        setInterceptors(new ArrayList<ScanInterceptor>());
+    }
 
-	public void scanEndRevision(Long count, Long revision, Integer changeSetSize) {
-		LOGGER.trace("scanEndRevision()");
-		for (ScanInterceptor item : getInterceptors()) {
-			item.scanEndRevision(count, revision, changeSetSize);
-		}
-	}
+    public void scanEndRevision(Long count, Long revision, Integer changeSetSize) {
+        LOGGER.trace("scanEndRevision()");
+        for (ScanInterceptor item : getInterceptors()) {
+            item.scanEndRevision(count, revision, changeSetSize);
+        }
+    }
 
-	public void scanStart(Integer revision) {
-		LOGGER.trace("scanStart()");
-		for (ScanInterceptor item : getInterceptors()) {
-			item.scanStart(revision);
-		}
-	}
-	public void scanStop() {
-		LOGGER.trace("scanStop()");
-		for (ScanInterceptor item : getInterceptors()) {
-			item.scanStop();
-		}
-	}
+    public void scanStart(Integer revision) {
+        LOGGER.trace("scanStart()");
+        for (ScanInterceptor item : getInterceptors()) {
+            item.scanStart(revision);
+        }
+    }
 
-	public void scanBeginRevision(Long count, Long revision, Integer changeSetSize) {
-		LOGGER.trace("scanBeginRevision()");
-		for (ScanInterceptor item : getInterceptors()) {
-			item.scanBeginRevision(count, revision, changeSetSize);
-		}
-	}
+    public void scanStop() {
+        LOGGER.trace("scanStop()");
+        for (ScanInterceptor item : getInterceptors()) {
+            item.scanStop();
+        }
+    }
 
-	public void setInterceptors(ArrayList<ScanInterceptor> interceptors) {
-		this.interceptors = interceptors;
-	}
+    public void scanBeginRevision(Long count, Long revision,
+            Integer changeSetSize) {
+        LOGGER.trace("scanBeginRevision()");
+        for (ScanInterceptor item : getInterceptors()) {
+            item.scanBeginRevision(count, revision, changeSetSize);
+        }
+    }
 
-	public ArrayList<ScanInterceptor> getInterceptors() {
-		return interceptors;
-	}
+    public void setInterceptors(ArrayList<ScanInterceptor> interceptors) {
+        this.interceptors = interceptors;
+    }
 
-	public void registerScanInterceptor(ScanInterceptor interceptor) {
-		getInterceptors().add(interceptor);
-	}
+    public ArrayList<ScanInterceptor> getInterceptors() {
+        return interceptors;
+    }
+
+    public void registerScanInterceptor(ScanInterceptor interceptor) {
+        getInterceptors().add(interceptor);
+    }
 }

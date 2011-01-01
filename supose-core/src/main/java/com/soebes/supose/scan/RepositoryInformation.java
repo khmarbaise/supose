@@ -32,18 +32,20 @@ import org.tmatesoft.svn.core.SVNException;
 import com.soebes.supose.repository.Repository;
 
 public class RepositoryInformation {
-	private static Logger LOGGER = Logger.getLogger(RepositoryInformation.class);
-	
-	
-	public static SVNDirEntry getInformationAboutEntry(Repository repository, long revision, String path) {
-		SVNDirEntry dirEntry = null;
-		try {
-			LOGGER.debug("getInformationAboutEntry() name:" + path + " rev:" + revision);
-			dirEntry = repository.getRepository().info(path, revision);
-		} catch (SVNException e) {
-			LOGGER.error("Unexpected Exception: ", e);
-		}
-		return dirEntry;
-	}
+    private static Logger LOGGER = Logger
+            .getLogger(RepositoryInformation.class);
+
+    public static SVNDirEntry getInformationAboutEntry(Repository repository,
+            long revision, String path) {
+        SVNDirEntry dirEntry = null;
+        try {
+            LOGGER.debug("getInformationAboutEntry() name:" + path + " rev:"
+                    + revision);
+            dirEntry = repository.getRepository().info(path, revision);
+        } catch (SVNException e) {
+            LOGGER.error("Unexpected Exception: ", e);
+        }
+        return dirEntry;
+    }
 
 }

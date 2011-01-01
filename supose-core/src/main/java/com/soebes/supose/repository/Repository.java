@@ -40,27 +40,28 @@ import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
  *
  */
 public class Repository {
-	private static Logger LOGGER = Logger.getLogger(Repository.class);
+    private static Logger LOGGER = Logger.getLogger(Repository.class);
 
-	private String url = null;
-	private SVNRepository repository = null;
-	private ISVNAuthenticationManager authManager = null;
+    private String url = null;
+    private SVNRepository repository = null;
+    private ISVNAuthenticationManager authManager = null;
 
-	private String uuid = null;
+    private String uuid = null;
 
-	/**
-	 * This will initialize the SVNKit library.
-	 * @param url The url of the repository we would 
-	 *   like to do a connection to.
-	 * @param authManager This will define the Authentication manager which 
-	 *   is used.
-	 * @see ISVNAuthenticationManager
-	 */
-	public Repository (String url, ISVNAuthenticationManager authManager) {
-		setUrl(url);
-		setAuthenticationManager(authManager);
+    /**
+     * This will initialize the SVNKit library.
+     *
+     * @param url
+     *            The url of the repository we would like to do a connection to.
+     * @param authManager
+     *            This will define the Authentication manager which is used.
+     * @see ISVNAuthenticationManager
+     */
+    public Repository(String url, ISVNAuthenticationManager authManager) {
+        setUrl(url);
+        setAuthenticationManager(authManager);
 
-		/*
+        /*
          * For using over http:// and https://
          */
         DAVRepositoryFactory.setup();
@@ -68,100 +69,103 @@ public class Repository {
          * For using over svn:// and svn+xxx://
          */
         SVNRepositoryFactoryImpl.setup();
-        
+
         /*
          * For using over file:///
          */
         FSRepositoryFactory.setup();
-        
+
         initRepository();
         repository.setAuthenticationManager(getAuthManager());
 
-	}
+    }
 
-
-	/**
-	 * This will try to do a connection to the repository.
-	 * This is used to check the the user name/password combination.
-	 * @return If true the connection could be established success full
-	 *  false otherwise.
-	 */
-	public boolean validConnection() {
-		LOGGER.debug("Trying to make a connection to the repository.");
-		try {
-			repository.testConnection();
-			setUuid(repository.getRepositoryUUID(false));
-		} catch (SVNException e) {
-			LOGGER.error("Connection to the repository has failed. URL or username/password is not correct. ", e);
-			return false;
-		}
-		LOGGER.info("Successfull connection made to the repository.");
-		return true;
-	}
-
-	/**
-	 * This will initialize the repository access, based on the given 
-	 * <code>repositoryURL</code>.
-	 */
-	private void initRepository () {
+    /**
+     * This will try to do a connection to the repository. This is used to check
+     * the the user name/password combination.
+     *
+     * @return If true the connection could be established success full false
+     *         otherwise.
+     */
+    public boolean validConnection() {
+        LOGGER.debug("Trying to make a connection to the repository.");
         try {
-        	LOGGER.info("We are trying to create an Repository instance.");
+            repository.testConnection();
+            setUuid(repository.getRepositoryUUID(false));
+        } catch (SVNException e) {
+            LOGGER.error(
+                    "Connection to the repository has failed. URL or username/password is not correct. ",
+                    e);
+            return false;
+        }
+        LOGGER.info("Successfull connection made to the repository.");
+        return true;
+    }
+
+    /**
+     * This will initialize the repository access, based on the given
+     * <code>repositoryURL</code>.
+     */
+    private void initRepository() {
+        try {
+            LOGGER.info("We are trying to create an Repository instance.");
             /*
              * Creates an instance of SVNRepository to work with the repository.
              * All user's requests to the repository are relative to the
-             * repository location used to create this SVNRepository.
-             * SVNURL is a wrapper for URL strings that refer to repository locations.
+             * repository location used to create this SVNRepository. SVNURL is
+             * a wrapper for URL strings that refer to repository locations.
              */
-            repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(getUrl()));
+            repository = SVNRepositoryFactory.create(SVNURL
+                    .parseURIEncoded(getUrl()));
         } catch (SVNException svne) {
-        	//This can only happen if we use a protocol which is not registered.
-        	//Missing initialization of the library.
-        	LOGGER.error("Error while creationg SVNRepository for location '" + getUrl() + "' ", svne);
+            // This can only happen if we use a protocol which is not
+            // registered.
+            // Missing initialization of the library.
+            LOGGER.error("Error while creationg SVNRepository for location '"
+                    + getUrl() + "' ", svne);
         }
-	}
+    }
 
-	public void close() {
-		LOGGER.debug("Trying to close the repository Session.");
-		if (repository != null) {
-			repository.closeSession();
-			LOGGER.debug("Repository session closes.");
-		} else {
-			LOGGER.error("You've tried to close a repository session, but you didn't open one!");
-		}
-	}
+    public void close() {
+        LOGGER.debug("Trying to close the repository Session.");
+        if (repository != null) {
+            repository.closeSession();
+            LOGGER.debug("Repository session closes.");
+        } else {
+            LOGGER.error("You've tried to close a repository session, but you didn't open one!");
+        }
+    }
 
-	public void setAuthenticationManager(ISVNAuthenticationManager authManager) {
-		this.authManager = authManager;
-	}
-	
-	public String getUrl() {
-		return url;
-	}
+    public void setAuthenticationManager(ISVNAuthenticationManager authManager) {
+        this.authManager = authManager;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public SVNRepository getRepository() {
-		return repository;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public void setRepository(SVNRepository repository) {
-		this.repository = repository;
-	}
+    public SVNRepository getRepository() {
+        return repository;
+    }
 
-	public ISVNAuthenticationManager getAuthManager() {
-		return authManager;
-	}
+    public void setRepository(SVNRepository repository) {
+        this.repository = repository;
+    }
 
+    public ISVNAuthenticationManager getAuthManager() {
+        return authManager;
+    }
 
-	public String getUuid() {
-		return uuid;
-	}
+    public String getUuid() {
+        return uuid;
+    }
 
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
 }

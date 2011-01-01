@@ -31,157 +31,153 @@ import com.soebes.supose.config.ini.IniFileEntryNames;
 
 /**
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class RepositoryConfiguration {
 
-	private Section section;
-	
-	private String repositoryName;
+    private Section section;
 
-	public RepositoryConfiguration(Section section, String repositoryName) {
-		setRepositoryName(repositoryName);
-		setSection(section);
-	}
+    private String repositoryName;
 
-	public String getIndexUsername() {
-		return section.get(IniFileEntryNames.INDEXUSERNAME);
-	}
+    public RepositoryConfiguration(Section section, String repositoryName) {
+        setRepositoryName(repositoryName);
+        setSection(section);
+    }
 
-	public boolean existIndexUsername() {
-		if (	getIndexUsername() == null 
-			||	getIndexUsername().trim().length() == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    public String getIndexUsername() {
+        return section.get(IniFileEntryNames.INDEXUSERNAME);
+    }
 
-	public void setIndexUsername(String username) {
-		section.put(IniFileEntryNames.INDEXUSERNAME, username);
-	}
+    public boolean existIndexUsername() {
+        if (getIndexUsername() == null
+                || getIndexUsername().trim().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	public String getIndexPassword() {
-		return section.get(IniFileEntryNames.INDEXPASSWORD);
-	}
+    public void setIndexUsername(String username) {
+        section.put(IniFileEntryNames.INDEXUSERNAME, username);
+    }
 
-	public boolean existIndexPassword() {
-		if (	getIndexPassword() == null 
-			||	getIndexPassword().trim().length() == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    public String getIndexPassword() {
+        return section.get(IniFileEntryNames.INDEXPASSWORD);
+    }
 
-	public void setIndexPassword(String password) {
-		section.put(IniFileEntryNames.INDEXPASSWORD, password);
-	}
+    public boolean existIndexPassword() {
+        if (getIndexPassword() == null
+                || getIndexPassword().trim().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	private String getFromRevStr () {
-		return section.get(IniFileEntryNames.FROMREV);
-	}
+    public void setIndexPassword(String password) {
+        section.put(IniFileEntryNames.INDEXPASSWORD, password);
+    }
 
-	public long getFromRev() {
-		return Long.parseLong(getFromRevStr());
-	}
+    private String getFromRevStr() {
+        return section.get(IniFileEntryNames.FROMREV);
+    }
 
-	public boolean existFromRev() {
-		if (getFromRevStr() == null) {
-			return false;
-		} else if (getFromRevStr().trim().length() == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	public void setFromRev(long rev) {
-		section.put(IniFileEntryNames.FROMREV, Long.toString(rev));
-	}
+    public long getFromRev() {
+        return Long.parseLong(getFromRevStr());
+    }
 
-	public String getToRev() {
-		return section.get(IniFileEntryNames.TOREV);
-	}
+    public boolean existFromRev() {
+        if (getFromRevStr() == null) {
+            return false;
+        } else if (getFromRevStr().trim().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	public boolean existToRev() {
-		if (	getToRev() == null 
-			||	getToRev().trim().length() == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	public void setToRev(String rev) {
-		section.put(IniFileEntryNames.TOREV, rev);
-	}
+    public void setFromRev(long rev) {
+        section.put(IniFileEntryNames.FROMREV, Long.toString(rev));
+    }
 
-	public String getUrl() {
-		return section.get(IniFileEntryNames.URL);
-	}
+    public String getToRev() {
+        return section.get(IniFileEntryNames.TOREV);
+    }
 
-	public boolean existUrl() {
-		if (	getUrl() == null 
-			||	getUrl().trim().length() == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    public boolean existToRev() {
+        if (getToRev() == null || getToRev().trim().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	public void setUrl(String url) {
-		section.put(IniFileEntryNames.URL, url);
-	}
+    public void setToRev(String rev) {
+        section.put(IniFileEntryNames.TOREV, rev);
+    }
 
-	public Section getSection() {
-		return section;
-	}
+    public String getUrl() {
+        return section.get(IniFileEntryNames.URL);
+    }
 
-	public void setSection(Section section) {
-		this.section = section;
-	}
-	
-	public String getCron() {
-		return section.get(IniFileEntryNames.CRON);
-	}
+    public boolean existUrl() {
+        if (getUrl() == null || getUrl().trim().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	public boolean existCron() {
-		if (	getCron() == null 
-			||	getCron().trim().length() == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    public void setUrl(String url) {
+        section.put(IniFileEntryNames.URL, url);
+    }
 
-	public void setCron(String cron) {
-		section.put(IniFileEntryNames.CRON, cron);
-	}
+    public Section getSection() {
+        return section;
+    }
 
-	public String getResultIndex() {
-		return section.get(IniFileEntryNames.RESULTINDEX);
-	}
+    public void setSection(Section section) {
+        this.section = section;
+    }
 
-	public boolean existResultIndex() {
-		if (	getResultIndex() == null 
-			||	getResultIndex().trim().length() == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    public String getCron() {
+        return section.get(IniFileEntryNames.CRON);
+    }
 
-	public void setResultIndex (String result) {
-		section.put(IniFileEntryNames.RESULTINDEX, result);
-	}
-	
-	public String getRepositoryName() {
-		return repositoryName;
-	}
+    public boolean existCron() {
+        if (getCron() == null || getCron().trim().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	public void setRepositoryName(String repositoryName) {
-		this.repositoryName = repositoryName;
-	}
+    public void setCron(String cron) {
+        section.put(IniFileEntryNames.CRON, cron);
+    }
+
+    public String getResultIndex() {
+        return section.get(IniFileEntryNames.RESULTINDEX);
+    }
+
+    public boolean existResultIndex() {
+        if (getResultIndex() == null || getResultIndex().trim().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void setResultIndex(String result) {
+        section.put(IniFileEntryNames.RESULTINDEX, result);
+    }
+
+    public String getRepositoryName() {
+        return repositoryName;
+    }
+
+    public void setRepositoryName(String repositoryName) {
+        this.repositoryName = repositoryName;
+    }
 
 }

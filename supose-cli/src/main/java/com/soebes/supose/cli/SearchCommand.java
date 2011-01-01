@@ -39,7 +39,7 @@ import com.soebes.supose.FieldNames;
 
 /**
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class SearchCommand extends CLIBase {
 
@@ -48,112 +48,103 @@ public class SearchCommand extends CLIBase {
     private Option optionFields = null;
     private Option optionXML = null;
 
-	public SearchCommand() {
-		setCommand(createCommand());
-	}
+    public SearchCommand() {
+        setCommand(createCommand());
+    }
 
-	private Command createCommand() {
-		/*
-		 * 
-		 * suposecli search --index indexDirectory "Query"
-		 */
+    private Command createCommand() {
+        /*
+         * 
+         * suposecli search --index indexDirectory "Query"
+         */
 
-    	optionIndex = obuilder
-			.withShortName("I")
-			.withLongName("index")
-			.withArgument(abuilder.withName("index").create())
-			.withDescription("Define the index directory where to find the index.")
-			.create();
+        optionIndex = obuilder
+                .withShortName("I")
+                .withLongName("index")
+                .withArgument(abuilder.withName("index").create())
+                .withDescription(
+                        "Define the index directory where to find the index.")
+                .create();
 
-    	optionQuery = obuilder
-			.withShortName("Q")
-			.withLongName("query")
-			.withArgument(abuilder.withName("query").create())
-			.withDescription("Define the query which will be executed.")
-			.create();
+        optionQuery = obuilder.withShortName("Q").withLongName("query")
+                .withArgument(abuilder.withName("query").create())
+                .withDescription("Define the query which will be executed.")
+                .create();
 
-    	optionXML = obuilder
-			.withShortName("x")
-			.withLongName("xml")
-			.withDescription("Output in XML")
-			.create();
+        optionXML = obuilder.withShortName("x").withLongName("xml")
+                .withDescription("Output in XML").create();
 
-		Set<String> enumSetFields = new TreeSet<String>();
-		for (FieldNames item : FieldNames.values()) {
-			enumSetFields.add(item.getValue());
-		}
-    	EnumValidator fieldValidator = new EnumValidator(enumSetFields);
-    	optionFields = obuilder
-	    	.withShortName("F")
-	    	.withLongName("fields")
-	    	.withArgument(
-	    		abuilder
-	    		.withName("fields")
-	    		.withValidator(fieldValidator)
-	    		.create()
-	    	)
-	    	.withDescription("Define the fields which will be shown on the result set.")
-	    	.create();
-    	
-    	Group optionSearch = gbuilder
-    		.withOption(optionIndex)
-    		.withOption(optionQuery)
-    		.withOption(optionFields)
-    		.withOption(optionXML)
-    		.create();
-    	
-    	return cbuilder
-	    	.withName("search")
-	    	.withName("se")
-	    	.withDescription("Search within index with particular query.")
-	    	.withChildren(optionSearch)
-	    	.create();
-	}
+        Set<String> enumSetFields = new TreeSet<String>();
+        for (FieldNames item : FieldNames.values()) {
+            enumSetFields.add(item.getValue());
+        }
+        EnumValidator fieldValidator = new EnumValidator(enumSetFields);
+        optionFields = obuilder
+                .withShortName("F")
+                .withLongName("fields")
+                .withArgument(
+                        abuilder.withName("fields")
+                                .withValidator(fieldValidator).create())
+                .withDescription(
+                        "Define the fields which will be shown on the result set.")
+                .create();
 
-	public Option getOptionIndex() {
-		return optionIndex;
-	}
-	public Option getOptionQuery() {
-		return optionQuery;
-	}
-	public Option getOptionFields() {
-		return optionFields;
-	}
-	public Option getOptionXML() {
-		return optionXML;
-	}
+        Group optionSearch = gbuilder.withOption(optionIndex)
+                .withOption(optionQuery).withOption(optionFields)
+                .withOption(optionXML).create();
 
-	@SuppressWarnings("unchecked")
-	public String getIndexDir (CommandLine cline) {
-		List<String> list = cline.getValues((getOptionIndex()));
-		if (list == null || list.size() == 0) {
-			return "indexDir.test";
-		} else {
-			return list.get(0);
-		}
-	}
+        return cbuilder.withName("search").withName("se")
+                .withDescription("Search within index with particular query.")
+                .withChildren(optionSearch).create();
+    }
 
-	@SuppressWarnings("unchecked")
-	public String getQuery (CommandLine cline) {
-		List<String> list = cline.getValues((getOptionQuery()));
+    public Option getOptionIndex() {
+        return optionIndex;
+    }
 
-		String result = "";
-		if (list == null || list.size() == 0) {
-			return result;
-		}
-		for(int i=0; i<list.size(); i++) {
-			result += " " + list.get(i);
-		}
-		return result;
-	}
-	
-	public boolean getXML(CommandLine cline) {
-		return cline.hasOption((getOptionXML()));
-	}
+    public Option getOptionQuery() {
+        return optionQuery;
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<String> getFields(CommandLine cline) {
-		return cline.getValues(getOptionFields());
-	}
+    public Option getOptionFields() {
+        return optionFields;
+    }
+
+    public Option getOptionXML() {
+        return optionXML;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getIndexDir(CommandLine cline) {
+        List<String> list = cline.getValues((getOptionIndex()));
+        if (list == null || list.size() == 0) {
+            return "indexDir.test";
+        } else {
+            return list.get(0);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getQuery(CommandLine cline) {
+        List<String> list = cline.getValues((getOptionQuery()));
+
+        String result = "";
+        if (list == null || list.size() == 0) {
+            return result;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            result += " " + list.get(i);
+        }
+        return result;
+    }
+
+    public boolean getXML(CommandLine cline) {
+        return cline.hasOption((getOptionXML()));
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getFields(CommandLine cline) {
+        return cline.getValues(getOptionFields());
+    }
 
 }

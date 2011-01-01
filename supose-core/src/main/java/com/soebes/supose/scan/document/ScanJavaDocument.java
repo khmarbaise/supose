@@ -25,7 +25,6 @@
 
 package com.soebes.supose.scan.document;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -43,53 +42,55 @@ import com.soebes.supose.parse.java.JavaParser;
 import com.soebes.supose.repository.Repository;
 
 public class ScanJavaDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanJavaDocument.class);
+    private static Logger LOGGER = Logger.getLogger(ScanJavaDocument.class);
 
-	@Override
-	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning Java file");
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			//This means we get the contents of the file only. No properties.
-			repository.getRepository().getFile(path, revision, null, baos);
-			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
+    @Override
+    public void indexDocument(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        LOGGER.debug("Scanning Java file");
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // This means we get the contents of the file only. No properties.
+            repository.getRepository().getFile(path, revision, null, baos);
+            ByteArrayInputStream str = new ByteArrayInputStream(
+                    baos.toByteArray());
 
-			scanJavaFile(str);
-		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: ", e);
-		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with JavaDocuments ", e);
-		}
-		LOGGER.debug("Scanning of Java file done.");
-	}
+            scanJavaFile(str);
+        } catch (SVNException e) {
+            LOGGER.error("Exception by SVN: ", e);
+        } catch (Exception e) {
+            LOGGER.error("Something has gone wrong with JavaDocuments ", e);
+        }
+        LOGGER.debug("Scanning of Java file done.");
+    }
 
-	
-	private void scanJavaFile(ByteArrayInputStream bais) throws Exception {
-		ANTLRInputStream input = new ANTLRInputStream(bais);
-		JavaLexer lexer = new JavaLexer(input);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		JavaParser parser = new JavaParser(tokens);
+    private void scanJavaFile(ByteArrayInputStream bais) throws Exception {
+        ANTLRInputStream input = new ANTLRInputStream(bais);
+        JavaLexer lexer = new JavaLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        JavaParser parser = new JavaParser(tokens);
 
-		try {
-			LOGGER.debug("Parsing Java file");
-			parser.compilationUnit();
-			LOGGER.debug("Parsing Java file done.");
-			HashMap<?, ?> methods = parser.getMethods();
-			for (Iterator<?> iter = methods.keySet().iterator(); iter.hasNext(); ) {
-				String key = (String) iter.next();
-				//The value will give the information what kind of method we had..
-				//Not working yet...
-//				String value = (String) methods.get(key);
-				getDocument().addTokenizedField(FieldNames.METHODS, key);
-				LOGGER.debug("Method: " + key);
-			}
+        try {
+            LOGGER.debug("Parsing Java file");
+            parser.compilationUnit();
+            LOGGER.debug("Parsing Java file done.");
+            HashMap<?, ?> methods = parser.getMethods();
+            for (Iterator<?> iter = methods.keySet().iterator(); iter.hasNext();) {
+                String key = (String) iter.next();
+                // The value will give the information what kind of method we
+                // had..
+                // Not working yet...
+                // String value = (String) methods.get(key);
+                getDocument().addTokenizedField(FieldNames.METHODS, key);
+                LOGGER.debug("Method: " + key);
+            }
 
-			//Get all comments in file...
-			for (String item : lexer.getComments()) {
-				getDocument().addTokenizedField(FieldNames.COMMENTS, item);
-			}
-		} catch (Exception e) {
-			LOGGER.error("We had an error during the parsing process.", e);
-		}		
-	}
+            // Get all comments in file...
+            for (String item : lexer.getComments()) {
+                getDocument().addTokenizedField(FieldNames.COMMENTS, item);
+            }
+        } catch (Exception e) {
+            LOGGER.error("We had an error during the parsing process.", e);
+        }
+    }
 }

@@ -44,51 +44,53 @@ import com.soebes.supose.repository.Repository;
  *
  */
 public class ScanPowerPointDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanPowerPointDocument.class);
+    private static Logger LOGGER = Logger
+    .getLogger(ScanPowerPointDocument.class);
 
-	public ScanPowerPointDocument() {
-	}
+    public ScanPowerPointDocument() {
+    }
 
-	@Override
-	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning document");
+    @Override
+    public void indexDocument(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        LOGGER.debug("Scanning document");
 
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // This means we get the contents of the file only. No properties.
+            repository.getRepository().getFile(path, revision, null, baos);
+            ByteArrayInputStream str = new ByteArrayInputStream(
+                    baos.toByteArray());
 
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			//This means we get the contents of the file only. No properties.
-			repository.getRepository().getFile(path, revision, null, baos);
-			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
+            scan(str, path);
+        } catch (SVNException e) {
+            LOGGER.error("Exception by SVN: ", e);
+        } catch (Exception e) {
+            LOGGER.error("Something has gone wrong with WordDocuments ", e);
+        }
+    }
 
-			scan(str, path);
-		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN: ", e);
-		} catch (Exception e) {
-			LOGGER.error("Something has gone wrong with WordDocuments ", e);
-		}
-	}
+    private void scan(ByteArrayInputStream in, String path) {
+        try {
+            Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+            AutoDetectParser parser = new AutoDetectParser();
+            DefaultHandler handler = new BodyContentHandler();
+            parser.parse(in, handler, metadata);
 
-	
-	private void scan(ByteArrayInputStream in, String path) {
-		try {
-			Metadata metadata = new Metadata();
-			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
-			AutoDetectParser parser = new AutoDetectParser();
-			DefaultHandler handler = new BodyContentHandler();
-			parser.parse(in, handler, metadata);
+            // TODO: Check if can get more information out of the PPT file.
+            // like AUTHOR, KEYWORDS etc.
+            getDocument().addTokenizedField(FieldNames.CONTENTS,
+                    handler.toString());
+        } catch (Exception e) {
+            LOGGER.error("We had an exception: ", e);
+        } finally {
+            try {
+                in.close();
+            } catch (Exception e) {
+                LOGGER.error("We had an exception during closing: ", e);
+            }
+        }
+    }
 
-//TODO: Check if can get more information out of the PPT file.
-			//like AUTHOR, KEYWORDS etc.
-			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
-		} catch (Exception e) {
-			LOGGER.error("We had an exception: ", e);
-		} finally {
-			try {
-				in.close();
-			} catch (Exception e) {
-				LOGGER.error("We had an exception during closing: ", e);
-			}
-		}
-	}
-	
 }

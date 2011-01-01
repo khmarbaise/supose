@@ -32,55 +32,56 @@ import org.apache.log4j.Logger;
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 
-
 /**
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class ConfigurationRepositories {
-	private static Logger LOGGER = Logger.getLogger(ConfigurationRepositories.class);
+    private static Logger LOGGER = Logger
+            .getLogger(ConfigurationRepositories.class);
 
-	private String configFile;
-	private Ini iniFile;
+    private String configFile;
+    private Ini iniFile;
 
-	public ConfigurationRepositories(String configFile) {
-		setConfigFile(configFile);
-		try {
-			iniFile = new Ini(new FileInputStream(configFile));
-		} catch (InvalidFileFormatException e) {
-			LOGGER.error("The format of the given INI is not correct. ", e);
-		} catch (IOException e) {
-			LOGGER.error("Some problems happen with the INI File ", e);
-		}
-	}
+    public ConfigurationRepositories(String configFile) {
+        setConfigFile(configFile);
+        try {
+            iniFile = new Ini(new FileInputStream(configFile));
+        } catch (InvalidFileFormatException e) {
+            LOGGER.error("The format of the given INI is not correct. ", e);
+        } catch (IOException e) {
+            LOGGER.error("Some problems happen with the INI File ", e);
+        }
+    }
 
-	/**
-	 * Get the names of the repositories.
-	 * @return Array of all available repositories.
-	 */
-	public String[] getNames() {
-		int size = iniFile.keySet().size();
-		return (String[]) iniFile.keySet().toArray(new String[size]);
-	}
-	
-	public RepositoryConfiguration getRepositoryConfiguration(String name) {
-		LOGGER.debug("getRepositoryConfiguration(" + name + ")");
-		return new RepositoryConfiguration(iniFile.get(name), name);
-	}
+    /**
+     * Get the names of the repositories.
+     * 
+     * @return Array of all available repositories.
+     */
+    public String[] getNames() {
+        int size = iniFile.keySet().size();
+        return (String[]) iniFile.keySet().toArray(new String[size]);
+    }
 
-	public String getConfigFile() {
-		return configFile;
-	}
+    public RepositoryConfiguration getRepositoryConfiguration(String name) {
+        LOGGER.debug("getRepositoryConfiguration(" + name + ")");
+        return new RepositoryConfiguration(iniFile.get(name), name);
+    }
 
-	public void setConfigFile(String configFile) {
-		this.configFile = configFile;
-	}
+    public String getConfigFile() {
+        return configFile;
+    }
 
-	public Ini getIniFile() {
-		return iniFile;
-	}
+    public void setConfigFile(String configFile) {
+        this.configFile = configFile;
+    }
 
-	public void setIniFile(Ini iniFile) {
-		this.iniFile = iniFile;
-	}
+    public Ini getIniFile() {
+        return iniFile;
+    }
+
+    public void setIniFile(Ini iniFile) {
+        this.iniFile = iniFile;
+    }
 }

@@ -32,18 +32,18 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import com.soebes.supose.repository.Repository;
 
 public class RepositoryFactory {
-	private static Logger LOGGER = Logger.getLogger(RepositoryFactory.class);
+    private static Logger LOGGER = Logger.getLogger(RepositoryFactory.class);
 
-	public static Repository createInstance (RepositoryConfiguration reposConfig) {
+    public static Repository createInstance(RepositoryConfiguration reposConfig) {
 
-		LOGGER.info("Trying to make an authorization (" 
-			+ reposConfig.getIndexUsername() + "/" 
-			+ reposConfig.getIndexPassword()  + ") to the Repository: " 
-			+ reposConfig.getUrl());
-		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
-			reposConfig.getIndexUsername(), 
-			reposConfig.getIndexPassword()
-		);
-		return new Repository (reposConfig.getUrl(), authManager);
-	}
+        LOGGER.info("Trying to make an authorization ("
+                + reposConfig.getIndexUsername() + "/"
+                + reposConfig.getIndexPassword() + ") to the Repository: "
+                + reposConfig.getUrl());
+        ISVNAuthenticationManager authManager = SVNWCUtil
+                .createDefaultAuthenticationManager(
+                        reposConfig.getIndexUsername(),
+                        reposConfig.getIndexPassword());
+        return new Repository(reposConfig.getUrl(), authManager);
+    }
 }

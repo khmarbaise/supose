@@ -50,5 +50,5 @@ public class CLIBase {
 	public void setCommand(Command command) {
 		this.command = command;
 	}
-	
+
 }

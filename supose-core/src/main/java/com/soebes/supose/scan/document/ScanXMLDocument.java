@@ -45,44 +45,52 @@ import com.soebes.supose.repository.Repository;
  * @author Karl Heinz Marbaise
  */
 public class ScanXMLDocument extends AScanDocument {
-	private static Logger LOGGER = Logger.getLogger(ScanXMLDocument.class);
+    private static Logger LOGGER = Logger.getLogger(ScanXMLDocument.class);
 
-	public ScanXMLDocument() {
-	}
+    public ScanXMLDocument() {
+    }
 
-	@Override
-	public void indexDocument(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		LOGGER.debug("Scanning document");
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			//This means we get the contents of the file only. No properties.
-			repository.getRepository().getFile(path, revision, null, baos);
-			ByteArrayInputStream str = new ByteArrayInputStream(baos.toByteArray());
-			scan(str, path, dirEntry);
-		} catch (SVNException e) {
-			LOGGER.error("Exception by SVN " + path + " (r" + dirEntry.getRevision() + ")", e);
-		} catch (Exception e) {
-			LOGGER.error("Other Exception with the XML document " + path + " (r" + dirEntry.getRevision() + ")", e);
-		}
-	}
+    @Override
+    public void indexDocument(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        LOGGER.debug("Scanning document");
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // This means we get the contents of the file only. No properties.
+            repository.getRepository().getFile(path, revision, null, baos);
+            ByteArrayInputStream str = new ByteArrayInputStream(
+                    baos.toByteArray());
+            scan(str, path, dirEntry);
+        } catch (SVNException e) {
+            LOGGER.error(
+                    "Exception by SVN " + path + " (r" + dirEntry.getRevision()
+                    + ")", e);
+        } catch (Exception e) {
+            LOGGER.error("Other Exception with the XML document " + path
+                    + " (r" + dirEntry.getRevision() + ")", e);
+        }
+    }
 
-	private void scan(ByteArrayInputStream in, String path, SVNDirEntry dirEntry) {
-		try {
-			Metadata metadata = new Metadata();
-			metadata.set(Metadata.RESOURCE_NAME_KEY, path);
-			AutoDetectParser parser = new AutoDetectParser();
-			DefaultHandler handler = new BodyContentHandler();
-			parser.parse(in, handler, metadata);
-			getDocument().addTokenizedField(FieldNames.CONTENTS, handler.toString());
-		} catch (Exception e) {
-			LOGGER.error("We had an exception " + path + " (r" + dirEntry.getRevision() + ")", e);
-		} finally {
-			try {
-				in.close();
-			} catch (Exception e) {
-				LOGGER.error("We had an exception during closing: ", e);
-			}
-		}
-	}
+    private void scan(ByteArrayInputStream in, String path, SVNDirEntry dirEntry) {
+        try {
+            Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, path);
+            AutoDetectParser parser = new AutoDetectParser();
+            DefaultHandler handler = new BodyContentHandler();
+            parser.parse(in, handler, metadata);
+            getDocument().addTokenizedField(FieldNames.CONTENTS,
+                    handler.toString());
+        } catch (Exception e) {
+            LOGGER.error(
+                    "We had an exception " + path + " (r"
+                    + dirEntry.getRevision() + ")", e);
+        } finally {
+            try {
+                in.close();
+            } catch (Exception e) {
+                LOGGER.error("We had an exception during closing: ", e);
+            }
+        }
+    }
 
 }

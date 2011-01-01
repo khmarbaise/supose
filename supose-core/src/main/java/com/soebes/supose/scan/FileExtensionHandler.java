@@ -37,69 +37,81 @@ import com.soebes.supose.utility.FileName;
 
 /**
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class FileExtensionHandler {
-	private RevisionDocument doc;
+    private RevisionDocument doc;
 
-	private SVNProperties fileProperties;
+    private SVNProperties fileProperties;
 
-	private static Logger LOGGER = Logger.getLogger(FileExtensionProperty.class);
+    private static Logger LOGGER = Logger
+            .getLogger(FileExtensionProperty.class);
 
-	public void execute(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		FileName fn = new FileName(path);
+    public void execute(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        FileName fn = new FileName(path);
 
-		//Check if we have an extension...
-		if (fn.getExt().length() > 0) {
-			try {
-				String className = FileExtensionProperty.getInstance().getProperty(fn.getExt());
-				try {
-					Class<?> handlerClass = Class.forName(className);
-					AScanDocument dh = (AScanDocument) handlerClass.newInstance();
-					dh.setProperties(getFileProperties());
-					dh.setDocument(doc);
-					dh.indexDocument(repository, dirEntry, path, revision);
-				} catch (ClassNotFoundException e) {
-					LOGGER.error("Cannot create instance of : " + className, e);
-				} catch (InstantiationException e) {
-					LOGGER.error("Cannot create an instance of : " + className, e);
-				} catch (IllegalAccessException e) {
-					LOGGER.error("Illegal Access of instance of : " + className, e);
-				} catch (Exception e) {
-					LOGGER.error("Exception happened during scanning of " + dirEntry.getName() + " for class " + className, e);
-				}
-			} catch (Exception e) {
-				//There is no entry for the extension so we use the default
-				//scanner for all other document types.
-				LOGGER.warn("There is no property entry defined for the file extension '" + fn.getExt() + "' (" + dirEntry.getRevision() + ")", e);
-				indexDefaultDoc(repository, dirEntry, path, revision);
-			}
-		} else {
-			LOGGER.warn("We have no file extension found for the file '" + path + "' (r" + dirEntry.getRevision() + ")");
-			indexDefaultDoc(repository, dirEntry, path, revision);
-		}
-	}
+        // Check if we have an extension...
+        if (fn.getExt().length() > 0) {
+            try {
+                String className = FileExtensionProperty.getInstance()
+                        .getProperty(fn.getExt());
+                try {
+                    Class<?> handlerClass = Class.forName(className);
+                    AScanDocument dh = (AScanDocument) handlerClass
+                            .newInstance();
+                    dh.setProperties(getFileProperties());
+                    dh.setDocument(doc);
+                    dh.indexDocument(repository, dirEntry, path, revision);
+                } catch (ClassNotFoundException e) {
+                    LOGGER.error("Cannot create instance of : " + className, e);
+                } catch (InstantiationException e) {
+                    LOGGER.error("Cannot create an instance of : " + className,
+                            e);
+                } catch (IllegalAccessException e) {
+                    LOGGER.error(
+                            "Illegal Access of instance of : " + className, e);
+                } catch (Exception e) {
+                    LOGGER.error("Exception happened during scanning of "
+                            + dirEntry.getName() + " for class " + className, e);
+                }
+            } catch (Exception e) {
+                // There is no entry for the extension so we use the default
+                // scanner for all other document types.
+                LOGGER.warn(
+                        "There is no property entry defined for the file extension '"
+                                + fn.getExt() + "' (" + dirEntry.getRevision()
+                                + ")", e);
+                indexDefaultDoc(repository, dirEntry, path, revision);
+            }
+        } else {
+            LOGGER.warn("We have no file extension found for the file '" + path
+                    + "' (r" + dirEntry.getRevision() + ")");
+            indexDefaultDoc(repository, dirEntry, path, revision);
+        }
+    }
 
-	 public void indexDefaultDoc(Repository repository, SVNDirEntry dirEntry, String path, long revision) {
-		 AScanDocument dh = new ScanDefaultDocument();
-		 dh.setProperties(getFileProperties());
-		 dh.setDocument(doc);
-		 dh.indexDocument(repository, dirEntry, path, revision);
-	}
+    public void indexDefaultDoc(Repository repository, SVNDirEntry dirEntry,
+            String path, long revision) {
+        AScanDocument dh = new ScanDefaultDocument();
+        dh.setProperties(getFileProperties());
+        dh.setDocument(doc);
+        dh.indexDocument(repository, dirEntry, path, revision);
+    }
 
-	 public RevisionDocument getDoc() {
-		return doc;
-	}
+    public RevisionDocument getDoc() {
+        return doc;
+    }
 
-	public void setDoc(RevisionDocument doc) {
-		this.doc = doc;
-	}
+    public void setDoc(RevisionDocument doc) {
+        this.doc = doc;
+    }
 
-	public SVNProperties getFileProperties() {
-		return fileProperties;
-	}
+    public SVNProperties getFileProperties() {
+        return fileProperties;
+    }
 
-	public void setFileProperties(SVNProperties fileProperties) {
-		this.fileProperties = fileProperties;
-	}
+    public void setFileProperties(SVNProperties fileProperties) {
+        this.fileProperties = fileProperties;
+    }
 }

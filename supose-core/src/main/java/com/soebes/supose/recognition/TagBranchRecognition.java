@@ -41,211 +41,232 @@ import com.soebes.supose.repository.Repository;
  * This class is intended to analyze if a tag or branch is on hand.
  * 
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class TagBranchRecognition {
-	private static Logger LOGGER = Logger.getLogger(TagBranchRecognition.class);
+    private static Logger LOGGER = Logger.getLogger(TagBranchRecognition.class);
 
-	/**
-	 * @FIXME: Move this constants to a configuration file. 
-	 */
-	public static final String TAGS = "/tags/";
-	/**
-	 * @FIXME: Move this constants to a configuration file. 
-	 */
-	public static final String MAVEN_TAG_PREFIX = "[maven-release-plugin]  copy for tag ";
+    /**
+     * @FIXME: Move this constants to a configuration file.
+     */
+    public static final String TAGS = "/tags/";
+    /**
+     * @FIXME: Move this constants to a configuration file.
+     */
+    public static final String MAVEN_TAG_PREFIX = "[maven-release-plugin]  copy for tag ";
 
-	private Repository repository = null;
+    private Repository repository = null;
 
-	private EntryCache entryCache = null;
+    private EntryCache entryCache = null;
 
-	public TagBranchRecognition(Repository repository) {
-		setRepository(repository);
-		setEntryCache(new EntryCache(repository));
-	}
+    public TagBranchRecognition(Repository repository) {
+        setRepository(repository);
+        setEntryCache(new EntryCache(repository));
+    }
 
-	/**
-	 * A <a href="http://maven.apache.org">Maven</a> tag is currently 
-	 * based on a <a href="http://svnbook.red-bean.com/en/1.5/svn-book.html#svn.branchmerge.tags.mkcomplex">complex tag</a> 
-	 * in Subversion.
-	 * @param result
-	 * @param logEntry
-	 * @param changedPathsSet
-	 * @return Will return the TagType or null if no appropriate Type (Maven Tag) has been found.
-	 */
-	public TagBranch checkForMavenTag(
-			SVNLogEntry logEntry, 
-			Set<?> changedPathsSet 
-		) {
-		TagBranch result = null;
-		//The log message is the first indication for a maven tag...
-		if (!logEntry.getMessage().startsWith(MAVEN_TAG_PREFIX)) {
-			return result;
-		}
+    /**
+     * A <a href="http://maven.apache.org">Maven</a> tag is currently based on a
+     * <a href=
+     * "http://svnbook.red-bean.com/en/1.5/svn-book.html#svn.branchmerge.tags.mkcomplex"
+     * >complex tag</a> in Subversion.
+     * 
+     * @param result
+     * @param logEntry
+     * @param changedPathsSet
+     * @return Will return the TagType or null if no appropriate Type (Maven
+     *         Tag) has been found.
+     */
+    public TagBranch checkForMavenTag(SVNLogEntry logEntry,
+            Set<?> changedPathsSet) {
+        TagBranch result = null;
+        // The log message is the first indication for a maven tag...
+        if (!logEntry.getMessage().startsWith(MAVEN_TAG_PREFIX)) {
+            return result;
+        }
 
-		//The first assumption the log message is correct...
-		for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
-			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
+        // The first assumption the log message is correct...
+        for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths
+                .hasNext();) {
+            SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry
+                    .getChangedPaths().get(changedPaths.next());
 
-			if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
-				if (entryPath.getCopyPath() != null) {
-					SVNDirEntry destEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getPath());
-					SVNDirEntry sourceEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getCopyPath());
-					
-					TagBranch bt = new TagBranch();
-					bt.setName(entryPath.getPath());
-					bt.setRevision(logEntry.getRevision());
-					bt.setCopyFromRevision(entryPath.getCopyRevision());
+            if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
+                if (entryPath.getCopyPath() != null) {
+                    SVNDirEntry destEntry = getEntryCache().getEntry(
+                            logEntry.getRevision(), entryPath.getPath());
+                    SVNDirEntry sourceEntry = getEntryCache().getEntry(
+                            logEntry.getRevision(), entryPath.getCopyPath());
 
-					//Source and destination of the copy operation must be a directory
-					if (	destEntry.getKind() == SVNNodeKind.DIR
-						&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
+                    TagBranch bt = new TagBranch();
+                    bt.setName(entryPath.getPath());
+                    bt.setRevision(logEntry.getRevision());
+                    bt.setCopyFromRevision(entryPath.getCopyRevision());
 
-						//If we the /tags/ part this is assumed to be a Tag.
-						if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
-							bt.setType(TagBranch.Type.TAG);
-							bt.setTagType(TagBranch.TagType.MAVENTAG);
-							//Interception Point: MavenTagRecognized()
-							result = bt;
-							LOGGER.debug("Maven tag recognized");
-						}
-					}
-				}
-			}
-		}
-		return result;
-	}
+                    // Source and destination of the copy operation must be a
+                    // directory
+                    if (destEntry.getKind() == SVNNodeKind.DIR
+                            && sourceEntry.getKind() == SVNNodeKind.DIR) {
 
-	/**
-	 * This method will check entries within a ChangeSet to check 
-	 * if a Tag/Branch has been created.
-	 * The first indication is the copy operation which has been done
-	 * and the ChangeSet does contain only a single
-	 * (<a href="http://www.supose.org/issues/show/106">Issue 106</a>).
-	 *   
-	 * @param result
-	 * @param logEntry
-	 * @param changedPathsSet
-	 */
-	public TagBranch checkForTagOrBranch(
-		SVNLogEntry logEntry, 
-		Set<?> changedPathsSet
-		) {
+                        // If we the /tags/ part this is assumed to be a Tag.
+                        if (entryPath.getPath().contains(
+                                TagBranchRecognition.TAGS)) {
+                            bt.setType(TagBranch.Type.TAG);
+                            bt.setTagType(TagBranch.TagType.MAVENTAG);
+                            // Interception Point: MavenTagRecognized()
+                            result = bt;
+                            LOGGER.debug("Maven tag recognized");
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
-		TagBranch result = null;
-		Iterator<?> changedPaths = changedPathsSet.iterator();
-		SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
+    /**
+     * This method will check entries within a ChangeSet to check if a
+     * Tag/Branch has been created. The first indication is the copy operation
+     * which has been done and the ChangeSet does contain only a single (<a
+     * href="http://www.supose.org/issues/show/106">Issue 106</a>).
+     * 
+     * @param result
+     * @param logEntry
+     * @param changedPathsSet
+     */
+    public TagBranch checkForTagOrBranch(SVNLogEntry logEntry,
+            Set<?> changedPathsSet) {
 
-		//a copy-to has happened so we can have a branch or a tag?
-		if (entryPath.getCopyPath() != null) {
-			SVNDirEntry destEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getPath());
-			SVNDirEntry sourceEntry = getEntryCache().getEntry (entryPath.getCopyRevision(), entryPath.getCopyPath());
-			
-			//Source and destination of the copy operation must be a directories
-			if (	destEntry.getKind() == SVNNodeKind.DIR
-				&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
-				TagBranch bt = new TagBranch();
-				bt.setName(entryPath.getPath());
-				bt.setRevision(logEntry.getRevision());
-				bt.setCopyFromRevision(entryPath.getCopyRevision());
-				if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
-					//Interception Point: tagRecognized()
-					bt.setType(TagBranch.Type.TAG);
-					bt.setTagType(TagType.TAG);
-				} else {
-					bt.setType(TagBranch.Type.BRANCH);
-					bt.setTagType(TagType.NONE);
-					//Interception Point: branchRecognized()
-				}
-				result = bt;
-			}
+        TagBranch result = null;
+        Iterator<?> changedPaths = changedPathsSet.iterator();
+        SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry
+                .getChangedPaths().get(changedPaths.next());
 
-		}
-		return result;
-	}
+        // a copy-to has happened so we can have a branch or a tag?
+        if (entryPath.getCopyPath() != null) {
+            SVNDirEntry destEntry = getEntryCache().getEntry(
+                    logEntry.getRevision(), entryPath.getPath());
+            SVNDirEntry sourceEntry = getEntryCache().getEntry(
+                    entryPath.getCopyRevision(), entryPath.getCopyPath());
 
-	/**
-	 * This method will recognize a Subversion Tag. This kind of tags is
-	 * used by the Subversion team to mark a particular release.
-	 * 
-	 * The following pattern defines such kind of Subversion Tag.
-	 * <pre>
-	 * A /tags/RELEASE-1.0.0 (from: /branches/1.6.1:39700)
-	 * M /tags/RELEASE-1.0.0/svn_version.h</pre>
-	 * 
-	 * In Subversion terms it's called a complex tag.
-	 * (<a href="http://www.supose.org/issues/show/196">Feature 196</a>).
-	 * 
-	 * @param logEntry
-	 * @param changedPathsSet
-	 * @return null otherwise the information about the complex tag.
-	 */
-	public TagBranch checkForSubverisonTag(SVNLogEntry logEntry, Set<?> changedPathsSet) {
-		TagBranch result = null;
+            // Source and destination of the copy operation must be a
+            // directories
+            if (destEntry.getKind() == SVNNodeKind.DIR
+                    && sourceEntry.getKind() == SVNNodeKind.DIR) {
+                TagBranch bt = new TagBranch();
+                bt.setName(entryPath.getPath());
+                bt.setRevision(logEntry.getRevision());
+                bt.setCopyFromRevision(entryPath.getCopyRevision());
+                if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
+                    // Interception Point: tagRecognized()
+                    bt.setType(TagBranch.Type.TAG);
+                    bt.setTagType(TagType.TAG);
+                } else {
+                    bt.setType(TagBranch.Type.BRANCH);
+                    bt.setTagType(TagType.NONE);
+                    // Interception Point: branchRecognized()
+                }
+                result = bt;
+            }
 
-		//The first assumption the log message is correct...
-		for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths.hasNext();) {
+        }
+        return result;
+    }
 
-			SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry.getChangedPaths().get(changedPaths.next());
-			
-			if (entryPath.getType() == SVNLogEntryPath.TYPE_MODIFIED) {
-				//No copy operation has taken place.
-				if (entryPath.getCopyPath() == null) {
-					SVNDirEntry destEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getPath());
-					if (destEntry.getKind() == SVNNodeKind.FILE) {
-						//That might be a candidate...
-						if (result != null) {
-							if (entryPath.getPath().startsWith(result.getName())) {
-								//If the modification is done in the Tags path...
-								//Interception Point: subversionTagRecognized()
-								result.setTagType(TagType.SUBVERSIONTAG);
-							} else {
-								result = null;
-							}
-						}
-					}
-				}
-			} else if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
-				//The usual Tag part... /tags/RELEASE-1.0.0 (from: /trunk:23)				
-				if (entryPath.getCopyPath() != null) {
-					SVNDirEntry destEntry = getEntryCache().getEntry (logEntry.getRevision(), entryPath.getPath());
-					SVNDirEntry sourceEntry = getEntryCache().getEntry (entryPath.getCopyRevision(), entryPath.getCopyPath());
-					TagBranch bt = new TagBranch();
-					bt.setName(entryPath.getPath());
-					bt.setRevision(logEntry.getRevision());
-					bt.setCopyFromRevision(entryPath.getCopyRevision());
+    /**
+     * This method will recognize a Subversion Tag. This kind of tags is used by
+     * the Subversion team to mark a particular release.
+     * 
+     * The following pattern defines such kind of Subversion Tag.
+     * 
+     * <pre>
+     * A /tags/RELEASE-1.0.0 (from: /branches/1.6.1:39700)
+     * M /tags/RELEASE-1.0.0/svn_version.h
+     * </pre>
+     * 
+     * In Subversion terms it's called a complex tag. (<a
+     * href="http://www.supose.org/issues/show/196">Feature 196</a>).
+     * 
+     * @param logEntry
+     * @param changedPathsSet
+     * @return null otherwise the information about the complex tag.
+     */
+    public TagBranch checkForSubverisonTag(SVNLogEntry logEntry,
+            Set<?> changedPathsSet) {
+        TagBranch result = null;
 
-					//Source and destination of the copy operation must be a directory
-					if (	destEntry.getKind() == SVNNodeKind.DIR
-						&&	sourceEntry.getKind() == SVNNodeKind.DIR) {
+        // The first assumption the log message is correct...
+        for (Iterator<?> changedPaths = changedPathsSet.iterator(); changedPaths
+                .hasNext();) {
 
-						//If we the /tags/ part this is assumed to be a Tag.
-						if (entryPath.getPath().contains(TagBranchRecognition.TAGS)) {
-							bt.setType(TagBranch.Type.TAG);
-							bt.setTagType(TagType.TAG);
-							result = bt;
-						}
-					}
-				}
-			}
-		}
-		return result;
-	}
+            SVNLogEntryPath entryPath = (SVNLogEntryPath) logEntry
+                    .getChangedPaths().get(changedPaths.next());
 
-	public Repository getRepository() {
-		return repository;
-	}
+            if (entryPath.getType() == SVNLogEntryPath.TYPE_MODIFIED) {
+                // No copy operation has taken place.
+                if (entryPath.getCopyPath() == null) {
+                    SVNDirEntry destEntry = getEntryCache().getEntry(
+                            logEntry.getRevision(), entryPath.getPath());
+                    if (destEntry.getKind() == SVNNodeKind.FILE) {
+                        // That might be a candidate...
+                        if (result != null) {
+                            if (entryPath.getPath()
+                                    .startsWith(result.getName())) {
+                                // If the modification is done in the Tags
+                                // path...
+                                // Interception Point: subversionTagRecognized()
+                                result.setTagType(TagType.SUBVERSIONTAG);
+                            } else {
+                                result = null;
+                            }
+                        }
+                    }
+                }
+            } else if (entryPath.getType() == SVNLogEntryPath.TYPE_ADDED) {
+                // The usual Tag part... /tags/RELEASE-1.0.0 (from: /trunk:23)
+                if (entryPath.getCopyPath() != null) {
+                    SVNDirEntry destEntry = getEntryCache().getEntry(
+                            logEntry.getRevision(), entryPath.getPath());
+                    SVNDirEntry sourceEntry = getEntryCache().getEntry(
+                            entryPath.getCopyRevision(),
+                            entryPath.getCopyPath());
+                    TagBranch bt = new TagBranch();
+                    bt.setName(entryPath.getPath());
+                    bt.setRevision(logEntry.getRevision());
+                    bt.setCopyFromRevision(entryPath.getCopyRevision());
 
-	public void setRepository(Repository repository) {
-		this.repository = repository;
-	}
+                    // Source and destination of the copy operation must be a
+                    // directory
+                    if (destEntry.getKind() == SVNNodeKind.DIR
+                            && sourceEntry.getKind() == SVNNodeKind.DIR) {
 
-	public EntryCache getEntryCache() {
-		return entryCache;
-	}
+                        // If we the /tags/ part this is assumed to be a Tag.
+                        if (entryPath.getPath().contains(
+                                TagBranchRecognition.TAGS)) {
+                            bt.setType(TagBranch.Type.TAG);
+                            bt.setTagType(TagType.TAG);
+                            result = bt;
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
-	public void setEntryCache(EntryCache entryCache) {
-		this.entryCache = entryCache;
-	}
+    public Repository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
+    }
+
+    public EntryCache getEntryCache() {
+        return entryCache;
+    }
+
+    public void setEntryCache(EntryCache entryCache) {
+        this.entryCache = entryCache;
+    }
 
 }

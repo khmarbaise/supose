@@ -43,102 +43,108 @@ import com.soebes.supose.config.ini.IReposConfig;
  * @author Karl Heinz Marbaise
  */
 public class RepositoryJobConfiguration {
-	private static Logger LOGGER = Logger.getLogger(RepositoryJobConfiguration.class);
-	
-	private String REPOSITORY_CONFIG_SECTION = "repositoryJobConfiguration"; 
+    private static Logger LOGGER = Logger
+            .getLogger(RepositoryJobConfiguration.class);
 
-	private String configFile;
-	private Ini iniFile;
-	private boolean newCreated;
+    private String REPOSITORY_CONFIG_SECTION = "repositoryJobConfiguration";
 
-	private IReposConfig configData;
+    private String configFile;
+    private Ini iniFile;
+    private boolean newCreated;
 
-	private RepositoryConfiguration reposConfig;
+    private IReposConfig configData;
 
-	public RepositoryJobConfiguration(String configFile, RepositoryConfiguration reposConfig) throws Exception {
-		setConfigFile(configFile);
-		setReposConfig(reposConfig);
-		File f = new File(configFile);
-		if (f.exists()) {
-			setNewCreated(false);
-			try {
-				FileInputStream fin = new FileInputStream(f);
-				iniFile = new Ini(fin);
-				configData = iniFile.get(REPOSITORY_CONFIG_SECTION).as(IReposConfig.class);
-			} catch (InvalidFileFormatException e) {
-				LOGGER.error("The format of the given INI is not correct. ", e);
-				throw e;
-			} catch (IOException e) {
-				LOGGER.error("Some problems happen with the INI File ", e);
-				throw e;
-			}
-		} else {
-			LOGGER.debug("We will create a new configuration file " + configFile);
-			setNewCreated(true);
-			//The first time. We will create a new configuration file.
-			iniFile = new Ini();
-			iniFile.add(REPOSITORY_CONFIG_SECTION);
-			configData = iniFile.get(REPOSITORY_CONFIG_SECTION).as(IReposConfig.class);
-			configData.setFromrev(Long.toString(reposConfig.getFromRev()));
-			configData.setTorev(reposConfig.getToRev());
-			try {
-				if (f.createNewFile()) {
-					FileWriter out = new FileWriter(f);
-					iniFile.store(out);
-					out.close();
-				}
-			} catch (Exception e) {
-				LOGGER.error("We had a problem to write the new configuration file ", e);
-			}
-		}
-	}
+    private RepositoryConfiguration reposConfig;
 
-	public RepositoryConfiguration getReposConfig() {
-		return reposConfig;
-	}
+    public RepositoryJobConfiguration(String configFile,
+            RepositoryConfiguration reposConfig) throws Exception {
+        setConfigFile(configFile);
+        setReposConfig(reposConfig);
+        File f = new File(configFile);
+        if (f.exists()) {
+            setNewCreated(false);
+            try {
+                FileInputStream fin = new FileInputStream(f);
+                iniFile = new Ini(fin);
+                configData = iniFile.get(REPOSITORY_CONFIG_SECTION).as(
+                        IReposConfig.class);
+            } catch (InvalidFileFormatException e) {
+                LOGGER.error("The format of the given INI is not correct. ", e);
+                throw e;
+            } catch (IOException e) {
+                LOGGER.error("Some problems happen with the INI File ", e);
+                throw e;
+            }
+        } else {
+            LOGGER.debug("We will create a new configuration file "
+                    + configFile);
+            setNewCreated(true);
+            // The first time. We will create a new configuration file.
+            iniFile = new Ini();
+            iniFile.add(REPOSITORY_CONFIG_SECTION);
+            configData = iniFile.get(REPOSITORY_CONFIG_SECTION).as(
+                    IReposConfig.class);
+            configData.setFromrev(Long.toString(reposConfig.getFromRev()));
+            configData.setTorev(reposConfig.getToRev());
+            try {
+                if (f.createNewFile()) {
+                    FileWriter out = new FileWriter(f);
+                    iniFile.store(out);
+                    out.close();
+                }
+            } catch (Exception e) {
+                LOGGER.error(
+                        "We had a problem to write the new configuration file ",
+                        e);
+            }
+        }
+    }
 
-	public void setReposConfig(RepositoryConfiguration reposConfig) {
-		this.reposConfig = reposConfig;
-	}
+    public RepositoryConfiguration getReposConfig() {
+        return reposConfig;
+    }
 
-	public void save() {
-		try {
-			LOGGER.debug("Trying to write new configuration.");
-			FileWriter out = new FileWriter(new File(getConfigFile()));
-			Section sec = iniFile.get(REPOSITORY_CONFIG_SECTION);
-			sec.from(configData);
-			iniFile.store(out);
-			out.close();
-			LOGGER.debug("Writing of new configuration file '" + getConfigFile() + "'sucessful.");
-		} catch (Exception e) {
-			LOGGER.error("Unexpected exception: ", e);
-		}
-	}
+    public void setReposConfig(RepositoryConfiguration reposConfig) {
+        this.reposConfig = reposConfig;
+    }
 
-	public String getConfigFile() {
-		return configFile;
-	}
+    public void save() {
+        try {
+            LOGGER.debug("Trying to write new configuration.");
+            FileWriter out = new FileWriter(new File(getConfigFile()));
+            Section sec = iniFile.get(REPOSITORY_CONFIG_SECTION);
+            sec.from(configData);
+            iniFile.store(out);
+            out.close();
+            LOGGER.debug("Writing of new configuration file '"
+                    + getConfigFile() + "'sucessful.");
+        } catch (Exception e) {
+            LOGGER.error("Unexpected exception: ", e);
+        }
+    }
 
-	public void setConfigFile(String configFile) {
-		this.configFile = configFile;
-	}
+    public String getConfigFile() {
+        return configFile;
+    }
 
-	public boolean isNewCreated() {
-		return newCreated;
-	}
+    public void setConfigFile(String configFile) {
+        this.configFile = configFile;
+    }
 
-	public void setNewCreated(boolean newCreated) {
-		this.newCreated = newCreated;
-	}
+    public boolean isNewCreated() {
+        return newCreated;
+    }
 
-	public IReposConfig getConfigData() {
-		return configData;
-	}
+    public void setNewCreated(boolean newCreated) {
+        this.newCreated = newCreated;
+    }
 
-	public void setConfigData(IReposConfig configData) {
-		this.configData = configData;
-	}
+    public IReposConfig getConfigData() {
+        return configData;
+    }
 
+    public void setConfigData(IReposConfig configData) {
+        this.configData = configData;
+    }
 
 }
-

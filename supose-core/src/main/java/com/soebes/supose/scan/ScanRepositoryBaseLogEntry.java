@@ -32,46 +32,49 @@ import org.tmatesoft.svn.core.SVNLogEntry;
 
 import com.soebes.supose.scan.interceptors.LogEntryInterceptor;
 
-public class ScanRepositoryBaseLogEntry extends ScanRepositoryBaseChangeSet implements LogEntryInterceptor {
-	private static Logger LOGGER = Logger.getLogger(ScanRepositoryBaseLogEntry.class);
-	private ArrayList<LogEntryInterceptor> logEntryInterceptors;
+public class ScanRepositoryBaseLogEntry extends ScanRepositoryBaseChangeSet
+        implements LogEntryInterceptor {
+    private static Logger LOGGER = Logger
+            .getLogger(ScanRepositoryBaseLogEntry.class);
+    private ArrayList<LogEntryInterceptor> logEntryInterceptors;
 
-	public ScanRepositoryBaseLogEntry() {
-		super();
-		setLogEntryInterceptors(new ArrayList<LogEntryInterceptor>());
-	}
+    public ScanRepositoryBaseLogEntry() {
+        super();
+        setLogEntryInterceptors(new ArrayList<LogEntryInterceptor>());
+    }
 
-	public void LogEntryStart() {
-		LOGGER.trace("LogEntryStart()");
-		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
-			item.LogEntryStart();
-		}
-	}
+    public void LogEntryStart() {
+        LOGGER.trace("LogEntryStart()");
+        for (LogEntryInterceptor item : getLogEntryInterceptors()) {
+            item.LogEntryStart();
+        }
+    }
 
-	public void LogEntry(SVNLogEntry logEntry) {
-		LOGGER.trace("LogEntry()");
-		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
-			item.LogEntry(logEntry);
-		}
-	}
+    public void LogEntry(SVNLogEntry logEntry) {
+        LOGGER.trace("LogEntry()");
+        for (LogEntryInterceptor item : getLogEntryInterceptors()) {
+            item.LogEntry(logEntry);
+        }
+    }
 
-	public void LogEntryStop() {
-		LOGGER.trace("LogEntryStop()");
-		for (LogEntryInterceptor item : getLogEntryInterceptors()) {
-			item.LogEntryStop();
-		}
-	}
-	
-	public void registerLogEntryInterceptor(LogEntryInterceptor interceptor) {
-		getLogEntryInterceptors().add(interceptor);
-	}
+    public void LogEntryStop() {
+        LOGGER.trace("LogEntryStop()");
+        for (LogEntryInterceptor item : getLogEntryInterceptors()) {
+            item.LogEntryStop();
+        }
+    }
 
-	public void setLogEntryInterceptors(ArrayList<LogEntryInterceptor> logEntryInterceptors) {
-		this.logEntryInterceptors = logEntryInterceptors;
-	}
+    public void registerLogEntryInterceptor(LogEntryInterceptor interceptor) {
+        getLogEntryInterceptors().add(interceptor);
+    }
 
-	public ArrayList<LogEntryInterceptor> getLogEntryInterceptors() {
-		return logEntryInterceptors;
-	}
+    public void setLogEntryInterceptors(
+            ArrayList<LogEntryInterceptor> logEntryInterceptors) {
+        this.logEntryInterceptors = logEntryInterceptors;
+    }
+
+    public ArrayList<LogEntryInterceptor> getLogEntryInterceptors() {
+        return logEntryInterceptors;
+    }
 
 }

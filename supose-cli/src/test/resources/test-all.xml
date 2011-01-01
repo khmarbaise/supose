@@ -1,11 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 
-<suite name="AllTestsSuiteName">
+<suite
+    name="AllTestsSuiteName">
 
-	<test name="AllTestsTestName" >
-		<packages>
-			<package name="com.soebes.supose.*"/>
-		</packages>
-	</test>
+    <test
+        name="AllTestsTestName">
+        <packages>
+            <package
+                name="com.soebes.supose.*" />
+        </packages>
+    </test>
 
 </suite>

@@ -35,39 +35,48 @@ import org.testng.annotations.Test;
 
 @Test
 public class RepositoryJobConfigurationTest {
-	private static Logger LOGGER = Logger.getLogger(RepositoryJobConfigurationTest.class);
+    private static Logger LOGGER = Logger
+            .getLogger(RepositoryJobConfigurationTest.class);
 
-	
-	private String mavenBaseDir = System.getProperty("basedir", "." );
-	
-	private String targetDir = mavenBaseDir + "/target";
-	
-	private RepositoryJobConfiguration jobConfig = null;
+    private String mavenBaseDir = System.getProperty("basedir", ".");
 
-	public void testInitialization() throws Exception {
-		File f = new File(mavenBaseDir + "/target/repojobconfig.ini");
-		if (f.exists()) {
-			f.delete();
-		}
-//		String f = getFileResource("/com/soebes/supose/config/configuration-repository.ini");
-        ConfigurationRepositories confRepos = new ConfigurationRepositories(mavenBaseDir + "/src/test/resources/com/soebes/supose/config/configuration-repository.ini");
+    private String targetDir = mavenBaseDir + "/target";
+
+    private RepositoryJobConfiguration jobConfig = null;
+
+    public void testInitialization() throws Exception {
+        File f = new File(mavenBaseDir + "/target/repojobconfig.ini");
+        if (f.exists()) {
+            f.delete();
+        }
+        // String f =
+        // getFileResource("/com/soebes/supose/config/configuration-repository.ini");
+        ConfigurationRepositories confRepos = new ConfigurationRepositories(
+                mavenBaseDir
+                        + "/src/test/resources/com/soebes/supose/config/configuration-repository.ini");
         assertNotNull(confRepos, "We had expected to get the configuration!");
         String repositoryName = confRepos.getNames()[0];
-    	RepositoryConfiguration reposConfig = confRepos.getRepositoryConfiguration(repositoryName);
-    	assertNotNull(reposConfig, "We had expected to get a configuration for the repository '" + repositoryName + "'");
+        RepositoryConfiguration reposConfig = confRepos
+                .getRepositoryConfiguration(repositoryName);
+        assertNotNull(reposConfig,
+                "We had expected to get a configuration for the repository '"
+                        + repositoryName + "'");
 
-    	//HACK: Remove hard coded path
-		jobConfig = new RepositoryJobConfiguration(mavenBaseDir + "/target/repojobconfig.ini", reposConfig);
-		assertNotNull(jobConfig, "We had expected to get an instance of RepositoryJobConfiguration");
-		assertTrue(f.exists(), "We had expected that the file /target/repojobconfig.ini has been created.");
-	}
+        // HACK: Remove hard coded path
+        jobConfig = new RepositoryJobConfiguration(mavenBaseDir
+                + "/target/repojobconfig.ini", reposConfig);
+        assertNotNull(jobConfig,
+                "We had expected to get an instance of RepositoryJobConfiguration");
+        assertTrue(f.exists(),
+                "We had expected that the file /target/repojobconfig.ini has been created.");
+    }
 
-	
-//	public void testCreateConfigFile() {
-//		String configfileName = targetDir + "/test1.ini";
-//		System.out.println("File: " + configfileName);
-//		ConfigurationRepositories confRepos = new ConfigurationRepositories(configfileName);
-//		jobConfig = new RepositoryJobConfiguration(configfileName, confRepos);		
-//        assertNotNull(confRepos, "We had expected to get the configuration!");
-//	}
+    // public void testCreateConfigFile() {
+    // String configfileName = targetDir + "/test1.ini";
+    // System.out.println("File: " + configfileName);
+    // ConfigurationRepositories confRepos = new
+    // ConfigurationRepositories(configfileName);
+    // jobConfig = new RepositoryJobConfiguration(configfileName, confRepos);
+    // assertNotNull(confRepos, "We had expected to get the configuration!");
+    // }
 }

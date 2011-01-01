@@ -34,75 +34,73 @@ import org.apache.commons.cli2.option.Command;
 
 /**
  * @author Karl Heinz Marbaise
- *
- *
- * supose schedule --configuration repository.ini
+ * 
+ * 
+ *         supose schedule --configuration repository.ini
  */
 public class ScheduleCommand extends CLIBase {
 
     private Option optionConfiguration = null;
     private Option optionConfigurationBaseDir = null;
 
-	public ScheduleCommand() {
-		setCommand(createCommand());
-	}
+    public ScheduleCommand() {
+        setCommand(createCommand());
+    }
 
-	private Command createCommand() {
-    	optionConfiguration = obuilder
-			.withShortName("C")
-			.withLongName("configuration")
-			.withRequired(true)
-			.withArgument(abuilder.withName("configuration").create())
-			.withDescription("Define where to find the ini file with the information about the different repositories.")
-			.create();
+    private Command createCommand() {
+        optionConfiguration = obuilder
+                .withShortName("C")
+                .withLongName("configuration")
+                .withRequired(true)
+                .withArgument(abuilder.withName("configuration").create())
+                .withDescription(
+                        "Define where to find the ini file with the information about the different repositories.")
+                .create();
 
-    	optionConfigurationBaseDir = obuilder
-			.withShortName("D")
-			.withLongName("configbase")
-			.withRequired(true)
-			.withArgument(abuilder.withName("configbase").create())
-			.withDescription("Define where to put the created index files etc.")
-			.create();
+        optionConfigurationBaseDir = obuilder
+                .withShortName("D")
+                .withLongName("configbase")
+                .withRequired(true)
+                .withArgument(abuilder.withName("configbase").create())
+                .withDescription(
+                        "Define where to put the created index files etc.")
+                .create();
 
-    	Group scanOptionIndex = gbuilder
-    		.withOption(optionConfiguration)
-    		.withOption(optionConfigurationBaseDir)
-    		.create();
-    	
-    	return cbuilder
-	    	.withName("schedule")
-	    	.withDescription("Schedule scanning for later running")
-	    	.withChildren(scanOptionIndex)
-	    	.create();
-	}
+        Group scanOptionIndex = gbuilder.withOption(optionConfiguration)
+                .withOption(optionConfigurationBaseDir).create();
 
-	public Option getOptionConfiguration() {
-		return optionConfiguration;
-	}
+        return cbuilder.withName("schedule")
+                .withDescription("Schedule scanning for later running")
+                .withChildren(scanOptionIndex).create();
+    }
 
-	public Option getOptionConfigBaseDir() {
-		return optionConfigurationBaseDir;
-	}
+    public Option getOptionConfiguration() {
+        return optionConfiguration;
+    }
 
-	@SuppressWarnings("unchecked")
-	public String getConfiguration (CommandLine cline) {
-		List<String> list = cline.getValues((getOptionConfiguration()));
-		if (list == null || list.size() == 0) {
-			//This should never happen, cause the option is required.
-			return "Default";
-		} else {
-			return list.get(0);
-		}
-	}
+    public Option getOptionConfigBaseDir() {
+        return optionConfigurationBaseDir;
+    }
 
-	@SuppressWarnings("unchecked")
-	public String getConfBaseDir (CommandLine cline) {
-		List<String> list = cline.getValues((getOptionConfigBaseDir()));
-		if (list == null || list.size() == 0) {
-			return "basedir";
-		} else {
-			return list.get(0);
-		}
-	}
+    @SuppressWarnings("unchecked")
+    public String getConfiguration(CommandLine cline) {
+        List<String> list = cline.getValues((getOptionConfiguration()));
+        if (list == null || list.size() == 0) {
+            // This should never happen, cause the option is required.
+            return "Default";
+        } else {
+            return list.get(0);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getConfBaseDir(CommandLine cline) {
+        List<String> list = cline.getValues((getOptionConfigBaseDir()));
+        if (list == null || list.size() == 0) {
+            return "basedir";
+        } else {
+            return list.get(0);
+        }
+    }
 
 }

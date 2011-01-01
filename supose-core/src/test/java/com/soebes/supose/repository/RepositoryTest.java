@@ -38,20 +38,23 @@ import com.soebes.supose.repository.Repository;
 
 @Test
 public class RepositoryTest {
-	private ConfigurationRepositories confRepos = null; 
-	
-	@BeforeClass
-	public void beforeClass() {
-		confRepos = new ConfigurationRepositories("/repositories-test.ini");
-		assertNotNull(confRepos, "We had expected to get an instance");
-	}
+    private ConfigurationRepositories confRepos = null;
 
-	@Test(enabled = false)
-	public void testConnection() {
-    	RepositoryConfiguration reposConfig = confRepos.getRepositoryConfiguration(confRepos.getNames()[0]);
-    	assertNotNull(reposConfig, "We had expected to get a configuration for a single repository.");
-    	Repository repository = RepositoryFactory.createInstance(reposConfig);
-    	assertEquals(repository.validConnection(), true, "We have expected to get an connection");
-	}
+    @BeforeClass
+    public void beforeClass() {
+        confRepos = new ConfigurationRepositories("/repositories-test.ini");
+        assertNotNull(confRepos, "We had expected to get an instance");
+    }
+
+    @Test(enabled = false)
+    public void testConnection() {
+        RepositoryConfiguration reposConfig = confRepos
+                .getRepositoryConfiguration(confRepos.getNames()[0]);
+        assertNotNull(reposConfig,
+                "We had expected to get a configuration for a single repository.");
+        Repository repository = RepositoryFactory.createInstance(reposConfig);
+        assertEquals(repository.validConnection(), true,
+                "We have expected to get an connection");
+    }
 
 }

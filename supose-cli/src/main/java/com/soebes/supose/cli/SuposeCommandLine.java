@@ -34,17 +34,17 @@ import org.apache.commons.cli2.option.Command;
 
 /**
  * @author Karl Heinz Marbaise
- *
+ * 
  */
 public class SuposeCommandLine extends CLIBase {
 
     private Group commands = null;
     private Group suposeOptions = null;
 
-    //All global options
+    // All global options
     private Option globalOptionH = null;
 
-    //All available commands
+    // All available commands
     private Command scanCommand = null;
     private Command searchCommand = null;
     private Command mergeCommand = null;
@@ -56,95 +56,86 @@ public class SuposeCommandLine extends CLIBase {
     private ScheduleCommand cliScheduleCommand = null;
 
     private void initGlobalOptions() {
-    	globalOptionH = obuilder
-	    	.withShortName("H")
-	    	.withLongName("help")
-	    	.withDescription("Displays usage information for command.")
-	    	.create();
+        globalOptionH = obuilder.withShortName("H").withLongName("help")
+                .withDescription("Displays usage information for command.")
+                .create();
     }
 
     private void initCommands() {
-    	scanCommand = cliScanCommand.getCommand();
-    	searchCommand = cliSearchCommand.getCommand();
-    	mergeCommand = cliMergeCommand.getCommand();
-    	scheduleCommand = cliScheduleCommand.getCommand();
+        scanCommand = cliScanCommand.getCommand();
+        searchCommand = cliSearchCommand.getCommand();
+        mergeCommand = cliMergeCommand.getCommand();
+        scheduleCommand = cliScheduleCommand.getCommand();
     }
 
     public ScanCommand getScliScanCommand() {
-    	return cliScanCommand;
+        return cliScanCommand;
     }
 
     public SearchCommand getScliSearchCommand() {
-    	return cliSearchCommand;
+        return cliSearchCommand;
     }
 
     public MergeCommand getScliMergeCommand() {
-    	return cliMergeCommand;
+        return cliMergeCommand;
     }
-    
+
     public ScheduleCommand getScliScheduleCommand() {
-    	return cliScheduleCommand;
+        return cliScheduleCommand;
     }
 
     public void init() {
-	    initCommands();
-		initGlobalOptions();
-	
-		commands = gbuilder
-			.withName("commands")
-				.withOption(scanCommand)
-				.withOption(searchCommand)
-				.withOption(mergeCommand)
-				.withOption(scheduleCommand)
-	            .create();
-	
-	    suposeOptions = gbuilder
-	        .withName("supose-global options")
-	            .withOption(globalOptionH)
-	            .withOption(commands)
-	            .create();
-	
-	}
+        initCommands();
+        initGlobalOptions();
 
-	public SuposeCommandLine () {
-		cliSearchCommand = new SearchCommand();
-		cliScanCommand = new ScanCommand();
-		cliMergeCommand = new MergeCommand();
-		cliScheduleCommand = new ScheduleCommand();
-		init();
-	}
+        commands = gbuilder.withName("commands").withOption(scanCommand)
+                .withOption(searchCommand).withOption(mergeCommand)
+                .withOption(scheduleCommand).create();
 
-	public CommandLine doParseArgs(String[] args) throws OptionException {
-		final Parser parser = new Parser();
-		parser.setGroup(suposeOptions);
-		return parser.parse(args);
-	}
+        suposeOptions = gbuilder.withName("supose-global options")
+                .withOption(globalOptionH).withOption(commands).create();
 
-	public Command getScanCommand() {
-		return scanCommand;
-	}
+    }
 
-	public Command getSearchCommand() {
-		return searchCommand;
-	}
+    public SuposeCommandLine() {
+        cliSearchCommand = new SearchCommand();
+        cliScanCommand = new ScanCommand();
+        cliMergeCommand = new MergeCommand();
+        cliScheduleCommand = new ScheduleCommand();
+        init();
+    }
 
-	public Command getMergeCommand() {
-		return mergeCommand;
-	}
-	
-	public Command getScheduleCommand() {
-		return scheduleCommand;
-	}
+    public CommandLine doParseArgs(String[] args) throws OptionException {
+        final Parser parser = new Parser();
+        parser.setGroup(suposeOptions);
+        return parser.parse(args);
+    }
 
-	public Option getGlobalOptionH() {
-		return globalOptionH;
-	}
+    public Command getScanCommand() {
+        return scanCommand;
+    }
 
-	public void setGlobalOptionH(Option globalOptionH) {
-		this.globalOptionH = globalOptionH;
-	}
+    public Command getSearchCommand() {
+        return searchCommand;
+    }
 
-	public Group getSuposeOptions() {
-		return suposeOptions;
-	}
+    public Command getMergeCommand() {
+        return mergeCommand;
+    }
+
+    public Command getScheduleCommand() {
+        return scheduleCommand;
+    }
+
+    public Option getGlobalOptionH() {
+        return globalOptionH;
+    }
+
+    public void setGlobalOptionH(Option globalOptionH) {
+        this.globalOptionH = globalOptionH;
+    }
+
+    public Group getSuposeOptions() {
+        return suposeOptions;
+    }
 }

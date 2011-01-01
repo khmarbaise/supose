@@ -28,35 +28,41 @@ package com.soebes.supose.cli;
 import com.soebes.supose.scan.interceptors.ScanInterceptor;
 
 public class CLIInterceptor implements ScanInterceptor {
-	private Integer numberOfRevisions;
-	private Long startTime;
-	private Long stopTime;
+    private Integer numberOfRevisions;
+    private Long startTime;
+    private Long stopTime;
 
-	public void scanStart(Integer revision) {
-		startTime = System.currentTimeMillis();
-		numberOfRevisions = revision;
-		System.out.println("We will scan " + revision + " revisions.");
-	}
-	
-	public void scanStop() {
-		//Nothing will be done at the end.
-		stopTime = System.currentTimeMillis();
-		long ms = (stopTime-startTime);
-		long seconds = ms / 1000;
-		double result = ms / 1000.0;
-		double average = (double)numberOfRevisions / (double)seconds;  
-		System.out.println("");
-		System.out.printf("We have taken %.3f seconds for %d revisions.\n", result, numberOfRevisions);
-		System.out.printf("This is an average of %.3f revisions/second.\n", average);
-	}
-	public void scanBeginRevision(Long count, Long revision, Integer changeSetSize) {
-		double divd = (double)count * 100.0 / (double)numberOfRevisions;
-		System.out.printf("%6.2f %% of %7d (Revisions:%7d Revision:%7d) Changeset: %5d ", divd, numberOfRevisions, count, revision, changeSetSize);
-	}
-	
-	public void scanEndRevision(Long count, Long revision, Integer changeSetSize) {
-		//We will do nothing.
-		System.out.print("\r");
-	}
+    public void scanStart(Integer revision) {
+        startTime = System.currentTimeMillis();
+        numberOfRevisions = revision;
+        System.out.println("We will scan " + revision + " revisions.");
+    }
+
+    public void scanStop() {
+        // Nothing will be done at the end.
+        stopTime = System.currentTimeMillis();
+        long ms = (stopTime - startTime);
+        long seconds = ms / 1000;
+        double result = ms / 1000.0;
+        double average = (double) numberOfRevisions / (double) seconds;
+        System.out.println("");
+        System.out.printf("We have taken %.3f seconds for %d revisions.\n",
+                result, numberOfRevisions);
+        System.out.printf("This is an average of %.3f revisions/second.\n",
+                average);
+    }
+
+    public void scanBeginRevision(Long count, Long revision,
+            Integer changeSetSize) {
+        double divd = (double) count * 100.0 / (double) numberOfRevisions;
+        System.out.printf(
+                "%6.2f %% of %7d (Revisions:%7d Revision:%7d) Changeset: %5d ",
+                divd, numberOfRevisions, count, revision, changeSetSize);
+    }
+
+    public void scanEndRevision(Long count, Long revision, Integer changeSetSize) {
+        // We will do nothing.
+        System.out.print("\r");
+    }
 
 }

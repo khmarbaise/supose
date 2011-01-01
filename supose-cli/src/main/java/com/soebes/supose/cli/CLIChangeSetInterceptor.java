@@ -31,26 +31,28 @@ import com.soebes.supose.scan.interceptors.ChangeSetInterceptor;
 
 public class CLIChangeSetInterceptor implements ChangeSetInterceptor {
 
-	private int counter;
+    private int counter;
 
-	public void beginIndexChangeSetItem(SVNDirEntry dirEntry) {
-		if (dirEntry != null) {
-			System.out.printf("[%5d item size: %10d]", counter, dirEntry.getSize());
-		}
-	}
+    public void beginIndexChangeSetItem(SVNDirEntry dirEntry) {
+        if (dirEntry != null) {
+            System.out.printf("[%5d item size: %10d]", counter,
+                    dirEntry.getSize());
+        }
+    }
 
-	public void endIndexChangeSetItem(SVNDirEntry dirEntry) {
-		if (dirEntry != null) {
-			System.out.printf("\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010");
-		}
-		counter++;
-	}
+    public void endIndexChangeSetItem(SVNDirEntry dirEntry) {
+        if (dirEntry != null) {
+            System.out
+            .printf("\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010\010");
+        }
+        counter++;
+    }
 
-	public void startIndexChangeSet() {
-		counter = 1;
-	}
+    public void startIndexChangeSet() {
+        counter = 1;
+    }
 
-	public void stopIndexChangeSet() {
-	}
+    public void stopIndexChangeSet() {
+    }
 
 }

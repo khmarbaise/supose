@@ -29,7 +29,9 @@ import org.tmatesoft.svn.core.SVNLogEntry;
 
 public interface LogEntryInterceptor {
 
-	void LogEntryStart();
-	void LogEntry(SVNLogEntry logEntry);
-	void LogEntryStop();
+    void LogEntryStart();
+
+    void LogEntry(SVNLogEntry logEntry);
+
+    void LogEntryStop();
 }

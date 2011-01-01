@@ -33,63 +33,65 @@ import com.soebes.supose.repository.Repository;
 import com.soebes.supose.scan.RevisionDocument;
 
 /**
- * This abstract class defines the 
- * basic interface to index a document.
- * 
- * It includes some helper method.
- * If you use an derived class of this you will be called
- * via the <code>indexDocument</code> method. Before the call the 
+ * This abstract class defines the basic interface to index a document.
+ *
+ * It includes some helper method. If you use an derived class of this you will
+ * be called via the <code>indexDocument</code> method. Before the call the
  * <code>properties</code> had been filled.
- * 
+ *
  * @author Karl Heinz Marbaise
  *
  */
 public abstract class AScanDocument {
 
-	private RevisionDocument doc;
-	private SVNProperties properties;
+    private RevisionDocument doc;
+    private SVNProperties properties;
 
+    public AScanDocument() {
+        setDocument(null);
+    }
 
-	public AScanDocument() {
-		setDocument(null);
-	}
+    /**
+     * This method will do the real scanning job of a single document. In other
+     * words it will do a scanning on a single file.
+     *
+     * @param repository
+     *            Instance of the Repository class
+     * @param dirEntry
+     *            SVNDirEntry which will hold some information about the entry
+     *            e.g. the size if it is a file.
+     * @param path
+     *            The path in the repository.
+     * @param revision
+     *            The particular revision in the repository.
+     */
+    public abstract void indexDocument(Repository repository,
+            SVNDirEntry dirEntry, String path, long revision);
 
-	/**
-	 * This method will do the real scanning job of a single document.
-	 * In other words it will do a scanning on a single file.
-	 * @param repository Instance of the Repository class
-	 * @param dirEntry   SVNDirEntry which will hold some information about the entry e.g. 
-	 *  				 the size if it is a file.
-	 * @param path		 The path in the repository.
-	 * @param revision   The particular revision in the repository.
-	 */
-	public abstract void indexDocument (Repository repository, SVNDirEntry dirEntry, String path, long revision);
+    public void setDocument(RevisionDocument doc) {
+        this.doc = doc;
+    }
 
-	public void setDocument(RevisionDocument doc) {
-		this.doc = doc;
-	}
-	
-	public RevisionDocument getDocument() {
-		return doc;
-	}
-	
-	protected boolean isBinary () {
-		String mimeType = getProperties().getStringValue(SVNProperty.MIME_TYPE);
-		return SVNProperty.isBinaryMimeType(mimeType);
-	}
-	protected boolean isText () {
-		String mimeType = getProperties().getStringValue(SVNProperty.MIME_TYPE);
-		return SVNProperty.isTextMimeType(mimeType);
-	}
+    public RevisionDocument getDocument() {
+        return doc;
+    }
 
-	
-	public SVNProperties getProperties() {
-		return properties;
-	}
+    protected boolean isBinary() {
+        String mimeType = getProperties().getStringValue(SVNProperty.MIME_TYPE);
+        return SVNProperty.isBinaryMimeType(mimeType);
+    }
 
-	public void setProperties(SVNProperties properties) {
-		this.properties = properties;
-	}
+    protected boolean isText() {
+        String mimeType = getProperties().getStringValue(SVNProperty.MIME_TYPE);
+        return SVNProperty.isTextMimeType(mimeType);
+    }
 
+    public SVNProperties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(SVNProperties properties) {
+        this.properties = properties;
+    }
 
 }

@@ -50,182 +50,185 @@ import com.soebes.supose.FieldNames;
 import com.soebes.supose.utility.AnalyzerFactory;
 
 public class SearchRepository {
-	private static Logger LOGGER = Logger.getLogger(SearchRepository.class);
-	
-	private String indexDirectory = null;
-	
-	private Analyzer analyzer = null;
-	private Searcher searcher = null;
-	private IndexReader reader = null;
-	
-	public SearchRepository() {
-		setIndexDirectory(null);
-		setAnalyzer(AnalyzerFactory.createInstance());
-	}
+    private static Logger LOGGER = Logger.getLogger(SearchRepository.class);
 
-	public SearchRepository(String indexDirectory) {
-		setIndexDirectory(indexDirectory);
-		setAnalyzer(AnalyzerFactory.createInstance());
-		setReader(null);
-	}
+    private String indexDirectory = null;
 
-	public Method getGetterByName(Class<?> z, String name) {
-		Method[] methods = z.getMethods();
-		Method result = null;
-		for (Method method : methods) {
-			if (method.getName().toLowerCase().startsWith("get")) {
-				String m = method.getName().toLowerCase();
-				if (m.equals("get" + name.toLowerCase())) {
-//					System.out.println("MS:" + name);
-					result = method;
-				}
-			}
-		}
-		return result;
-	}
-	
-	
-	public Method getSetterByName(Class<?> z, String name) {
-		Method[] methods = z.getMethods();
-		Method result = null;
-		for (Method method : methods) {
-			if (method.getName().toLowerCase().startsWith("set")) {
-				String m = method.getName().toLowerCase();
-				if (m.equals("set" + name.toLowerCase())) {
-//					System.out.println("MS:" + name);
-					result = method;
-				}
-			}
-		}
-		return result;
-	}
-	
-	
-	public Object callGetterByName(ResultEntry z, String name) {
-		Method m = getGetterByName(z.getClass(), name);
-		Object attribute = null;
-		if (m == null) {
-			LOGGER.fatal("Method get" + name + " not found!");
-			return attribute; 
-		}
-		try {
-			attribute = m.invoke(z);
-		} catch (IllegalArgumentException e) {
-			LOGGER.fatal("IllegalArgumentException", e);
-		} catch (IllegalAccessException e) {
-			LOGGER.fatal("IllegalAccessException", e);
-		} catch (InvocationTargetException e) {
-			LOGGER.fatal("InvocationTargetException", e);
-		}
-		return attribute;
-	}
-	
-	
-	public List<ResultEntry> getResult(String queryLine) {
-		TopDocs result = getQueryResult(queryLine);
-		ArrayList<ResultEntry> resultList = new ArrayList<ResultEntry>();
-		
-		try {
-			for (int i = 0; i < result.scoreDocs.length; i++) {
-		    	Document hit = getSearcher().doc(result.scoreDocs[i].doc);
-				List<?> fieldList = hit.getFields();
-				ResultEntry re = new ResultEntry();
-				for(int k=0; k<fieldList.size();k++) {
-					Field field = (Field) fieldList.get(k);
-					Method method = getSetterByName(re.getClass(), field.name());
-					if (method != null) {
-//						System.out.println(
-//							"-> Name:" + field.name() 
-//							+ " " + field.stringValue()
-//							+ " [" + field.getBinaryLength() + "] "
-//							+ " Method:" + method.getName());
-						try {
-							method.invoke(re, field.stringValue());
-						} catch (IllegalArgumentException e) {
-							LOGGER.fatal("IllegalArgumentException", e);
-						} catch (IllegalAccessException e) {
-							LOGGER.fatal("IllegalAccessException", e);
-						} catch (InvocationTargetException e) {
-							LOGGER.fatal("InvocationTargetException", e);
-						}
-					}
-				}
-				resultList.add(re);
-			}
-		} catch (Exception e) {
-			LOGGER.fatal("Exception", e);
-		}
-		return resultList;
-	}
+    private Analyzer analyzer = null;
+    private Searcher searcher = null;
+    private IndexReader reader = null;
 
-	public TopDocs getQueryResult(String queryLine) {
-	    IndexReader reader = null;
-	    TopDocs result = null;	    
-	    try {
-	    	
-	    	reader = IndexReader.open(getIndexDirectory());
-	    	setReader(reader);
+    public SearchRepository() {
+        setIndexDirectory(null);
+        setAnalyzer(AnalyzerFactory.createInstance());
+    }
 
-	    	BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
-	    	Searcher searcher = new IndexSearcher(reader);
-	    	setSearcher(searcher);
-	    	SortField[] sf = {
-	    		new SortField(FieldNames.REVISION.toString()),
-	    		new SortField(FieldNames.FILENAME.toString()), //We use for sorting the filename
-	    	};
-	    	Sort sort = new Sort(sf);
-	    	//Here we define the default field for searching.
-	        QueryParser parser = new CustomQueryParser(FieldNames.CONTENTS.toString(), getAnalyzer());
-	        //We will allow using a wildcard at the beginning of the expression.
-	        parser.setAllowLeadingWildcard(true);
-	        //The search term will not be expanded to lowercase.
-	        parser.setLowercaseExpandedTerms(true);
-	        Query query = parser.parse(queryLine);
-	        LOGGER.info("Query: " + query.toString());
-	        //That's not the best idea...but currently i have not better solution for this...
-	        //This is intended to get all results not only a limited number results.
-	        TopDocs tmp = searcher.search(query, null, 20, sort);
-		    result = searcher.search(query, null, tmp.totalHits, sort);
-	    } catch (CorruptIndexException e) {
-			LOGGER.error("Error: The index is corrupted: ", e);
-	    } catch (IOException e) {
-			LOGGER.error("Error: IOException: ", e);
-		} catch (Exception e) {
-			LOGGER.error("Error: Something has gone wrong: ", e);
-		}
-		return result;
-	}
+    public SearchRepository(String indexDirectory) {
+        setIndexDirectory(indexDirectory);
+        setAnalyzer(AnalyzerFactory.createInstance());
+        setReader(null);
+    }
 
-	public void setIndexDirectory(String indexDirectory) {
-		this.indexDirectory = indexDirectory;
-	}
+    public Method getGetterByName(Class<?> z, String name) {
+        Method[] methods = z.getMethods();
+        Method result = null;
+        for (Method method : methods) {
+            if (method.getName().toLowerCase().startsWith("get")) {
+                String m = method.getName().toLowerCase();
+                if (m.equals("get" + name.toLowerCase())) {
+                    // System.out.println("MS:" + name);
+                    result = method;
+                }
+            }
+        }
+        return result;
+    }
 
-	public String getIndexDirectory() {
-		return indexDirectory;
-	}
+    public Method getSetterByName(Class<?> z, String name) {
+        Method[] methods = z.getMethods();
+        Method result = null;
+        for (Method method : methods) {
+            if (method.getName().toLowerCase().startsWith("set")) {
+                String m = method.getName().toLowerCase();
+                if (m.equals("set" + name.toLowerCase())) {
+                    // System.out.println("MS:" + name);
+                    result = method;
+                }
+            }
+        }
+        return result;
+    }
 
-	public void setAnalyzer(Analyzer analyzer) {
-		this.analyzer = analyzer;
-	}
+    public Object callGetterByName(ResultEntry z, String name) {
+        Method m = getGetterByName(z.getClass(), name);
+        Object attribute = null;
+        if (m == null) {
+            LOGGER.fatal("Method get" + name + " not found!");
+            return attribute;
+        }
+        try {
+            attribute = m.invoke(z);
+        } catch (IllegalArgumentException e) {
+            LOGGER.fatal("IllegalArgumentException", e);
+        } catch (IllegalAccessException e) {
+            LOGGER.fatal("IllegalAccessException", e);
+        } catch (InvocationTargetException e) {
+            LOGGER.fatal("InvocationTargetException", e);
+        }
+        return attribute;
+    }
 
-	public Analyzer getAnalyzer() {
-		return analyzer;
-	}
+    public List<ResultEntry> getResult(String queryLine) {
+        TopDocs result = getQueryResult(queryLine);
+        ArrayList<ResultEntry> resultList = new ArrayList<ResultEntry>();
 
-	public void setSearcher(Searcher searcher) {
-		this.searcher = searcher;
-	}
+        try {
+            for (int i = 0; i < result.scoreDocs.length; i++) {
+                Document hit = getSearcher().doc(result.scoreDocs[i].doc);
+                List<?> fieldList = hit.getFields();
+                ResultEntry re = new ResultEntry();
+                for (int k = 0; k < fieldList.size(); k++) {
+                    Field field = (Field) fieldList.get(k);
+                    Method method = getSetterByName(re.getClass(), field.name());
+                    if (method != null) {
+                        // System.out.println(
+                        // "-> Name:" + field.name()
+                        // + " " + field.stringValue()
+                        // + " [" + field.getBinaryLength() + "] "
+                        // + " Method:" + method.getName());
+                        try {
+                            method.invoke(re, field.stringValue());
+                        } catch (IllegalArgumentException e) {
+                            LOGGER.fatal("IllegalArgumentException", e);
+                        } catch (IllegalAccessException e) {
+                            LOGGER.fatal("IllegalAccessException", e);
+                        } catch (InvocationTargetException e) {
+                            LOGGER.fatal("InvocationTargetException", e);
+                        }
+                    }
+                }
+                resultList.add(re);
+            }
+        } catch (Exception e) {
+            LOGGER.fatal("Exception", e);
+        }
+        return resultList;
+    }
 
-	public Searcher getSearcher() {
-		return searcher;
-	}
+    public TopDocs getQueryResult(String queryLine) {
+        IndexReader reader = null;
+        TopDocs result = null;
+        try {
 
-	public void setReader(IndexReader reader) {
-		this.reader = reader;
-	}
+            reader = IndexReader.open(getIndexDirectory());
+            setReader(reader);
 
-	public IndexReader getReader() {
-		return reader;
-	}
+            BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
+            Searcher searcher = new IndexSearcher(reader);
+            setSearcher(searcher);
+            SortField[] sf = { new SortField(FieldNames.REVISION.toString()),
+                    new SortField(FieldNames.FILENAME.toString()), // We use for
+                                                                   // sorting
+                                                                   // the
+                                                                   // filename
+            };
+            Sort sort = new Sort(sf);
+            // Here we define the default field for searching.
+            QueryParser parser = new CustomQueryParser(
+                    FieldNames.CONTENTS.toString(), getAnalyzer());
+            // We will allow using a wildcard at the beginning of the
+            // expression.
+            parser.setAllowLeadingWildcard(true);
+            // The search term will not be expanded to lowercase.
+            parser.setLowercaseExpandedTerms(true);
+            Query query = parser.parse(queryLine);
+            LOGGER.info("Query: " + query.toString());
+            // That's not the best idea...but currently i have not better
+            // solution for this...
+            // This is intended to get all results not only a limited number
+            // results.
+            TopDocs tmp = searcher.search(query, null, 20, sort);
+            result = searcher.search(query, null, tmp.totalHits, sort);
+        } catch (CorruptIndexException e) {
+            LOGGER.error("Error: The index is corrupted: ", e);
+        } catch (IOException e) {
+            LOGGER.error("Error: IOException: ", e);
+        } catch (Exception e) {
+            LOGGER.error("Error: Something has gone wrong: ", e);
+        }
+        return result;
+    }
+
+    public void setIndexDirectory(String indexDirectory) {
+        this.indexDirectory = indexDirectory;
+    }
+
+    public String getIndexDirectory() {
+        return indexDirectory;
+    }
+
+    public void setAnalyzer(Analyzer analyzer) {
+        this.analyzer = analyzer;
+    }
+
+    public Analyzer getAnalyzer() {
+        return analyzer;
+    }
+
+    public void setSearcher(Searcher searcher) {
+        this.searcher = searcher;
+    }
+
+    public Searcher getSearcher() {
+        return searcher;
+    }
+
+    public void setReader(IndexReader reader) {
+        this.reader = reader;
+    }
+
+    public IndexReader getReader() {
+        return reader;
+    }
 
 }

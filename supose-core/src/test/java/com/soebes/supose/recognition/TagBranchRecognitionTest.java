@@ -47,87 +47,93 @@ import com.soebes.supose.recognition.TagBranch.TagType;
 import com.soebes.supose.repository.Repository;
 
 public class TagBranchRecognitionTest extends TestBase {
-	private static Logger LOGGER = Logger.getLogger(TagBranchRecognitionTest.class);
+    private static Logger LOGGER = Logger
+            .getLogger(TagBranchRecognitionTest.class);
 
+    private Repository repository = null;
+    private TagBranchRecognition tbr = null;
 
-	private Repository repository = null;
-	private TagBranchRecognition tbr = null;
-	
-	@BeforeTest
-	public void beforeTest() throws SVNException {
-		//For the test repositories we don't use authentication, cause
-		//we are working with file based repositories.
-		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(
-			null, 
-			null
-		);
-		String repositoryDir = getRepositoryDirectory();
-		SVNURL url = SVNURL.fromFile(new File(repositoryDir));
-		repository = new Repository("file://" + url.getURIEncodedPath(), authManager);
-		tbr = new TagBranchRecognition(repository);
-	}
-	
-	@Test
-	public void analyzeTestFirstTag() throws SVNException {
-		ArrayList<TagBranch> result = analyzeLog(repository);
-//		for (TagType tagType : result) {
-//			System.out.println(" N:" + tagType.getName() + " T:" + tagType.getType() + " MT:" + tagType.isMavenTag() + " SVNT:" + tagType.isSubversionTag());
-//		}
-	    assertEquals(result.size(), 4);
-	    assertEquals(result.get(0).getType(), TagBranch.Type.TAG);
-	    assertEquals(result.get(0).getName(), "/project1/tags/RELEASE-0.0.1");
-	    assertEquals(result.get(0).getCopyFromRevision(), 2);
-	    assertEquals(result.get(0).getRevision(), 3);
-	    assertEquals(result.get(0).getTagType(), TagType.TAG);
-	    
-	    assertEquals(result.get(1).getType(), TagBranch.Type.TAG);
-	    assertEquals(result.get(1).getName(), "/project1/tags/supose-0.0.2");
-	    assertEquals(result.get(1).getRevision(), 6);
-	    assertEquals(result.get(1).getTagType(), TagType.MAVENTAG);
+    @BeforeTest
+    public void beforeTest() throws SVNException {
+        // For the test repositories we don't use authentication, cause
+        // we are working with file based repositories.
+        ISVNAuthenticationManager authManager = SVNWCUtil
+                .createDefaultAuthenticationManager(null, null);
+        String repositoryDir = getRepositoryDirectory();
+        SVNURL url = SVNURL.fromFile(new File(repositoryDir));
+        repository = new Repository("file://" + url.getURIEncodedPath(),
+                authManager);
+        tbr = new TagBranchRecognition(repository);
+    }
 
-	    assertEquals(result.get(2).getType(), TagBranch.Type.BRANCH);
-	    assertEquals(result.get(2).getName(), "/project1/branches/B_0.0.2");
-	    assertEquals(result.get(2).getCopyFromRevision(), 7);
-	    assertEquals(result.get(2).getRevision(), 8);
-	    assertEquals(result.get(2).getTagType(), TagType.NONE);
+    @Test
+    public void analyzeTestFirstTag() throws SVNException {
+        ArrayList<TagBranch> result = analyzeLog(repository);
+        // for (TagType tagType : result) {
+        // System.out.println(" N:" + tagType.getName() + " T:" +
+        // tagType.getType() + " MT:" + tagType.isMavenTag() + " SVNT:" +
+        // tagType.isSubversionTag());
+        // }
+        assertEquals(result.size(), 4);
+        assertEquals(result.get(0).getType(), TagBranch.Type.TAG);
+        assertEquals(result.get(0).getName(), "/project1/tags/RELEASE-0.0.1");
+        assertEquals(result.get(0).getCopyFromRevision(), 2);
+        assertEquals(result.get(0).getRevision(), 3);
+        assertEquals(result.get(0).getTagType(), TagType.TAG);
 
-	    assertEquals(result.get(3).getType(), TagBranch.Type.TAG);
-	    assertEquals(result.get(3).getName(), "/project1/tags/RELEASE-0.0.2");
-	    assertEquals(result.get(3).getCopyFromRevision(), 16);
-	    assertEquals(result.get(3).getRevision(), 20);
-	    assertEquals(result.get(3).getTagType(), TagType.SUBVERSIONTAG);
-	}
+        assertEquals(result.get(1).getType(), TagBranch.Type.TAG);
+        assertEquals(result.get(1).getName(), "/project1/tags/supose-0.0.2");
+        assertEquals(result.get(1).getRevision(), 6);
+        assertEquals(result.get(1).getTagType(), TagType.MAVENTAG);
 
-	private ArrayList<TagBranch> analyzeLog(Repository repository) throws SVNException {
-		ArrayList<TagBranch> result = new ArrayList<TagBranch>();
-		Collection<?> logEntries = repository.getRepository().log(new String[] {""}, null, 1, -1, true, true);
+        assertEquals(result.get(2).getType(), TagBranch.Type.BRANCH);
+        assertEquals(result.get(2).getName(), "/project1/branches/B_0.0.2");
+        assertEquals(result.get(2).getCopyFromRevision(), 7);
+        assertEquals(result.get(2).getRevision(), 8);
+        assertEquals(result.get(2).getTagType(), TagType.NONE);
+
+        assertEquals(result.get(3).getType(), TagBranch.Type.TAG);
+        assertEquals(result.get(3).getName(), "/project1/tags/RELEASE-0.0.2");
+        assertEquals(result.get(3).getCopyFromRevision(), 16);
+        assertEquals(result.get(3).getRevision(), 20);
+        assertEquals(result.get(3).getTagType(), TagType.SUBVERSIONTAG);
+    }
+
+    private ArrayList<TagBranch> analyzeLog(Repository repository)
+            throws SVNException {
+        ArrayList<TagBranch> result = new ArrayList<TagBranch>();
+        Collection<?> logEntries = repository.getRepository().log(
+                new String[] { "" }, null, 1, -1, true, true);
         for (Iterator<?> iterator = logEntries.iterator(); iterator.hasNext();) {
-			SVNLogEntry logEntry = (SVNLogEntry) iterator.next();
-			if (logEntry.getChangedPaths().size() > 0) {
-				Set<?> changedPathsSet = logEntry.getChangedPaths().keySet();
+            SVNLogEntry logEntry = (SVNLogEntry) iterator.next();
+            if (logEntry.getChangedPaths().size() > 0) {
+                Set<?> changedPathsSet = logEntry.getChangedPaths().keySet();
 
-				if (changedPathsSet.size() == 1) {
-					//Here we change if we usual tags/branches
-					TagBranch res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
-					if (res != null) {
-						result.add(res);
-					}
-				} else {
-					//Particular situations like Maven Tags.
-					TagBranch res = tbr.checkForMavenTag(logEntry, changedPathsSet);
-					if (res == null) {
-						res = tbr.checkForSubverisonTag(logEntry, changedPathsSet);
-						if (res != null) {
-							result.add(res);
-						}
-					} else {
-						result.add(res);
-					}
-				}
-			}
+                if (changedPathsSet.size() == 1) {
+                    // Here we change if we usual tags/branches
+                    TagBranch res = tbr.checkForTagOrBranch(logEntry,
+                            changedPathsSet);
+                    if (res != null) {
+                        result.add(res);
+                    }
+                } else {
+                    // Particular situations like Maven Tags.
+                    TagBranch res = tbr.checkForMavenTag(logEntry,
+                            changedPathsSet);
+                    if (res == null) {
+                        res = tbr.checkForSubverisonTag(logEntry,
+                                changedPathsSet);
+                        if (res != null) {
+                            result.add(res);
+                        }
+                    } else {
+                        result.add(res);
+                    }
+                }
+            }
 
         }
         return result;
-	}
+    }
 
 }
