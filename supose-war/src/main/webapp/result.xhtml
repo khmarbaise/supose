@@ -24,98 +24,109 @@
     just write an email to license@soebes.de
 
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
 
 <ui:composition template="/WEB-INF/jsf/template.xhtml">
-  <ui:define name="body">
-  	<table>
-  		<tr>
-  			<td>Query:</td>
-  			<td><h:outputText value="#{testBean.query}"/></td>
-  		</tr>
-  		<tr>
-  			<td></td>
-  			<td><h:outputText value="#{testBean.repositoryBean.url}"/></td>
-  		</tr>
-  		<tr>
-  			<td></td>
-  			<td><h:outputText value="#{testBean.repositoryBean.urlviewvc}"/></td>
-  		</tr>
-  	</table>
-    <h:form>
-    	<h:commandButton action="SUCCESS" title="New Search" value="New Search"/>
-    </h:form>
+    <ui:define name="body">
+        <table>
+            <tr>
+                <td>Query:</td>
+                <td><h:outputText value="#{testBean.query}" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><h:outputText value="#{testBean.repositoryBean.url}" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><h:outputText value="#{testBean.repositoryBean.urlviewvc}" /></td>
+            </tr>
+        </table>
+        <h:form>
+            <h:commandButton action="SUCCESS" title="New Search"
+                value="New Search" />
+        </h:form>
 
-	<h:form>
-	    <h:dataTable value="#{testBean.result}" var="item" binding="#{testBean.dataTable}">
-	    	<h:column>
-		    	<f:facet name="header">
-		    		<h:outputText value="Revision"/>
-		    	</f:facet>
-		    	<h:commandLink id="query_revision" action="#{testBean.searchRevision}">
-	    			<h:outputText value="#{item.revision}" />
-	    		</h:commandLink>
-				<h:outputLink id="link_revision" value="#{testBean.repositoryBean.urlviewvc}">
-					<h:graphicImage id="viewvc_revision" value="/img/viewvc-icon.ico" title="ViewVC Link" />
-				</h:outputLink>
-	    	</h:column>
-	    	<h:column>
-		    	<f:facet name="header">
-		    		<h:outputText value="Filename"/>
-		    	</f:facet>
+        <h:form>
+            <h:dataTable value="#{testBean.result}" var="item"
+                binding="#{testBean.dataTable}">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Revision" />
+                    </f:facet>
+                    <h:commandLink id="query_revision"
+                        action="#{testBean.searchRevision}">
+                        <h:outputText value="#{item.revision}" />
+                    </h:commandLink>
+                    <h:outputLink id="link_revision"
+                        value="#{testBean.repositoryBean.urlviewvc}">
+                        <h:graphicImage id="viewvc_revision" value="/img/viewvc-icon.ico"
+                            title="ViewVC Link" />
+                    </h:outputLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Filename" />
+                    </f:facet>
 
-		    	<h:commandLink id="query_filename" action="#{testBean.searchFilename}">
-	    			<h:outputText value="#{item.filename}" />
-	    		</h:commandLink>
-	    		<!--  http://svn.collab.net/viewvc/svn/trunk/doc/user/quickref/svn-ref.tex?view=markup&pathrev=1855 -->
-				<h:outputLink id="link_filename" value="#{testBean.repositoryBean.urlviewvc}#{item.path}#{item.filename}">
-					<h:graphicImage id="viewvc_filename" value="/img/viewvc-icon.ico" title="ViewVC Link" />
-					<f:param name="pathrev" value="#{item.revision}" />
-					<f:param name="view" value="markup" />
-				</h:outputLink>
-	    	</h:column>
-	    	<h:column>
-		    	<f:facet name="header">
-		    		<h:outputText value="path"/>
-		    	</f:facet>
-	    		<h:outputText value="#{item.path}" />
-	    		<!-- http://svn.collab.net/viewvc/svn/trunk/doc/user/quickref/?pathrev=1855  -->
-				<h:outputLink id="link_path" value="#{testBean.repositoryBean.urlviewvc}#{item.path}">
-					<h:graphicImage id="viewvc_path" value="/img/viewvc-icon.ico" title="ViewVC Link" />
-					<f:param name="pathrev" value="#{item.revision}" />
-				</h:outputLink>
-	    	</h:column>
-	    	<h:column>
-		    	<f:facet name="header">
-		    		<h:outputText value="Node"/>
-		    	</f:facet>
-	    		<h:outputText value="#{item.node}" />
-	    	</h:column>
-	    	<h:column>
-		    	<f:facet name="header">
-		    		<h:outputText value="Kind"/>
-		    	</f:facet>
-	    		<h:outputText value="#{item.kind}" />
-	    	</h:column>
-	    	<h:column>
-		    	<f:facet name="header">
-		    		<h:outputText value="Date"/>
-		    	</f:facet>
-	    		<h:outputFormat value="{0, date, dd.MM.yyyy hh:mm:ss.SSS}">
-	    			<f:param value="#{item.date}"/>
-	    		</h:outputFormat>
-	    	</h:column>
-	    </h:dataTable>
-	</h:form>
-    <h:form>
-    	<h:commandButton action="SUCCESS" title="New Search" value="New Search"/>
-    </h:form>
-  </ui:define>
+                    <h:commandLink id="query_filename"
+                        action="#{testBean.searchFilename}">
+                        <h:outputText value="#{item.filename}" />
+                    </h:commandLink>
+                    <!--  http://svn.collab.net/viewvc/svn/trunk/doc/user/quickref/svn-ref.tex?view=markup&pathrev=1855 -->
+                    <h:outputLink id="link_filename"
+                        value="#{testBean.repositoryBean.urlviewvc}#{item.path}#{item.filename}">
+                        <h:graphicImage id="viewvc_filename" value="/img/viewvc-icon.ico"
+                            title="ViewVC Link" />
+                        <f:param name="pathrev" value="#{item.revision}" />
+                        <f:param name="view" value="markup" />
+                    </h:outputLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="path" />
+                    </f:facet>
+                    <h:outputText value="#{item.path}" />
+                    <!-- http://svn.collab.net/viewvc/svn/trunk/doc/user/quickref/?pathrev=1855  -->
+                    <h:outputLink id="link_path"
+                        value="#{testBean.repositoryBean.urlviewvc}#{item.path}">
+                        <h:graphicImage id="viewvc_path" value="/img/viewvc-icon.ico"
+                            title="ViewVC Link" />
+                        <f:param name="pathrev" value="#{item.revision}" />
+                    </h:outputLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Node" />
+                    </f:facet>
+                    <h:outputText value="#{item.node}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Kind" />
+                    </f:facet>
+                    <h:outputText value="#{item.kind}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Date" />
+                    </f:facet>
+                    <h:outputFormat value="{0, date, dd.MM.yyyy hh:mm:ss.SSS}">
+                        <f:param value="#{item.date}" />
+                    </h:outputFormat>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+        <h:form>
+            <h:commandButton action="SUCCESS" title="New Search"
+                value="New Search" />
+        </h:form>
+    </ui:define>
 </ui:composition>
 </html>

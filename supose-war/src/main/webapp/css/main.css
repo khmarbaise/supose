@@ -37,16 +37,16 @@ hr {
 }
 
 a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a:link {
-	color: gray;
+    color: gray;
 }
 
-a:active, a:hover {
-	color: #69c;
-	text-decoration: underline;	
+a:active,a:hover {
+    color: #69c;
+    text-decoration: underline;
 }
 
 .error {
@@ -55,19 +55,19 @@ a:active, a:hover {
 }
 
 div.action {
-	font-size: small;
-	margin-top: 120px; 
-	margin-right: 20px; 
-	float: left;	
+    font-size: small;
+    margin-top: 120px;
+    margin-right: 20px;
+    float: left;
 }
 
 div.actionFlag {
-	margin-left: 10px;
-	margin-top: 120px; 
-	/*margin-right: 10px;*/
-	float: left;
+    margin-left: 10px;
+    margin-top: 120px;
+    /*margin-right: 10px;*/
+    float: left;
 }
 
 img {
-	border: none;
+    border: none;
 }

@@ -25,44 +25,46 @@
     just write an email to license@soebes.de
 
 -->
-<faces-config xmlns="http://java.sun.com/xml/ns/javaee" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-    http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd" version="1.2">
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
 
-  <application>
-    <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-	<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
-  </application>
-  <managed-bean>
-  	<managed-bean-name>testBean</managed-bean-name>
-  	<managed-bean-class>com.soebes.supose.release.web.TestSession</managed-bean-class>
-  	<managed-bean-scope>session</managed-bean-scope>
-  </managed-bean>
-  
-  <managed-bean>
-  	<managed-bean-name>repositoryBean</managed-bean-name>
-  	<managed-bean-class>com.soebes.supose.release.web.RepositoryBean</managed-bean-class>
-  	<managed-bean-scope>session</managed-bean-scope>
-  </managed-bean>
-  
+    <application>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+    </application>
+    <managed-bean>
+        <managed-bean-name>testBean</managed-bean-name>
+        <managed-bean-class>com.soebes.supose.release.web.TestSession</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
-  <navigation-rule>
-    <from-view-id>/index.xhtml</from-view-id>
-    <navigation-case>
-      <from-outcome>SUCCESS</from-outcome>
-      <to-view-id>/result.xhtml</to-view-id>
-    </navigation-case>
-    <navigation-case>
-      <from-outcome>ERROR</from-outcome>
-      <to-view-id>/error.xhtml</to-view-id>
-    </navigation-case>
-  </navigation-rule>
-  <navigation-rule>
-    <from-view-id>/result.xhtml</from-view-id>
-    <navigation-case>
-      <from-outcome>SUCCESS</from-outcome>
-      <to-view-id>/index.xhtml</to-view-id>
-    </navigation-case>
-  </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>repositoryBean</managed-bean-name>
+        <managed-bean-class>com.soebes.supose.release.web.RepositoryBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>SUCCESS</from-outcome>
+            <to-view-id>/result.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>ERROR</from-outcome>
+            <to-view-id>/error.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/result.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>SUCCESS</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

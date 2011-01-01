@@ -24,35 +24,38 @@
     just write an email to license@soebes.de
 
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
 
 <ui:composition template="/WEB-INF/jsf/template.xhtml">
-  <ui:define name="body">
-      <h:form>
-		<table width="100%">
-			<tr>
-				<td width="25%" align="right"><label for="query" accesskey="q">Entry the query:</label></td>
-				<td width="50%"><h:inputText id="query" size="60" required="true" value="#{testBean.query}"/></td>
-				<td width="25%"></td>
-			</tr>
-			<tr>
-				<td width="25%"></td>
-				<td width="50%"><h:commandButton action="#{testBean.query}" title="Submit" value="Submit"/></td>
-				<td width="25%"></td>
-			</tr>
-			<tr>
-				<td width="25%"></td>
-				<td width="50%"><h:outputText vaue="#{repositoryBean.index}"/></td>
-				<td width="25%"></td>
-			</tr>
-		</table>
-	</h:form>
-  </ui:define>
+    <ui:define name="body">
+        <h:form>
+            <table width="100%">
+                <tr>
+                    <td width="25%" align="right"><label for="query" accesskey="q">Entry
+                    the query:</label></td>
+                    <td width="50%"><h:inputText id="query" size="60"
+                        required="true" value="#{testBean.query}" /></td>
+                    <td width="25%"></td>
+                </tr>
+                <tr>
+                    <td width="25%"></td>
+                    <td width="50%"><h:commandButton action="#{testBean.query}"
+                        title="Submit" value="Submit" /></td>
+                    <td width="25%"></td>
+                </tr>
+                <tr>
+                    <td width="25%"></td>
+                    <td width="50%"><h:outputText vaue="#{repositoryBean.index}" /></td>
+                    <td width="25%"></td>
+                </tr>
+            </table>
+        </h:form>
+    </ui:define>
 </ui:composition>
 </html>
