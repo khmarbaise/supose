@@ -1,95 +1,92 @@
 <project
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.soebes.supose</groupId>
-		<artifactId>supose-parent</artifactId>
+        <artifactId>supose-parent</artifactId>
         <version>0.7.1-SNAPSHOT</version>
-		<relativePath>../supose-parent/pom.xml</relativePath>
-	</parent>
+        <relativePath>../supose-parent/pom.xml</relativePath>
+    </parent>
 
     <artifactId>supose-cli</artifactId>
     <packaging>jar</packaging>
     <name>SupoSE :: CLI</name>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>appassembler-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>assemble</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<binPrefix>SupoSE</binPrefix>
-					<assembleDirectory>${project.build.directory}/appassembler</assembleDirectory>
-					<extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
-					<generateRepository>false</generateRepository>
-					<repositoryName>lib</repositoryName>
-					<repositoryLayout>flat</repositoryLayout>
-					<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-					<platforms>
-						<platform>windows</platform>
-						<platform>unix</platform>
-					</platforms>
-					<programs>
-						<program>
-							<mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
-							<name>supose</name>
-						</program>
-					</programs>
-				</configuration>
-			</plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <binPrefix>SupoSE</binPrefix>
+                    <assembleDirectory>${project.build.directory}/appassembler</assembleDirectory>
+                    <extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
+                    <generateRepository>false</generateRepository>
+                    <repositoryName>lib</repositoryName>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+                    <platforms>
+                        <platform>windows</platform>
+                        <platform>unix</platform>
+                    </platforms>
+                    <programs>
+                        <program>
+                            <mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
+                            <name>supose</name>
+                        </program>
+                    </programs>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptors>
-						<descriptor>src/main/assembly/bin.xml</descriptor>
-						<descriptor>src/main/assembly/bin-unix.xml</descriptor>
-						<descriptor>src/main/assembly/src.xml</descriptor>
-					</descriptors>
-					<tarLongFileMode>gnu</tarLongFileMode>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/bin.xml</descriptor>
+                        <descriptor>src/main/assembly/bin-unix.xml</descriptor>
+                        <descriptor>src/main/assembly/src.xml</descriptor>
+                    </descriptors>
+                    <tarLongFileMode>gnu</tarLongFileMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>supose-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- This dependency must be installed in you local repository or in you
-			 repository manager, cause it's not officially made public!
-			 http://commons.apache.org/sandbox/cli2/index.html
-			 Description how to use it can be found here:
-			 http://www.supose.org/wiki/supose/Requirement
-		-->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-cli2</artifactId>
-			<version>2.0</version>
-			<classifier>dev</classifier>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>supose-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- This dependency must be installed in you local repository or
+            in you repository manager, cause it's not officially made public! http://commons.apache.org/sandbox/cli2/index.html
+            Description how to use it can be found here: http://www.supose.org/wiki/supose/Requirement -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-cli2</artifactId>
+            <version>2.0</version>
+            <classifier>dev</classifier>
+        </dependency>
+    </dependencies>
 </project>

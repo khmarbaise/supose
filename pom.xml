@@ -1,87 +1,81 @@
 <project
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.soebes.supose</groupId>
-		<artifactId>supose-parent</artifactId>
+        <artifactId>supose-parent</artifactId>
         <version>0.7.1-SNAPSHOT</version>
-		<relativePath>supose-parent/pom.xml</relativePath>
-	</parent>
-	
-	<artifactId>supose</artifactId>
-	<packaging>pom</packaging>
+        <relativePath>supose-parent/pom.xml</relativePath>
+    </parent>
 
-	<name>Subversion Repository Search Engine</name>
+    <artifactId>supose</artifactId>
+    <packaging>pom</packaging>
 
-	<scm>
-		<connection>${system.scm.connection}</connection>
-		<developerConnection>${system.scm.dev}/trunk</developerConnection>
-		<url>http://www.supose.org/repositories/show/supose</url>
-	</scm>
+    <name>Subversion Repository Search Engine</name>
 
-	<modules>
-		<module>supose-parent</module>
-		<module>supose-core</module>
-		<module>supose-cli</module>
-		<module>supose-war</module>
-		<module>supose-it</module>
-	</modules>
+    <scm>
+        <connection>${system.scm.connection}</connection>
+        <developerConnection>${system.scm.dev}/trunk</developerConnection>
+        <url>http://www.supose.org/repositories/show/supose</url>
+    </scm>
 
-	<profiles>
-		<profile>
-			<!--
-				This profile is used to define the URL's etc. if we are
-				on the traveler laptop.
-			-->
-			<id>homeoffice</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<system.scm.connection>scm:svn:http://svn.serverix/supose/</system.scm.connection>
-				<system.scm.dev>${system.scm.connection}</system.scm.dev>
-				<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
-				<issuemanagement.url>http://www.supose.org</issuemanagement.url>
-				<cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
-			</properties>
-		</profile>
-		<profile>
-			<!--
-				This profile is used to define the URL's etc. if we are
-				on the internet server (h5593.serverkompetenz.net).
-			-->
-			<id>online</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<system.scm.connection>scm:svn:http://svn.supose.org/supose/</system.scm.connection>
-				<system.scm.dev>${system.scm.connection}</system.scm.dev>
-				<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
-				<issuemanagement.url>http://www.supose.org</issuemanagement.url>
-				<cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
-			</properties>
-		</profile>
-		<profile>
-			<!--
-				This profile is used to define the URL's etc. if we are
-				on the traveler laptop.
-			-->
-			<id>homeoffice-mac</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<system.scm.connection>scm:svn:http://svn.supose.org/supose/</system.scm.connection>
-				<system.scm.dev>${system.scm.connection}</system.scm.dev>
-				<system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
-				<issuemanagement.url>http://www.supose.org</issuemanagement.url>
-				<cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
-			</properties>
-		</profile>
-	</profiles>
+    <modules>
+        <module>supose-parent</module>
+        <module>supose-core</module>
+        <module>supose-cli</module>
+        <module>supose-war</module>
+        <module>supose-it</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <!-- This profile is used to define the URL's etc. if we are
+                on the traveler laptop. -->
+            <id>homeoffice</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <system.scm.connection>scm:svn:http://svn.serverix/supose/</system.scm.connection>
+                <system.scm.dev>${system.scm.connection}</system.scm.dev>
+                <system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+                <issuemanagement.url>http://www.supose.org</issuemanagement.url>
+                <cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
+            </properties>
+        </profile>
+        <profile>
+            <!-- This profile is used to define the URL's etc. if we are
+                on the internet server (h5593.serverkompetenz.net). -->
+            <id>online</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <system.scm.connection>scm:svn:http://svn.supose.org/supose/</system.scm.connection>
+                <system.scm.dev>${system.scm.connection}</system.scm.dev>
+                <system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+                <issuemanagement.url>http://www.supose.org</issuemanagement.url>
+                <cimanagement.url>http://serverix:8080/hudson/</cimanagement.url>
+            </properties>
+        </profile>
+        <profile>
+            <!-- This profile is used to define the URL's etc. if we are
+                on the traveler laptop. -->
+            <id>homeoffice-mac</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <system.scm.connection>scm:svn:http://svn.supose.org/supose/</system.scm.connection>
+                <system.scm.dev>${system.scm.connection}</system.scm.dev>
+                <system.scm.url>http://www.supose.org/repositories/show/supose</system.scm.url>
+                <issuemanagement.url>http://www.supose.org</issuemanagement.url>
+                <cimanagement.url>http://serverix:8080/continuum/</cimanagement.url>
+            </properties>
+        </profile>
+    </profiles>
 </project>
