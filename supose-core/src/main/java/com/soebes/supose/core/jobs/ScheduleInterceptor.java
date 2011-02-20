@@ -22,11 +22,15 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.cli;
+package com.soebes.supose.core.jobs;
+
+import org.apache.log4j.Logger;
 
 import com.soebes.supose.core.scan.interceptors.ScanInterceptor;
 
-public class CLIInterceptor implements ScanInterceptor {
+public class ScheduleInterceptor implements ScanInterceptor {
+    private static Logger LOGGER = Logger.getLogger(ScheduleInterceptor.class);
+
     private Integer numberOfRevisions;
     private Long startTime;
     private Long stopTime;
@@ -34,7 +38,7 @@ public class CLIInterceptor implements ScanInterceptor {
     public void scanStart(Integer revision) {
         startTime = System.currentTimeMillis();
         numberOfRevisions = revision;
-        System.out.println("We will scan " + revision + " revisions.");
+        LOGGER.info("We will scan " + revision + " revisions.");
     }
 
     public void scanStop() {
@@ -44,24 +48,22 @@ public class CLIInterceptor implements ScanInterceptor {
         long seconds = ms / 1000;
         double result = ms / 1000.0;
         double average = (double) numberOfRevisions / (double) seconds;
-        System.out.println("");
-        System.out.printf("We have taken %.3f seconds for %d revisions.\n",
-                result, numberOfRevisions);
-        System.out.printf("This is an average of %.3f revisions/second.\n",
-                average);
+        LOGGER.info(String.format(
+                "We have taken %.3f seconds for %d revisions.\n", result,
+                numberOfRevisions));
+        LOGGER.info(String.format(
+                "This is an average of %.3f revisions/second.\n", average));
     }
 
     public void scanBeginRevision(Long count, Long revision,
             Integer changeSetSize) {
-        double divd = (double) count * 100.0 / (double) numberOfRevisions;
-        System.out.printf(
-                "%6.2f %% of %7d (Revisions:%7d Revision:%7d) Changeset: %5d ",
-                divd, numberOfRevisions, count, revision, changeSetSize);
+        // double divd = (double)count * 100.0 / (double)numberOfRevisions;
+        // System.out.printf("%6.2f %% of %7d (Revisions:%7d Revision:%7d) Changeset: %4d ",
+        // divd, numberOfRevisions, count, revision, changeSetSize);
     }
 
     public void scanEndRevision(Long count, Long revision, Integer changeSetSize) {
         // We will do nothing.
-        System.out.print("\r");
     }
 
 }

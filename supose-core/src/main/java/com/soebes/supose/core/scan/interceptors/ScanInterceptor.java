@@ -22,24 +22,22 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.cli;
+package com.soebes.supose.core.scan.interceptors;
 
-import org.tmatesoft.svn.core.SVNLogEntry;
+public interface ScanInterceptor {
 
-import com.soebes.supose.core.scan.interceptors.LogEntryInterceptor;
+    /**
+     * This will be called before the changeset scan. The paremeter tells you
+     * how many revisions have to be scanned.
+     * 
+     * @param revision
+     *            The number of revisions.
+     */
+    void scanStart(Integer revision);
 
-public class CLILogEntryInterceptor implements LogEntryInterceptor {
+    void scanStop();
 
-    public void LogEntryStart() {
-    }
+    void scanBeginRevision(Long count, Long revision, Integer changeSetSize);
 
-    public void LogEntry(SVNLogEntry logEntry) {
-        System.out
-                .printf("Log entry processing: %7d\r", logEntry.getRevision());
-    }
-
-    public void LogEntryStop() {
-        System.out.println("");
-    }
-
+    void scanEndRevision(Long count, Long revision, Integer changeSetSize);
 }

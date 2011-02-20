@@ -22,24 +22,28 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.cli;
+package com.soebes.supose.core.config.ini;
 
-import org.tmatesoft.svn.core.SVNLogEntry;
+/**
+ * Define the names which the config files can contain.
+ * 
+ * @author Karl Heinz Marbaise
+ *
+ */
+public interface IReposConfig {
 
-import com.soebes.supose.core.scan.interceptors.LogEntryInterceptor;
-
-public class CLILogEntryInterceptor implements LogEntryInterceptor {
-
-    public void LogEntryStart() {
-    }
-
-    public void LogEntry(SVNLogEntry logEntry) {
-        System.out
-                .printf("Log entry processing: %7d\r", logEntry.getRevision());
-    }
-
-    public void LogEntryStop() {
-        System.out.println("");
-    }
-
+	String getFromrev();
+	void setFromrev(String rev);
+	String getTorev();
+	void setTorev(String rev);
+	String getIndexusername();
+	void setIndexusername(String username);
+	String getIndexpassword();
+	void setIndexpassword(String password);
+	String getUrl();
+	void setUrl(String url);
+	String getResultindex();
+	void setResultindex(String index);
+	String getCron();
+	void setCron(String cron);
 }

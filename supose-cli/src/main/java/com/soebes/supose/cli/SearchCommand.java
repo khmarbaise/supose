@@ -34,7 +34,7 @@ import org.apache.commons.cli2.Option;
 import org.apache.commons.cli2.option.Command;
 import org.apache.commons.cli2.validation.EnumValidator;
 
-import com.soebes.supose.FieldNames;
+import com.soebes.supose.core.FieldNames;
 
 /**
  * @author Karl Heinz Marbaise

@@ -22,24 +22,26 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.cli;
+package com.soebes.supose.core.jobs;
 
+import org.apache.log4j.Logger;
 import org.tmatesoft.svn.core.SVNLogEntry;
 
 import com.soebes.supose.core.scan.interceptors.LogEntryInterceptor;
 
-public class CLILogEntryInterceptor implements LogEntryInterceptor {
+public class SchedulerLogEntryInterceptor implements LogEntryInterceptor {
+    private static Logger LOGGER = Logger
+            .getLogger(SchedulerLogEntryInterceptor.class);
 
     public void LogEntryStart() {
+        LOGGER.info("Started scanning of the Log entries.");
     }
 
     public void LogEntry(SVNLogEntry logEntry) {
-        System.out
-                .printf("Log entry processing: %7d\r", logEntry.getRevision());
     }
 
     public void LogEntryStop() {
-        System.out.println("");
+        LOGGER.info("Scanning of the Log entries done.");
     }
 
 }

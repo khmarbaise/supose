@@ -26,7 +26,7 @@ package com.soebes.supose.cli;
 
 import org.tmatesoft.svn.core.SVNDirEntry;
 
-import com.soebes.supose.scan.interceptors.ChangeSetInterceptor;
+import com.soebes.supose.core.scan.interceptors.ChangeSetInterceptor;
 
 public class CLIChangeSetInterceptor implements ChangeSetInterceptor {
 

@@ -22,24 +22,45 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.cli;
+package com.soebes.supose.core.recognition;
 
-import org.tmatesoft.svn.core.SVNLogEntry;
+public class RenameType {
 
-import com.soebes.supose.core.scan.interceptors.LogEntryInterceptor;
+    private String sourceName;
+    private String destinationName;
+    private long revision;
+    private long copyFromRevision;
 
-public class CLILogEntryInterceptor implements LogEntryInterceptor {
-
-    public void LogEntryStart() {
+    public String getSourceName() {
+        return sourceName;
     }
 
-    public void LogEntry(SVNLogEntry logEntry) {
-        System.out
-                .printf("Log entry processing: %7d\r", logEntry.getRevision());
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
     }
 
-    public void LogEntryStop() {
-        System.out.println("");
+    public String getDestinationName() {
+        return destinationName;
+    }
+
+    public void setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
+    }
+
+    public long getRevision() {
+        return revision;
+    }
+
+    public void setRevision(long revision) {
+        this.revision = revision;
+    }
+
+    public long getCopyFromRevision() {
+        return copyFromRevision;
+    }
+
+    public void setCopyFromRevision(long copyFromRevision) {
+        this.copyFromRevision = copyFromRevision;
     }
 
 }

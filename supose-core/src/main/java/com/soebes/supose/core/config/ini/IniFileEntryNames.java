@@ -22,24 +22,21 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.cli;
+package com.soebes.supose.core.config.ini;
 
-import org.tmatesoft.svn.core.SVNLogEntry;
-
-import com.soebes.supose.core.scan.interceptors.LogEntryInterceptor;
-
-public class CLILogEntryInterceptor implements LogEntryInterceptor {
-
-    public void LogEntryStart() {
-    }
-
-    public void LogEntry(SVNLogEntry logEntry) {
-        System.out
-                .printf("Log entry processing: %7d\r", logEntry.getRevision());
-    }
-
-    public void LogEntryStop() {
-        System.out.println("");
-    }
-
+/**
+ * @author Karl Heinz Marbaise
+ *
+ * The following entries represent the available 
+ * entries which can be used in the ini file to 
+ * configure a repository.
+ */
+public final class IniFileEntryNames {
+	public static final String INDEXUSERNAME = "indexusername";
+	public static final String INDEXPASSWORD = "indexpassword";
+	public static final String FROMREV = "fromrev";
+	public static final String TOREV = "torev";
+	public static final String CRON = "cron";
+	public static final String URL = "url";
+	public static final String RESULTINDEX = "resultindex";
 }

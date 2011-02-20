@@ -34,8 +34,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.jsf.FacesContextUtils;
 
-import com.soebes.supose.search.ResultEntry;
-import com.soebes.supose.search.SearchRepository;
+import com.soebes.supose.core.search.ResultEntry;
+import com.soebes.supose.core.search.SearchRepository;
 
 public class TestSession implements Serializable {
     private static Logger LOGGER = Logger.getLogger(TestSession.class);

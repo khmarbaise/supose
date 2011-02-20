@@ -22,24 +22,12 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.cli;
+package com.soebes.supose.core.jobs;
 
-import org.tmatesoft.svn.core.SVNLogEntry;
-
-import com.soebes.supose.core.scan.interceptors.LogEntryInterceptor;
-
-public class CLILogEntryInterceptor implements LogEntryInterceptor {
-
-    public void LogEntryStart() {
-    }
-
-    public void LogEntry(SVNLogEntry logEntry) {
-        System.out
-                .printf("Log entry processing: %7d\r", logEntry.getRevision());
-    }
-
-    public void LogEntryStop() {
-        System.out.println("");
-    }
-
+public final class JobDataNames {
+    public final static String REPOSITORY = "repository";
+    public final static String REPOSITORYCONFIGURATION = "repositoryConfiguraion";
+    public final static String INDEX = "index";
+    // TODO: Change the name of BASEDIR or the value
+    public final static String BASEDIR = "configDir";
 }

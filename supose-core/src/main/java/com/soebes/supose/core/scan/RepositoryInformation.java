@@ -22,24 +22,29 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
-package com.soebes.supose.cli;
+package com.soebes.supose.core.scan;
 
-import org.tmatesoft.svn.core.SVNLogEntry;
+import org.apache.log4j.Logger;
+import org.tmatesoft.svn.core.SVNDirEntry;
+import org.tmatesoft.svn.core.SVNException;
 
-import com.soebes.supose.core.scan.interceptors.LogEntryInterceptor;
+import com.soebes.supose.core.repository.Repository;
 
-public class CLILogEntryInterceptor implements LogEntryInterceptor {
+public class RepositoryInformation {
+    private static Logger LOGGER = Logger
+            .getLogger(RepositoryInformation.class);
 
-    public void LogEntryStart() {
-    }
-
-    public void LogEntry(SVNLogEntry logEntry) {
-        System.out
-                .printf("Log entry processing: %7d\r", logEntry.getRevision());
-    }
-
-    public void LogEntryStop() {
-        System.out.println("");
+    public static SVNDirEntry getInformationAboutEntry(Repository repository,
+            long revision, String path) {
+        SVNDirEntry dirEntry = null;
+        try {
+            LOGGER.debug("getInformationAboutEntry() name:" + path + " rev:"
+                    + revision);
+            dirEntry = repository.getRepository().info(path, revision);
+        } catch (SVNException e) {
+            LOGGER.error("Unexpected Exception: ", e);
+        }
+        return dirEntry;
     }
 
 }

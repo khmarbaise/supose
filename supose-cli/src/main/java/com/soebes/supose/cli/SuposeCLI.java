@@ -52,22 +52,22 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-import com.soebes.supose.FieldNames;
-import com.soebes.supose.config.ConfigurationRepositories;
-import com.soebes.supose.config.RepositoryConfiguration;
-import com.soebes.supose.config.RepositoryFactory;
 import com.soebes.supose.config.filter.FilterFile;
 import com.soebes.supose.config.filter.Filtering;
 import com.soebes.supose.config.filter.model.Filter;
-import com.soebes.supose.index.IndexHelper;
-import com.soebes.supose.jobs.JobDataNames;
-import com.soebes.supose.jobs.JobSchedulerListener;
-import com.soebes.supose.jobs.RepositoryScanJob;
-import com.soebes.supose.repository.Repository;
-import com.soebes.supose.scan.ScanRepository;
-import com.soebes.supose.scan.ScanSingleRepository;
-import com.soebes.supose.search.ResultEntry;
-import com.soebes.supose.search.SearchRepository;
+import com.soebes.supose.core.FieldNames;
+import com.soebes.supose.core.config.ConfigurationRepositories;
+import com.soebes.supose.core.config.RepositoryConfiguration;
+import com.soebes.supose.core.config.RepositoryFactory;
+import com.soebes.supose.core.index.IndexHelper;
+import com.soebes.supose.core.jobs.JobDataNames;
+import com.soebes.supose.core.jobs.JobSchedulerListener;
+import com.soebes.supose.core.jobs.RepositoryScanJob;
+import com.soebes.supose.core.repository.Repository;
+import com.soebes.supose.core.scan.ScanRepository;
+import com.soebes.supose.core.scan.ScanSingleRepository;
+import com.soebes.supose.core.search.ResultEntry;
+import com.soebes.supose.core.search.SearchRepository;
 import com.thoughtworks.xstream.XStream;
 
 /**
