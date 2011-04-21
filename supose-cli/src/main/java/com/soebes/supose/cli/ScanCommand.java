@@ -22,217 +22,75 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
+
 package com.soebes.supose.cli;
 
-import org.apache.commons.cli2.CommandLine;
-import org.apache.commons.cli2.Group;
-import org.apache.commons.cli2.Option;
-import org.apache.commons.cli2.option.Command;
-import org.tmatesoft.svn.core.wc.SVNRevision;
+import java.net.URI;
+
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 
 /**
+ * The scan command for command line.
+ *
  * @author Karl Heinz Marbaise
- * 
  */
-public class ScanCommand extends CLIBase {
+@Parameters(separators = "=", commandDescription = "Scan the contents of a repository")
+public class ScanCommand extends BaseCommand implements ICommand {
 
-    private Option optionURL = null;
-    private Option optionUsername = null;
-    private Option optionPassword = null;
-    private Option optionFromRev = null;
-    private Option optionToRev = null;
-    private Option optionIndexDir = null;
-    private Option optionCreate = null;
-
-    public ScanCommand() {
-        setCommand(createCommand());
-    }
-
-    private Command createCommand() {
-        optionURL = obuilder
-                .withShortName("U")
-                .withLongName("url")
-                .withRequired(true)
-                .withArgument(
-                        abuilder.withName("url").withMinimum(1).withMaximum(1)
-                                .create())
-                .withDescription(
-                        "Define the position where to find the index created by an scan.")
-                .create();
-
-        optionUsername = obuilder
-                .withLongName("username")
-                .withArgument(
-                        abuilder.withName("username").withMinimum(1)
-                                .withMaximum(1).create())
-                .withDescription(
-                        "Define the username which is used to make an authorization against the Subversion repository.")
-                .create();
-
-        optionPassword = obuilder
-                .withShortName("p")
-                .withLongName("password")
-                .withArgument(
-                        abuilder.withName("password").withMinimum(1)
-                                .withMaximum(1).create())
-                .withDescription(
-                        "Define the password which is used to make an authorization against the Subversion repository.")
-                .create();
-
-        optionFromRev = obuilder
-                .withLongName("fromrev")
-                .withArgument(
-                        abuilder.withName("fromrev").withMinimum(1)
-                                .withMaximum(1).create())
-                .withDescription(
-                        "Define the revision from which we will start to scan the repository.")
-                .create();
-
-        optionToRev = obuilder
-                .withLongName("torev")
-                .withArgument(
-                        abuilder.withName("torev").withMinimum(1)
-                                .withMaximum(1).create())
-                .withDescription(
-                        "Define the revision to which we will scan the repository. If it's not given we scan til HEAD.")
-                .create();
-
-        optionIndexDir = obuilder
-                .withShortName("I")
-                .withLongName("index")
-                .withArgument(
-                        abuilder.withName("index").withMinimum(1)
-                                .withMaximum(1).create())
-                .withDescription(
-                        "Define the index directory where the created index will be stored.")
-                .create();
-
-        optionCreate = obuilder
-                .withLongName("create")
-                .withDescription(
-                        "If given it means that the index will be create or overwritten if exists. Otherwise it will be used.")
-                .create();
-
-        Group scanOptionIndex = gbuilder.withOption(optionURL)
-                .withOption(optionUsername).withOption(optionPassword)
-                .withOption(optionFromRev).withOption(optionToRev)
-                .withOption(optionIndexDir).withOption(optionCreate).create();
-
-        return cbuilder.withName("scan").withName("sc")
-                .withDescription("Scan a given repository for later search.")
-                .withChildren(scanOptionIndex).create();
-    }
-
-    public Option getOptionURL() {
-        return optionURL;
-    }
-
-    public Option getOptionUsername() {
-        return optionUsername;
-    }
-
-    public Option getOptionPassword() {
-        return optionPassword;
-    }
-
-    public Option getOptionFromRev() {
-        return optionFromRev;
-    }
-
-    public Option getOptionToRev() {
-        return optionToRev;
-    }
-
-    public Option getOptionIndexDir() {
-        return optionIndexDir;
-    }
-
-    public Option getOptionCreate() {
-        return optionCreate;
-    }
-
-    public boolean getCreate(CommandLine cline) {
-        return cline.hasOption((getOptionCreate()));
-    }
-
-    public String getURL(CommandLine cline) {
-        String result = (String) cline.getValue((getOptionURL()));
-        if (result != null) {
-            return result.trim();
-        } else {
-            return null;
-        }
-    }
-
-    public String getUsername(CommandLine cline) {
-        String username = (String) cline.getValue((getOptionUsername()));
-        if (username == null) {
-            return null;
-        }
-        if (username.trim().length() > 0) {
-            return username.trim();
-        } else {
-            return null;
-        }
-    }
-
-    public String getPassword(CommandLine cline) {
-        String password = (String) cline.getValue((getOptionPassword()));
-        if (password == null) {
-            return null;
-        }
-        if (password.trim().length() > 0) {
-            return password.trim();
-        } else {
-            return null;
-        }
-    }
+    @Parameter(names = {"--index", "-I"}, description = "Define the name of the index folder.")
+    private String indexName;
+    @Parameter(names = {"--create", "-c"}, description = "Usually an index will be updated except you have given this option which will result in creating a new index.")
+    private boolean createIndex;
+    @Parameter(names = {"--username", "-u"}, description = "The username which is used to authenticate against the repository")
+    private String username;
+    @Parameter(names = {"--password", "-p"}, description = "The password which is used to authenticate against the repository.")
+    private String password;
+    @Parameter(names = {"--url", "-U"}, description = "Define the URL of the repository which should be scanned.", converter = URIConverter.class)
+    private URI uri;
+    @Parameter(names = {"--fromrev"}, description = "The revision where to start the scanning process", converter = RevisionConverter.class)
+    private Long fromRev;
+    @Parameter(names = {"--torev"}, description = "The revision to which the scanning process will run.", converter = RevisionConverter.class)
+    private Long toRev;
 
     /**
-     * This will extract the revision number which is given by the --fromrev
-     * option on command line. --fromrev HEAD is also possible.
-     * 
-     * @param cline
-     *            The command line which will be analyzed.
-     * @return The revision number extracted from the command line or HEAD if
-     *         given in the option.
+     * This will define the defaults for the different command line options.
      */
-    public Long getFromRev(CommandLine cline) {
-        String revision = (String) cline.getValue(getOptionFromRev());
-        Long result = new Long(1);
-        if (revision == null) {
-            return result;
-        }
-        revision = revision.trim();
-        if (revision.length() > 0) {
-            if ("HEAD".equalsIgnoreCase(revision)) {
-                result = SVNRevision.HEAD.getNumber();
-            } else {
-                result = Long.parseLong(revision);
-            }
-        }
-        return result;
+    public ScanCommand() {
+        this.fromRev = new Long(1);
+        this.toRev = new Long(-1);
+        this.indexName = "indexDir.test";
+        this.createIndex = false;
+        this.uri = null;
+        this.username = null;
+        this.password = null;
     }
 
-    public Long getToRev(CommandLine cline) {
-        String revision = (String) cline.getValue((getOptionToRev()));
-        if (revision == null) {
-            return SVNRevision.HEAD.getNumber();
-        }
-        if (revision.trim().length() > 0) {
-            return Long.parseLong(revision.trim());
-        } else {
-            return SVNRevision.HEAD.getNumber();
-        }
+    public long getFromRev() {
+        return fromRev;
     }
 
-    public String getIndexDir(CommandLine cline) {
-        String indexDir = (String) cline.getValue((getOptionIndexDir()));
-        String result = "indexDir.test";
-        if (indexDir != null && indexDir.trim().length() > 0) {
-            result = indexDir.trim();
-        }
-        return result;
+    public long getToRev() {
+        return toRev;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getIndexName() {
+        return indexName;
+    }
+
+    public boolean isCreateIndex() {
+        return createIndex;
+    }
+
+    public URI getUri() {
+        return uri;
+    }
 }

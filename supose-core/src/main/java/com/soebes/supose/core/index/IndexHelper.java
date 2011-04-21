@@ -24,6 +24,7 @@
  */
 package com.soebes.supose.core.index;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,28 +34,28 @@ import org.apache.lucene.store.FSDirectory;
 
 /**
  * @author Karl Heinz Marbaise
- * 
+ *
  */
 public class IndexHelper {
     private static Logger LOGGER = Logger.getLogger(IndexHelper.class);
 
     /**
      * Merge a given index area to a single destination index.
-     * 
+     *
      * @param destination
      *            The destination to which the source index will be merged.
      * @param source
      *            The index which will be merged to the destination index.
      */
-    public static void mergeIndex(String destination, String source) {
-        ArrayList<String> sourceList = new ArrayList<String>();
+    public static void mergeIndex(File destination, File source) {
+        ArrayList<File> sourceList = new ArrayList<File>();
         sourceList.add(source);
         mergeIndex(destination, sourceList);
     }
 
     /**
      * Merge all given indexes together to a single index.
-     * 
+     *
      * @param destination
      *            This will define the destination directory of the index where
      *            all other indexes will be merged to.
@@ -62,13 +63,13 @@ public class IndexHelper {
      *            This is the list of indexes which are merged into the
      *            destination index.
      */
-    public static void mergeIndex(String destination, List<String> indexList) {
+    public static void mergeIndex(File destination, List<File> indexList) {
         LOGGER.debug("We are trying to merge indexes to the destination: "
                 + destination);
         Index index = new Index();
         // We assume an existing index...
         index.setCreate(false);
-        IndexWriter indexWriter = index.createIndexWriter(destination);
+        IndexWriter indexWriter = index.createIndexWriter(destination.getAbsolutePath());
 
         try {
             LOGGER.info("Merging of indexes started.");

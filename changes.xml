@@ -14,10 +14,10 @@
             description="Release">
             <action
                 dev="Karl Heinz Marbaise"
-		type="update">
-                updated maven-changes-plugin to 2.4
+		type="add">
+                Replaced commons-cli2 with jcommander
                 <fixed
-                    issue="344" />
+                    issue="328" />
             </action>
             <action
                 dev="Karl Heinz Marbaise"

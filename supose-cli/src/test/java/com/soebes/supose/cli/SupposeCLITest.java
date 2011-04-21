@@ -26,16 +26,15 @@ package com.soebes.supose.cli;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import java.util.List;
+import java.io.File;
 
-import org.apache.commons.cli2.CommandLine;
-import org.apache.commons.cli2.OptionException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.tmatesoft.svn.core.wc.SVNRevision;
+
+import com.beust.jcommander.ParameterException;
+import com.soebes.supose.cli.SupoSECommandLine.SupoSECommands;
 
 /**
  * @author Karl Heinz Marbaise
@@ -44,371 +43,254 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
 @Test
 public class SupposeCLITest {
 
-    private SuposeCommandLine suposecli = null;
+    private SupoSECommandLine suposecli = null;
 
     @SuppressWarnings("unused")
     @BeforeClass
     private void beforeClass() throws Exception {
-        suposecli = new SuposeCommandLine();
     }
 
-    public void testNothingGiven() throws Exception {
-        CommandLine cl = suposecli.doParseArgs(new String[0]);
-        assertNotNull(cl, "The return value of the parse is null!");
+    public void nothingGiven() throws Exception {
+        suposecli = new SupoSECommandLine(new String[0]);
+        assertFalse(suposecli.isHelpForCommand());
     }
 
-    public void testGlobalOptionH() throws Exception {
-        final String[] args = new String[] { "-H" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertTrue(cl.hasOption(suposecli.getGlobalOptionH()));
+    public void globalOptionH() throws Exception {
+        final String[] args = new String[] { "--help" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.isHelpForCommand());
+        assertTrue(suposecli.getMainCommand().isHelp());
     }
 
-    public void testCommandCheckScan() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "URL" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-        assertFalse(cl.hasOption(suposecli.getSearchCommand()));
+    public void scanCommandWithURLParameter() throws Exception {
+        final String[] args = new String[] { "scan", "--url", "http://www.google.de" };
+
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCAN);
+
+        assertEquals(suposecli.getScanCommand().getUri().toString(), "http://www.google.de");
+        assertEquals(suposecli.getScanCommand().getFromRev(), 1);
+        assertEquals(suposecli.getScanCommand().getToRev(), -1);
     }
 
-    public void testCommandCheckSearch() throws Exception {
+    public void scanCommandWithURLAndFromRevParameter() throws Exception {
+        final String[] args = new String[] { "scan", "--fromrev", "200", "--url", "file:///repos/x1" };
+
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCAN);
+
+        assertEquals(suposecli.getScanCommand().getUri().toString(), "file:///repos/x1");
+        assertEquals(suposecli.getScanCommand().getFromRev(), 200);
+        assertEquals(suposecli.getScanCommand().getToRev(), -1);
+    }
+
+    public void scanCommandWithURLAndToRevParameter() throws Exception {
+        final String[] args = new String[] { "scan", "--torev", "22000", "--url", "file:///repos/x1" };
+
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCAN);
+
+        assertEquals(suposecli.getScanCommand().getUri().toString(), "file:///repos/x1");
+        assertEquals(suposecli.getScanCommand().getFromRev(), 1);
+        assertEquals(suposecli.getScanCommand().getToRev(), 22000);
+    }
+
+    public void scanCommandWithURLAndToRevHeadParameter() throws Exception {
+        final String[] args = new String[] { "scan", "--torev", "HEAD", "--url", "file:///repos/x1" };
+
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCAN);
+
+        assertEquals(suposecli.getScanCommand().getUri().toString(), "file:///repos/x1");
+        assertEquals(suposecli.getScanCommand().getFromRev(), 1);
+        assertEquals(suposecli.getScanCommand().getToRev(), -1);
+    }
+
+    @Test(expectedExceptions = ParameterException.class )
+    public void scanCommandWithURLAndWrongToRevParameter() {
+        final String[] args = new String[] { "scan", "--torev", "test", "--url", "file:///repos/x1" };
+
+        suposecli = new SupoSECommandLine(args);
+    }
+
+    public void scanCommandWithURLAndFromRevAndToRevParameter() throws Exception {
+        final String[] args = new String[] { "scan", "--fromrev", "100", "--torev", "22123", "--url", "file:///repos/x1" };
+
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCAN);
+
+        assertEquals(suposecli.getScanCommand().getUri().toString(), "file:///repos/x1");
+        assertEquals(suposecli.getScanCommand().getFromRev(), 100);
+        assertEquals(suposecli.getScanCommand().getToRev(), 22123);
+    }
+
+    public void scanCommandWithURLAndFromRevAndToRevAndUserNameAndPasswordParameter() throws Exception {
+        final String[] args = new String[] { "scan", "--username", "jerimia", "--password", "test", "--fromrev", "101", "--torev", "22124", "--url", "file:///repos/x1" };
+
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCAN);
+
+        assertEquals(suposecli.getScanCommand().getUri().toString(), "file:///repos/x1");
+        assertEquals(suposecli.getScanCommand().getFromRev(), 101);
+        assertEquals(suposecli.getScanCommand().getToRev(), 22124);
+        assertEquals(suposecli.getScanCommand().getUsername(), "jerimia");
+        assertEquals(suposecli.getScanCommand().getPassword(), "test");
+    }
+
+    public void searchCommand() throws Exception {
         final String[] args = new String[] { "search" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertFalse(cl.hasOption(suposecli.getScanCommand()));
-        assertTrue(cl.hasOption(suposecli.getSearchCommand()));
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SEARCH);
+        assertFalse(suposecli.getSearchCommand().isXML());
     }
 
-    @Test(expectedExceptions = OptionException.class)
-    public void testCommandScan() throws Exception {
-        final String[] args = new String[] { "scan" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option set.");
-        // We will never reach this, cause it will throw an exception
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-    }
+    public void searchCommandWithIndexParameter() throws Exception {
+        final String[] args = new String[] { "search", "--index", "testIndex" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
 
-    public void testCommandScanAbbreviation() throws Exception {
-        final String[] args = new String[] { "sc", "--url", "URL" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-    }
-
-    public void testOptionHCommandScan() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "test", "-H" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertTrue(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-    }
-
-    @Test(expectedExceptions = OptionException.class)
-    public void testCommandScanShortURLWithoutParameter() throws Exception {
-        final String[] args = new String[] { "scan", "-U" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-    }
-
-    public void testCommandScanShortURL() throws Exception {
-        final String[] args = new String[] { "scan", "-U",
-        "file:///testrepos/private" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-        String url = scanCommand.getURL(cl);
-        assertNotNull(url, "The string for URL is expected not to be null!");
-        assertEquals(url, "file:///testrepos/private",
-        "The parameter of the option --URL option is not as expected");
-    }
-
-    public void testCommandScanLongURL() throws Exception {
-        final String[] args = new String[] { "scan", "--url",
-        "file:///testrepos/private" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-        String url = scanCommand.getURL(cl);
-        assertNotNull(url, "The string for URL is expected not to be null!");
-        assertEquals(url, "file:///testrepos/private",
-        "The parameter of the option --URL option is not as expected");
-    }
-
-    public void testCommandScanUsername() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "URL",
-                "--username", "xyz" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-        String password = scanCommand.getPassword(cl);
-        assertTrue(password == null,
-        "The string for password is expected be null!");
-
-        String username = scanCommand.getUsername(cl);
-        assertNotNull(username, "The string is expected not be null!");
-        assertEquals(username, "xyz",
-        "The parameter of the option --username is not as expected");
-    }
-
-    public void testCommandScanPassword() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "URL",
-                "--password", "xyz" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-
-        String username = scanCommand.getUsername(cl);
-        assertTrue(username == null,
-        "The string for username is expected to be null!");
-
-        String url = scanCommand.getURL(cl);
-        assertTrue(url != null,
-        "The string for URL is expected not to be null, cause it must be given");
-
-        String password = scanCommand.getPassword(cl);
-        assertNotNull(password,
-        "The string for password is expected not to be null!");
-        assertEquals(password, "xyz",
-        "The parameter of the option --password option is not as expected");
-    }
-
-    public void testCommandFromRev() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "URL",
-                "--fromrev", "21" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-
-        long fromRev = scanCommand.getFromRev(cl);
-        long toRev = scanCommand.getToRev(cl);
-        assertEquals(fromRev, 21, "We didn't get the expected fromRev value.");
-        assertEquals(toRev, SVNRevision.HEAD.getNumber(),
-        "We didn't get the expected toRev value(HEAD).");
-    }
-
-    public void testCommandFromRevHead() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "URL",
-                "--fromrev", "head" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-
-        long fromRev = scanCommand.getFromRev(cl);
-        long toRev = scanCommand.getToRev(cl);
-        assertEquals(fromRev, SVNRevision.HEAD.getNumber(),
-        "We didn't get the expected HEAD for fromRev.");
-        assertEquals(toRev, SVNRevision.HEAD.getNumber(),
-        "We didn't get the expected toRev value(HEAD).");
-    }
-
-    @Test(expectedExceptions = NumberFormatException.class)
-    public void testCommandFromRevWrongParameter() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "URL",
-                "--fromrev", "elizabeth" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globel Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-
-        long fromRev = scanCommand.getFromRev(cl);
-        // We will never reach till here...
-        assertEquals(fromRev, SVNRevision.HEAD.getNumber(),
-        "We didn't get the expected HEAD for fromRev.");
-    }
-
-    public void testCommandFromToRev() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "URL",
-                "--fromrev", "156", "--torev", "200" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-
-        long fromRev = scanCommand.getFromRev(cl);
-        long toRev = scanCommand.getToRev(cl);
-        assertEquals(fromRev, 156, "We didn't get the expected fromRev value.");
-        assertEquals(toRev, 200, "We didn't get the expected toRev value.");
-
-        boolean create = cl.hasOption(scanCommand.getOptionCreate());
-        assertFalse(create,
-        "We had expected to get an deactivated create flag.");
-    }
-
-    public void testCommandScanCreate() throws Exception {
-        final String[] args = new String[] { "scan", "--url", "URL", "--create" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getScanCommand()));
-
-        ScanCommand scanCommand = suposecli.getScliScanCommand();
-
-        boolean create = cl.hasOption(scanCommand.getOptionCreate());
-        assertTrue(create, "We had expected to get an activated create flag.");
-    }
-
-    public void testCommandSearch() throws Exception {
-        final String[] args = new String[] { "search" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option set.");
-        assertTrue(cl.hasOption(suposecli.getSearchCommand()));
-    }
-
-    public void testCommandSearchAbbreviation() throws Exception {
-        final String[] args = new String[] { "se" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option set.");
-        assertTrue(cl.hasOption(suposecli.getSearchCommand()));
-    }
-
-    @Test(expectedExceptions = OptionException.class)
-    public void testCommandSearchFieldsWrong() throws Exception {
-        final String[] args = new String[] { "search", "--fields", "test" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option set.");
-        assertTrue(cl.hasOption(suposecli.getSearchCommand()));
-    }
-
-    public void testCommandSearchFields() throws Exception {
-        final String[] args = new String[] { "search", "--fields", "author",
-                "revision", "date" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option set.");
-        assertTrue(cl.hasOption(suposecli.getSearchCommand()));
-    }
-
-    public void testCommandSearchFieldsResult() throws Exception {
-        final String[] args = new String[] { "search", "--fields", "author",
-                "revision", "date" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option set.");
-        assertTrue(cl.hasOption(suposecli.getSearchCommand()));
-
-        SearchCommand searchCommand = suposecli.getScliSearchCommand();
-        List<String> cliFields = searchCommand.getFields(cl);
-        assertEquals(cliFields.get(0), "author");
-        assertEquals(cliFields.get(1), "revision");
-        assertEquals(cliFields.get(2), "date");
+        assertEquals(suposecli.getCommand(), SupoSECommands.SEARCH);
+        assertFalse(suposecli.getSearchCommand().isXML());
+        assertEquals(suposecli.getSearchCommand().getIndexName(), "testIndex");
 
     }
 
-    public void testCommandSearchXML() throws Exception {
-        final String[] args = new String[] { "search", "--xml" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option set.");
-        assertTrue(cl.hasOption(suposecli.getSearchCommand()));
-        SearchCommand searchCommand = suposecli.getScliSearchCommand();
+    public void searchCommandWithIndexAndQueryParameter() throws Exception {
+        final String[] args = new String[] { "search", "--index", "testIndex", "--query", "+filename:*.doc" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
 
-        boolean xml = cl.hasOption(searchCommand.getOptionXML());
-        assertTrue(xml, "We had expected to get an activated XML flag.");
+        assertEquals(suposecli.getCommand(), SupoSECommands.SEARCH);
+        assertFalse(suposecli.getSearchCommand().isXML());
+        assertEquals(suposecli.getSearchCommand().getIndexName(), "testIndex");
+        assertEquals(suposecli.getSearchCommand().getQuery(), "+filename:*.doc");
     }
 
-    public void testOptionHCommandSearch() throws Exception {
-        final String[] args = new String[] { "search", "-H" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertTrue(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getSearchCommand()));
+    public void searchCommandWithIndexAndQueryAndXMLParameter() throws Exception {
+        final String[] args = new String[] { "search", "--index", "testIndex", "--query", "+filename:*.doc", "--xml" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SEARCH);
+        assertEquals(suposecli.getSearchCommand().getIndexName(), "testIndex");
+        assertEquals(suposecli.getSearchCommand().getQuery(), "+filename:*.doc");
+        assertTrue(suposecli.getSearchCommand().isXML());
     }
 
-    public void testMergeCommand() throws Exception {
-        final String[] args = new String[] { "merge", "--destination", "result" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option not set.");
-        assertTrue(cl.hasOption(suposecli.getMergeCommand()));
+
+    public void searchCommandWithIndexAndQueryAndFieldsParameter() throws Exception {
+        final String[] args = new String[] { "search", "--index", "testIndex", "--query", "+filename:*.doc", "--field", "revision", "--field", "author" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SEARCH);
+        assertFalse(suposecli.getSearchCommand().isXML());
+        assertEquals(suposecli.getSearchCommand().getIndexName(), "testIndex");
+        assertEquals(suposecli.getSearchCommand().getQuery(), "+filename:*.doc");
+
+//FIXME: What about the default values for the fields? How to handle this?
+        assertEquals(suposecli.getSearchCommand().getFields().size(), 2);
     }
 
-    public void testMergeCommandIndexList() throws Exception {
-        final String[] args = new String[] { "merge", "--index", "anton",
-                "egon", "--destination", "result" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option not set.");
-        assertFalse(cl.hasOption(suposecli.getScanCommand()));
-        assertFalse(cl.hasOption(suposecli.getSearchCommand()));
-        assertFalse(cl.hasOption(suposecli.getScheduleCommand()));
-        assertTrue(cl.hasOption(suposecli.getMergeCommand()));
+    public void mergeCommand() throws Exception {
+        final String[] args = new String[] { "merge" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
 
-        MergeCommand mergeCommand = suposecli.getScliMergeCommand();
-
-        List<String> indexList = mergeCommand.getIndex(cl);
-        assertNotNull(indexList,
-        "We had expected to get a list of index direcotriy");
-        assertEquals(indexList.size(), 2,
-        "We had expected to get a least two elements");
+        assertEquals(suposecli.getCommand(), SupoSECommands.MERGE);
     }
 
-    public void testScheduleCommand() throws Exception {
-        final String[] args = new String[] { "schedule", "--configuration",
-                "/home/kama/supose/test", "--configbase", "/home/kama/base" };
-        CommandLine cl = suposecli.doParseArgs(args);
-        assertNotNull(cl, "The return value of the parse is null!");
-        assertFalse(cl.hasOption(suposecli.getGlobalOptionH()),
-        "Globle Help option not set.");
-        assertFalse(cl.hasOption(suposecli.getScanCommand()));
-        assertFalse(cl.hasOption(suposecli.getSearchCommand()));
-        assertFalse(cl.hasOption(suposecli.getMergeCommand()));
-        assertTrue(cl.hasOption(suposecli.getScheduleCommand()));
+    public void mergeCommandWithSingleIndexAndDestinationParameters() throws Exception {
+        final String[] args = new String[] { "merge", "--index", "test1", "--destination", "dest" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
 
-        ScheduleCommand scheduleCommand = suposecli.getScliScheduleCommand();
-        String configBaseDir = scheduleCommand.getConfBaseDir(cl);
-        assertTrue(configBaseDir.length() > 0,
-        "We had expected to get information for --configbasedir ..");
-        assertEquals(configBaseDir, "/home/kama/base",
-        "We had expected to get exactly /home/kama/base");
+        assertEquals(suposecli.getCommand(), SupoSECommands.MERGE);
+        assertEquals(suposecli.getMergeCommand().getIndexes().size(), 1);
+        assertEquals(suposecli.getMergeCommand().getIndexes().get(0), new File("test1"));
+        assertEquals(suposecli.getMergeCommand().getDestinationIndex(), new File("dest"));
     }
+
+    public void mergeCommandWithMultipleIndexesAndDestinationParameters() throws Exception {
+        final String[] args = new String[] { "merge", "--index", "test1", "--index", "test2", "--destination", "dest" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.MERGE);
+        assertEquals(suposecli.getMergeCommand().getIndexes().size(), 2);
+        assertEquals(suposecli.getMergeCommand().getIndexes().get(0), new File("test1"));
+        assertEquals(suposecli.getMergeCommand().getIndexes().get(1), new File("test2"));
+        assertEquals(suposecli.getMergeCommand().getDestinationIndex(), new File("dest"));
+    }
+
+    public void scheduleCommand() throws Exception {
+        final String[] args = new String[] { "schedule" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCHEDULE);
+    }
+
+    public void scheduleCommandWithoutParameters() throws Exception {
+        final String[] args = new String[] { "schedule" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCHEDULE);
+        assertEquals(suposecli.getScheduleCommand().getConfigurationBase(), null);
+        assertEquals(suposecli.getScheduleCommand().getConfigurationFile(), null);
+    }
+
+    public void scheduleCommandWithConfigurationBase() throws Exception {
+        final String[] args = new String[] { "schedule", "--configbase", "configbase" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCHEDULE);
+        assertEquals(suposecli.getScheduleCommand().getConfigurationBase(), new File("configbase"));
+        assertEquals(suposecli.getScheduleCommand().getConfigurationFile(), null);
+    }
+
+    public void scheduleCommandWithConfigurationBaseAndConfiguration() throws Exception {
+        final String[] args = new String[] { "schedule", "--configbase", "configbase", "--configuration", "configuration" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertFalse(suposecli.isHelpForCommand());
+
+        assertEquals(suposecli.getCommand(), SupoSECommands.SCHEDULE);
+        assertEquals(suposecli.getScheduleCommand().getConfigurationBase(), new File("configbase"));
+        assertEquals(suposecli.getScheduleCommand().getConfigurationFile(), new File("configuration"));
+    }
+
 }
