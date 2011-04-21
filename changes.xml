@@ -12,7 +12,14 @@
             version="0.7.1 Dione"
             date="2011-XX-XX"
             description="Release">
-            <actio
+            <action
+                dev="Karl Heinz Marbaise"
+		type="update">
+                updated maven-changes-plugin to 2.4
+                <fixed
+                    issue="344" />
+            </action>
+            <action
                 dev="Karl Heinz Marbaise"
 		type="update">
                 Upgrade to Tika 0.9
