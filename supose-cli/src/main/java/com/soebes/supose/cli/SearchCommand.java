@@ -22,128 +22,57 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
+
 package com.soebes.supose.cli;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
-import org.apache.commons.cli2.CommandLine;
-import org.apache.commons.cli2.Group;
-import org.apache.commons.cli2.Option;
-import org.apache.commons.cli2.option.Command;
-import org.apache.commons.cli2.validation.EnumValidator;
-
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import com.soebes.supose.core.FieldNames;
 
 /**
+ * The search command for command line.
+ *
  * @author Karl Heinz Marbaise
- * 
  */
-public class SearchCommand extends CLIBase {
+@Parameters(separators = "=", commandDescription = "Query the index of scanned repositories to get answers.")
+public class SearchCommand extends BaseCommand implements ICommand {
 
-    private Option optionIndex = null;
-    private Option optionQuery = null;
-    private Option optionFields = null;
-    private Option optionXML = null;
+    @Parameter(names = {"--index", "-I"}, description = "Define the name of the index folder.")
+    private final String indexName;
 
+    @Parameter(names = {"--field", "-F"}, description = "Give the name of the fields which should be printed out.", converter = FieldNamesConverter.class)
+    private final List<FieldNames> fields = new ArrayList<FieldNames>();
+
+    @Parameter(names = { "--query", "-Q" }, description = "Define the query you would like to use for searching in the index.")
+    private String query;
+
+    @Parameter(names = { "--xml" }, description = "print out results as XML")
+    private boolean xml;
+
+    /**
+     * This will define the defaults for the different command line options.
+     */
     public SearchCommand() {
-        setCommand(createCommand());
+        this.indexName = "indexDir.test";
     }
 
-    private Command createCommand() {
-        /*
-         * 
-         * suposecli search --index indexDirectory "Query"
-         */
-
-        optionIndex = obuilder
-                .withShortName("I")
-                .withLongName("index")
-                .withArgument(abuilder.withName("index").create())
-                .withDescription(
-                        "Define the index directory where to find the index.")
-                .create();
-
-        optionQuery = obuilder.withShortName("Q").withLongName("query")
-                .withArgument(abuilder.withName("query").create())
-                .withDescription("Define the query which will be executed.")
-                .create();
-
-        optionXML = obuilder.withShortName("x").withLongName("xml")
-                .withDescription("Output in XML").create();
-
-        Set<String> enumSetFields = new TreeSet<String>();
-        for (FieldNames item : FieldNames.values()) {
-            enumSetFields.add(item.getValue());
-        }
-        EnumValidator fieldValidator = new EnumValidator(enumSetFields);
-        optionFields = obuilder
-                .withShortName("F")
-                .withLongName("fields")
-                .withArgument(
-                        abuilder.withName("fields")
-                                .withValidator(fieldValidator).create())
-                .withDescription(
-                        "Define the fields which will be shown on the result set.")
-                .create();
-
-        Group optionSearch = gbuilder.withOption(optionIndex)
-                .withOption(optionQuery).withOption(optionFields)
-                .withOption(optionXML).create();
-
-        return cbuilder.withName("search").withName("se")
-                .withDescription("Search within index with particular query.")
-                .withChildren(optionSearch).create();
+    public String getIndexName() {
+        return indexName;
     }
 
-    public Option getOptionIndex() {
-        return optionIndex;
+    public List<FieldNames> getFields() {
+        return fields;
     }
 
-    public Option getOptionQuery() {
-        return optionQuery;
+    public String getQuery () {
+        return query;
     }
 
-    public Option getOptionFields() {
-        return optionFields;
-    }
-
-    public Option getOptionXML() {
-        return optionXML;
-    }
-
-    @SuppressWarnings("unchecked")
-    public String getIndexDir(CommandLine cline) {
-        List<String> list = cline.getValues((getOptionIndex()));
-        if (list == null || list.size() == 0) {
-            return "indexDir.test";
-        } else {
-            return list.get(0);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public String getQuery(CommandLine cline) {
-        List<String> list = cline.getValues((getOptionQuery()));
-
-        String result = "";
-        if (list == null || list.size() == 0) {
-            return result;
-        }
-        for (int i = 0; i < list.size(); i++) {
-            result += " " + list.get(i);
-        }
-        return result;
-    }
-
-    public boolean getXML(CommandLine cline) {
-        return cline.hasOption((getOptionXML()));
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<String> getFields(CommandLine cline) {
-        return cline.getValues(getOptionFields());
+    public boolean isXML () {
+        return xml;
     }
 
 }

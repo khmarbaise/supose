@@ -22,77 +22,45 @@
  * If you have any questions about the Software or about the license
  * just write an email to license@soebes.de
  */
+
 package com.soebes.supose.cli;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.cli2.CommandLine;
-import org.apache.commons.cli2.Group;
-import org.apache.commons.cli2.Option;
-import org.apache.commons.cli2.option.Command;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
+import com.beust.jcommander.converters.FileConverter;
 
 /**
+ * The merge command for command line.
+ *
  * @author Karl Heinz Marbaise
- * 
- * 
- *         supose merge --index anton berta egon --destination result
  */
-public class MergeCommand extends CLIBase {
+@Parameters(commandDescription = "Merge multiple indexes into a single index.", separators = "=")
+public class MergeCommand extends BaseCommand implements ICommand {
 
-    private Option optionDestination = null;
-    private Option optionIndex = null;
+    @Parameter(
+        names = {"--destination", "-D"},
+        description = "The destination index.",
+        converter = FileConverter.class
+    )
+    private File destinationIndex;
 
-    public MergeCommand() {
-        setCommand(createCommand());
+    @Parameter(
+        names = {"--index", "-I"},
+        description = "The indexes you would like to merge into destination.",
+        converter = FileConverter.class
+    )
+    private List<File> indexes = new ArrayList<File>();
+
+    public File getDestinationIndex() {
+        return destinationIndex;
     }
 
-    private Command createCommand() {
-        optionDestination = obuilder
-                .withLongName("destination")
-                .withRequired(true)
-                .withArgument(abuilder.withName("destination").create())
-                .withDescription(
-                        "Define the destination directory of the merged index.")
-                .create();
-
-        optionIndex = obuilder
-                .withShortName("I")
-                .withLongName("index")
-                .withArgument(abuilder.withName("index").create())
-                .withDescription(
-                        "Define the index directory where the created index will be stored.")
-                .create();
-
-        Group scanOptionIndex = gbuilder.withOption(optionIndex)
-                .withOption(optionDestination).create();
-
-        return cbuilder.withName("merge").withName("mg")
-                .withDescription("Merge existing lucene index together.")
-                .withChildren(scanOptionIndex).create();
-    }
-
-    public Option getOptionIndex() {
-        return optionIndex;
-    }
-
-    public Option getOptionDestination() {
-        return optionDestination;
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<String> getIndex(CommandLine cline) {
-        List<String> list = cline.getValues((getOptionIndex()));
-        return list;
-    }
-
-    @SuppressWarnings("unchecked")
-    public String getDestination(CommandLine cline) {
-        List<String> list = cline.getValues((getOptionDestination()));
-        if (list == null || list.size() == 0) {
-            return "destination.Dir";
-        } else {
-            return list.get(0);
-        }
+    public List<File> getIndexes() {
+        return indexes;
     }
 
 }

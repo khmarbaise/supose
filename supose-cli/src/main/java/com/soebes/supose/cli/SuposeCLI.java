@@ -25,21 +25,15 @@
 
 package com.soebes.supose.cli;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
-import org.apache.commons.cli2.CommandLine;
-import org.apache.commons.cli2.Group;
-import org.apache.commons.cli2.HelpLine;
-import org.apache.commons.cli2.OptionException;
-import org.apache.commons.cli2.util.HelpFormatter;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -52,6 +46,8 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import com.beust.jcommander.ParameterException;
+import com.soebes.supose.cli.SupoSECommandLine.SupoSECommands;
 import com.soebes.supose.config.filter.FilterFile;
 import com.soebes.supose.config.filter.Filtering;
 import com.soebes.supose.config.filter.model.Filter;
@@ -79,55 +75,89 @@ import com.thoughtworks.xstream.XStream;
 public class SuposeCLI {
     private static Logger LOGGER = Logger.getLogger(SuposeCLI.class);
 
-    private static final int HELP_OPTION_DESCRIPTION_INDENT = 30;
+    private int returnCode = 0;
 
-    private static SuposeCommandLine suposecli = new SuposeCommandLine();
-    private static CommandLine commandLine = null;
-
-    public static void main(String[] args) throws SVNException {
-        try {
-            commandLine = suposecli.doParseArgs(args);
-        } catch (OptionException e) {
-            System.err.println("Error: Unexpected Option given on command line. " + e);
-            System.exit(1);
-        }
-
-        if (commandLine.hasOption(suposecli.getGlobalOptionH())) {
-            printHelp();
-            System.exit(0);
-        } else if (commandLine.hasOption(suposecli.getScanCommand())) {
-            runScan(suposecli.getScliScanCommand());
-        } else if (commandLine.hasOption(suposecli.getSearchCommand())) {
-            runSearch(suposecli.getScliSearchCommand());
-        } else if (commandLine.hasOption(suposecli.getMergeCommand())) {
-            runMerge(suposecli.getScliMergeCommand());
-        } else if (commandLine.hasOption(suposecli.getScheduleCommand())) {
-            runSchedule(suposecli.getScliScheduleCommand());
-        } else {
-            System.err
-                    .println("Error: You should define either scan, search, merge or schedule as command or use -H option to get further detailed information.");
-            System.exit(1);
-        }
+    public SuposeCLI() {
     }
 
-    private static void printHelp() {
-        StringBuffer help = new StringBuffer();
-        Group suposeOptions = suposecli.getSuposeOptions();
-        List<?> helpLines = suposeOptions.helpLines(0, HelpFormatter.DEFAULT_DISPLAY_USAGE_SETTINGS, null);
-        String descriptionPad = StringUtils.repeat(" ", HELP_OPTION_DESCRIPTION_INDENT);
-        int descriptionIndent = HelpFormatter.DEFAULT_FULL_WIDTH - HELP_OPTION_DESCRIPTION_INDENT;
-        for (Iterator<?> i = helpLines.iterator(); i.hasNext();) {
-            HelpLine helpLine = (HelpLine) i.next();
-            String usage = helpLine.usage(HelpFormatter.DEFAULT_LINE_USAGE_SETTINGS, null);
-            String usageWrapped = WordUtils.wrap(usage, HelpFormatter.DEFAULT_FULL_WIDTH);
-            help.append(usageWrapped).append("\n");
-            String description = helpLine.getDescription();
-            if (description != null) {
-                String descriptionWrapped = WordUtils.wrap(description, descriptionIndent, "\n" + descriptionPad, true);
-                help.append(descriptionPad).append(descriptionWrapped).append("\n");
-            }
+    /**
+     * This is the <code>pws --version</code>
+     */
+    private void printVersion() {
+        Properties properties = new Properties();
+        try {
+            properties.load(this.getClass().getResourceAsStream(
+                    "/version.properties"));
+        } catch (IOException e) {
+            LOGGER.error("Can't read the version.properties file.", e);
+            return;
         }
-        System.out.println(help);
+        String version = properties.getProperty("version");
+        String buildNumber = properties.getProperty("buildNumber");
+        System.out.println("Version:" + version);
+        System.out.println("Build Number:" + buildNumber);
+    }
+
+    public void run(String[] args) throws SVNException {
+        setReturnCode(0);
+
+        SupoSECommandLine commands = new SupoSECommandLine(args);
+        try {
+            commands = new SupoSECommandLine(args);
+        } catch (ParameterException e) {
+            LOGGER.warn("");
+            LOGGER.warn("It looks like you used a wrong command or used wrong options or a combination of this.");
+            LOGGER.warn("");
+            LOGGER.warn("Message: " + e.getMessage());
+            LOGGER.warn("");
+            LOGGER.warn("To get help about all existing commands please type:");
+            LOGGER.warn("");
+            LOGGER.warn("    supose --help");
+            LOGGER.warn("");
+            LOGGER.warn("If you like to get help about a particular command:");
+            LOGGER.warn("");
+            LOGGER.warn("    supose command --help");
+            LOGGER.warn("");
+            return;
+        }
+
+        SupoSECommands command = commands.getCommand();
+        if (commands.isHelpForCommand()) {
+            commands.getCommander().usage(command.getCommandName());
+            return;
+        }
+
+        if (commands.getMainCommand().isVersion()) {
+            printVersion();
+            return;
+        }
+
+        if (command == null || commands.getMainCommand().isHelp()
+                || (args.length == 0)) {
+            commands.getCommander().usage();
+            return;
+        }
+
+
+        switch (command) {
+            case MERGE:
+                runMerge(commands.getMergeCommand());
+                break;
+            case SCAN:
+                runScan(commands.getScanCommand());
+                break;
+            case SEARCH:
+                runSearch(commands.getSearchCommand());
+                break;
+            case SCHEDULE:
+                runSchedule(commands.getScheduleCommand());
+                break;
+            default:
+                LOGGER.error("Unknown command in switch.");
+                setReturnCode(1);
+                break;
+        }
+
     }
 
     /**
@@ -138,14 +168,17 @@ public class SuposeCLI {
      *            The command line.
      * @throws SVNException
      */
-    private static void runScan(ScanCommand scanCommand) throws SVNException {
-        String url = scanCommand.getURL(commandLine);
-        long fromRev = scanCommand.getFromRev(commandLine);
-        long toRev = scanCommand.getToRev(commandLine);
-        String indexDirectory = scanCommand.getIndexDir(commandLine);
-        boolean create = scanCommand.getCreate(commandLine);
-        String username = scanCommand.getUsername(commandLine);
-        String password = scanCommand.getPassword(commandLine);
+    private void runScan(ScanCommand scanCommand) throws SVNException {
+        if (scanCommand.getUri() == null) {
+            LOGGER.error("You have to give an url!");
+            return;
+        }
+        long fromRev = scanCommand.getFromRev();
+        long toRev = scanCommand.getToRev();
+        String indexDirectory = scanCommand.getIndexName();
+        boolean create = scanCommand.isCreateIndex();
+        String username = scanCommand.getUsername();
+        String password = scanCommand.getPassword();
 
         ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(username, password);
 
@@ -175,7 +208,7 @@ public class SuposeCLI {
         }
 
         Filtering filtering = new Filtering(filterConfiguration);
-        long blockNumber = ScanSingleRepository.scanFullRepository(scanRepository, url, fromRev, indexDirectory,
+        long blockNumber = ScanSingleRepository.scanFullRepository(scanRepository, scanCommand.getUri().toString(), fromRev, indexDirectory,
                 create, authManager, filtering);
 
         LOGGER.info("Scanning of revisions done");
@@ -183,9 +216,9 @@ public class SuposeCLI {
         ScanSingleRepository.mergeIndexesAndCleanUp(indexDirectory, blockNumber);
     }
 
-    private static void runSchedule(ScheduleCommand scheduleCommand) {
-        String configurationFile = scheduleCommand.getConfiguration(commandLine);
-        String configurationBaseDir = scheduleCommand.getConfBaseDir(commandLine);
+    private void runSchedule(ScheduleCommand scheduleCommand) {
+        File configurationFile = scheduleCommand.getConfigurationFile();
+        File configurationBaseDir = scheduleCommand.getConfigurationBase();
 
         System.out.println("Configuration file: " + configurationFile);
         int scheduledJobs = 0;
@@ -201,7 +234,7 @@ public class SuposeCLI {
 
             scheduler.addSchedulerListener(schedulerListener);
 
-            ConfigurationRepositories confRepos = new ConfigurationRepositories(configurationFile);
+            ConfigurationRepositories confRepos = new ConfigurationRepositories(configurationFile.getAbsolutePath());
             LOGGER.info("We have " + confRepos.getNames().length + " repositories.");
             for (int i = 0; i < confRepos.getNames().length; i++) {
                 String repositoryName = confRepos.getNames()[i];
@@ -268,9 +301,9 @@ public class SuposeCLI {
      *
      * @param mergeCommand
      */
-    private static void runMerge(MergeCommand mergeCommand) {
-        List<String> indexList = mergeCommand.getIndex(commandLine);
-        String destination = mergeCommand.getDestination(commandLine);
+    private void runMerge(MergeCommand mergeCommand) {
+        List<File> indexList = mergeCommand.getIndexes();
+        File destination = mergeCommand.getDestinationIndex();
 
         for (int i = 0; i < indexList.size(); i++) {
             System.out.print("Index[" + i + "]=" + indexList.get(i) + " ");
@@ -286,23 +319,17 @@ public class SuposeCLI {
         System.out.println("This has taken " + seconds + " seconds.");
     }
 
-    private static List<FieldNames> getDisplayFields(List<String> cliFields) {
-        // Here we translate the search fields into the fields which are
-        // displayed.
-        List<FieldNames> cliDisplayFields = new ArrayList<FieldNames>();
-        for (String fieldName : cliFields) {
-            FieldNames fn = FieldNames.valueOf(fieldName.toUpperCase());
-            cliDisplayFields.add(fn);
-        }
-        return cliDisplayFields;
-    }
-
-    private static void runSearch(SearchCommand searchCommand) {
+    /**
+     * The search command.
+     *
+     * @param searchCommand
+     */
+    private void runSearch(SearchCommand searchCommand) {
         LOGGER.info("Searching started...");
-        String indexDirectory = searchCommand.getIndexDir(commandLine);
-        String queryLine = searchCommand.getQuery(commandLine);
-        boolean xml = searchCommand.getXML(commandLine);
-        List<String> cliFields = searchCommand.getFields(commandLine);
+        String indexDirectory = searchCommand.getIndexName();
+        String queryLine = searchCommand.getQuery();
+        boolean xml = searchCommand.isXML();
+        List<FieldNames> cliFields = searchCommand.getFields();
 
         SearchRepository searchRepository = new SearchRepository(indexDirectory);
 
@@ -320,15 +347,14 @@ public class SuposeCLI {
                     System.out.print("Field[" + i + "]=" + cliFields.get(i) + " ");
                 }
             } else {
-                cliFields = new ArrayList<String>();
+                cliFields = new ArrayList<FieldNames>();
                 // If nothings is given on command line we have to define
                 // default fields which will be printed
-                cliFields.add(FieldNames.REVISION.getValue());
-                cliFields.add(FieldNames.FILENAME.getValue());
-                cliFields.add(FieldNames.PATH.getValue());
-                cliFields.add(FieldNames.KIND.getValue());
+                cliFields.add(FieldNames.REVISION);
+                cliFields.add(FieldNames.FILENAME);
+                cliFields.add(FieldNames.PATH);
+                cliFields.add(FieldNames.KIND);
             }
-            List<FieldNames> cliDisplayFields = getDisplayFields(cliFields);
 
             if (result == null) {
                 System.out.println("Somethings has gone wrong. Check the log file output!");
@@ -339,7 +365,7 @@ public class SuposeCLI {
             long count = 1;
             for (ResultEntry item : result) {
                 System.out.printf("%6d: ", count);
-                for (FieldNames fn : cliDisplayFields) {
+                for (FieldNames fn : cliFields) {
                     if (fn.equals(FieldNames.PROPERTIES)) {
                         // Properties will be put into separate lines
                         System.out.println("");
@@ -363,6 +389,14 @@ public class SuposeCLI {
         } catch (IOException e) {
             LOGGER.error("Error during closing of the index happened: ", e);
         }
+    }
+
+    public void setReturnCode(int returnCode) {
+        this.returnCode = returnCode;
+    }
+
+    public int getReturnCode() {
+        return returnCode;
     }
 
 }

@@ -137,7 +137,7 @@ public class RepositoryScanJob implements InterruptableJob, StatefulJob {
             }
 
             // Merge the created index into the target index...
-            IndexHelper.mergeIndex(resultIndexName, jobIndexName);
+            IndexHelper.mergeIndex(new File(resultIndexName), new File(jobIndexName));
 
             // save the configuration file with the new revision numbers.
             jobConfig.getConfigData().setFromrev(Long.toString(endRev));

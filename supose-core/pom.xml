@@ -1,107 +1,101 @@
 <project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.soebes.supose</groupId>
-        <artifactId>supose-parent</artifactId>
-        <version>0.7.1-SNAPSHOT</version>
-        <relativePath>../supose-parent/pom.xml</relativePath>
-    </parent>
+  <parent>
+    <groupId>com.soebes.supose</groupId>
+    <artifactId>supose-parent</artifactId>
+    <version>0.7.1-SNAPSHOT</version>
+    <relativePath>../supose-parent/pom.xml</relativePath>
+  </parent>
 
-    <artifactId>supose-core</artifactId>
-    <packaging>jar</packaging>
-    <name>SupoSE :: Core</name>
+  <artifactId>supose-core</artifactId>
+  <packaging>jar</packaging>
+  <name>SupoSE :: Core</name>
 
-    <build>
-        <plugins>
-            <!-- The ANTLR 3 Maven 2 Plugin -->
-            <plugin>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr3-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>antlr</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+  <build>
+    <plugins>
+      <!-- The ANTLR 3 Maven 2 Plugin -->
+      <plugin>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr3-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>antlr</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
-	<dependencies>
-        	<dependency>
-			<groupId>com.soebes.supose.filter</groupId>
-			<artifactId>filter</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- This dependency must be installed in you local repository or in you
-			 repository manager, cause it's not officially made public!
-			 http://commons.apache.org/sandbox/cli2/index.html
-			 Description how to use it can be found here:
-			 http://www.supose.org/wiki/supose/Requirement
-		-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-cli2</artifactId>
-            <classifier>dev</classifier>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.tmatesoft.svnkit</groupId>
-            <artifactId>svnkit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.ini4j</groupId>
-            <artifactId>ini4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr-runtime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <!-- The following two dependency has to be given explicit, caused 
-            by a problem on the PDFBox See http://www.supose.org/issues/show/250 for 
-            details. <dependency> <groupId>bouncycastle</groupId> <artifactId>bcmail-jdk14</artifactId> 
-            <version>136</version> </dependency> <dependency> <groupId>bouncycastle</groupId> 
-            <artifactId>bcprov-jdk14</artifactId> <version>136</version> </dependency> -->
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.soebes.supose.filter</groupId>
+      <artifactId>filter</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.soebes.supose.filter</groupId>
+      <artifactId>filter-model</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.tmatesoft.svnkit</groupId>
+      <artifactId>svnkit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ini4j</groupId>
+      <artifactId>ini4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr-runtime</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-parsers</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xml-apis</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+    <!-- The following two dependency has to be given explicit, caused by
+      a problem on the PDFBox See http://www.supose.org/issues/show/250 for details.
+      <dependency> <groupId>bouncycastle</groupId> <artifactId>bcmail-jdk14</artifactId>
+      <version>136</version> </dependency> <dependency> <groupId>bouncycastle</groupId>
+      <artifactId>bcprov-jdk14</artifactId> <version>136</version> </dependency> -->
+  </dependencies>
 </project>

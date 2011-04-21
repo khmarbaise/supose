@@ -35,7 +35,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tomcat.major>6</tomcat.major>
         <tomcat.minor>0</tomcat.minor>
-        <tomcat.patch>29</tomcat.patch>
+        <tomcat.patch>32</tomcat.patch>
         <tomcat.version>${tomcat.major}.${tomcat.minor}.${tomcat.patch}</tomcat.version>
     </properties>
 
@@ -278,7 +278,7 @@
                 <plugin>
                     <groupId>org.codehaus.cargo</groupId>
                     <artifactId>cargo-maven2-plugin</artifactId>
-                    <version>1.0.5</version>
+                    <version>1.0.6</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -352,12 +352,6 @@
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-cli2</artifactId>
-                <version>2.0</version>
-                <classifier>dev</classifier>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
