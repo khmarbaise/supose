@@ -14,6 +14,14 @@
             description="Release">
             <action
                 dev="Karl Heinz Marbaise"
+		type="add"
+                issue="345">
+                Added Subversion Authorization Parser Module to supose-war.
+                <fixed
+                    issue="328" />
+            </action>
+            <action
+                dev="Karl Heinz Marbaise"
 		type="add">
                 Replaced commons-cli2 with jcommander
                 <fixed
