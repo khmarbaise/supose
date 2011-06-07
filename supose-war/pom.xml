@@ -61,7 +61,7 @@
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-impl</artifactId>
-            <version>1.2</version>
+            <version>1.2-b19</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>com.sun.facelets</groupId>
             <artifactId>jsf-facelets</artifactId>
-            <version>1.1.12</version>
+            <version>1.1.14</version>
         </dependency>
         <dependency>
             <groupId>org.apache.myfaces.tomahawk</groupId>
