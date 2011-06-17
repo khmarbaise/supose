@@ -32,10 +32,11 @@
     http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
     version="1.2">
 
-    <application>
-        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
-    </application>
+
+<!--    <application> -->
+<!--       <default-render-kit-id>org.apache.myfaces.trinidad.core</default-render-kit-id> -->
+<!--     </application> -->
+
     <managed-bean>
         <managed-bean-name>testBean</managed-bean-name>
         <managed-bean-class>com.soebes.supose.release.web.TestSession</managed-bean-class>

@@ -24,8 +24,15 @@
  */
 package com.soebes.supose.release.web;
 
-public class RepositoryBean {
-    private String index;
+import java.io.Serializable;
+
+public class RepositoryBean implements Serializable {
+    /**
+	 * The serialVersionUID.
+	 */
+	private static final long serialVersionUID = -421205045432802931L;
+
+	private String index;
 
     private String url;
     private String urlviewvc;
