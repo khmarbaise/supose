@@ -47,8 +47,9 @@
           <container>
             <containerId>tomcat${tomcat.major}x</containerId>
             <zipUrlInstaller>
-              <url>file://${basedir}/src/test/resources/apache-tomcat-${tomcat.version}.tar.gz</url>
-              <installDir>${installDir}</installDir>
+              <url>http://archive.apache.org/dist/tomcat/tomcat-${tomcat.major}/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.tar.gz</url>
+              <extractDir>${project.build.directory}/extract/</extractDir>
+              <downloadDir>${project.build.directory}/download/</downloadDir>
             </zipUrlInstaller>
             <output>${project.build.directory}/tomcat${tomcat.major}x.log</output>
             <log>${project.build.directory}/cargo.log</log>
