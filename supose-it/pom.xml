@@ -59,6 +59,7 @@
             <properties>
               <cargo.logging>high</cargo.logging>
               <cargo.servlet.port>9080</cargo.servlet.port>
+              <cargo.tomcat.ajp.port>9008</cargo.tomcat.ajp.port>
             </properties>
           </configuration>
         </configuration>
