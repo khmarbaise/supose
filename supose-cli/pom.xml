@@ -30,7 +30,6 @@
           </execution>
         </executions>
         <configuration>
-          <binPrefix>SupoSE</binPrefix>
           <assembleDirectory>${project.build.directory}/appassembler</assembleDirectory>
           <extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
           <generateRepository>false</generateRepository>

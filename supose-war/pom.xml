@@ -13,7 +13,6 @@
   </parent>
 
   <artifactId>supose-war</artifactId>
-  <groupId>com.soebes.supose</groupId>
   <packaging>war</packaging>
   <name>SupoSE :: WAR</name>
 
