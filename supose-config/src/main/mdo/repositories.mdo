@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+
+<model
+	xsd.namespace="http://modello.codehaus.org/xsd/modello-1.2.0.xsd"
+	xsd.targetNamespace="http://modello.codehaus.org/xsd/modello-1.2.0.xsd">
+
+	<id>repositories</id>
+	<name>Repositories</name>
+	<defaults>
+		<default>
+			<key>package</key>
+			<value>com.soebes.supose.config.model</value>
+		</default>
+	</defaults>
+
+	<classes>
+		<class rootElement="true" xml.tagName="repositoryConfiguration">
+			<id>repositoryConfigContainer</id>
+			<name>RepositoryConfigContainer</name>
+			<version>1.0.0</version>
+			<fields>
+				<field xml.tagName="repositories">
+					<name>repositories</name>
+					<version>1.0.0</version>
+					<description>
+						<![CDATA[
+							The invalid category defines licenses which are
+							not ok.
+						]]>
+					</description>
+					<association xml.itemsStyle="wrapped"> 
+						<type>RepositoryList</type>
+						<multiplicity>1</multiplicity>
+					</association>
+				</field>
+
+				<field xml.tagName="scheduler">
+					<name>scheduler</name>
+					<version>1.0.0</version>
+					<association xml.itemsStyle="wrapped"> 
+						<type>SchedulerRepositoryList</type>
+						<multiplicity>1</multiplicity>
+					</association>
+				</field>
+
+				<field>
+					<version>1.0.0</version>
+					<name>baseDirectory</name>
+					<type>String</type>
+				</field>
+			</fields>
+		</class>
+
+		<class xsd.compositor="sequence">
+			<name>RepositoryList</name>
+			<version>1.0.0</version>
+			<fields>
+				<field>
+					<name>repository</name>
+					<version>1.0.0</version>
+					<association xml.itemsStyle="flat">
+						<type>RepositoryItem</type>
+						<multiplicity>*</multiplicity>
+					</association>
+				</field>
+			</fields>
+		</class>
+
+		<class xsd.compositor="sequence">
+			<id>schedulerRepositoryList</id>
+			<name>SchedulerRepositoryList</name>
+			<version>1.0.0</version>
+			<fields>
+				<field>
+					<name>scheduledRepository</name>
+					<version>1.0.0</version>
+					<association xml.itemsStyle="flat">
+						<type>ScheduledRepositoryItem</type>
+						<multiplicity>*</multiplicity>
+					</association>
+				</field>
+			</fields>
+		</class>
+
+		<class>
+			<id>repositoryItem</id>
+			<name>RepositoryItem</name>
+			<version>1.0.0</version>
+			<fields>
+				<field>
+					<version>1.0.0</version>
+					<required>true</required>
+					<name>id</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>name</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>url</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>username</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>password</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>fromRevision</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>toRevision</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>blockSize</name>
+					<type>long</type>
+				</field>
+				<field>
+					<name>indexer</name>
+					<version>1.0.0</version>
+					<association>
+						<type>Indexer</type>
+					</association>
+				</field>
+			</fields>
+		</class>
+
+		<class xml.tagName="scheduledRepository">
+			<id>scheduledRepositoryItem</id>
+			<name>ScheduledRepositoryItem</name>
+			<version>1.0.0</version>
+			<fields>
+				<field>
+					<version>1.0.0</version>
+					<required>true</required>
+					<identifier>true</identifier>
+					<name>repositoryId</name>
+					<id>repositoryId</id>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>schedulerTrigger</name>
+					<type>String</type>
+				</field>
+				<field>
+					<name>indexer</name>
+					<version>1.0.0</version>
+					<association>
+						<type>Indexer</type>
+					</association>
+				</field>
+			</fields>
+		</class>
+
+		<class>
+			<id>indexer</id>
+			<name>Indexer</name>
+			<version>1.0.0</version>
+			<fields>
+				<field>
+					<version>1.0.0</version>
+					<name>tempIndex</name>
+					<type>String</type>
+				</field>
+				<field>
+					<version>1.0.0</version>
+					<name>resultIndex</name>
+					<type>String</type>
+				</field>
+			</fields>
+		</class>
+
+	</classes>
+</model>

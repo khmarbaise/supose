@@ -20,6 +20,7 @@
   <modules>
     <module>supose-parent</module>
     <module>supose-core</module>
+    <module>supose-config</module>
     <module>supose-cli</module>
     <module>supose-war</module>
     <module>supose-it</module>

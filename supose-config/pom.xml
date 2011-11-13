@@ -1,0 +1,86 @@
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.soebes.supose</groupId>
+        <artifactId>supose-parent</artifactId>
+        <version>0.7.1-SNAPSHOT</version>
+        <relativePath>../supose-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>supose-config</artifactId>
+    <packaging>jar</packaging>
+    <name>SupoSE :: Configuration</name>
+
+    <properties>
+        <mdoVersion>1.0.0</mdoVersion>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.modello</groupId>
+                <artifactId>modello-maven-plugin</artifactId>
+                <version>1.4</version>
+                <configuration>
+                    <version>${mdoVersion}</version>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>mdo</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xpp3-reader</goal>
+                            <goal>xpp3-writer</goal>
+                            <goal>java</goal>
+                            <goal>xsd</goal>
+                        </goals>
+                        <configuration>
+                            <models>
+                                <model>src/main/mdo/repositories.mdo</model>
+                            </models>
+                            <useJava5>true</useJava5>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>mdo-site</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>xsd</goal>
+                        </goals>
+                        <configuration>
+                            <models>
+                                <model>src/main/mdo/repositories.mdo</model>
+                            </models>
+                            <outputDirectory>${basedir}/target/generated-site/resources/xsd</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+            <version>6.0.1</version>
+        </dependency>
+    </dependencies>
+</project>
