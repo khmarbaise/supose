@@ -25,7 +25,6 @@
       <plugin>
         <groupId>org.codehaus.modello</groupId>
         <artifactId>modello-maven-plugin</artifactId>
-        <version>1.4</version>
         <configuration>
           <version>${mdoVersion}</version>
         </configuration>
@@ -78,8 +77,6 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>5.13.1</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

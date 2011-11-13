@@ -24,9 +24,10 @@
  */
 package com.soebes.supose.config.xml;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.IOException;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.soebes.supose.config.Configuration;
@@ -100,7 +101,7 @@ public class CreateRepositoryConfigurationTest {
 
         config.setBaseDirectory("/home/test");
 
-        Assert.assertEquals(config.toString(), expected);
+        assertEquals(config.toString(), expected);
     }
 
     @Test
@@ -134,6 +135,6 @@ public class CreateRepositoryConfigurationTest {
 
         config.getRepositories().addRepository(ri1);
         config.setBaseDirectory("/home/test");
-        Assert.assertEquals(config.toString(), expected);
+        assertEquals(config.toString(), expected);
     }
 }

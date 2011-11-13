@@ -118,8 +118,6 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>6.0.1</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -312,6 +310,12 @@
           <version>2.7</version>
         </plugin>
 
+        <plugin>
+          <groupId>org.codehaus.modello</groupId>
+          <artifactId>modello-maven-plugin</artifactId>
+          <version>1.4</version>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
@@ -377,6 +381,17 @@
         <groupId>org.ini4j</groupId>
         <artifactId>ini4j</artifactId>
         <version>${ini4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>6.0.1</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-utils</artifactId>
+        <version>1.5.7</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

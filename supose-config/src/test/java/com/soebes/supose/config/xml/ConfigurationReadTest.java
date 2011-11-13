@@ -24,11 +24,13 @@
  */
 package com.soebes.supose.config.xml;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.soebes.supose.TestBase;
@@ -40,18 +42,18 @@ public class ConfigurationReadTest extends TestBase {
     public void readXMLConfigurationTest() throws IOException, XmlPullParserException {
         File configFile = new File(getTestResourcesDirectory() + File.separator + "repositories.xml");
         Configuration config = new Configuration(configFile);
-        Assert.assertNotNull(config.getRepositories());
-        Assert.assertNotNull(config.getScheduler());
-        Assert.assertEquals(config.getRepositories().getRepository().size(), 2);
-        Assert.assertEquals(config.getScheduler().getScheduledRepository().size(), 1);
+        assertNotNull(config.getRepositories());
+        assertNotNull(config.getScheduler());
+        assertEquals(config.getRepositories().getRepository().size(), 2);
+        assertEquals(config.getScheduler().getScheduledRepository().size(), 1);
     }
 
     @Test
     public void readPartialConfigurationTest() throws IOException, XmlPullParserException {
         File configFile = new File(getTestResourcesDirectory() + File.separator + "repositories-partial.xml");
         Configuration config = new Configuration(configFile);
-        Assert.assertNotNull(config.getRepositories());
-        Assert.assertEquals(config.getRepositories().getRepository().size(), 1);
-        Assert.assertEquals(config.getScheduler().getScheduledRepository().size(), 0);
+        assertNotNull(config.getRepositories());
+        assertEquals(config.getRepositories().getRepository().size(), 1);
+        assertEquals(config.getScheduler().getScheduledRepository().size(), 0);
     }
 }
