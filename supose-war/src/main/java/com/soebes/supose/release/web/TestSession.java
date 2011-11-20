@@ -24,15 +24,13 @@
  */
 package com.soebes.supose.release.web;
 
+
 import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.component.html.HtmlDataTable;
-import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.jsf.FacesContextUtils;
 
 import com.soebes.supose.core.search.ResultEntry;
 import com.soebes.supose.core.search.SearchRepository;
@@ -51,10 +49,10 @@ public class TestSession implements Serializable {
     private RepositoryBean repositoryBean = null;
 
     public TestSession() {
-        ApplicationContext ctx = FacesContextUtils
-                .getWebApplicationContext(FacesContext.getCurrentInstance());
-        setRepositoryBean((RepositoryBean) ctx.getBean("RepositoryBean"));
-        setIndex(getRepositoryBean().getIndex());
+//        ApplicationContext ctx = FacesContextUtils
+//                .getWebApplicationContext(FacesContext.getCurrentInstance());
+//        setRepositoryBean((RepositoryBean) ctx.getBean("RepositoryBean"));
+//        setIndex(getRepositoryBean().getIndex());
     }
 
     public String searchRevision() {
