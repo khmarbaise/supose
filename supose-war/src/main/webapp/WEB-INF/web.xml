@@ -33,12 +33,14 @@
 
     <display-name>SupoSE</display-name>
 
+<!--
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+-->
     <resource-env-ref>
         <description>Repository Bean</description>
         <resource-env-ref-name>repositoryBean</resource-env-ref-name>
