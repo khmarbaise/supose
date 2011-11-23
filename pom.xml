@@ -25,6 +25,7 @@
     <module>supose-war</module>
     <module>supose-it</module>
     <module>supose-filter</module>
+    <module>supose-docbk</module>
   </modules>
 
   <build>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<book>
+  <title>Subversion Repository Search Engine</title>
+  <titleabbrev>SupoSE Guide</titleabbrev>
+
+  <bookinfo>
+    <edition>${project.version}</edition>
+    <authorgroup>
+      <author>
+        <surname>Marbaise</surname>
+        <firstname>Karl Heinz</firstname>
+        <email>info@supose.org</email>
+      </author>
+    </authorgroup>
+
+    <abstract role="description-short">
+      <para>This is the
+        <literal>Subversion Repository Search Engine Users Guide</literal>
+      </para>
+      <para>
+        This is the users guide to SupoSE to describe how to use and
+        install the Subversion Repository Search Engine.
+      </para>
+    </abstract>
+  </bookinfo>
+
+  <xi:include href="copyright.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</book>

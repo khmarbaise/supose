@@ -1,0 +1,53 @@
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.soebes.supose</groupId>
+    <artifactId>supose-parent</artifactId>
+    <version>0.7.1-SNAPSHOT</version>
+    <relativePath>../supose-parent/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>supose-docbk</artifactId>
+  <packaging>pom</packaging>
+
+  <name>SupoSE :: Users Guide</name>
+  <description>SupoSE docbook User Guide</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.agilejava.docbkx</groupId>
+        <artifactId>docbkx-maven-plugin</artifactId>
+        <version>2.0.13</version>
+        <dependencies>
+          <dependency>
+            <groupId>docbook</groupId>
+            <artifactId>docbook-xml</artifactId>
+            <version>4.4</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-pdf</goal>
+            </goals>
+            <phase>prepare-package</phase>
+            <configuration>
+              <sourceDirectory>${project.basedir}/src/docbkx</sourceDirectory>
+              <xincludeSupported>true</xincludeSupported>
+              <includes>supose.xml</includes>
+              <foCustomization>${project.basedir}/src/docbkx/fopdf.xsl</foCustomization>
+              <targetDirectory>${project.build.directory}/site/</targetDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
