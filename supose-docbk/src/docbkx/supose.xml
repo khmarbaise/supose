@@ -27,4 +27,74 @@
 
   <xi:include href="copyright.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
+  <chapter id="introduction">
+    <title>Introduction</title>
+  
+    <section id="intro-overview">
+      <title>Overview</title>
+      <para>
+        If you are working a longer time with a Subversion repository 
+        there comes the time you want to search for particular information
+        within the repository. For example a file name, a revision or
+        more complex the content of a document (whatever you mean by a document).
+      </para>
+    </section>
+
+    <section id="features">
+      <title>Features</title>
+      <para>
+        <itemizedlist>
+          <listitem><para>SupoSE will be able to scan a single repository or multiple repositories.</para></listitem>
+          <listitem><para>SupoSE is able to do the scanning on a scheduled base</para></listitem>
+          <listitem><para>Create index of the content</para></listitem>
+          <listitem><para>SupoSE can combine different indexes into a single or multiple of them.</para></listitem>
+          <listitem><para>You can search for contents of documents (PDF, HTML, Word, Excel etc.)</para></listitem>
+          <listitem><para>You can search for file names, paths</para></listitem>
+          <listitem><para>You can search for tag names, branch names</para></listitem>
+          <listitem><para>You can filter particular areas of the repository not to scan (file names, paths, properties etc.)</para></listitem>
+        </itemizedlist>
+      </para>
+    </section>
+
+  
+  </chapter>
+
+  <chapter id="Installation">
+    <title>Installation</title>
+
+    <section id="install-overview">
+      <title>Download</title>
+      <para>
+        You can download SupoSE in it's most up-to-date version
+        from here:
+        <ulink url="http://www.supose.org">http://www.supose.org</ulink>
+        .
+        You can unpack the downloaded archive wherever you want.
+        The package contains particular folders ...
+      </para>
+    </section>
+
+    <section id="install-requirements">
+      <title>System Requirements</title>
+      <para>
+        Java RE (JRE) 1.6
+      </para>
+      <para>Hard drive capacity (based on the size of your repositories)</para>
+    </section>
+
+
+    <section id="performance">
+      <title>Performance</title>
+      <para>
+        The best thing is the case where you can install
+        SupoSE on the same server on which your Subversion repositor(ies)
+        are located so you can use <command>file:///</command>
+        protocol to
+        access the repositories.
+      </para>
+    </section>
+
+  </chapter>
+
+
 </book>
