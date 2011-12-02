@@ -24,12 +24,13 @@
  */
 package com.soebes.supose.config.filter;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -59,36 +60,36 @@ public class FilteringTest extends TestBase {
     @Test
     public void filenameIgnoreTest() throws FileNotFoundException, IOException, XmlPullParserException {
         String fileName = "test.pas";
-        Assert.assertEquals(filter.ignoreFilename(fileName), false);
+        assertEquals(filter.ignoreFilename(fileName), false);
     }
 
     @Test
     public void filenameIncludeTest() throws FileNotFoundException, IOException, XmlPullParserException {
         String fileName = "test.pas";
-        Assert.assertEquals(filter.includeFilename(fileName), true);
+        assertEquals(filter.includeFilename(fileName), true);
     }
 
     @Test
     public void pathIgnoreTest() throws FileNotFoundException, IOException, XmlPullParserException {
         String path = "/trunk";
-        Assert.assertEquals(filter.ignorePath(path), false);
+        assertEquals(filter.ignorePath(path), false);
     }
 
     @Test
     public void pathIncludeTest() throws FileNotFoundException, IOException, XmlPullParserException {
         String path = "/trunk";
-        Assert.assertEquals(filter.includePath(path), true);
+        assertEquals(filter.includePath(path), true);
     }
 
     @Test
     public void propertyIgnoreTest() throws FileNotFoundException, IOException, XmlPullParserException {
         String property = "svn:executable";
-        Assert.assertEquals(filter.ignoreProperty(property), false);
+        assertEquals(filter.ignoreProperty(property), false);
     }
 
     @Test
     public void propertyIncludeTest() throws FileNotFoundException, IOException, XmlPullParserException {
         String property = "svn:ignore";
-        Assert.assertEquals(filter.includeProperty(property), true);
+        assertEquals(filter.includeProperty(property), true);
     }
 }
