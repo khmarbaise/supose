@@ -24,12 +24,13 @@
  */
 package com.soebes.supose.config.filter;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -64,7 +65,7 @@ public class FilteringWithExcludeDifferentRepositoryIdTest extends TestBase {
 	@Test(dataProvider = "createFileNamesForIgnoreFileName")
 	public void ignoreFileNameTest(String fileName, boolean result) throws FileNotFoundException, IOException, XmlPullParserException {
 		Filtering filter = getFilteringWithExcludes();
-		Assert.assertEquals(filter.ignoreFilename(fileName), result);
+		assertEquals(filter.ignoreFilename(fileName), result);
 	}
 
 	
@@ -82,7 +83,7 @@ public class FilteringWithExcludeDifferentRepositoryIdTest extends TestBase {
 	@Test(dataProvider = "createFileNamesForIncludeFileName")
 	public void includeFileNameTest(String fileName, boolean result) throws FileNotFoundException, IOException, XmlPullParserException {
 		Filtering filter = getFilteringWithExcludes();
-		Assert.assertEquals(filter.includeFilename(fileName), result);
+		assertEquals(filter.includeFilename(fileName), result);
 	}
 
 	@DataProvider(name = "createFileNamesForExcludeFileName")
@@ -100,6 +101,6 @@ public class FilteringWithExcludeDifferentRepositoryIdTest extends TestBase {
 	@Test(dataProvider = "createFileNamesForExcludeFileName")
 	public void excludeFileNameTest(String fileName, boolean result) throws FileNotFoundException, IOException, XmlPullParserException {
 		Filtering filter = getFilteringWithExcludes();
-		Assert.assertEquals(filter.excludeFilename(fileName), result);
+		assertEquals(filter.excludeFilename(fileName), result);
 	}
 }
