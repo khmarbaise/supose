@@ -399,4 +399,10 @@ public class SuposeCLI {
         return returnCode;
     }
 
+    
+    public static void main(String [] args) throws SVNException {
+        SuposeCLI cli = new SuposeCLI();
+        cli.run(args);
+        System.exit(cli.getReturnCode());
+    }
 }
