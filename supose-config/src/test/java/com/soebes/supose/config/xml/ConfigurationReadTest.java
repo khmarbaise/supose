@@ -25,7 +25,9 @@
 package com.soebes.supose.config.xml;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,5 +57,25 @@ public class ConfigurationReadTest extends TestBase {
         assertNotNull(config.getRepositories());
         assertEquals(config.getRepositories().getRepository().size(), 1);
         assertEquals(config.getScheduler().getScheduledRepository().size(), 0);
+    }
+    
+    @Test
+    public void readConfigurationByIdTest() throws IOException, XmlPullParserException {
+        File configFile = new File(getTestResourcesDirectory() + File.separator + "repositories.xml");
+        Configuration config = new Configuration(configFile);
+        assertNotNull(config.getRepository("SupoSE"));
+        assertTrue(config.existRepository("SupoSE"));
+        assertFalse(config.existRepository("ThisIdDoesNotExist"));
+    }
+
+    @Test
+    public void readSchedulerByIdTest() throws IOException, XmlPullParserException {
+        File configFile = new File(getTestResourcesDirectory() + File.separator + "repositories.xml");
+        Configuration config = new Configuration(configFile);
+        assertEquals(config.getRepositories().getRepository().size(), 2);
+        assertEquals(config.getScheduler().getScheduledRepository().size(), 1);
+        assertNotNull(config.getScheduler("SupoSE"));
+        assertTrue(config.existScheduler("SupoSE"));
+        assertFalse(config.existScheduler("ThisSchedulerIdDoesNotExist"));
     }
 }

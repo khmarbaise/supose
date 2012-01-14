@@ -46,6 +46,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import com.beust.jcommander.MissingCommandException;
 import com.beust.jcommander.ParameterException;
 import com.soebes.supose.cli.SupoSECommandLine.SupoSECommands;
 import com.soebes.supose.config.filter.FilterFile;
@@ -101,9 +102,25 @@ public class SuposeCLI {
     public void run(String[] args) throws SVNException {
         setReturnCode(0);
 
-        SupoSECommandLine commands = new SupoSECommandLine(args);
+        SupoSECommandLine commands = null;
         try {
             commands = new SupoSECommandLine(args);
+        } catch (MissingCommandException e) {
+            LOGGER.warn("");
+            LOGGER.warn("It looks like you used a wrong command .");
+            LOGGER.warn("");
+            LOGGER.warn("Message: " + e.getMessage());
+            LOGGER.warn("");
+            LOGGER.warn("To get help about all existing commands please type:");
+            LOGGER.warn("");
+            LOGGER.warn("    supose --help");
+            LOGGER.warn("");
+            LOGGER.warn("If you like to get help about a particular command:");
+            LOGGER.warn("");
+            LOGGER.warn("    supose command --help");
+            LOGGER.warn("");
+            return;
+            
         } catch (ParameterException e) {
             LOGGER.warn("");
             LOGGER.warn("It looks like you used a wrong command or used wrong options or a combination of this.");

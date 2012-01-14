@@ -35,7 +35,9 @@ import org.apache.log4j.Logger;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import com.soebes.supose.config.model.RepositoryConfigContainer;
+import com.soebes.supose.config.model.RepositoryItem;
 import com.soebes.supose.config.model.RepositoryList;
+import com.soebes.supose.config.model.ScheduledRepositoryItem;
 import com.soebes.supose.config.model.SchedulerRepositoryList;
 import com.soebes.supose.config.model.io.xpp3.RepositoriesXpp3Reader;
 import com.soebes.supose.config.model.io.xpp3.RepositoriesXpp3Writer;
@@ -115,11 +117,51 @@ public class Configuration {
         return configContainer.getRepositories();
     }
 
+    public boolean existRepository(String id) {
+    	boolean result = false;
+    	for(RepositoryItem item : getRepositories().getRepository()) {
+    		if (item.getId().equals(id)) {
+    			result = true;
+    		}
+    	}
+    	return result;
+    }
+
+    public RepositoryItem getRepository(String id) {
+    	RepositoryItem result = null;
+    	for(RepositoryItem item : getRepositories().getRepository()) {
+    		if (item.getId().equals(id)) {
+    			result = item;
+    		}
+    	}
+    	return result;
+    }
+
     public SchedulerRepositoryList getScheduler() {
         if (configContainer.getScheduler() == null) {
             configContainer.setScheduler(new SchedulerRepositoryList());
         }
         return configContainer.getScheduler();
+    }
+
+    public ScheduledRepositoryItem getScheduler(String id) {
+    	ScheduledRepositoryItem result = null;
+    	for (ScheduledRepositoryItem item : getScheduler().getScheduledRepository()) {
+    		if (item.getRepositoryId().equals(id)) {
+    			result = item;
+    		}
+    	}
+    	return result;
+    }
+
+    public boolean  existScheduler(String id) {
+    	boolean result = false;
+    	for (ScheduledRepositoryItem item : getScheduler().getScheduledRepository()) {
+    		if (item.getRepositoryId().equals(id)) {
+    			result = true;
+    		}
+    	}
+    	return result;
     }
 
     public String getBaseDirectory() {
