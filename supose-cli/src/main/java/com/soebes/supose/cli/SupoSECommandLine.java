@@ -47,8 +47,6 @@ public class SupoSECommandLine {
      * which means their names which have to be used on command line.
      *
      */
-    // Currently aliases don't exist in JCommander
-    // See also https://github.com/cbeust/jcommander/issues/#issue/50
     public enum SupoSECommands {
         MERGE("merge"),       // supose merge
         SCAN("scan"),         // supose scan
