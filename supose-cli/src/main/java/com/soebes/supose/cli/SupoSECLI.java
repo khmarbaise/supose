@@ -73,12 +73,12 @@ import com.thoughtworks.xstream.XStream;
  * @author Karl Heinz Marbaise
  *
  */
-public class SuposeCLI {
-    private static Logger LOGGER = Logger.getLogger(SuposeCLI.class);
+public class SupoSECLI {
+    private static Logger LOGGER = Logger.getLogger(SupoSECLI.class);
 
     private int returnCode = 0;
 
-    public SuposeCLI() {
+    public SupoSECLI() {
     }
 
     /**
@@ -212,7 +212,7 @@ public class SuposeCLI {
         CLIChangeSetInterceptor changeSetInterceptor = new CLIChangeSetInterceptor();
         scanRepository.registerChangeSetInterceptor(changeSetInterceptor);
 
-        InputStream filter = SuposeCLI.class.getResourceAsStream("/filter.xml");
+        InputStream filter = SupoSECLI.class.getResourceAsStream("/filter.xml");
         Filter filterConfiguration = null;
         try {
             filterConfiguration = FilterFile.getFilter(filter);
@@ -418,7 +418,7 @@ public class SuposeCLI {
 
     
     public static void main(String [] args) throws SVNException {
-        SuposeCLI cli = new SuposeCLI();
+        SupoSECLI cli = new SupoSECLI();
         cli.run(args);
         System.exit(cli.getReturnCode());
     }
