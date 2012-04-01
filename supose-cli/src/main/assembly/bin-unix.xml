@@ -40,7 +40,7 @@
         <fileSet>
             <directory>${project.build.directory}/appassembler/bin</directory>
             <outputDirectory>bin</outputDirectory>
-            <fileMode>0755</fileMode>
+            <fileMode>0744</fileMode>
             <includes>
                 <include>supose</include>
             </includes>
