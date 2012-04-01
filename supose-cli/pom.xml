@@ -42,7 +42,7 @@
           </platforms>
           <programs>
             <program>
-              <mainClass>com.soebes.supose.cli.SuposeCLI</mainClass>
+              <mainClass>com.soebes.supose.cli.SupoSECLI</mainClass>
               <name>supose</name>
             </program>
           </programs>
