@@ -28,6 +28,7 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>lib</outputDirectory>
+            <fileMode>0644</fileMode>
             <unpack>false</unpack>
             <scope>runtime</scope>
         </dependencySet>
@@ -36,6 +37,7 @@
         <fileSet>
             <directory>src/main/resources</directory>
             <outputDirectory>etc</outputDirectory>
+            <fileMode>0644</fileMode>
             <includes>
                 <include>quartz.properties</include>
                 <include>log4j.properties</include>
