@@ -39,7 +39,7 @@
     <dependency>
       <groupId>com.soebes.subversion.sapm</groupId>
       <artifactId>sapm</artifactId>
-      <version>0.5-SNAPSHOT</version>
+      <version>0.4</version>
     </dependency>
 
     <dependency>
