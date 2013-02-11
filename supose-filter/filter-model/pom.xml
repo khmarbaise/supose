@@ -9,7 +9,6 @@
     <groupId>com.soebes.supose.filter</groupId>
     <artifactId>supose-filter</artifactId>
     <version>0.7.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>filter-model</artifactId>
