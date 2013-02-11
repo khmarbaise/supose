@@ -26,6 +26,7 @@
     <module>supose-it</module>
     <module>supose-filter</module>
     <module>supose-docbk</module>
+    <module>supose-assembly</module>
   </modules>
 
   <build>
