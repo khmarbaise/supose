@@ -46,6 +46,14 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>target/classes</directory>
+            <outputDirectory>etc</outputDirectory>
+            <fileMode>0644</fileMode>
+            <includes>
+                <include>version.properties</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>${basedir}</directory>
             <includes>
                 <include>search-examples.txt</include>

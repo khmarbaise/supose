@@ -87,8 +87,7 @@ public class SupoSECLI {
     private void printVersion() {
         Properties properties = new Properties();
         try {
-            properties.load(this.getClass().getResourceAsStream(
-                    "/version.properties"));
+            properties.load(this.getClass().getResourceAsStream("/version.properties"));
         } catch (IOException e) {
             LOGGER.error("Can't read the version.properties file.", e);
             return;
