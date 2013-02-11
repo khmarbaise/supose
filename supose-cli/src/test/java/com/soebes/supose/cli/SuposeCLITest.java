@@ -41,7 +41,7 @@ import com.soebes.supose.cli.SupoSECommandLine.SupoSECommands;
  *
  */
 @Test
-public class SupposeCLITest {
+public class SuposeCLITest {
 
     private SupoSECommandLine suposecli = null;
 
@@ -62,6 +62,14 @@ public class SupposeCLITest {
         assertTrue(suposecli.getMainCommand().isHelp());
     }
 
+    public void globalVersion() throws Exception {
+        final String[] args = new String[] { "--version" };
+        suposecli = new SupoSECommandLine(args);
+        assertFalse(suposecli.isHelpForCommand());
+        assertFalse(suposecli.getMainCommand().isHelp());
+        assertTrue(suposecli.getMainCommand().isVersion());
+    }
+    
     public void scanCommandWithURLParameter() throws Exception {
         final String[] args = new String[] { "scan", "--url", "http://www.google.de" };
 

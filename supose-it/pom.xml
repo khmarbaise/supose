@@ -101,7 +101,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.9</version>
         <configuration>
           <printSummary>true</printSummary>
           <testFailureIgnore>true</testFailureIgnore>

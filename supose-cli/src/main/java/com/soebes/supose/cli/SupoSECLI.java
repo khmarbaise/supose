@@ -82,7 +82,7 @@ public class SupoSECLI {
     }
 
     /**
-     * This is the <code>pws --version</code>
+     * This is the <code>supose --version</code>
      */
     private void printVersion() {
         Properties properties = new Properties();
@@ -104,7 +104,7 @@ public class SupoSECLI {
 
         SupoSECommandLine commands = null;
         try {
-            commands = new SupoSECommandLine(args);
+        	commands = new SupoSECommandLine(args);
         } catch (MissingCommandException e) {
             LOGGER.warn("");
             LOGGER.warn("It looks like you used a wrong command .");
