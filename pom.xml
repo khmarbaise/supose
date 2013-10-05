@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>0.6.1</version>
+    <version>0.6.2</version>
   </parent>
 
   <groupId>com.soebes.supose</groupId>
@@ -125,7 +125,6 @@
 
   <modules>
     <module>supose-core</module>
-    <module>supose-config</module>
     <module>supose-cli</module>
     <module>supose-war</module>
     <module>supose-it</module>
@@ -133,6 +132,15 @@
     <module>supose-docbk</module>
     <module>supose-assembly</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <id>p-config</id>
+      <modules>
+        <module>supose-config</module>
+      </modules>
+    </profile>
+</profiles>
 
   <build>
     <plugins>
@@ -328,7 +336,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.3</version>
+          <version>2.4</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.cargo</groupId>

@@ -31,6 +31,7 @@
             <fileMode>0644</fileMode>
             <unpack>false</unpack>
             <scope>runtime</scope>
+            <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>
     </dependencySets>
     <fileSets>
