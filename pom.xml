@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>0.6.2</version>
+    <version>0.6.3</version>
   </parent>
 
   <groupId>com.soebes.supose</groupId>
@@ -37,11 +37,8 @@
     <quartz.version>1.7.3</quartz.version>
     <ini4j.version>0.5.1</ini4j.version>
     <lucene.version>2.4.0</lucene.version>
-    <tika.version>0.9</tika.version>
+    <tika.version>0.7</tika.version>
     <antlr.version>3.4</antlr.version>
-    <spring.version>2.5.6</spring.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <tomcat.major>6</tomcat.major>
     <tomcat.minor>0</tomcat.minor>
     <tomcat.patch>32</tomcat.patch>
