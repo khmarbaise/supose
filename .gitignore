@@ -3,4 +3,6 @@ test-output
 .classpath
 .project
 .settings
+.idea
+*.iml
 file.log
