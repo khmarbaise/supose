@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>0.6.3</version>
+    <version>0.6.4</version>
   </parent>
 
   <groupId>com.soebes.supose</groupId>
@@ -313,6 +313,11 @@
           <artifactId>modello-maven-plugin</artifactId>
           <version>1.4</version>
         </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>appassembler-maven-plugin</artifactId>
+        <version>1.8</version>
+      </plugin>
       </plugins>
     </pluginManagement>
   </build>
