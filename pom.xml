@@ -110,13 +110,18 @@
 
   <distributionManagement>
     <repository>
-      <id>mvn.repository.soebes.de</id>
-      <name>SoEBeS Repository</name>
-      <url>scp://h5593.serverkompetenz.net:/usr/local/vhosts/mvn.repository.soebes.de</url>
+      <id>releases</id>
+      <name>Release Repository</name>
+      <url>http://localhost:8081/nexus/content/repositories/releases/</url>
     </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>Snapshot Repository</name>
+      <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
     <site>
-      <id>mvn.supose.soebes.de</id>
-      <url>scp://h5593.serverkompetenz.net:/usr/local/vhosts/mvn.supose.soebes.de</url>
+      <id>sites</id>
+      <url>http://localhost:8081/nexus/content/sites/site-repository/</url>
     </site>
   </distributionManagement>
 
