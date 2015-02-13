@@ -6,3 +6,5 @@ test-output
 .idea
 *.iml
 file.log
+# smart builder folder.
+.mvn
