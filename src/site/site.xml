@@ -47,6 +47,7 @@
         <head>
             <meta name="faq" content="faq.html"/>
         </head>
+        <menu ref="parent" />
         <menu name="About SupoSE">
             <item name="Home" href="/index.html"/>
             <item name="What is SupoSE?" href="/what-is-supose.html"/>
@@ -65,7 +66,8 @@
             <item name="Scheduling" href="/commandline-schedule.html"/>
             <item name="Merging" href="/commandline-merge.html"/>
         </menu>
-        ${reports}
+        <menu ref="reports" />
+        <menu ref="modules" />
     </body>
 </project>
 
