@@ -120,8 +120,8 @@
       <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
     </snapshotRepository>
     <site>
-      <id>sites</id>
-      <url>http://localhost:8081/nexus/content/sites/site-repository/</url>
+      <id>github</id>
+      <url>scm:git:git@github.com:khmarbaise/supose.git</url>
     </site>
   </distributionManagement>
 
