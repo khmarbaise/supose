@@ -317,6 +317,14 @@
           <artifactId>modello-maven-plugin</artifactId>
           <version>1.4</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <configuration>
+            <scmBranch>gh-pages</scmBranch>
+            <content>${project.reporting.outputDirectory}</content>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
