@@ -39,9 +39,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.soebes.supose.core.FieldNames;
-import com.soebes.supose.core.TestBase;
 import com.soebes.supose.core.search.ResultEntry;
 import com.soebes.supose.core.search.SearchRepository;
+import com.soebes.supose.test.TestBase;
 
 @Test
 public class SearchRepositoryGetResultTest extends TestBase {

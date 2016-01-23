@@ -33,5 +33,11 @@
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
     </dependency>
+  <dependency>
+  <groupId>com.soebes.supose</groupId>
+  <artifactId>supose-test</artifactId>
+  <version>${project.version}</version>
+  <scope>test</scope>
+  </dependency>
   </dependencies>
 </project>

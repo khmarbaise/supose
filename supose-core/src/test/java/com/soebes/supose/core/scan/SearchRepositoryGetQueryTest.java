@@ -25,7 +25,7 @@
 package com.soebes.supose.core.scan;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,8 +41,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.soebes.supose.core.FieldNames;
-import com.soebes.supose.core.TestBase;
 import com.soebes.supose.core.search.SearchRepository;
+import com.soebes.supose.test.TestBase;
 
 @Test
 public class SearchRepositoryGetQueryTest extends TestBase {

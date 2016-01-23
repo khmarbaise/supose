@@ -4,23 +4,23 @@
  * Copyright (c) 2007-2011 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
  * Copyright (c) 2007-2011 by Karl Heinz Marbaise
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
- * The License can viewed online under http://www.gnu.org/licenses/gpl.html
- * If you have any questions about the Software or about the license
- * just write an email to license@soebes.de
+ * The License can viewed online under http://www.gnu.org/licenses/gpl.html If
+ * you have any questions about the Software or about the license just write an
+ * email to license@soebes.de
  */
 
 package com.soebes.supose.cli;
@@ -38,19 +38,25 @@ import com.beust.jcommander.Parameters;
 @Parameters(separators = "=", commandDescription = "Scan the contents of a repository")
 public class ScanCommand extends BaseCommand implements ICommand {
 
-    @Parameter(names = {"--index", "-I"}, description = "Define the name of the index folder.")
+    @Parameter(names = { "--index", "-I" }, description = "Define the name of the index folder.")
     private String indexName;
-    @Parameter(names = {"--create", "-c"}, description = "Usually an index will be updated except you have given this option which will result in creating a new index.")
+    @Parameter(names = { "--create",
+            "-c" }, description = "Usually an index will be updated except you have given this option which will result in creating a new index.")
     private boolean createIndex;
-    @Parameter(names = {"--username", "-u"}, description = "The username which is used to authenticate against the repository")
+    @Parameter(names = { "--username",
+            "-u" }, description = "The username which is used to authenticate against the repository")
     private String username;
-    @Parameter(names = {"--password", "-p"}, description = "The password which is used to authenticate against the repository.")
+    @Parameter(names = { "--password",
+            "-p" }, description = "The password which is used to authenticate against the repository.")
     private String password;
-    @Parameter(names = {"--url", "-U"}, description = "Define the URL of the repository which should be scanned.", converter = URIConverter.class)
+    @Parameter(names = { "--url",
+            "-U" }, description = "Define the URL of the repository which should be scanned.", converter = URIConverter.class)
     private URI uri;
-    @Parameter(names = {"--fromrev"}, description = "The revision where to start the scanning process", converter = RevisionConverter.class)
+    @Parameter(names = {
+            "--fromrev" }, description = "The revision where to start the scanning process", converter = RevisionConverter.class)
     private Long fromRev;
-    @Parameter(names = {"--torev"}, description = "The revision to which the scanning process will run.", converter = RevisionConverter.class)
+    @Parameter(names = {
+            "--torev" }, description = "The revision to which the scanning process will run.", converter = RevisionConverter.class)
     private Long toRev;
 
     /**

@@ -30,9 +30,7 @@ import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.soebes.supose.core.TestBase;
-import com.soebes.supose.core.config.ConfigurationRepositories;
-import com.soebes.supose.core.config.RepositoryConfiguration;
+import com.soebes.supose.test.TestBase;
 
 /**
  * @author Karl Heinz Marbaise

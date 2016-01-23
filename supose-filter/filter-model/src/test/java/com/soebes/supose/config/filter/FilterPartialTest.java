@@ -33,9 +33,9 @@ import java.io.IOException;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.testng.annotations.Test;
 
-import com.soebes.supose.TestBase;
 import com.soebes.supose.config.filter.model.Filter;
 import com.soebes.supose.config.filter.model.Repository;
+import com.soebes.supose.test.TestBase;
 
 /**
  * @author Karl Heinz Marbaise

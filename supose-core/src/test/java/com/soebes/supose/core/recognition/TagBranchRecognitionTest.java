@@ -4,23 +4,23 @@
  * Copyright (c) 2007-2011 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
  * Copyright (c) 2007-2011 by Karl Heinz Marbaise
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
- * The License can viewed online under http://www.gnu.org/licenses/gpl.html
- * If you have any questions about the Software or about the license
- * just write an email to license@soebes.de
+ * The License can viewed online under http://www.gnu.org/licenses/gpl.html If
+ * you have any questions about the Software or about the license just write an
+ * email to license@soebes.de
  */
 package com.soebes.supose.core.recognition;
 
@@ -41,15 +41,12 @@ import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-import com.soebes.supose.core.TestBase;
-import com.soebes.supose.core.recognition.TagBranch;
-import com.soebes.supose.core.recognition.TagBranchRecognition;
 import com.soebes.supose.core.recognition.TagBranch.TagType;
 import com.soebes.supose.core.repository.Repository;
+import com.soebes.supose.test.TestBase;
 
 public class TagBranchRecognitionTest extends TestBase {
-    private static Logger LOGGER = Logger
-            .getLogger(TagBranchRecognitionTest.class);
+    private static Logger LOGGER = Logger.getLogger(TagBranchRecognitionTest.class);
 
     private Repository repository = null;
     private TagBranchRecognition tbr = null;
@@ -58,12 +55,10 @@ public class TagBranchRecognitionTest extends TestBase {
     public void beforeTest() throws SVNException {
         // For the test repositories we don't use authentication, cause
         // we are working with file based repositories.
-        ISVNAuthenticationManager authManager = SVNWCUtil
-                .createDefaultAuthenticationManager(null, null);
+        ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(null, null);
         String repositoryDir = getRepositoryDirectory();
         SVNURL url = SVNURL.fromFile(new File(repositoryDir));
-        repository = new Repository("file://" + url.getURIEncodedPath(),
-                authManager);
+        repository = new Repository("file://" + url.getURIEncodedPath(), authManager);
         tbr = new TagBranchRecognition(repository);
     }
 
@@ -100,11 +95,9 @@ public class TagBranchRecognitionTest extends TestBase {
         assertEquals(result.get(3).getTagType(), TagType.SUBVERSIONTAG);
     }
 
-    private ArrayList<TagBranch> analyzeLog(Repository repository)
-            throws SVNException {
+    private ArrayList<TagBranch> analyzeLog(Repository repository) throws SVNException {
         ArrayList<TagBranch> result = new ArrayList<TagBranch>();
-        Collection<?> logEntries = repository.getRepository().log(
-                new String[] { "" }, null, 1, -1, true, true);
+        Collection<?> logEntries = repository.getRepository().log(new String[] { "" }, null, 1, -1, true, true);
         for (Iterator<?> iterator = logEntries.iterator(); iterator.hasNext();) {
             SVNLogEntry logEntry = (SVNLogEntry) iterator.next();
             if (logEntry.getChangedPaths().size() > 0) {
@@ -112,18 +105,15 @@ public class TagBranchRecognitionTest extends TestBase {
 
                 if (changedPathsSet.size() == 1) {
                     // Here we change if we usual tags/branches
-                    TagBranch res = tbr.checkForTagOrBranch(logEntry,
-                            changedPathsSet);
+                    TagBranch res = tbr.checkForTagOrBranch(logEntry, changedPathsSet);
                     if (res != null) {
                         result.add(res);
                     }
                 } else {
                     // Particular situations like Maven Tags.
-                    TagBranch res = tbr.checkForMavenTag(logEntry,
-                            changedPathsSet);
+                    TagBranch res = tbr.checkForMavenTag(logEntry, changedPathsSet);
                     if (res == null) {
-                        res = tbr.checkForSubverisonTag(logEntry,
-                                changedPathsSet);
+                        res = tbr.checkForSubverisonTag(logEntry, changedPathsSet);
                         if (res != null) {
                             result.add(res);
                         }

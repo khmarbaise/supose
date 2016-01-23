@@ -4,23 +4,23 @@
  * Copyright (c) 2007-2011 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
  * Copyright (c) 2007-2011 by Karl Heinz Marbaise
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
- * The License can viewed online under http://www.gnu.org/licenses/gpl.html
- * If you have any questions about the Software or about the license
- * just write an email to license@soebes.de
+ * The License can viewed online under http://www.gnu.org/licenses/gpl.html If
+ * you have any questions about the Software or about the license just write an
+ * email to license@soebes.de
  */
 package com.soebes.supose.core;
 
@@ -33,17 +33,22 @@ package com.soebes.supose.core;
  * 
  */
 public enum FieldNames {
-    CONTENTS("contents"), REVISION("revision"), KIND("kind"), NODE("node"), PATH(
-            "path"), FILENAME("filename"), AUTHOR("author"), MESSAGE("message"), DATE(
-            "date"), FROM("from"), FROMREV("fromrev"), REPOSITORY("repository"), REPOSITORYUUID(
-            "repositoryuuid"), SIZE("size"), TAG("tag"), MAVENTAG("maventag"), SUBVERSIONTAG(
-            "subversiontag"), BRANCH("branch"), XLSSHEET("xlssheet"), XLSSHEETNAME(
-            "xlssheetname"), XLSCOMMENT("xlscomment"), XLSCOMMENTAUTHOR(
-            "xlscommentauthor"), XLSAUTHOR("xlsauthor"), PDFAUTHOR("pdfauthor"), PDFCREATIONDATE(
-            "pdfcreationdate"), PDFCREATOR("pdfcreator"), PDFKEYWORDS(
-            "pdfkeywords"), PDFMODIFICATIONDATE("pdfmodificationdate"), PDFPRODUCER(
-            "pdfproducer"), PDFSUBJECT("pdfsubject"), PDFTITLE("pdftitle"), PDFTRAPPED(
-            "pdftrapped"), METHODS("methods"), COMMENTS("comments"),
+    CONTENTS("contents"), REVISION("revision"), KIND("kind"), NODE("node"), PATH("path"), FILENAME("filename"), AUTHOR(
+            "author"), MESSAGE("message"), DATE("date"), FROM("from"), FROMREV("fromrev"), REPOSITORY(
+                    "repository"), REPOSITORYUUID("repositoryuuid"), SIZE("size"), TAG("tag"), MAVENTAG(
+                            "maventag"), SUBVERSIONTAG("subversiontag"), BRANCH("branch"), XLSSHEET(
+                                    "xlssheet"), XLSSHEETNAME("xlssheetname"), XLSCOMMENT(
+                                            "xlscomment"), XLSCOMMENTAUTHOR("xlscommentauthor"), XLSAUTHOR(
+                                                    "xlsauthor"), PDFAUTHOR("pdfauthor"), PDFCREATIONDATE(
+                                                            "pdfcreationdate"), PDFCREATOR("pdfcreator"), PDFKEYWORDS(
+                                                                    "pdfkeywords"), PDFMODIFICATIONDATE(
+                                                                            "pdfmodificationdate"), PDFPRODUCER(
+                                                                                    "pdfproducer"), PDFSUBJECT(
+                                                                                            "pdfsubject"), PDFTITLE(
+                                                                                                    "pdftitle"), PDFTRAPPED(
+                                                                                                            "pdftrapped"), METHODS(
+                                                                                                                    "methods"), COMMENTS(
+                                                                                                                            "comments"),
 
     PROPERTIES("properties"); // This is not a real entry only used for
                               // displaying on command line?

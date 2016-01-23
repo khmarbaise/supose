@@ -38,8 +38,7 @@ import org.ini4j.Profile.Section;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.soebes.supose.core.TestBase;
-import com.soebes.supose.core.config.ini.IReposConfig;
+import com.soebes.supose.test.TestBase;
 
 public class IniTest extends TestBase {
     private static Logger LOGGER = Logger.getLogger(IniTest.class);

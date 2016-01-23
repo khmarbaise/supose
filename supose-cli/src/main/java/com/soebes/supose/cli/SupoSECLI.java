@@ -4,23 +4,23 @@
  * Copyright (c) 2007-2011 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
  * Copyright (c) 2007-2011 by Karl Heinz Marbaise
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
- * The License can viewed online under http://www.gnu.org/licenses/gpl.html
- * If you have any questions about the Software or about the license
- * just write an email to license@soebes.de
+ * The License can viewed online under http://www.gnu.org/licenses/gpl.html If
+ * you have any questions about the Software or about the license just write an
+ * email to license@soebes.de
  */
 
 package com.soebes.supose.cli;
@@ -103,7 +103,7 @@ public class SupoSECLI {
 
         SupoSECommandLine commands = null;
         try {
-        	commands = new SupoSECommandLine(args);
+            commands = new SupoSECommandLine(args);
         } catch (MissingCommandException e) {
             LOGGER.warn("");
             LOGGER.warn("It looks like you used a wrong command .");
@@ -119,7 +119,7 @@ public class SupoSECLI {
             LOGGER.warn("    supose command --help");
             LOGGER.warn("");
             return;
-            
+
         } catch (ParameterException e) {
             LOGGER.warn("");
             LOGGER.warn("It looks like you used a wrong command or used wrong options or a combination of this.");
@@ -148,30 +148,28 @@ public class SupoSECLI {
             return;
         }
 
-        if (command == null || commands.getMainCommand().isHelp()
-                || (args.length == 0)) {
+        if (command == null || commands.getMainCommand().isHelp() || (args.length == 0)) {
             commands.getCommander().usage();
             return;
         }
 
-
         switch (command) {
-            case MERGE:
-                runMerge(commands.getMergeCommand());
-                break;
-            case SCAN:
-                runScan(commands.getScanCommand());
-                break;
-            case SEARCH:
-                runSearch(commands.getSearchCommand());
-                break;
-            case SCHEDULE:
-                runSchedule(commands.getScheduleCommand());
-                break;
-            default:
-                LOGGER.error("Unknown command in switch.");
-                setReturnCode(1);
-                break;
+        case MERGE:
+            runMerge(commands.getMergeCommand());
+            break;
+        case SCAN:
+            runScan(commands.getScanCommand());
+            break;
+        case SEARCH:
+            runSearch(commands.getSearchCommand());
+            break;
+        case SCHEDULE:
+            runSchedule(commands.getScheduleCommand());
+            break;
+        default:
+            LOGGER.error("Unknown command in switch.");
+            setReturnCode(1);
+            break;
         }
 
     }
@@ -224,8 +222,8 @@ public class SupoSECLI {
         }
 
         Filtering filtering = new Filtering(filterConfiguration);
-        long blockNumber = ScanSingleRepository.scanFullRepository(scanRepository, scanCommand.getUri().toString(), fromRev, indexDirectory,
-                create, authManager, filtering);
+        long blockNumber = ScanSingleRepository.scanFullRepository(scanRepository, scanCommand.getUri().toString(),
+                fromRev, indexDirectory, create, authManager, filtering);
 
         LOGGER.info("Scanning of revisions done");
 
@@ -415,8 +413,7 @@ public class SupoSECLI {
         return returnCode;
     }
 
-    
-    public static void main(String [] args) throws SVNException {
+    public static void main(String[] args) throws SVNException {
         SupoSECLI cli = new SupoSECLI();
         cli.run(args);
         System.exit(cli.getReturnCode());

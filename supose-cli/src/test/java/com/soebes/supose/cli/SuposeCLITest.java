@@ -4,26 +4,27 @@
  * Copyright (c) 2007-2011 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
  * Copyright (c) 2007-2011 by Karl Heinz Marbaise
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
- * The License can viewed online under http://www.gnu.org/licenses/gpl.html
- * If you have any questions about the Software or about the license
- * just write an email to license@soebes.de
+ * The License can viewed online under http://www.gnu.org/licenses/gpl.html If
+ * you have any questions about the Software or about the license just write an
+ * email to license@soebes.de
  */
 package com.soebes.supose.cli;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -52,6 +53,8 @@ public class SuposeCLITest {
 
     public void nothingGiven() throws Exception {
         suposecli = new SupoSECommandLine(new String[0]);
+
+        assertThat(suposecli.isHelpForCommand()).isFalse();
         assertFalse(suposecli.isHelpForCommand());
     }
 
@@ -69,7 +72,7 @@ public class SuposeCLITest {
         assertFalse(suposecli.getMainCommand().isHelp());
         assertTrue(suposecli.getMainCommand().isVersion());
     }
-    
+
     public void scanCommandWithURLParameter() throws Exception {
         final String[] args = new String[] { "scan", "--url", "http://www.google.de" };
 
@@ -126,7 +129,7 @@ public class SuposeCLITest {
         assertEquals(suposecli.getScanCommand().getToRev(), -1);
     }
 
-    @Test(expectedExceptions = ParameterException.class )
+    @Test(expectedExceptions = ParameterException.class)
     public void scanCommandWithURLAndWrongToRevParameter() {
         final String[] args = new String[] { "scan", "--torev", "test", "--url", "file:///repos/x1" };
 
@@ -134,7 +137,8 @@ public class SuposeCLITest {
     }
 
     public void scanCommandWithURLAndFromRevAndToRevParameter() throws Exception {
-        final String[] args = new String[] { "scan", "--fromrev", "100", "--torev", "22123", "--url", "file:///repos/x1" };
+        final String[] args = new String[] { "scan", "--fromrev", "100", "--torev", "22123", "--url",
+                "file:///repos/x1" };
 
         suposecli = new SupoSECommandLine(args);
         assertFalse(suposecli.getMainCommand().isHelp());
@@ -148,7 +152,8 @@ public class SuposeCLITest {
     }
 
     public void scanCommandWithURLAndFromRevAndToRevAndUserNameAndPasswordParameter() throws Exception {
-        final String[] args = new String[] { "scan", "--username", "jerimia", "--password", "test", "--fromrev", "101", "--torev", "22124", "--url", "file:///repos/x1" };
+        final String[] args = new String[] { "scan", "--username", "jerimia", "--password", "test", "--fromrev", "101",
+                "--torev", "22124", "--url", "file:///repos/x1" };
 
         suposecli = new SupoSECommandLine(args);
         assertFalse(suposecli.getMainCommand().isHelp());
@@ -209,9 +214,9 @@ public class SuposeCLITest {
         assertTrue(suposecli.getSearchCommand().isXML());
     }
 
-
     public void searchCommandWithIndexAndQueryAndFieldsParameter() throws Exception {
-        final String[] args = new String[] { "search", "--index", "testIndex", "--query", "+filename:*.doc", "--field", "revision", "--field", "author" };
+        final String[] args = new String[] { "search", "--index", "testIndex", "--query", "+filename:*.doc", "--field",
+                "revision", "--field", "author" };
         suposecli = new SupoSECommandLine(args);
         assertFalse(suposecli.getMainCommand().isHelp());
         assertFalse(suposecli.isHelpForCommand());
@@ -221,7 +226,7 @@ public class SuposeCLITest {
         assertEquals(suposecli.getSearchCommand().getIndexName(), "testIndex");
         assertEquals(suposecli.getSearchCommand().getQuery(), "+filename:*.doc");
 
-//FIXME: What about the default values for the fields? How to handle this?
+// FIXME: What about the default values for the fields? How to handle this?
         assertEquals(suposecli.getSearchCommand().getFields().size(), 2);
     }
 
@@ -291,7 +296,8 @@ public class SuposeCLITest {
     }
 
     public void scheduleCommandWithConfigurationBaseAndConfiguration() throws Exception {
-        final String[] args = new String[] { "schedule", "--configbase", "configbase", "--configuration", "configuration" };
+        final String[] args = new String[] { "schedule", "--configbase", "configbase", "--configuration",
+                "configuration" };
         suposecli = new SupoSECommandLine(args);
         assertFalse(suposecli.getMainCommand().isHelp());
         assertFalse(suposecli.isHelpForCommand());

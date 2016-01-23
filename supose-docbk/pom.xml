@@ -17,6 +17,9 @@
   <name>SupoSE :: Users Guide</name>
   <description>SupoSE docbook User Guide</description>
 
+  <profiles>
+    <profile>
+      <id>build-user-guide</id>
   <build>
     <plugins>
       <plugin>
@@ -50,5 +53,7 @@
       </plugin>
     </plugins>
   </build>
+    </profile>
+  </profiles>
 
 </project>

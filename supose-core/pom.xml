@@ -37,15 +37,19 @@
           <printSummary>true</printSummary>
           <useFile>true</useFile>
           <testFailureIgnore>true</testFailureIgnore>
-          <suiteXmlFiles>
-            <suiteXmlFile>src/test/resources/test-all.xml</suiteXmlFile>
-          </suiteXmlFiles>
         </configuration>
       </plugin>
     </plugins>
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>com.soebes.supose</groupId>
+      <artifactId>supose-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>com.soebes.supose.filter</groupId>
       <artifactId>filter</artifactId>
@@ -104,14 +108,10 @@
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
     </dependency>
-    <!-- The following two dependency has to be given explicit, caused by
-      a problem on the PDFBox See http://www.supose.org/issues/show/250 for details.
-      <dependency> <groupId>bouncycastle</groupId> <artifactId>bcmail-jdk14</artifactId>
-      <version>136</version> </dependency> <dependency> <groupId>bouncycastle</groupId>
-      <artifactId>bcprov-jdk14</artifactId> <version>136</version> </dependency> -->
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
     </dependency>
+
   </dependencies>
 </project>

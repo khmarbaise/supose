@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>0.8.0</version>
+    <version>2.2.0</version>
   </parent>
 
   <groupId>com.soebes.supose</groupId>
@@ -133,17 +133,8 @@
     <module>supose-filter</module>
     <module>supose-docbk</module>
     <module>supose-assembly</module>
+    <module>supose-test</module>
   </modules>
-<!-- HARDLY THINK ABOUT THE FOLLOWING !
-  <profiles>
-    <profile>
-      <id>p-config</id>
-      <modules>
-        <module>supose-config</module>
-      </modules>
-    </profile>
-  </profiles>
--->
   <build>
     <plugins>
       <plugin>
@@ -236,43 +227,6 @@
         </plugin>
 
         <plugin>
-          <!-- Configuration of the plugin: http://code.google.com/p/maven-license-plugin/wiki/Configuration The current Release 1.4.0 
-            has a bug for .apt files which results in not removing the license header (http://code.google.com/p/maven-license-plugin/issues/detail?id=43). -->
-          <groupId>com.mycila.maven-license-plugin</groupId>
-          <artifactId>maven-license-plugin</artifactId>
-          <version>${maven-license-plugin.version}</version>
-          <configuration>
-            <header>src/main/etc/header.txt</header>
-            <quiet>false</quiet>
-            <aggregate>true</aggregate>
-            <failIfMissing>false</failIfMissing>
-            <includes>
-              <include>src/**</include>
-            </includes>
-            <excludes>
-              <exclude>src/main/antlr3/**</exclude>
-              <exclude>src/main/resources/**</exclude>
-              <exclude>src/test/resources/**</exclude>
-              <exclude>target/**</exclude>
-            </excludes>
-            <mapping>
-              <apt>DOUBLETILDE_STYLE</apt>
-            </mapping>
-            <properties>
-              <year>2007-2011</year>
-              <email>supose@soebes.org</email>
-            </properties>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
           <groupId>org.apache.maven.doxia</groupId>
           <artifactId>doxia-maven-plugin</artifactId>
           <version>1.1</version>
@@ -315,7 +269,7 @@
         <plugin>
           <groupId>org.codehaus.modello</groupId>
           <artifactId>modello-maven-plugin</artifactId>
-          <version>1.4</version>
+          <version>1.8.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -394,13 +348,19 @@
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
-        <version>1.5.7</version>
+        <version>3.0.24</version>
       </dependency>
       <dependency>
         <groupId>com.beust</groupId>
         <artifactId>jcommander</artifactId>
         <version>1.30</version>
       </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>2.1.0</version>
+      <scope>test</scope>
+    </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -481,9 +441,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
         <version>2.18.1</version>
-        <configuration>
-          <reportsDirectory>target/surefire-reports</reportsDirectory>
-        </configuration>
       </plugin>
             <!-- Mark all occurance of @todo in source code -->
       <plugin>

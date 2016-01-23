@@ -33,8 +33,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.soebes.supose.TestBase;
 import com.soebes.supose.config.filter.model.Filter;
+import com.soebes.supose.test.TestBase;
 
 /**
  * @author Karl Heinz Marbaise
