@@ -12,7 +12,6 @@
   </parent>
 
   <artifactId>filter-model</artifactId>
-  <packaging>jar</packaging>
   <name>SupoSE :: Filter : Filter Model</name>
 
   <properties>
