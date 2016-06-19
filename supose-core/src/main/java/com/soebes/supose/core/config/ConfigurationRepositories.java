@@ -1,8 +1,8 @@
 /**
  * The (Su)bversion Re(po)sitory (S)earch (E)ngine (SupoSE for short).
  *
- * Copyright (c) 2007-2011 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
- * Copyright (c) 2007-2011 by Karl Heinz Marbaise
+ * Copyright (c) 2007-2016 by SoftwareEntwicklung Beratung Schulung (SoEBeS)
+ * Copyright (c) 2007-2016 by Karl Heinz Marbaise
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
