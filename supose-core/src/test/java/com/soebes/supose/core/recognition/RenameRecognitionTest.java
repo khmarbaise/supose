@@ -41,10 +41,10 @@ import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import com.soebes.supose.core.InitRepository;
 import com.soebes.supose.core.repository.Repository;
-import com.soebes.supose.test.TestBase;
 
-public class RenameRecognitionTest extends TestBase {
+public class RenameRecognitionTest extends InitRepository {
     private static Logger LOGGER = Logger.getLogger(RenameRecognitionTest.class);
 
     private Repository repository = null;

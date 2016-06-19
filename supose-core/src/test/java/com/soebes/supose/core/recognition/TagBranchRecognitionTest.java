@@ -41,11 +41,11 @@ import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import com.soebes.supose.core.InitRepository;
 import com.soebes.supose.core.recognition.TagBranch.TagType;
 import com.soebes.supose.core.repository.Repository;
-import com.soebes.supose.test.TestBase;
 
-public class TagBranchRecognitionTest extends TestBase {
+public class TagBranchRecognitionTest extends InitRepository {
     private static Logger LOGGER = Logger.getLogger(TagBranchRecognitionTest.class);
 
     private Repository repository = null;
