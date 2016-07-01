@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.soebes.smpp</groupId>
     <artifactId>smpp</artifactId>
-    <version>2.2.0</version>
+    <version>2.2.1</version>
   </parent>
 
   <groupId>com.soebes.supose</groupId>
@@ -199,14 +199,6 @@
             <doCheck>false</doCheck>
             <doUpdate>false</doUpdate>
           </configuration>
-        </plugin>
-        <!--
-          ! Can be removed if we upgrade smpp parent 2.2.1
-        -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
