@@ -33,20 +33,16 @@
     <bannerRight>
         <name>Subversion Repository Search Engine</name>
     </bannerRight>
-    <!-- 	<skin>
-        <groupId>org.apache.maven.skins</groupId>
-        <artifactId>maven-default-skin</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </skin>
-    -->
     <body>
         <links>
             <item name="Issue Tracking" href="http://www.supose.org/projects/show/supose/"/>
             <item name="Impressum" href="http://www.soebes.de/impressum/impressum.html"/>
-        </links>
+          </links>
+          <!--
         <head>
             <meta name="faq" content="faq.html"/>
         </head>
+        -->
         <menu ref="parent" />
         <menu name="About SupoSE">
             <item name="Home" href="/index.html"/>
